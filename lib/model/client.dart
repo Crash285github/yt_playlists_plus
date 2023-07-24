@@ -34,8 +34,7 @@ class YoutubeClient {
         thumbnailUrl: result.thumbnails.highResUrl);
   }
 
-  Future<List<Video>> getVideosFromPlaylist(String playlistId) async {
-    List<Video> converted = [];
+  Stream<Video> getVideosFromPlaylist(String playlistId) async* {
     await for (yt_explode.Video vid
         in _client.playlists.getVideos(playlistId)) {
       Video video = Video(
@@ -43,8 +42,7 @@ class YoutubeClient {
           title: vid.title,
           author: vid.author,
           thumbnailUrl: vid.thumbnails.highResUrl);
-      converted.add(video);
+      yield video;
     }
-    return converted;
   }
 }
