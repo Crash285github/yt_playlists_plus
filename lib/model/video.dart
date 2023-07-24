@@ -15,4 +15,10 @@ class Video {
   String toString() {
     return "Video(id: $id, title: $title, author: $author, thumbnailUrl: $thumbnailUrl)";
   }
+
+  @override
+  bool operator ==(other) => other is Video && id == other.id;
+
+  @override
+  int get hashCode => Object.hash(id, title);
 }
