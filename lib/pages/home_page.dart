@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,11 +28,11 @@ class _HomePageState extends State<HomePage> {
             snap: true,
           ),
           SliverList(
-            delegate: SliverChildListDelegate([
-              const Placeholder(
-                fallbackHeight: 1000,
-              )
-            ]),
+            delegate: SliverChildListDelegate(
+              [
+                const PlaylistWidget(),
+              ],
+            ),
           ),
         ],
       ),

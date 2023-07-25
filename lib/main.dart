@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/pages.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+void main() => runApp(const MainApp());
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -11,7 +9,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/playlist',
+      initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
         '/about': (context) => const AboutPage(),
