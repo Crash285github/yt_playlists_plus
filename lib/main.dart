@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/pages/pages.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +10,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      initialRoute: '/playlist',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/about': (context) => const AboutPage(),
+        '/search': (context) => const SearchPage(),
+        '/playlist': (context) => const PlaylistPage(),
+      },
+      theme: ThemeData.dark(useMaterial3: true),
     );
   }
 }
