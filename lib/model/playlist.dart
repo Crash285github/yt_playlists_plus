@@ -6,7 +6,8 @@ class Playlist {
   String title;
   String author;
   String thumbnailUrl;
-  List<Video> videos = [];
+  final Set<Video> videos = {};
+  final Set<Video> _fetch = {};
 
   Playlist({
     required this.id,
@@ -15,31 +16,24 @@ class Playlist {
     required this.thumbnailUrl,
   });
 
-  bool tryAddVideo(Video video) {
-    if (!videos.contains(video)) {
-      videos.add(video);
-      return true;
-    }
-    return false;
-  }
+  bool add(Video video) => videos.add(video);
 
-  bool tryRemoveVideo(Video video) {
-    if (videos.contains(video)) {
-      videos.remove(video);
-      return true;
-    }
-    return false;
-  }
+  bool remove(Video video) => videos.remove(video);
 
-  Stream<Video> getVideos(String playlistId, YoutubeClient client) async* {
+  Set<Video> getMissing() => videos.difference(_fetch);
+
+  Set<Video> getAdded() => _fetch.difference(videos);
+
+  Stream<Video> getVideos(YoutubeClient client) async* {
     await for (Video video in client.getVideosFromPlaylist(id)) {
-      tryAddVideo(video);
+      if (videos.contains(video)) {}
+      _fetch.add(video);
       yield video;
     }
   }
 
   @override
   String toString() {
-    return "Playlist(id: $id, title: $title, author: $author, thumbnailUrl: $thumbnailUrl)";
+    return "\nPlaylist(title: $title, author: $author)";
   }
 }
