@@ -5,26 +5,31 @@ import 'package:yt_playlists_plus/model/video.dart';
 class YoutubeClient {
   late yt_explode.YoutubeExplode _client;
 
+  ///Constructor, initializes the `YoutubeExplode()` client
+  ///
+  ///Don't forget to use the [close] function to close the client after use
   YoutubeClient() {
     _client = yt_explode.YoutubeExplode();
   }
 
+  ///Closes the client
   close() {
     _client.close();
   }
 
+  ///Searches Youtube playlists with a given `query`
   Stream<Playlist> searchPlaylists(String query) async* {
     query += " ";
     var result = await _client.search
         .searchContent(query, filter: yt_explode.TypeFilters.playlist);
 
     for (var list in result) {
-      yield await getPlaylist(
+      yield await _getPlaylist(
           (list as yt_explode.SearchPlaylist).playlistId.toString());
     }
   }
 
-  Future<Playlist> getPlaylist(String playlistId) async {
+  Future<Playlist> _getPlaylist(String playlistId) async {
     var result = await _client.playlists.get(playlistId);
 
     return Playlist(
@@ -35,6 +40,7 @@ class YoutubeClient {
     );
   }
 
+  ///Yields all `videos` from a given playlist
   Stream<Video> getVideosFromPlaylist(String playlistId) async* {
     await for (yt_explode.Video vid
         in _client.playlists.getVideos(playlistId)) {

@@ -16,14 +16,43 @@ class Playlist {
     required this.thumbnailUrl,
   });
 
+  ///Adds a video to the Set of videos
+  ///
+  ///returns `true` if successful
   bool add(Video video) => videos.add(video);
 
+  ///Removes a video from the Set of videos
+  ///
+  ///returns `true` if successful
   bool remove(Video video) => videos.remove(video);
 
-  Set<Video> getMissing() => videos.difference(_fetch);
+  ///Returns the difference of the `local` videos and the `fetched` videos
+  ///
+  ///Video's function is set to `remove`
+  Set<Video> getMissing() {
+    Set<Video> missing = videos.difference(_fetch);
 
-  Set<Video> getAdded() => _fetch.difference(videos);
+    for (var video in missing) {
+      video.function = () => remove(video);
+    }
 
+    return missing;
+  }
+
+  ///Returns the difference of the `fetched` videos and the `local` videos
+  ///
+  ///Video's function is set to `add`
+  Set<Video> getAdded() {
+    Set<Video> added = _fetch.difference(videos);
+
+    for (var video in added) {
+      video.function = () => add(video);
+    }
+
+    return added;
+  }
+
+  ///Fetches the videos of the playlist and adds them to it's `fetch set`
   Stream<Video> getVideos(YoutubeClient client) async* {
     await for (Video video in client.getVideosFromPlaylist(id)) {
       if (videos.contains(video)) {}

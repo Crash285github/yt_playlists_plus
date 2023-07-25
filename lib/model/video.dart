@@ -3,7 +3,15 @@ class Video {
   String title;
   String author;
   String thumbnailUrl;
-  late bool Function(Video) modifyParentList;
+
+  ///Modifies it's parent `playlist`
+  ///
+  ///If the video is missing, it is a `remove` function
+  ///
+  ///If the video is added, it is an `add` function
+  ///
+  ///Else it is null
+  late bool Function()? function;
 
   Video({
     required this.id,
