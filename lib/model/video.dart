@@ -3,6 +3,7 @@ class Video {
   String title;
   String author;
   String thumbnailUrl;
+  late bool Function(Video) modifyParentList;
 
   Video({
     required this.id,
@@ -13,7 +14,7 @@ class Video {
 
   @override
   String toString() {
-    return "Video(id: $id, title: $title, author: $author, thumbnailUrl: $thumbnailUrl)";
+    return "\nVideo(title: $title, author: $author)";
   }
 
   @override

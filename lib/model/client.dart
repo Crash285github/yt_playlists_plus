@@ -28,10 +28,11 @@ class YoutubeClient {
     var result = await _client.playlists.get(playlistId);
 
     return Playlist(
-        id: result.id.toString(),
-        title: result.title,
-        author: result.author,
-        thumbnailUrl: result.thumbnails.highResUrl);
+      id: result.id.toString(),
+      title: result.title,
+      author: result.author,
+      thumbnailUrl: result.thumbnails.highResUrl,
+    );
   }
 
   Stream<Video> getVideosFromPlaylist(String playlistId) async* {
