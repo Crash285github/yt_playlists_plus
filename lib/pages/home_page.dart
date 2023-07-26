@@ -21,27 +21,55 @@ class _HomePageState extends State<HomePage> {
   //#region Drawer
   _drawer() => SafeArea(
         child: Drawer(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.white, width: 2),
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              //title
+              Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.white, width: 2),
                   ),
-                  child: const Text(
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Text(
                     "Settings",
                     style: TextStyle(
                       fontSize: 30,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              //About
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/about');
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Colors.white, width: 2),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "About",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Icon(Icons.info)
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       );
