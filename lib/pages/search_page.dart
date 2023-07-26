@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -32,59 +33,13 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
-            title: Text("Search Playlists"),
-            centerTitle: true,
-            floating: true,
-            snap: true,
-          ),
+          customSliverAppBar("Search Playlists"),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          focusNode: _focusNode,
-                          controller: _controller,
-                          decoration: const InputDecoration(
-                            label: Text("Search playlists..."),
-                            border: OutlineInputBorder(),
-                          ),
-                          onSubmitted: (value) async {
-                            setState(() {
-                              _searchQuery = value;
-                            });
-                            await _search();
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: SizedBox(
-                          width: 70,
-                          child: _isSearching
-                              ? const Center(child: CircularProgressIndicator())
-                              : Center(
-                                  child: IconButton(
-                                    onPressed: () async {
-                                      _focusNode.unfocus();
-                                      setState(() {
-                                        _searchQuery = _controller.text;
-                                      });
-                                      await _search();
-                                    },
-                                    icon: const Icon(Icons.send),
-                                    iconSize: 30,
-                                    padding: const EdgeInsets.all(15),
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: _searchField(),
                 ),
                 Text(_searchQuery),
               ],
@@ -94,4 +49,51 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  //#region SearchBar
+  _searchField() => Row(
+        children: [
+          //TextField
+          Expanded(
+            child: TextField(
+              focusNode: _focusNode,
+              controller: _controller,
+              decoration: const InputDecoration(
+                label: Text("Search playlists..."),
+                border: OutlineInputBorder(),
+              ),
+              onSubmitted: (value) async {
+                setState(() {
+                  _searchQuery = value;
+                });
+                await _search();
+              },
+            ),
+          ),
+          //Button or Indicator
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: SizedBox(
+              width: 70,
+              child: _isSearching
+                  ? const Center(child: CircularProgressIndicator())
+                  : Center(
+                      child: IconButton(
+                        onPressed: () async {
+                          _focusNode.unfocus();
+                          setState(() {
+                            _searchQuery = _controller.text;
+                          });
+                          await _search();
+                        },
+                        icon: const Icon(Icons.send),
+                        iconSize: 30,
+                        padding: const EdgeInsets.all(15),
+                      ),
+                    ),
+            ),
+          ),
+        ],
+      );
+  //#endregion
 }

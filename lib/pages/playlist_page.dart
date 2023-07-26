@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({super.key});
@@ -13,12 +14,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
-            title: Text("PlaylistName"),
-            centerTitle: true,
-            floating: true,
-            snap: true,
-          ),
+          customSliverAppBar("playlistTitle"),
           SliverList(
             delegate: SliverChildListDelegate([
               const Placeholder(

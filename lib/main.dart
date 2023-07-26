@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/pages/pages.dart';
+import 'package:yt_playlists_plus/pages/pages_export.dart';
 
 void main() => runApp(const MainApp());
 

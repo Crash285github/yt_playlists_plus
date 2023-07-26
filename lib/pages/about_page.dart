@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -8,12 +9,7 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
-            title: Text("About"),
-            centerTitle: true,
-            floating: true,
-            snap: true,
-          ),
+          customSliverAppBar("About"),
           SliverList(
             delegate: SliverChildListDelegate([
               const Placeholder(
