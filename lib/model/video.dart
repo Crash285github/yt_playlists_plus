@@ -30,4 +30,17 @@ class Video {
 
   @override
   int get hashCode => Object.hash(id, title);
+
+  Video.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        title = json['title'],
+        author = json['author'],
+        thumbnailUrl = json['thumbnailUrl'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'author': author,
+        'thumbnailUrl': thumbnailUrl,
+      };
 }
