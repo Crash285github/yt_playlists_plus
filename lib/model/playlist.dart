@@ -6,7 +6,7 @@ class Playlist {
   String title;
   String author;
   String thumbnailUrl;
-  final Set<Video> videos = {};
+  Set<Video> videos = {};
   final Set<Video> _fetch = {};
 
   Playlist({
@@ -55,14 +55,38 @@ class Playlist {
   ///Fetches the videos of the playlist and adds them to it's `fetch set`
   Stream<Video> getVideos(YoutubeClient client) async* {
     await for (Video video in client.getVideosFromPlaylist(id)) {
-      if (videos.contains(video)) {}
       _fetch.add(video);
       yield video;
     }
   }
 
   @override
-  String toString() {
-    return "\nPlaylist(title: $title, author: $author)";
-  }
+  String toString() => "\nPlaylist(title: $title, author: $author)";
+
+  ///returns the `Set` of [videos] with the playlist
+  String toExtendedString() =>
+      "\nPlaylist(title: $title, author: $author, videos: [${videos.toString()}])";
+
+  @override
+  bool operator ==(other) => other is Playlist && id == other.id;
+
+  @override
+  int get hashCode => Object.hash(id, title);
+
+  ///Converts a `json` Object into a `Playlist` Object
+  Playlist.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        title = json['title'],
+        author = json['author'],
+        thumbnailUrl = json['thumbnailUrl'],
+        videos = (json['videos'] as List).map((e) => Video.fromJson(e)).toSet();
+
+  ///Converts a `Playlist` Object into a `json` Object
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'author': author,
+        'thumbnailUrl': thumbnailUrl,
+        'videos': videos.map((e) => e.toJson()).toList(),
+      };
 }
