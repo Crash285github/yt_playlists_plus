@@ -15,13 +15,21 @@ class _SearchPageState extends State<SearchPage> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
 
+  List<int> _searchResults = [];
+
   Future<void> _search() async {
     setState(() {
       _isSearching = true;
+      _searchResults = [];
     });
 
     //TODO: search here
-    await Future.delayed(const Duration(seconds: 2));
+    for (var i = 0; i < 10; i++) {
+      setState(() {
+        _searchResults.add(i);
+      });
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
 
     setState(() {
       _isSearching = false;
@@ -41,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: _searchField(),
                 ),
-                Text(_searchQuery),
+                ..._searchResults.map((e) => const PlaylistWidget()).toList(),
               ],
             ),
           ),
@@ -58,6 +66,7 @@ class _SearchPageState extends State<SearchPage> {
             child: TextField(
               focusNode: _focusNode,
               controller: _controller,
+              enabled: !_isSearching,
               decoration: const InputDecoration(
                 label: Text("Search playlists..."),
                 border: OutlineInputBorder(),
@@ -75,6 +84,7 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.only(left: 10.0),
             child: SizedBox(
               width: 70,
+              height: 70,
               child: _isSearching
                   ? const Center(child: CircularProgressIndicator())
                   : Center(
