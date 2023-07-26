@@ -81,6 +81,6 @@ class Playlist {
         'title': title,
         'author': author,
         'thumbnailUrl': thumbnailUrl,
-        'videos': videos.map((e) => e.toJson()).toSet(),
+        'videos': videos.map((e) => e.toJson()).toList(),
       };
 }
