@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
@@ -16,10 +17,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(child: Text("persistence made")),
-      ),
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/about': (context) => const AboutPage(),
+        '/search': (context) => const SearchPage(),
+        '/playlist': (context) => const PlaylistPage(),
+      },
+      theme: ThemeData.dark(useMaterial3: true),
     );
   }
 }
