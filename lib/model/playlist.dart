@@ -67,6 +67,12 @@ class Playlist {
   String toExtendedString() =>
       "\nPlaylist(title: $title, author: $author, videos: [${videos.toString()}])";
 
+  @override
+  bool operator ==(other) => other is Playlist && id == other.id;
+
+  @override
+  int get hashCode => Object.hash(id, title);
+
   ///Converts a `json` Object into a `Playlist` Object
   Playlist.fromJson(Map<String, dynamic> json)
       : id = json['id'],
