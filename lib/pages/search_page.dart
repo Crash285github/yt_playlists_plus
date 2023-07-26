@@ -8,6 +8,25 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  bool _isSearching = false;
+  String _searchQuery = "";
+
+  final FocusNode _focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
+
+  Future<void> _search() async {
+    setState(() {
+      _isSearching = true;
+    });
+
+    //TODO: search here
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +39,56 @@ class _SearchPageState extends State<SearchPage> {
             snap: true,
           ),
           SliverList(
-            delegate: SliverChildListDelegate([
-              const Placeholder(
-                fallbackHeight: 1000,
-              )
-            ]),
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          focusNode: _focusNode,
+                          controller: _controller,
+                          decoration: const InputDecoration(
+                            label: Text("Search playlists..."),
+                            border: OutlineInputBorder(),
+                          ),
+                          onSubmitted: (value) async {
+                            setState(() {
+                              _searchQuery = value;
+                            });
+                            await _search();
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: SizedBox(
+                          width: 70,
+                          child: _isSearching
+                              ? const Center(child: CircularProgressIndicator())
+                              : Center(
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      _focusNode.unfocus();
+                                      setState(() {
+                                        _searchQuery = _controller.text;
+                                      });
+                                      await _search();
+                                    },
+                                    icon: const Icon(Icons.send),
+                                    iconSize: 30,
+                                    padding: const EdgeInsets.all(15),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(_searchQuery),
+              ],
+            ),
           ),
         ],
       ),
