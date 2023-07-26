@@ -1,13 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
-
-import 'model/playlist.dart';
-import 'model/video.dart';
 
 void main() {
   runApp(MultiProvider(
