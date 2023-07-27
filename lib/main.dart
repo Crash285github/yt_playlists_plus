@@ -19,13 +19,13 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final Persistence persistence = Provider.of<Persistence>(context);
     persistence.load();
-    
+
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(persistence: persistence),
+        '/': (context) => const HomePage(),
         '/about': (context) => const AboutPage(),
-        '/search': (context) => SearchPage(persistence: persistence),
+        '/search': (context) => const SearchPage(),
         '/playlist': (context) => const PlaylistPage(),
       },
       theme: ThemeData.dark(useMaterial3: true),

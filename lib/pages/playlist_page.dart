@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class PlaylistPage extends StatefulWidget {
-  const PlaylistPage({super.key});
+
+  const PlaylistPage({
+    super.key
+  });
 
   @override
   State<PlaylistPage> createState() => _PlaylistPageState();
@@ -56,6 +59,20 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     Icon(Icons.watch_later),
                     SizedBox(width: 10),
                     Text("Planned"),
+                  ],
+                ),
+              ),
+              onPressed: () {},
+            ),
+            //delete
+            TextButton(
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.delete),
+                    SizedBox(width: 10),
+                    Text("Delete"),
                   ],
                 ),
               ),

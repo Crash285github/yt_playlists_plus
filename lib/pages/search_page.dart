@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 import '../model/client.dart';
@@ -6,8 +7,7 @@ import '../model/playlist.dart';
 import '../persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {
-  final Persistence persistence;
-  const SearchPage({super.key, required this.persistence});
+  const SearchPage({super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -27,6 +27,9 @@ class _SearchPageState extends State<SearchPage> {
   List<Playlist> _searchResults = [];
 
   Future<void> _search() async {
+    final Persistence persistence =
+        Provider.of<Persistence>(context, listen: false);
+
     setState(() {
       _isSearching = true;
       _searchResults = [];
@@ -34,10 +37,9 @@ class _SearchPageState extends State<SearchPage> {
 
     await for (Playlist list in _client.searchPlaylists(
         query: _searchQuery,
-        excludedWords:
-            widget.persistence.playlists.map((e) => e.id).toList())) {
+        excludedWords: persistence.playlists.map((e) => e.id).toList())) {
       if (!_rendered) return;
-      if (widget.persistence.playlists.contains(list)) continue;
+      if (persistence.playlists.contains(list)) continue;
       setState(() {
         _searchResults.add(list);
       });
@@ -56,6 +58,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Persistence persistence = Provider.of<Persistence>(context);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -70,8 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                 ..._searchResults
                     .map((e) => PlaylistWidget(
                           playlist: e,
-                          persistence: widget.persistence,
-                          onTap: () => widget.persistence.addPlaylist(e),
+                          onTap: () => persistence.addPlaylist(e),
                         ))
                     .toList(),
               ],

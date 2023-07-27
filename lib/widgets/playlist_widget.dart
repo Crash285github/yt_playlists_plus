@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlaylistWidget extends StatefulWidget {
   final Playlist playlist;
-  final Persistence persistence;
 
   ///The function that runs when you tap on the `PlaylistWidget`
   ///
@@ -14,7 +12,6 @@ class PlaylistWidget extends StatefulWidget {
   const PlaylistWidget({
     super.key,
     required this.playlist,
-    required this.persistence,
     this.onTap,
   });
 
