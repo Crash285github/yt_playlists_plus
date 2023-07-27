@@ -18,8 +18,18 @@ class YoutubeClient {
   }
 
   ///Searches Youtube playlists with a given `query`
-  Stream<Playlist> searchPlaylists(String query) async* {
+  Stream<Playlist> searchPlaylists(
+      {required String query, List<String>? excludedWords}) async* {
     query += " ";
+
+    if (excludedWords != null) {
+      for (var word in excludedWords) {
+        query += "-$word ";
+      }
+    }
+
+    print("query: $query");
+
     var result = await _client.search
         .searchContent(query, filter: yt_explode.TypeFilters.playlist);
 
