@@ -81,17 +81,7 @@ class _HomePageState extends State<HomePage> {
           customSliverAppBar("HomePage"),
           SliverList(
             delegate: SliverChildListDelegate(
-              [
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-              ],
+              [],
             ),
           ),
         ],

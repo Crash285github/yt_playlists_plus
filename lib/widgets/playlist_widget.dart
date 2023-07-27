@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
 
 class PlaylistWidget extends StatefulWidget {
-  const PlaylistWidget({super.key});
+  final Playlist playlist;
+
+  const PlaylistWidget({
+    super.key,
+    required this.playlist,
+  });
 
   @override
   State<PlaylistWidget> createState() => _PlaylistWidgetState();
@@ -27,54 +33,70 @@ class _PlaylistWidgetState extends State<PlaylistWidget> {
               Flexible(
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                "https://i.ytimg.com/vi/t5vG4Be1Ci8/hq720.jpg?sqp=-oaymwEXCNAFEJQDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBlLKzzIjDELsCteMUT6W5QQXwGAA",
-                              ),
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                    const Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Titleaaaaaaaaaaaaaaaaaaaaaaaa",
-                            style: TextStyle(fontSize: 30),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 20),
-                          Text("author"),
-                        ],
-                      ),
-                    ),
+                    _thumbnail(),
+                    _details(),
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    SizedBox(height: 60),
-                    Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ),
-                  ],
-                ),
-              ),
+              _status(),
             ],
           ),
         ),
       ),
     );
   }
+
+  //#region Details
+  _details() => Flexible(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.playlist.title,
+              style: const TextStyle(fontSize: 30),
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              widget.playlist.author,
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+      );
+  //#endregion
+
+  //#region Status
+  _status() => const Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            SizedBox(height: 50),
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          ],
+        ),
+      );
+  //#endregion
+
+  //#region Thumbnail
+  _thumbnail() => Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            image: DecorationImage(
+              image: NetworkImage(
+                widget.playlist.thumbnailUrl,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      );
+  //#endregion
 }
