@@ -32,7 +32,8 @@ class _PlaylistWidgetState extends State<PlaylistWidget> {
         child: InkWell(
           onTap: () {
             if (widget.onTap == null) {
-              Navigator.of(context).pushNamed('/playlist');
+              Navigator.pushNamed(context, '/playlist',
+                  arguments: widget.playlist);
             } else {
               widget.onTap!();
             }
