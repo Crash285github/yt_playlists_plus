@@ -17,12 +17,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Persistence persistence = Provider.of<Persistence>(context);
+    persistence.load();
+    
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => HomePage(persistence: persistence),
         '/about': (context) => const AboutPage(),
-        '/search': (context) => const SearchPage(),
+        '/search': (context) => SearchPage(persistence: persistence),
         '/playlist': (context) => const PlaylistPage(),
       },
       theme: ThemeData.dark(useMaterial3: true),

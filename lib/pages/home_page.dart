@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Persistence persistence;
+  const HomePage({super.key, required this.persistence});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: _drawer(),
       floatingActionButton: _searchButton(),
-      body: _body(),
+      body: _body(widget.persistence),
     );
   }
 
@@ -76,12 +78,15 @@ class _HomePageState extends State<HomePage> {
   //#endregion
 
   //#region Body
-  _body() => CustomScrollView(
+  _body(Persistence persistence) => CustomScrollView(
         slivers: [
           customSliverAppBar("HomePage"),
           SliverList(
             delegate: SliverChildListDelegate(
-              [],
+              persistence.playlists
+                  .map((e) =>
+                      PlaylistWidget(playlist: e, persistence: persistence))
+                  .toList(),
             ),
           ),
         ],

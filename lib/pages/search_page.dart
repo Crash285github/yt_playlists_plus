@@ -3,9 +3,11 @@ import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 import '../model/client.dart';
 import '../model/playlist.dart';
+import '../persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final Persistence persistence;
+  const SearchPage({super.key, required this.persistence});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -15,8 +17,10 @@ class _SearchPageState extends State<SearchPage> {
   final YoutubeClient _client = YoutubeClient();
 
   bool _isSearching = false;
+  bool _rendered = true; //required to stop searching after leaving the page
   String _searchQuery = "";
 
+  //SearchBar linking with Button & _searchQuery
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
 
@@ -28,7 +32,12 @@ class _SearchPageState extends State<SearchPage> {
       _searchResults = [];
     });
 
-    await for (Playlist list in _client.searchPlaylists(_searchQuery)) {
+    await for (Playlist list in _client.searchPlaylists(
+        query: _searchQuery,
+        excludedWords:
+            widget.persistence.playlists.map((e) => e.id).toList())) {
+      if (!_rendered) return;
+      if (widget.persistence.playlists.contains(list)) continue;
       setState(() {
         _searchResults.add(list);
       });
@@ -37,6 +46,12 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {
       _isSearching = false;
     });
+  }
+
+  @override
+  void dispose() {
+    _rendered = false;
+    super.dispose();
   }
 
   @override
@@ -55,6 +70,8 @@ class _SearchPageState extends State<SearchPage> {
                 ..._searchResults
                     .map((e) => PlaylistWidget(
                           playlist: e,
+                          persistence: widget.persistence,
+                          onTap: () => widget.persistence.addPlaylist(e),
                         ))
                     .toList(),
               ],
