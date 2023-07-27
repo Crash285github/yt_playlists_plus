@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class PlaylistPage extends StatefulWidget {
+  final Playlist playlist;
 
-  const PlaylistPage({
-    super.key
-  });
+  const PlaylistPage({super.key, required this.playlist});
 
   @override
   State<PlaylistPage> createState() => _PlaylistPageState();
@@ -17,7 +18,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return Scaffold(
         body: CustomScrollView(
           slivers: [
-            customSliverAppBar("playlistTitle"),
+            customSliverAppBar(widget.playlist.title),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -28,11 +29,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
             ),
           ],
         ),
-        bottomNavigationBar: _bottomAppBar());
+        bottomNavigationBar: _bottomAppBar(
+          delete: () {
+            Persistence().removePlaylist(widget.playlist);
+            Persistence().save();
+          },
+        ));
   }
 
   //#region BottomAppBar
-  BottomAppBar _bottomAppBar() => BottomAppBar(
+  BottomAppBar _bottomAppBar({required Function() delete}) => BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -66,6 +72,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
             ),
             //delete
             TextButton(
+              onPressed: delete,
               child: const Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Row(
@@ -76,7 +83,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   ],
                 ),
               ),
-              onPressed: () {},
             ),
           ],
         ),

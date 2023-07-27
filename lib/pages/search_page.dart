@@ -58,8 +58,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Persistence persistence = Provider.of<Persistence>(context);
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -72,10 +70,15 @@ class _SearchPageState extends State<SearchPage> {
                   child: _searchField(),
                 ),
                 ..._searchResults
-                    .map((e) => PlaylistWidget(
-                          playlist: e,
-                          onTap: () => persistence.addPlaylist(e),
-                        ))
+                    .map(
+                      (e) => PlaylistWidget(
+                        playlist: e,
+                        onTap: () async {
+                          Persistence().addPlaylist(e);
+                          await Persistence().save();
+                        },
+                      ),
+                    )
                     .toList(),
               ],
             ),

@@ -5,6 +5,11 @@ import '../model/playlist.dart';
 
 ///The Application's Persistent Storage
 class Persistence with ChangeNotifier {
+  //Singleton
+  static final Persistence _instance = Persistence._internal();
+  Persistence._internal();
+  factory Persistence() => _instance;
+
   Set<Playlist> _playlists = {};
 
   ///The currently stored Playlists
