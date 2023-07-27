@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlaylistWidget extends StatefulWidget {
   final Playlist playlist;
+  final Persistence persistence;
+
+  ///The function that runs when you tap on the `PlaylistWidget`
+  ///
+  ///If not set, it navigates to the Playlist's Page
+  final void Function()? onTap;
 
   const PlaylistWidget({
     super.key,
     required this.playlist,
+    required this.persistence,
+    this.onTap,
   });
 
   @override
@@ -25,7 +34,11 @@ class _PlaylistWidgetState extends State<PlaylistWidget> {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed('/playlist');
+            if (widget.onTap == null) {
+              Navigator.of(context).pushNamed('/playlist');
+            } else {
+              widget.onTap!();
+            }
           },
           borderRadius: BorderRadius.circular(10),
           child: Row(
