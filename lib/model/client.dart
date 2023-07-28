@@ -5,12 +5,16 @@ import 'package:yt_playlists_plus/model/video.dart';
 class YoutubeClient {
   late yt_explode.YoutubeExplode _client;
 
+  //Singleton
+  static final YoutubeClient _instance = YoutubeClient._internal();
+  YoutubeClient._internal() {
+    _client = yt_explode.YoutubeExplode();
+  }
+
   ///Constructor, initializes the `YoutubeExplode()` client
   ///
   ///Don't forget to use the [close] function to close the client after use
-  YoutubeClient() {
-    _client = yt_explode.YoutubeExplode();
-  }
+  factory YoutubeClient() => _instance;
 
   ///Closes the client
   close() {
