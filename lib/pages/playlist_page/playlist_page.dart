@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlaylistPage extends StatelessWidget {
@@ -43,8 +44,8 @@ class PlaylistPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _videoList("Added videos:"),
-            _videoList("Missing videos:"),
+            ChangesTab(videos: playlist.videos),
+            MoreTab(videos: playlist.videos),
           ],
         ),
         floatingActionButton: IconButton(
@@ -78,31 +79,4 @@ class PlaylistPage extends StatelessWidget {
           ),
         ),
       ];
-
-  _videoList(String title) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.black54,
-        ),
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            //title
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.white, width: 2),
-                ),
-              ),
-              child: Text(
-                title,
-                style: const TextStyle(fontSize: 20),
-              ),
-              //videos
-            ),
-          ],
-        ),
-      );
 }
