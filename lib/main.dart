@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
 import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
@@ -10,6 +11,7 @@ void main() {
     ],
     child: const MainApp(),
   ));
+  Persistence().load();
 }
 
 class MainApp extends StatelessWidget {
@@ -23,7 +25,14 @@ class MainApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/about': (context) => const AboutPage(),
         '/search': (context) => const SearchPage(),
-        '/playlist': (context) => const PlaylistPage(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/playlist') {
+          final args = settings.arguments as Playlist;
+          return MaterialPageRoute(
+              builder: (context) => PlaylistPage(playlist: args));
+        }
+        return null;
       },
       theme: ThemeData.dark(useMaterial3: true),
     );

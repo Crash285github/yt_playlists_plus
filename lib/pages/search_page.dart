@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
+
+import '../model/client.dart';
+import '../model/playlist.dart';
+import '../persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -9,31 +14,46 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final YoutubeClient _client = YoutubeClient();
+
   bool _isSearching = false;
+  bool _rendered = true; //required to stop searching after leaving the page
   String _searchQuery = "";
 
+  //SearchBar linking with Button & _searchQuery
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
 
-  List<int> _searchResults = [];
+  List<Playlist> _searchResults = [];
 
   Future<void> _search() async {
+    final Persistence persistence =
+        Provider.of<Persistence>(context, listen: false);
+
     setState(() {
       _isSearching = true;
       _searchResults = [];
     });
 
-    //TODO: search here
-    for (var i = 0; i < 10; i++) {
+    await for (Playlist list in _client.searchPlaylists(
+        query: _searchQuery,
+        excludedWords: persistence.playlists.map((e) => e.id).toList())) {
+      if (!_rendered) return;
+      if (persistence.playlists.contains(list)) continue;
       setState(() {
-        _searchResults.add(i);
+        _searchResults.add(list);
       });
-      await Future.delayed(const Duration(milliseconds: 200));
     }
 
     setState(() {
       _isSearching = false;
     });
+  }
+
+  @override
+  void dispose() {
+    _rendered = false;
+    super.dispose();
   }
 
   @override
@@ -49,7 +69,17 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: _searchField(),
                 ),
-                ..._searchResults.map((e) => const PlaylistWidget()).toList(),
+                ..._searchResults
+                    .map(
+                      (e) => PlaylistWidget(
+                        playlist: e,
+                        onTap: () async {
+                          Persistence().addPlaylist(e);
+                          await Persistence().save();
+                        },
+                      ),
+                    )
+                    .toList(),
               ],
             ),
           ),

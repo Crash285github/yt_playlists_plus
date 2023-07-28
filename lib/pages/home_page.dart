@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 class HomePage extends StatefulWidget {
@@ -81,17 +82,10 @@ class _HomePageState extends State<HomePage> {
           customSliverAppBar("HomePage"),
           SliverList(
             delegate: SliverChildListDelegate(
-              [
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-                const PlaylistWidget(),
-              ],
+              Persistence()
+                  .playlists
+                  .map((e) => PlaylistWidget(playlist: e))
+                  .toList(),
             ),
           ),
         ],

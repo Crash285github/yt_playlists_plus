@@ -18,8 +18,16 @@ class YoutubeClient {
   }
 
   ///Searches Youtube playlists with a given `query`
-  Stream<Playlist> searchPlaylists(String query) async* {
+  Stream<Playlist> searchPlaylists(
+      {required String query, List<String>? excludedWords}) async* {
     query += " ";
+
+    if (excludedWords != null) {
+      for (var word in excludedWords) {
+        query += "-$word ";
+      }
+    }
+
     var result = await _client.search
         .searchContent(query, filter: yt_explode.TypeFilters.playlist);
 
@@ -31,12 +39,16 @@ class YoutubeClient {
 
   Future<Playlist> _getPlaylist(String playlistId) async {
     var result = await _client.playlists.get(playlistId);
+    yt_explode.Video video = await _client.playlists.getVideos(result.id).first;
+
+    String author = result.author;
+    if (!result.author.startsWith("by")) author = "by ${result.author}";
 
     return Playlist(
       id: result.id.toString(),
       title: result.title,
-      author: result.author,
-      thumbnailUrl: result.thumbnails.highResUrl,
+      author: author,
+      thumbnailUrl: video.thumbnails.mediumResUrl,
     );
   }
 
