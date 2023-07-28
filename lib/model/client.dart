@@ -64,7 +64,7 @@ class YoutubeClient {
           id: vid.id.toString(),
           title: vid.title,
           author: vid.author,
-          thumbnailUrl: vid.thumbnails.highResUrl);
+          thumbnailUrl: vid.thumbnails.lowResUrl);
       yield video;
     }
   }

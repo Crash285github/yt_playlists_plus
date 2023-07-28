@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist.dart';
+import '../model/video.dart';
 
-class PlaylistWidget extends StatelessWidget {
-  final Playlist playlist;
+class VideoWidget extends StatelessWidget {
+  final Video video;
 
-  ///The function that runs when you tap on the `PlaylistWidget`
+  ///The function that runs when you tap on the `VideoWidget`
   ///
-  ///If not set, it navigates to the Playlist's Page
+  ///If null, the Widget does not ripple
   final void Function()? onTap;
 
-  const PlaylistWidget({
+  const VideoWidget({
     super.key,
-    required this.playlist,
+    required this.video,
     this.onTap,
   });
 
@@ -22,16 +22,9 @@ class PlaylistWidget extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.black54,
         ),
         child: InkWell(
-          onTap: () {
-            if (onTap == null) {
-              Navigator.pushNamed(context, '/playlist', arguments: playlist);
-            } else {
-              onTap!();
-            }
-          },
+          onTap: onTap,
           borderRadius: BorderRadius.circular(10),
           child: Row(
             children: [
@@ -43,7 +36,6 @@ class PlaylistWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              _status(),
             ],
           ),
         ),
@@ -55,28 +47,18 @@ class PlaylistWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              playlist.title,
-              style: const TextStyle(fontSize: 30),
-              overflow: TextOverflow.ellipsis,
+            Tooltip(
+              message: video.title,
+              waitDuration: const Duration(seconds: 1),
+              child: Text(
+                video.title,
+                style: const TextStyle(fontSize: 15),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            const SizedBox(height: 10),
             Text(
-              playlist.author,
+              video.author,
               style: const TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      );
-
-  _status() => const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Icon(
-              Icons.check,
-              color: Colors.green,
             ),
           ],
         ),
@@ -85,13 +67,13 @@ class PlaylistWidget extends StatelessWidget {
   _thumbnail() => Padding(
         padding: const EdgeInsets.only(right: 10.0),
         child: Container(
-          height: 100,
-          width: 100,
+          height: 50,
+          width: 50,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             image: DecorationImage(
               image: NetworkImage(
-                playlist.thumbnailUrl,
+                video.thumbnailUrl,
               ),
               fit: BoxFit.cover,
             ),
