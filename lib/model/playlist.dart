@@ -52,11 +52,20 @@ class Playlist {
     return added;
   }
 
-  ///Fetches the videos of the playlist and adds them to it's `fetch set`
-  Stream<Video> getVideos(YoutubeClient client) async* {
+  ///Fetches the videos of the playlist and adds them to its `fetch` Set
+  Stream<Video> fetchVideos() async* {
+    YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
       _fetch.add(video);
       yield video;
+    }
+  }
+
+  ///Fetches the videos of the playlist and adds them to its `videos` Set
+  Future<void> download() async {
+    YoutubeClient client = YoutubeClient();
+    await for (Video video in client.getVideosFromPlaylist(id)) {
+      videos.add(video);
     }
   }
 

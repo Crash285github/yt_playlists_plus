@@ -76,6 +76,7 @@ class _SearchPageState extends State<SearchPage> {
                         playlist: e,
                         onTap: () async {
                           Persistence().addPlaylist(e);
+                          await e.download();
                           await Persistence().save();
                         },
                       ),
