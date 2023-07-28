@@ -1,95 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
-class PlaylistPage extends StatefulWidget {
+class PlaylistPage extends StatelessWidget {
   final Playlist playlist;
 
   const PlaylistPage({super.key, required this.playlist});
 
   @override
-  State<PlaylistPage> createState() => _PlaylistPageState();
-}
-
-class _PlaylistPageState extends State<PlaylistPage> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            customSliverAppBar(widget.playlist.title),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  _videoList("New videos:"),
-                  _videoList("Missing videos:"),
-                ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(playlist.title),
+          centerTitle: true,
+          actions: _appBarActions(context),
+          bottom: const TabBar(
+            tabs: [
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.change_circle_outlined),
+                    SizedBox(width: 10),
+                    Text("Changes"),
+                  ],
+                ),
               ),
-            ),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.more_horiz),
+                    SizedBox(width: 10),
+                    Text("More"),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            _videoList("Added videos:"),
+            _videoList("Missing videos:"),
           ],
         ),
-        bottomNavigationBar: _bottomAppBar(
-          delete: () {
-            Persistence().removePlaylist(widget.playlist);
-            Persistence().save();
-          },
-        ));
+        floatingActionButton: IconButton(
+          icon: const Icon(Icons.save),
+          onPressed: () => Persistence().save(),
+          iconSize: 30,
+          tooltip: "Save",
+        ),
+      ),
+    );
   }
 
-  //#region BottomAppBar
-  BottomAppBar _bottomAppBar({required Function() delete}) => BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            //save
-            TextButton(
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.save),
-                    SizedBox(width: 10),
-                    Text("Save"),
-                  ],
-                ),
+  _appBarActions(BuildContext context) => [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.refresh_outlined),
               ),
-              onPressed: () {},
-            ),
-            //planned
-            TextButton(
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.watch_later),
-                    SizedBox(width: 10),
-                    Text("Planned"),
-                  ],
-                ),
+              IconButton(
+                onPressed: () {
+                  Persistence().removePlaylist(playlist);
+                  Persistence().save();
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.delete_outline),
               ),
-              onPressed: () {},
-            ),
-            //delete
-            TextButton(
-              onPressed: delete,
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.delete),
-                    SizedBox(width: 10),
-                    Text("Delete"),
-                  ],
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      );
-  //#endregion
+      ];
 
-  //#region VideoList
   _videoList(String title) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -116,5 +105,4 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ],
         ),
       );
-  //#endregion
 }
