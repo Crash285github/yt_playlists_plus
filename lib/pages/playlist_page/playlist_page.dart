@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/model/Playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
@@ -44,8 +44,8 @@ class PlaylistPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            ChangesTab(videos: playlist.videos),
-            MoreTab(videos: playlist.videos),
+            ChangesTab(playlist: playlist),
+            MoreTab(playlist: playlist),
           ],
         ),
         floatingActionButton: IconButton(

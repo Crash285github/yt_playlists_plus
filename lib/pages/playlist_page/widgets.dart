@@ -63,7 +63,12 @@ class _VideoListState extends State<VideoList> {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ...widget.videos.map((e) => VideoWidget(video: e)).toList()
+                ...widget.videos
+                    .map((e) => VideoWidget(
+                          video: e,
+                          onTap: () {},
+                        ))
+                    .toList()
               ],
             ),
             isExpanded: _isExpanded[0],

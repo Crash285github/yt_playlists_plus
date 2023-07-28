@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/widgets.dart';
-
-import '../../model/video.dart';
+import '../../model/Playlist/playlist.dart';
 
 class ChangesTab extends StatelessWidget {
-  final Set<Video> videos;
-  const ChangesTab({super.key, required this.videos});
+  final Playlist playlist;
+  const ChangesTab({super.key, required this.playlist});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: const [
+      children: [
         VideoList(
           title: "Added Videos:",
-          videos: {},
+          videos: playlist.getAdded(),
         ),
         VideoList(
           title: "Missing Videos:",
-          videos: {},
+          videos: playlist.getMissing(),
         ),
       ],
     );
@@ -25,8 +24,8 @@ class ChangesTab extends StatelessWidget {
 }
 
 class MoreTab extends StatelessWidget {
-  final Set<Video> videos;
-  const MoreTab({super.key, required this.videos});
+  final Playlist playlist;
+  const MoreTab({super.key, required this.playlist});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class MoreTab extends StatelessWidget {
         const VideoList(title: "Planned Videos:", videos: {}),
         VideoList(
           title: "All Videos:",
-          videos: videos,
+          videos: playlist.videos,
         ),
       ],
     );
