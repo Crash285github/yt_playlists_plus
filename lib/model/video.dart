@@ -1,8 +1,5 @@
 class Video {
-  String id;
-  String title;
-  String author;
-  String thumbnailUrl;
+  String id, title, author, thumbnailUrl;
 
   ///Modifies it's parent `playlist`
   ///

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/model/Playlist/playlist.dart';
 
 class PlaylistWidget extends StatelessWidget {
   final Playlist playlist;

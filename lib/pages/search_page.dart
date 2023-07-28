@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 import '../model/client.dart';
-import '../model/playlist.dart';
+import '../model/Playlist/playlist.dart';
 import '../persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {

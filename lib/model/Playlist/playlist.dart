@@ -1,20 +1,25 @@
+import 'package:yt_playlists_plus/model/Playlist/playlist_exception.dart';
+import 'package:yt_playlists_plus/model/Playlist/playlist_state.dart';
 import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/video.dart';
 
 class Playlist {
-  String id;
-  String title;
-  String author;
-  String thumbnailUrl;
+  String id, title, author, thumbnailUrl;
+
   Set<Video> videos = {};
   final Set<Video> _fetch = {};
+
+  late PlaylistState _state;
+  PlaylistState get state => _state;
 
   Playlist({
     required this.id,
     required this.title,
     required this.author,
     required this.thumbnailUrl,
-  });
+  }) {
+    _state = PlaylistState.unChecked;
+  }
 
   ///Adds a video to the Set of videos
   ///
@@ -52,8 +57,25 @@ class Playlist {
     return added;
   }
 
+  ///Compares the playlist's persistent and fetched data,
+  ///and changes the state accordingly
+  ///
+  ///Throws `PlaylistException` if the state isn't `fetching`
+  void check() {
+    if (_state != PlaylistState.fetching) {
+      throw PlaylistException("PlaylistState != fetching when starting check.");
+    }
+    _state = PlaylistState.checking;
+
+    getAdded().isEmpty && getMissing().isEmpty
+        ? _state = PlaylistState.unChanged
+        : _state = PlaylistState.changed;
+  }
+
   ///Fetches the videos of the playlist and adds them to its `fetch` Set
   Stream<Video> fetchVideos() async* {
+    _state = PlaylistState.fetching;
+
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
       _fetch.add(video);
@@ -63,10 +85,14 @@ class Playlist {
 
   ///Fetches the videos of the playlist and adds them to its `videos` Set
   Future<void> download() async {
+    _state = PlaylistState.downloading;
+
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
       videos.add(video);
     }
+
+    _state = PlaylistState.downloaded;
   }
 
   @override
