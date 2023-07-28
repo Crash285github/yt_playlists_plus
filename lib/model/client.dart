@@ -28,8 +28,6 @@ class YoutubeClient {
       }
     }
 
-    print("query: $query");
-
     var result = await _client.search
         .searchContent(query, filter: yt_explode.TypeFilters.playlist);
 
