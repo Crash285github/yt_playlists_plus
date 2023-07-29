@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/Playlist/playlist_exception.dart';
-import 'package:yt_playlists_plus/model/Playlist/playlist_state.dart';
+import 'package:yt_playlists_plus/model/Playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/video.dart';
 
@@ -10,12 +10,12 @@ class Playlist extends ChangeNotifier {
   Set<Video> videos = {};
   final Set<Video> _fetch = {};
 
-  PlaylistState _state = PlaylistState.unChecked;
-  PlaylistState get state => _state;
+  PlaylistStatus _status = PlaylistStatus.unChecked;
+  PlaylistStatus get status => _status;
 
   ///Sets the state and notifies listeners
-  _setState(PlaylistState newState) {
-    _state = newState;
+  _setState(PlaylistStatus newStatus) {
+    _status = newStatus;
     notifyListeners();
   }
 
@@ -67,19 +67,19 @@ class Playlist extends ChangeNotifier {
   ///
   ///Throws `PlaylistException` if the state isn't `fetching`
   void check() {
-    if (_state != PlaylistState.fetching) {
+    if (_status != PlaylistStatus.fetching) {
       throw PlaylistException("PlaylistState != fetching when starting check.");
     }
-    _setState(PlaylistState.checking);
+    _setState(PlaylistStatus.checking);
 
     getAdded().isEmpty && getMissing().isEmpty
-        ? _setState(PlaylistState.unChanged)
-        : _setState(PlaylistState.changed);
+        ? _setState(PlaylistStatus.unChanged)
+        : _setState(PlaylistStatus.changed);
   }
 
   ///Fetches the videos of the playlist and adds them to its `fetch` Set
   Stream<Video> fetchVideos() async* {
-    _setState(PlaylistState.fetching);
+    _setState(PlaylistStatus.fetching);
 
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
@@ -90,14 +90,14 @@ class Playlist extends ChangeNotifier {
 
   ///Fetches the videos of the playlist and adds them to its `videos` Set
   Future<void> download() async {
-    _setState(PlaylistState.downloading);
+    _setState(PlaylistStatus.downloading);
 
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
       videos.add(video);
     }
 
-    _setState(PlaylistState.downloaded);
+    _setState(PlaylistStatus.downloaded);
   }
 
   @override

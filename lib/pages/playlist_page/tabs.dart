@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/widgets.dart';
 import '../../model/Playlist/playlist.dart';
 
 class ChangesTab extends StatelessWidget {
-  final Playlist playlist;
-  const ChangesTab({super.key, required this.playlist});
+  const ChangesTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Playlist playlist = Provider.of<Playlist>(context);
     return ListView(
       children: [
+        Text(
+          'Status: ${playlist.status.name}',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: playlist.status.color,
+            fontSize: 20,
+          ),
+        ),
         VideoList(
           title: "Added Videos:",
           videos: playlist.getAdded(),

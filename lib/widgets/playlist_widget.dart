@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/Playlist/playlist.dart';
-import '../model/Playlist/playlist_state.dart';
+import '../model/Playlist/playlist_status.dart';
 
 class PlaylistWidget extends StatelessWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
@@ -43,7 +43,7 @@ class PlaylistWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              state(playlist.state),
+              status(playlist.status),
             ],
           ),
         ),
@@ -72,61 +72,16 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
         ),
       );
 
-  ///The state Icon of the Playlist
-  state(PlaylistState state) {
-    Widget icon;
-
-    iconBuilder(String message, IconData icon, Color color) => Tooltip(
-          waitDuration: const Duration(seconds: 1),
-          message: message,
-          child: Icon(
-            icon,
-            color: color,
-          ),
-        );
-
-    icon = switch (state) {
-      PlaylistState.downloading => iconBuilder(
-          "Downloading",
-          Icons.file_download,
-          Colors.green,
-        ),
-      PlaylistState.downloaded => iconBuilder(
-          "Downloaded",
-          Icons.file_download_done_outlined,
-          Colors.green,
-        ),
-      PlaylistState.unChecked => iconBuilder(
-          "Unchecked",
-          Icons.refresh,
-          Colors.grey,
-        ),
-      PlaylistState.fetching => iconBuilder(
-          "Fetching",
-          Icons.update,
-          Colors.teal,
-        ),
-      PlaylistState.checking => iconBuilder(
-          "Checking",
-          Icons.refresh,
-          Colors.grey,
-        ),
-      PlaylistState.unChanged => iconBuilder(
-          "Unchanged",
-          Icons.check,
-          Colors.green,
-        ),
-      PlaylistState.changed => iconBuilder(
-          "Changed",
-          Icons.error,
-          Colors.amber,
-        ),
-      PlaylistState.notFound => iconBuilder(
-          "Not Found",
-          Icons.close,
-          Colors.red,
-        ),
-    };
+  ///The status Icon of the Playlist
+  status(PlaylistStatus status) {
+    Widget icon = Tooltip(
+      waitDuration: const Duration(seconds: 1),
+      message: status.name,
+      child: Icon(
+        status.icon,
+        color: status.color,
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
