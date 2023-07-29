@@ -67,20 +67,31 @@ class PlaylistPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
             children: [
-              IconButton(
-                onPressed: () async {
-                  await playlist.fetchVideos().drain();
-                  playlist.check();
-                },
-                icon: const Icon(Icons.refresh_outlined),
+              Tooltip(
+                message: "Refresh",
+                waitDuration: const Duration(seconds: 1),
+                child: IconButton(
+                  onPressed: () async {
+                    await playlist.fetchVideos().drain();
+                    playlist.check();
+                  },
+                  icon: const Icon(Icons.refresh_outlined),
+                ),
               ),
-              IconButton(
-                onPressed: () {
-                  Persistence().removePlaylist(playlist);
-                  Persistence().save();
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.delete_outline),
+              Tooltip(
+                message: "Delete",
+                waitDuration: const Duration(seconds: 1),
+                child: IconButton(
+                  onPressed: () {
+                    Persistence().removePlaylist(playlist);
+                    Persistence().save();
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    color: Colors.red,
+                  ),
+                ),
               ),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/video.dart';
 
+///Shows a single video with a configurable `onTap` function
 class VideoWidget extends StatelessWidget {
   final Video video;
 

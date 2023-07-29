@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
-
 import '../../model/video.dart';
 
+///Shows a list of videos as an ExpansionPanel
+///
+///The [title] parameter shows in the header
 class VideoList extends StatefulWidget {
   final String title;
   final Set<Video> videos;
@@ -18,7 +20,7 @@ class _VideoListState extends State<VideoList> {
 
   @override
   void initState() {
-    _isExpanded = [false, false, false];
+    _isExpanded = [false];
     super.initState();
   }
 
