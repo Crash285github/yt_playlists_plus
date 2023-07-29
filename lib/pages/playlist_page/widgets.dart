@@ -69,7 +69,7 @@ class _VideoListState extends State<VideoList> {
                 ...widget.videos
                     .map((e) => VideoWidget(
                           video: e,
-                          onTap: () {},
+                          onTap: e.function,
                         ))
                     .toList()
               ],

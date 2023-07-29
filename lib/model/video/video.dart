@@ -4,14 +4,10 @@ class Video {
   String id, title, author, thumbnailUrl;
   VideoStatus status;
 
-  ///Modifies it's parent `playlist`
+  ///What the Video should do when tapped on it's Widget
   ///
-  ///If the video is missing, it is a `remove` function
-  ///
-  ///If the video is added, it is an `add` function
-  ///
-  ///Else it is null
-  late bool Function()? function;
+  ///The add/remove functions are assigned usually
+  bool Function()? function;
 
   Video({
     required this.id,
