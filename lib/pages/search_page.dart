@@ -72,13 +72,15 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 ..._searchResults
                     .map(
-                      (e) => PlaylistWidget(
-                        playlist: e,
-                        onTap: () async {
-                          Persistence().addPlaylist(e);
-                          await e.download();
-                          await Persistence().save();
-                        },
+                      (e) => ListenableProvider.value(
+                        value: e,
+                        child: PlaylistWidget(
+                          onTap: () async {
+                            Persistence().addPlaylist(e);
+                            await e.download();
+                            await Persistence().save();
+                          },
+                        ),
                       ),
                     )
                     .toList(),

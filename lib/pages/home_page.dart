@@ -79,7 +79,12 @@ class HomePage extends StatelessWidget {
             delegate: SliverChildListDelegate(
               Persistence()
                   .playlists
-                  .map((e) => PlaylistWidget(playlist: e))
+                  .map(
+                    (e) => ListenableProvider.value(
+                      value: e,
+                      child: const PlaylistWidget(),
+                    ),
+                  )
                   .toList(),
             ),
           ),
