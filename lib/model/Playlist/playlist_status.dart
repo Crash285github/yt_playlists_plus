@@ -5,14 +5,14 @@ enum PlaylistStatus {
   ///
   ///After the download finished, the state will change to `downloaded`
   downloading(
-    name: "Downloading",
+    displayName: "Downloading",
     icon: Icons.file_download,
     color: Colors.green,
   ),
 
   ///The Playlist has downloaded and is ready for checking
   downloaded(
-    name: "Downloaded",
+    displayName: "Downloaded",
     icon: Icons.file_download_done_outlined,
     color: Colors.green,
   ),
@@ -21,7 +21,7 @@ enum PlaylistStatus {
   ///
   ///This is the initial state when constructing a `Playlist`
   unChecked(
-    name: "Unchecked",
+    displayName: "Unchecked",
     icon: Icons.refresh,
     color: Colors.grey,
   ),
@@ -31,7 +31,7 @@ enum PlaylistStatus {
   ///After it finishes, the state should change to `checking`
   ///If fetching fails, the state will change to 'notFound'
   fetching(
-    name: "Fetching",
+    displayName: "Fetching",
     icon: Icons.update,
     color: Colors.teal,
   ),
@@ -41,40 +41,40 @@ enum PlaylistStatus {
   ///After it finishes, the state will change to either
   ///'unchanged' or 'changed'
   checking(
-    name: "Checking",
+    displayName: "Checking",
     icon: Icons.analytics,
     color: Colors.blue,
   ),
 
   ///The Playlist has been checked, and nothing has changed
   unChanged(
-    name: "Unchanged",
+    displayName: "Unchanged",
     icon: Icons.check,
     color: Colors.green,
   ),
 
   ///The Playlist has been checked, and there has been some changes
   changed(
-    name: "Changed",
+    displayName: "Changed",
     icon: Icons.error,
     color: Colors.amber,
   ),
 
   ///The Playlist itself can't be found on Youtube
   notFound(
-    name: "Not Found",
+    displayName: "Not Found",
     icon: Icons.close,
     color: Colors.red,
   );
 
   const PlaylistStatus({
-    required this.name,
+    required this.displayName,
     required this.icon,
     required this.color,
   });
 
-  ///Stringified name of this state
-  final String name;
+  ///Name of this state that can be displayed on the UI
+  final String displayName;
 
   ///Color of this state
   final Color color;
