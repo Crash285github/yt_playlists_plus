@@ -76,88 +76,57 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
   state(PlaylistState state) {
     Widget icon;
 
-    switch (state) {
-      case PlaylistState.downloading:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Downloading",
+    iconBuilder(String message, IconData icon, Color color) => Tooltip(
+          waitDuration: const Duration(seconds: 1),
+          message: message,
           child: Icon(
-            Icons.file_download,
-            color: Colors.green,
+            icon,
+            color: color,
           ),
         );
-        break;
-      case PlaylistState.downloaded:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Downloaded",
-          child: Icon(
-            Icons.file_download_done,
-            color: Colors.green,
-          ),
-        );
-        break;
-      case PlaylistState.unChecked:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Unchecked",
-          child: Icon(
-            Icons.refresh,
-            color: Colors.grey,
-          ),
-        );
-        break;
-      case PlaylistState.fetching:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Fetching",
-          child: Icon(
-            Icons.data_array,
-            color: Colors.teal,
-          ),
-        );
-        break;
-      case PlaylistState.checking:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Checking",
-          child: Icon(
-            Icons.analytics,
-            color: Colors.blue,
-          ),
-        );
-        break;
-      case PlaylistState.unChanged:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Unchanged",
-          child: Icon(
-            Icons.check,
-            color: Colors.green,
-          ),
-        );
-        break;
-      case PlaylistState.changed:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Changed",
-          child: Icon(
-            Icons.error,
-            color: Colors.amber,
-          ),
-        );
-        break;
-      case PlaylistState.notFound:
-        icon = const Tooltip(
-          waitDuration: Duration(seconds: 1),
-          message: "Not Found",
-          child: Icon(
-            Icons.close,
-            color: Colors.red,
-          ),
-        );
-        break;
-    }
+
+    icon = switch (state) {
+      PlaylistState.downloading => iconBuilder(
+          "Downloading",
+          Icons.file_download,
+          Colors.green,
+        ),
+      PlaylistState.downloaded => iconBuilder(
+          "Downloaded",
+          Icons.file_download_done_outlined,
+          Colors.green,
+        ),
+      PlaylistState.unChecked => iconBuilder(
+          "Unchecked",
+          Icons.refresh,
+          Colors.grey,
+        ),
+      PlaylistState.fetching => iconBuilder(
+          "Fetching",
+          Icons.update,
+          Colors.teal,
+        ),
+      PlaylistState.checking => iconBuilder(
+          "Checking",
+          Icons.refresh,
+          Colors.grey,
+        ),
+      PlaylistState.unChanged => iconBuilder(
+          "Unchanged",
+          Icons.check,
+          Colors.green,
+        ),
+      PlaylistState.changed => iconBuilder(
+          "Changed",
+          Icons.error,
+          Colors.amber,
+        ),
+      PlaylistState.notFound => iconBuilder(
+          "Not Found",
+          Icons.close,
+          Colors.red,
+        ),
+    };
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
