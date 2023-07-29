@@ -49,3 +49,14 @@ class MoreTab extends StatelessWidget {
     );
   }
 }
+
+class HistoryTab extends StatelessWidget {
+  const HistoryTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text("WIP"),
+    );
+  }
+}

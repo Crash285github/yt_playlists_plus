@@ -12,13 +12,14 @@ class PlaylistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text(playlist.title),
           centerTitle: true,
           actions: _appBarActions(context),
           bottom: const TabBar(
+            isScrollable: true,
             tabs: [
               Tab(
                 child: Row(
@@ -40,6 +41,16 @@ class PlaylistPage extends StatelessWidget {
                   ],
                 ),
               ),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.history),
+                    SizedBox(width: 10),
+                    Text("History"),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -50,6 +61,7 @@ class PlaylistPage extends StatelessWidget {
               child: const ChangesTab(),
             ),
             MoreTab(playlist: playlist),
+            const HistoryTab(),
           ],
         ),
         floatingActionButton: IconButton(
