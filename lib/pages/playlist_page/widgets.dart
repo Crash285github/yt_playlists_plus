@@ -26,6 +26,7 @@ class _VideoListState extends State<VideoList> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.videos.isEmpty) return const Text("");
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

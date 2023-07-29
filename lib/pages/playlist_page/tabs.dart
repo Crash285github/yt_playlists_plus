@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/widgets.dart';
 import '../../model/playlist/playlist.dart';
 
@@ -19,14 +20,20 @@ class ChangesTab extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        VideoList(
-          title: "Added Videos:",
-          videos: playlist.getAdded(),
-        ),
-        VideoList(
-          title: "Missing Videos:",
-          videos: playlist.getMissing(),
-        ),
+        playlist.status == PlaylistStatus.changed
+            ? Column(
+                children: [
+                  VideoList(
+                    title: "Added Videos:",
+                    videos: playlist.getAdded(),
+                  ),
+                  VideoList(
+                    title: "Missing Videos:",
+                    videos: playlist.getMissing(),
+                  ),
+                ],
+              )
+            : const Text(""),
       ],
     );
   }
