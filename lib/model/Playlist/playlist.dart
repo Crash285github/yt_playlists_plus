@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/Playlist/playlist_exception.dart';
-import 'package:yt_playlists_plus/model/Playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/client.dart';
-import 'package:yt_playlists_plus/model/video.dart';
+import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/model/video/video_status.dart';
 
 class Playlist extends ChangeNotifier {
   String id, title, author, thumbnailUrl;
@@ -40,9 +41,11 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
-    Set<Video> missing = videos.difference(_fetch);
+    Set<Video> clonedVideos = videos.map((e) => Video.deepCopy(e)).toSet();
+    Set<Video> missing = clonedVideos.difference(_fetch);
 
     for (var video in missing) {
+      video.status = VideoStatus.missing;
       video.function = () => remove(video);
     }
 
@@ -53,9 +56,11 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `add`
   Set<Video> getAdded() {
-    Set<Video> added = _fetch.difference(videos);
+    Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
+    Set<Video> added = clonedFetch.difference(videos);
 
     for (var video in added) {
+      video.status = VideoStatus.added;
       video.function = () => add(video);
     }
 
