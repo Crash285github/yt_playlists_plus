@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/Playlist/playlist.dart';
-import '../model/Playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import '../model/playlist/playlist_status.dart';
 
 class PlaylistWidget extends StatelessWidget {
   ///The function that runs when you tap on the `PlaylistWidget`

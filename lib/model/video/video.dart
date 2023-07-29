@@ -1,5 +1,8 @@
+import 'package:yt_playlists_plus/model/video/video_status.dart';
+
 class Video {
   String id, title, author, thumbnailUrl;
+  VideoStatus status;
 
   ///Modifies it's parent `playlist`
   ///
@@ -15,6 +18,7 @@ class Video {
     required this.title,
     required this.author,
     required this.thumbnailUrl,
+    this.status = VideoStatus.unChanged,
   });
 
   @override
@@ -33,7 +37,8 @@ class Video {
       : id = json['id'],
         title = json['title'],
         author = json['author'],
-        thumbnailUrl = json['thumbnailUrl'];
+        thumbnailUrl = json['thumbnailUrl'],
+        status = VideoStatus.values.byName(json['status']);
 
   ///Converts a `Video` Object into a `json` Object
   Map<String, dynamic> toJson() => {
@@ -41,5 +46,13 @@ class Video {
         'title': title,
         'author': author,
         'thumbnailUrl': thumbnailUrl,
+        'status': status.name
       };
+
+  factory Video.deepCopy(Video source) => Video(
+        id: source.id,
+        title: source.title,
+        author: source.author,
+        thumbnailUrl: source.thumbnailUrl,
+      );
 }

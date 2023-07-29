@@ -1,6 +1,6 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
-import 'package:yt_playlists_plus/model/Playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/video.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/model/video/video.dart';
 
 class YoutubeClient {
   late yt_explode.YoutubeExplode _client;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/video.dart';
+import '../model/video/video.dart';
 
 ///Shows a single video with a configurable `onTap` function
 class VideoWidget extends StatelessWidget {
@@ -32,19 +32,22 @@ class VideoWidget extends StatelessWidget {
               Flexible(
                 child: Row(
                   children: [
-                    _thumbnail(),
-                    _details(),
+                    thumbnail(),
+                    details(),
                   ],
                 ),
               ),
+              status(),
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  _details() => Flexible(
+extension _VideoWidgetExtension on VideoWidget {
+  details() => Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -65,7 +68,7 @@ class VideoWidget extends StatelessWidget {
         ),
       );
 
-  _thumbnail() => Padding(
+  thumbnail() => Padding(
         padding: const EdgeInsets.only(right: 10.0),
         child: Container(
           height: 50,
@@ -81,4 +84,19 @@ class VideoWidget extends StatelessWidget {
           ),
         ),
       );
+
+  status() {
+    Widget icon = Tooltip(
+        waitDuration: const Duration(seconds: 1),
+        message: video.status.displayName,
+        child: Icon(
+          video.status.icon,
+          color: video.status.color,
+        ));
+
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: icon,
+    );
+  }
 }

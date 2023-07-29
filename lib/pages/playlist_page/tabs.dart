@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/widgets.dart';
-import '../../model/Playlist/playlist.dart';
+import '../../model/playlist/playlist.dart';
 
 class ChangesTab extends StatelessWidget {
   const ChangesTab({super.key});
@@ -12,7 +12,7 @@ class ChangesTab extends StatelessWidget {
     return ListView(
       children: [
         Text(
-          'Status: ${playlist.status.name}',
+          'Status: ${playlist.status.displayName}',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: playlist.status.color,

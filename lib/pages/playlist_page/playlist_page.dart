@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/Playlist/playlist.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 

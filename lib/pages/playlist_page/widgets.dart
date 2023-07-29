@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
-import '../../model/video.dart';
+import '../../model/video/video.dart';
 
 ///Shows a list of videos as an ExpansionPanel
 ///
