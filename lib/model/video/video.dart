@@ -18,7 +18,7 @@ class Video {
     required this.title,
     required this.author,
     required this.thumbnailUrl,
-    this.status = VideoStatus.unChanged,
+    this.status = VideoStatus.hidden,
   });
 
   @override

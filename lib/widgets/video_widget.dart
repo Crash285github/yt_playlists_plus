@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/video/video_status.dart';
 import '../model/video/video.dart';
 
 ///Shows a single video with a configurable `onTap` function
@@ -86,6 +87,7 @@ extension _VideoWidgetExtension on VideoWidget {
       );
 
   status() {
+    if (video.status == VideoStatus.hidden) return const SizedBox.shrink();
     Widget icon = Tooltip(
         waitDuration: const Duration(seconds: 1),
         message: video.status.displayName,

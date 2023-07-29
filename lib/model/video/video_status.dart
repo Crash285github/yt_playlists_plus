@@ -4,10 +4,16 @@ enum VideoStatus {
   ///The video is both in the Persistence and fetch
   ///
   ///This is also the default state before checking
-  unChanged(
-    displayName: "Unchanged",
+  hidden(
+    displayName: null,
+    icon: null,
+    color: null,
+  ),
+
+  pending(
+    displayName: "Pending",
     icon: Icons.circle_outlined,
-    color: Colors.grey,
+    color: Colors.blue,
   ),
 
   ///The video is in the Persistence but not in fetch
@@ -30,7 +36,7 @@ enum VideoStatus {
     required this.color,
   });
 
-  final String displayName;
-  final Color color;
-  final IconData icon;
+  final String? displayName;
+  final Color? color;
+  final IconData? icon;
 }
