@@ -64,7 +64,10 @@ class PlaylistPage extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await playlist.fetchVideos().drain();
+                  playlist.check();
+                },
                 icon: const Icon(Icons.refresh_outlined),
               ),
               IconButton(
