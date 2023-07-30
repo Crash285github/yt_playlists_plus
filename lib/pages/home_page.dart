@@ -3,27 +3,21 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
 
     return Scaffold(
-      drawer: _drawer(),
-      floatingActionButton: _searchButton(),
+      drawer: _drawer(context),
+      floatingActionButton: _searchButton(context),
       body: _body(),
     );
   }
 
-  //#region Drawer
-  _drawer() => SafeArea(
+  _drawer(BuildContext context) => SafeArea(
         child: Drawer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               //About
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/about');
+                  Navigator.of(context).pushNamed("/about");
                 },
                 child: Container(
                   decoration: const BoxDecoration(
@@ -77,9 +71,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-  //#endregion
 
-  //#region Body
   _body() => CustomScrollView(
         slivers: [
           customSliverAppBar("HomePage"),
@@ -87,20 +79,22 @@ class _HomePageState extends State<HomePage> {
             delegate: SliverChildListDelegate(
               Persistence()
                   .playlists
-                  .map((e) => PlaylistWidget(playlist: e))
+                  .map(
+                    (e) => ListenableProvider.value(
+                      value: e,
+                      child: const PlaylistWidget(),
+                    ),
+                  )
                   .toList(),
             ),
           ),
         ],
       );
-  //#endregion
 
-  //#region SearchButton
-  _searchButton() => IconButton(
+  _searchButton(BuildContext context) => IconButton(
         icon: const Icon(Icons.search),
         iconSize: 30,
         tooltip: "Search",
         onPressed: () => Navigator.of(context).pushNamed('/search'),
       );
-  //#endregion
 }

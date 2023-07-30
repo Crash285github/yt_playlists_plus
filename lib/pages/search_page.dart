@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 import '../model/client.dart';
-import '../model/playlist.dart';
+import '../model/playlist/playlist.dart';
 import '../persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {
@@ -35,14 +35,19 @@ class _SearchPageState extends State<SearchPage> {
       _searchResults = [];
     });
 
-    await for (Playlist list in _client.searchPlaylists(
-        query: _searchQuery,
-        excludedWords: persistence.playlists.map((e) => e.id).toList())) {
-      if (!_rendered) return;
-      if (persistence.playlists.contains(list)) continue;
-      setState(() {
-        _searchResults.add(list);
-      });
+    if (_isYoutubePlaylistLink(query: _searchQuery)) {
+      Playlist? playlist = await _client.searchByLink(url: _searchQuery);
+      if (playlist != null) _searchResults.add(playlist);
+    } else {
+      await for (Playlist list in _client.searchByQuery(
+          query: _searchQuery,
+          excludedWords: persistence.playlists.map((e) => e.id).toList())) {
+        if (!_rendered) return;
+        if (persistence.playlists.contains(list)) continue;
+        setState(() {
+          _searchResults.add(list);
+        });
+      }
     }
 
     setState(() {
@@ -72,12 +77,15 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 ..._searchResults
                     .map(
-                      (e) => PlaylistWidget(
-                        playlist: e,
-                        onTap: () async {
-                          Persistence().addPlaylist(e);
-                          await Persistence().save();
-                        },
+                      (e) => ListenableProvider.value(
+                        value: e,
+                        child: PlaylistWidget(
+                          onTap: () async {
+                            Persistence().addPlaylist(e);
+                            await e.download();
+                            await Persistence().save();
+                          },
+                        ),
                       ),
                     )
                     .toList(),
@@ -137,4 +145,11 @@ class _SearchPageState extends State<SearchPage> {
         ],
       );
   //#endregion
+
+  bool _isYoutubePlaylistLink({required String query}) {
+    final youtubeLinkRegExp = RegExp(
+        r"^(https?:\/\/)?((www|m)\.)?youtu(.?)be\.com\/playlist\?list=.{34}$");
+
+    return youtubeLinkRegExp.hasMatch(query);
+  }
 }

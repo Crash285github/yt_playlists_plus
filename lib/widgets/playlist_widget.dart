@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import '../model/playlist/playlist_status.dart';
 
-class PlaylistWidget extends StatefulWidget {
-  final Playlist playlist;
-
+class PlaylistWidget extends StatelessWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
   ///
   ///If not set, it navigates to the Playlist's Page
@@ -11,17 +11,12 @@ class PlaylistWidget extends StatefulWidget {
 
   const PlaylistWidget({
     super.key,
-    required this.playlist,
     this.onTap,
   });
 
   @override
-  State<PlaylistWidget> createState() => _PlaylistWidgetState();
-}
-
-class _PlaylistWidgetState extends State<PlaylistWidget> {
-  @override
   Widget build(BuildContext context) {
+    Playlist playlist = Provider.of<Playlist>(context);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Ink(
@@ -31,11 +26,10 @@ class _PlaylistWidgetState extends State<PlaylistWidget> {
         ),
         child: InkWell(
           onTap: () {
-            if (widget.onTap == null) {
-              Navigator.pushNamed(context, '/playlist',
-                  arguments: widget.playlist);
+            if (onTap == null) {
+              Navigator.pushNamed(context, '/playlist', arguments: playlist);
             } else {
-              widget.onTap!();
+              onTap!();
             }
           },
           borderRadius: BorderRadius.circular(10),
@@ -44,56 +38,64 @@ class _PlaylistWidgetState extends State<PlaylistWidget> {
               Flexible(
                 child: Row(
                   children: [
-                    _thumbnail(),
-                    _details(),
+                    thumbnail(playlist.thumbnailUrl),
+                    details(playlist),
                   ],
                 ),
               ),
-              _status(),
+              status(playlist.status),
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  //#region Details
-  _details() => Flexible(
+extension _PlaylistWidgetExtension on PlaylistWidget {
+  ///Title and Author of Playlist
+  details(Playlist playlist) => Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.playlist.title,
+              playlist.title,
               style: const TextStyle(fontSize: 30),
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 10),
             Text(
-              widget.playlist.author,
+              playlist.author,
               style: const TextStyle(color: Colors.grey),
             ),
           ],
         ),
       );
-  //#endregion
 
-  //#region Status
-  _status() => const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Icon(
-              Icons.check,
-              color: Colors.green,
-            ),
-          ],
-        ),
-      );
-  //#endregion
+  ///The status Icon of the Playlist
+  status(PlaylistStatus status) {
+    Widget icon = Tooltip(
+      waitDuration: const Duration(seconds: 1),
+      message: status.displayName,
+      child: Icon(
+        status.icon,
+        color: status.color,
+      ),
+    );
 
-  //#region Thumbnail
-  _thumbnail() => Padding(
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          const SizedBox(height: 50),
+          icon,
+        ],
+      ),
+    );
+  }
+
+  ///The thumbnail of the Playlist
+  thumbnail(String thumbnailUrl) => Padding(
         padding: const EdgeInsets.only(right: 10.0),
         child: Container(
           height: 100,
@@ -102,12 +104,11 @@ class _PlaylistWidgetState extends State<PlaylistWidget> {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             image: DecorationImage(
               image: NetworkImage(
-                widget.playlist.thumbnailUrl,
+                thumbnailUrl,
               ),
               fit: BoxFit.cover,
             ),
           ),
         ),
       );
-  //#endregion
 }
