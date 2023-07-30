@@ -1,5 +1,6 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 
 class YoutubeClient {
@@ -22,7 +23,7 @@ class YoutubeClient {
   }
 
   ///Searches Youtube playlists with a given `query`
-  Stream<Playlist> searchPlaylists(
+  Stream<Playlist> searchByQuery(
       {required String query, List<String>? excludedWords}) async* {
     query += " ";
 
@@ -41,9 +42,33 @@ class YoutubeClient {
     }
   }
 
+  ///Returns a single Playlist from the given `url`
+  ///
+  ///Returns null if the url is invalid or the Playlist ID doesn't exist
+  Future<Playlist?> searchByLink({required String url}) async {
+    final String id = url.substring(url.length - 34, url.length);
+    Playlist playlist = await _getPlaylist(id).onError(
+      (error, stackTrace) {
+        return Playlist(id: "", title: "", author: "", thumbnailUrl: "");
+      },
+    );
+
+    //if the ID doesn't exist:
+    if (playlist.title.isEmpty || playlist.author.isEmpty) {
+      return null;
+    }
+
+    return playlist;
+  }
+
   Future<Playlist> _getPlaylist(String playlistId) async {
     var result = await _client.playlists.get(playlistId);
-    yt_explode.Video video = await _client.playlists.getVideos(result.id).first;
+    yt_explode.Video video =
+        await _client.playlists.getVideos(result.id).first.onError(
+      (error, stackTrace) {
+        throw PlaylistException("Invalid PlaylistId");
+      },
+    );
 
     String author = result.author;
     if (!result.author.startsWith("by")) author = "by ${result.author}";
