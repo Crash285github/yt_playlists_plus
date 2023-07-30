@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 
-class Video {
+class Video extends ChangeNotifier {
   String id, title, author, thumbnailUrl;
   VideoStatus status;
 
   ///What the Video should do when tapped on it's Widget
   ///
   ///The add/remove functions are assigned usually
-  bool Function()? function;
+  Function()? function;
 
   Video({
     required this.id,
@@ -16,6 +17,12 @@ class Video {
     required this.thumbnailUrl,
     this.status = VideoStatus.hidden,
   });
+
+  ///Changes status & alerts listeners
+  setStatus(VideoStatus newStatus) {
+    status = newStatus;
+    notifyListeners();
+  }
 
   @override
   String toString() {
@@ -34,7 +41,7 @@ class Video {
         title = json['title'],
         author = json['author'],
         thumbnailUrl = json['thumbnailUrl'],
-        status = VideoStatus.values.byName(json['status']);
+        status = VideoStatus.hidden;
 
   ///Converts a `Video` Object into a `json` Object
   Map<String, dynamic> toJson() => {
@@ -42,7 +49,6 @@ class Video {
         'title': title,
         'author': author,
         'thumbnailUrl': thumbnailUrl,
-        'status': status.name
       };
 
   factory Video.deepCopy(Video source) => Video(

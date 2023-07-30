@@ -10,6 +10,10 @@ enum VideoStatus {
     color: null,
   ),
 
+  ///The video is pending
+  ///
+  ///If it was `missing`, it'll be removed from the Playlist on save
+  ///If it was `added`, it'll be added to the Playlist on save
   pending(
     displayName: "Pending",
     icon: Icons.circle_outlined,

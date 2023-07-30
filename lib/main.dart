@@ -31,7 +31,10 @@ class MainApp extends StatelessWidget {
         if (settings.name == '/playlist') {
           final args = settings.arguments as Playlist;
           return MaterialPageRoute(
-              builder: (context) => PlaylistPage(playlist: args));
+              builder: (context) => ListenableProvider.value(
+                    value: args,
+                    child: const PlaylistPage(),
+                  ));
         }
         return null;
       },

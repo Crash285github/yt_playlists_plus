@@ -76,7 +76,7 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
   status(PlaylistStatus status) {
     Widget icon = Tooltip(
       waitDuration: const Duration(seconds: 1),
-      message: status.name,
+      message: status.displayName,
       child: Icon(
         status.icon,
         color: status.color,

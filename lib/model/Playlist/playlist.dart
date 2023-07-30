@@ -46,7 +46,15 @@ class Playlist extends ChangeNotifier {
 
     for (var video in missing) {
       video.status = VideoStatus.missing;
-      video.function = () => remove(video);
+      video.function = () {
+        if (video.status == VideoStatus.missing) {
+          video.setStatus(VideoStatus.pending);
+          videos.remove(video);
+        } else if (video.status == VideoStatus.pending) {
+          video.setStatus(VideoStatus.missing);
+          videos.add(video);
+        }
+      };
     }
 
     return missing;
@@ -61,7 +69,15 @@ class Playlist extends ChangeNotifier {
 
     for (var video in added) {
       video.status = VideoStatus.added;
-      video.function = () => add(video);
+      video.function = () {
+        if (video.status == VideoStatus.added) {
+          video.setStatus(VideoStatus.pending);
+          videos.add(video);
+        } else if (video.status == VideoStatus.pending) {
+          video.setStatus(VideoStatus.added);
+          videos.remove(video);
+        }
+      };
     }
 
     return added;

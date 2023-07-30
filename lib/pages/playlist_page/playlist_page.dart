@@ -5,19 +5,18 @@ import 'package:yt_playlists_plus/pages/playlist_page/tabs.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlaylistPage extends StatelessWidget {
-  final Playlist playlist;
-
-  const PlaylistPage({super.key, required this.playlist});
+  const PlaylistPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Playlist playlist = Provider.of<Playlist>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text(playlist.title),
           centerTitle: true,
-          actions: _appBarActions(context),
+          actions: _appBarActions(context, playlist),
           bottom: const TabBar(
             isScrollable: true,
             tabs: [
@@ -58,7 +57,8 @@ class PlaylistPage extends StatelessWidget {
           children: [
             ListenableProvider.value(
               value: playlist,
-              child: const ChangesTab(),
+              child: ChangesTab(
+                  added: playlist.getAdded(), missing: playlist.getMissing()),
             ),
             MoreTab(playlist: playlist),
             const HistoryTab(),
@@ -74,7 +74,7 @@ class PlaylistPage extends StatelessWidget {
     );
   }
 
-  _appBarActions(BuildContext context) => [
+  _appBarActions(BuildContext context, Playlist playlist) => [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(

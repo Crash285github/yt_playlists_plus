@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import '../model/video/video.dart';
 
 ///Shows a single video with a configurable `onTap` function
 class VideoWidget extends StatelessWidget {
-  final Video video;
-
-  ///The function that runs when you tap on the `VideoWidget`
-  ///
-  ///If null, the Widget does not ripple
-  final void Function()? onTap;
-
   const VideoWidget({
     super.key,
-    required this.video,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    Video video = Provider.of<Video>(context);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Ink(
@@ -26,19 +19,19 @@ class VideoWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
-          onTap: onTap,
+          onTap: video.function,
           borderRadius: BorderRadius.circular(10),
           child: Row(
             children: [
               Flexible(
                 child: Row(
                   children: [
-                    thumbnail(),
-                    details(),
+                    thumbnail(video.thumbnailUrl),
+                    details(video),
                   ],
                 ),
               ),
-              status(),
+              status(video.status),
             ],
           ),
         ),
@@ -48,7 +41,7 @@ class VideoWidget extends StatelessWidget {
 }
 
 extension _VideoWidgetExtension on VideoWidget {
-  details() => Flexible(
+  details(Video video) => Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -69,7 +62,7 @@ extension _VideoWidgetExtension on VideoWidget {
         ),
       );
 
-  thumbnail() => Padding(
+  thumbnail(String thumbnailUrl) => Padding(
         padding: const EdgeInsets.only(right: 10.0),
         child: Container(
           height: 50,
@@ -78,7 +71,7 @@ extension _VideoWidgetExtension on VideoWidget {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             image: DecorationImage(
               image: NetworkImage(
-                video.thumbnailUrl,
+                thumbnailUrl,
               ),
               fit: BoxFit.cover,
             ),
@@ -86,14 +79,14 @@ extension _VideoWidgetExtension on VideoWidget {
         ),
       );
 
-  status() {
-    if (video.status == VideoStatus.hidden) return const SizedBox.shrink();
+  status(VideoStatus status) {
+    if (status == VideoStatus.hidden) return const SizedBox.shrink();
     Widget icon = Tooltip(
         waitDuration: const Duration(seconds: 1),
-        message: video.status.displayName,
+        message: status.displayName,
         child: Icon(
-          video.status.icon,
-          color: video.status.color,
+          status.icon,
+          color: status.color,
         ));
 
     return Padding(

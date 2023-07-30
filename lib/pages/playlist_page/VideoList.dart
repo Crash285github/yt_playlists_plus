@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
 import '../../model/video/video.dart';
 
@@ -9,7 +10,11 @@ class VideoList extends StatefulWidget {
   final String title;
   final Set<Video> videos;
 
-  const VideoList({super.key, required this.title, required this.videos});
+  const VideoList({
+    super.key,
+    required this.title,
+    required this.videos,
+  });
 
   @override
   State<VideoList> createState() => _VideoListState();
@@ -67,9 +72,9 @@ class _VideoListState extends State<VideoList> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ...widget.videos
-                    .map((e) => VideoWidget(
-                          video: e,
-                          onTap: e.function,
+                    .map((e) => ListenableProvider.value(
+                          value: e,
+                          child: const VideoWidget(),
                         ))
                     .toList()
               ],
