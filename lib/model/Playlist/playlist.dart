@@ -100,6 +100,7 @@ class Playlist extends ChangeNotifier {
 
   ///Fetches the videos of the playlist and adds them to its `fetch` Set
   Stream<Video> fetchVideos() async* {
+    _fetch.clear();
     _setState(PlaylistStatus.fetching);
 
     YoutubeClient client = YoutubeClient();
