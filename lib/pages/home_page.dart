@@ -74,7 +74,19 @@ class HomePage extends StatelessWidget {
 
   _body() => CustomScrollView(
         slivers: [
-          customSliverAppBar("HomePage"),
+          customSliverAppBar(title: "HomePage", actions: [
+            IconButton(
+              padding: const EdgeInsets.all(15),
+              icon: const Icon(Icons.refresh),
+              onPressed: () async {
+                for (var playlist in Persistence().playlists) {
+                  await playlist.fetchVideos().drain();
+                  playlist.check();
+                }
+              },
+              tooltip: "Refresh all",
+            )
+          ]),
           SliverList(
             delegate: SliverChildListDelegate(
               Persistence()
