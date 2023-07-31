@@ -11,7 +11,7 @@ void main() {
     ],
     child: const MainApp(),
   ));
-  Persistence().load();
+  Persistence.load();
 }
 
 class MainApp extends StatelessWidget {

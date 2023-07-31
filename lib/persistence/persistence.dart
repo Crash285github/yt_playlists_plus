@@ -4,53 +4,54 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
+///
+///It implements the Singleton Design Pattern
 class Persistence with ChangeNotifier {
-  //Singleton
+  //Singleton Design Pattern
   static final Persistence _instance = Persistence._internal();
   Persistence._internal();
   factory Persistence() => _instance;
 
-  Set<Playlist> _playlists = {};
-
   ///The currently stored Playlists
   ///
-  ///Requires persistence.load() first
+  ///Requires Persistence.load() to get the data
   Set<Playlist> get playlists => _playlists;
+  static Set<Playlist> _playlists = {}; //private representation
 
   ///Adds a `Playlist` item to the Persistent storage, and alerts listeners
   ///
   ///Doesn't save on it's own
-  void addPlaylist(Playlist item) {
+  static void addPlaylist(Playlist item) {
     if (_playlists.contains(item)) {
       //playlist videos can be different, == only checks ids
       _playlists.remove(item);
     }
 
     _playlists.add(item);
-    notifyListeners();
+    _instance.notifyListeners();
   }
 
   ///Removes a `Playlist` item from the Persistent storage, and alerts listeners
   ///
   ///Doesn't save on it's own
-  void removePlaylist(Playlist item) {
+  static void removePlaylist(Playlist item) {
     _playlists.remove(item);
-    notifyListeners();
+    _instance.notifyListeners();
   }
 
   ///Loads the Persistent Storage, and alerts listeners when finished
-  Future<void> load() async {
+  static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
 
     _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toSet();
-    notifyListeners();
+    _instance.notifyListeners();
   }
 
   ///Saves current Persistent Storage state
-  Future<bool> save() async {
+  static Future<bool> save() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.setStringList(

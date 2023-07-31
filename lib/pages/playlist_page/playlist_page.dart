@@ -66,7 +66,7 @@ class PlaylistPage extends StatelessWidget {
         ),
         floatingActionButton: IconButton(
           icon: const Icon(Icons.save),
-          onPressed: () => Persistence().save(),
+          onPressed: () => Persistence.save(),
           iconSize: 30,
           tooltip: "Save",
         ),
@@ -95,8 +95,8 @@ class PlaylistPage extends StatelessWidget {
                 waitDuration: const Duration(seconds: 1),
                 child: IconButton(
                   onPressed: () {
-                    Persistence().removePlaylist(playlist);
-                    Persistence().save();
+                    Persistence.removePlaylist(playlist);
+                    Persistence.save();
                     Navigator.pop(context);
                   },
                   icon: const Icon(

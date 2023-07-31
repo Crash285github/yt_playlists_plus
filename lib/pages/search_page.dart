@@ -81,9 +81,9 @@ class _SearchPageState extends State<SearchPage> {
                         value: e,
                         child: PlaylistWidget(
                           onTap: () async {
-                            Persistence().addPlaylist(e);
+                            Persistence.addPlaylist(e);
                             await e.download();
-                            await Persistence().save();
+                            await Persistence.save();
                           },
                         ),
                       ),
