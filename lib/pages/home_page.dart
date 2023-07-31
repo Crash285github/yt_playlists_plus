@@ -3,8 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool _isDark = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +45,26 @@ class HomePage extends StatelessWidget {
                       fontSize: 30,
                     ),
                   ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text("Dark Mode:"),
+                        Switch(
+                          value: _isDark,
+                          onChanged: (value) {
+                            setState(() {
+                              _isDark = value;
+                            });
+                          },
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
               //About
