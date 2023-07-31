@@ -67,7 +67,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          customSliverAppBar("Search Playlists"),
+          customSliverAppBar(title: "Search Playlists"),
           SliverList(
             delegate: SliverChildListDelegate(
               [
