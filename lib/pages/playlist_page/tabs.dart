@@ -16,12 +16,15 @@ class ChangesTab extends StatelessWidget {
     Playlist playlist = Provider.of<Playlist>(context);
     return ListView(
       children: [
-        Text(
-          'Status: ${playlist.status.displayName}',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: playlist.status.color,
-            fontSize: 20,
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            'Status: ${playlist.status.displayName}',
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: playlist.status.color),
           ),
         ),
         playlist.status == PlaylistStatus.changed
