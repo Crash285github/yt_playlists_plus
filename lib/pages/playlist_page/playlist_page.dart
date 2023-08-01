@@ -16,7 +16,7 @@ class PlaylistPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(playlist.title),
           centerTitle: true,
-          actions: _appBarActions(context, playlist),
+          actions: [AppBarActions(playlist: playlist)],
           bottom: const TabBar(
             isScrollable: true,
             tabs: [
@@ -73,31 +73,50 @@ class PlaylistPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  _appBarActions(BuildContext context, Playlist playlist) => [
-        Row(
-          children: [
-            IconButton(
-              onPressed: () async {
-                await playlist.fetchVideos().drain();
-                playlist.check();
-              },
-              icon: const Icon(Icons.refresh_outlined),
-              tooltip: "Refresh",
-            ),
-            IconButton(
-              onPressed: () {
-                Persistence.removePlaylist(playlist);
-                Persistence.save();
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.delete_outline,
-                color: Colors.red,
-              ),
-              tooltip: "Delete",
-            ),
-          ],
+class AppBarActions extends StatefulWidget {
+  final Playlist playlist;
+  const AppBarActions({super.key, required this.playlist});
+
+  @override
+  State<AppBarActions> createState() => _AppBarActionsState();
+}
+
+class _AppBarActionsState extends State<AppBarActions> {
+  bool _isFetching = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          tooltip: "Refresh",
+          icon: const Icon(Icons.refresh_outlined),
+          onPressed: _isFetching
+              ? null
+              : () async {
+                  _isFetching = true;
+
+                  await widget.playlist.fetchVideos().drain();
+                  widget.playlist.check();
+
+                  _isFetching = false;
+                },
         ),
-      ];
+        IconButton(
+          onPressed: () {
+            Persistence.removePlaylist(widget.playlist);
+            Persistence.save();
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.delete_outline,
+            color: Colors.red,
+          ),
+          tooltip: "Delete",
+        ),
+      ],
+    );
+  }
 }
