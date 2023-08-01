@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yt_playlists_plus/persistence/theme.dart';
 import '../model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
@@ -43,6 +44,10 @@ class Persistence with ChangeNotifier {
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    //theme
+    ApplicationTheme.set(prefs.getInt('theme') ?? 0);
+
+    //playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
 
@@ -54,6 +59,10 @@ class Persistence with ChangeNotifier {
   static Future<bool> save() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    //theme
+    prefs.setInt('theme', ApplicationTheme.get());
+
+    //playlists
     return prefs.setStringList(
         'playlists', (_playlists.map((e) => jsonEncode(e))).toList());
   }

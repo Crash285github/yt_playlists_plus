@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/persistence/theme.dart';
 
 class HomePageDrawer extends StatelessWidget {
   const HomePageDrawer({super.key});
@@ -73,7 +76,7 @@ class DrawerSettings extends StatefulWidget {
 }
 
 class _DrawerSettingsState extends State<DrawerSettings> {
-  bool _isDarkModeOn = true;
+  bool _isDarkModeOn = ApplicationTheme.get() == ApplicationTheme.dark;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +89,10 @@ class _DrawerSettingsState extends State<DrawerSettings> {
               ? Icons.dark_mode_outlined
               : Icons.light_mode_outlined),
           onChanged: (value) {
+            _isDarkModeOn
+                ? ApplicationTheme.set(ApplicationTheme.light)
+                : ApplicationTheme.set(ApplicationTheme.dark);
+            Persistence.save();
             setState(() {
               _isDarkModeOn = value;
             });

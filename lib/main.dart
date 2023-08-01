@@ -3,11 +3,13 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/persistence/theme.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
+      ChangeNotifierProvider(create: (context) => ApplicationTheme()),
     ],
     child: const MainApp(),
   ));
@@ -19,6 +21,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ApplicationTheme>(context);
     return MaterialApp(
       initialRoute: '/',
       debugShowCheckedModeBanner: false,
@@ -38,7 +41,9 @@ class MainApp extends StatelessWidget {
         }
         return null;
       },
-      theme: ThemeData.dark(useMaterial3: true),
+      theme: ApplicationTheme.get() == ApplicationTheme.light
+          ? ThemeData.light(useMaterial3: true)
+          : ThemeData.dark(useMaterial3: true),
     );
   }
 }
