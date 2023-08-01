@@ -20,7 +20,6 @@ class _HomePageBodyState extends State<HomePageBody> {
       slivers: [
         customSliverAppBar(title: "HomePage", actions: [
           IconButton(
-            padding: const EdgeInsets.all(15),
             icon: const Icon(Icons.refresh),
             onPressed: () {
               for (var playlist in Persistence.playlists) {

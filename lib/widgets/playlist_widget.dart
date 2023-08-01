@@ -17,12 +17,13 @@ class PlaylistWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Playlist playlist = Provider.of<Playlist>(context);
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.black54,
+          color: Theme.of(context).cardColor,
         ),
         child: InkWell(
           onTap: () {
@@ -38,8 +39,11 @@ class PlaylistWidget extends StatelessWidget {
               Flexible(
                 child: Row(
                   children: [
-                    thumbnail(playlist.thumbnailUrl),
-                    details(playlist),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
+                      child: thumbnail(playlist.thumbnailUrl),
+                    ),
+                    details(context, playlist),
                   ],
                 ),
               ),
@@ -53,20 +57,24 @@ class PlaylistWidget extends StatelessWidget {
 }
 
 extension _PlaylistWidgetExtension on PlaylistWidget {
-  ///Title and Author of Playlist
-  details(Playlist playlist) => Flexible(
+  details(BuildContext context, Playlist playlist) => Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //title
             Text(
               playlist.title,
-              style: const TextStyle(fontSize: 30),
+              style: Theme.of(context).textTheme.titleLarge,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 10),
+            //author
             Text(
               playlist.author,
-              style: const TextStyle(color: Colors.grey),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(color: Colors.grey),
             ),
           ],
         ),
@@ -75,7 +83,6 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
   ///The status Icon of the Playlist
   status(PlaylistStatus status) {
     Widget icon = Tooltip(
-      waitDuration: const Duration(seconds: 1),
       message: status.displayName,
       child: Icon(
         status.icon,
@@ -95,19 +102,16 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
   }
 
   ///The thumbnail of the Playlist
-  thumbnail(String thumbnailUrl) => Padding(
-        padding: const EdgeInsets.only(right: 10.0),
-        child: Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            image: DecorationImage(
-              image: NetworkImage(
-                thumbnailUrl,
-              ),
-              fit: BoxFit.cover,
+  thumbnail(String thumbnailUrl) => Container(
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(7)),
+          image: DecorationImage(
+            image: NetworkImage(
+              thumbnailUrl,
             ),
+            fit: BoxFit.cover,
           ),
         ),
       );

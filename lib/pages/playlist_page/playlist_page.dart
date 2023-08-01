@@ -75,38 +75,29 @@ class PlaylistPage extends StatelessWidget {
   }
 
   _appBarActions(BuildContext context, Playlist playlist) => [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            children: [
-              Tooltip(
-                message: "Refresh",
-                waitDuration: const Duration(seconds: 1),
-                child: IconButton(
-                  onPressed: () async {
-                    await playlist.fetchVideos().drain();
-                    playlist.check();
-                  },
-                  icon: const Icon(Icons.refresh_outlined),
-                ),
+        Row(
+          children: [
+            IconButton(
+              onPressed: () async {
+                await playlist.fetchVideos().drain();
+                playlist.check();
+              },
+              icon: const Icon(Icons.refresh_outlined),
+              tooltip: "Refresh",
+            ),
+            IconButton(
+              onPressed: () {
+                Persistence.removePlaylist(playlist);
+                Persistence.save();
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.delete_outline,
+                color: Colors.red,
               ),
-              Tooltip(
-                message: "Delete",
-                waitDuration: const Duration(seconds: 1),
-                child: IconButton(
-                  onPressed: () {
-                    Persistence.removePlaylist(playlist);
-                    Persistence.save();
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.delete_outline,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ],
-          ),
+              tooltip: "Delete",
+            ),
+          ],
         ),
       ];
 }

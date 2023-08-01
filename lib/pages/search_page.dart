@@ -119,8 +119,8 @@ class _SearchPageState extends State<SearchPage> {
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: SizedBox(
-              width: 70,
-              height: 70,
+              width: 60,
+              height: 60,
               child: _isSearching
                   ? const Center(child: CircularProgressIndicator())
                   : Center(
@@ -132,9 +132,9 @@ class _SearchPageState extends State<SearchPage> {
                           });
                           await _search();
                         },
-                        icon: const Icon(Icons.send),
+                        icon: const Icon(Icons.search),
                         iconSize: 30,
-                        padding: const EdgeInsets.all(15),
+                        tooltip: "Search",
                       ),
                     ),
             ),

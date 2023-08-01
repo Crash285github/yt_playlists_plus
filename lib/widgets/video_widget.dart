@@ -27,7 +27,7 @@ class VideoWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     thumbnail(video.thumbnailUrl),
-                    details(video),
+                    details(context, video),
                   ],
                 ),
               ),
@@ -41,22 +41,24 @@ class VideoWidget extends StatelessWidget {
 }
 
 extension _VideoWidgetExtension on VideoWidget {
-  details(Video video) => Flexible(
+  details(BuildContext context, Video video) => Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Tooltip(
               message: video.title,
-              waitDuration: const Duration(seconds: 1),
               child: Text(
                 video.title,
-                style: const TextStyle(fontSize: 15),
+                style: Theme.of(context).textTheme.labelLarge,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             Text(
               video.author,
-              style: const TextStyle(color: Colors.grey),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium!
+                  .copyWith(color: Colors.grey),
             ),
           ],
         ),
@@ -82,7 +84,6 @@ extension _VideoWidgetExtension on VideoWidget {
   status(VideoStatus status) {
     if (status == VideoStatus.hidden) return const SizedBox.shrink();
     Widget icon = Tooltip(
-        waitDuration: const Duration(seconds: 1),
         message: status.displayName,
         child: Icon(
           status.icon,

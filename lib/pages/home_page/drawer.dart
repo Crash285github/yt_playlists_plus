@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 
@@ -15,49 +14,34 @@ class HomePageDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             //title
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.white, width: 2),
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Text(
-                  "Settings",
-                  style: TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Text(
+                "Settings",
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            const Expanded(
-              child: DrawerSettings(),
-            ),
+            const Divider(),
+            const Expanded(child: DrawerSettings()),
+            const Divider(height: 2),
             //About
             InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed("/about");
               },
-              child: Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.white, width: 2),
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "About",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Icon(Icons.info)
-                    ],
-                  ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "About",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const Icon(Icons.info)
+                  ],
                 ),
               ),
             )
@@ -92,10 +76,10 @@ class _DrawerSettingsState extends State<DrawerSettings> {
             _isDarkModeOn
                 ? ApplicationTheme.set(ApplicationTheme.light)
                 : ApplicationTheme.set(ApplicationTheme.dark);
-            Persistence.save();
             setState(() {
               _isDarkModeOn = value;
             });
+            Persistence.save();
           },
         ),
       ],

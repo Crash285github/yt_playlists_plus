@@ -23,3 +23,41 @@ class ApplicationTheme extends ChangeNotifier {
     _instance.notifyListeners();
   }
 }
+
+ThemeData get lightTheme => ThemeData(
+      useMaterial3: true,
+      colorScheme: const ColorScheme.light().copyWith(primary: Colors.red),
+      drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
+      cardColor: Colors.grey[200],
+      iconButtonTheme: const IconButtonThemeData(
+        style: ButtonStyle(
+          padding: _iconButtonPadding,
+        ),
+      ),
+      dividerColor: Colors.black,
+      switchTheme: const SwitchThemeData(
+        thumbColor: MaterialStatePropertyAll(Colors.black),
+      ),
+      tooltipTheme: _tooltipTheme,
+    );
+
+ThemeData get darkTheme => ThemeData(
+      useMaterial3: true,
+      colorScheme: const ColorScheme.dark().copyWith(primary: Colors.red),
+      drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
+      cardColor: Colors.black26,
+      iconButtonTheme: const IconButtonThemeData(
+        style: ButtonStyle(
+          padding: _iconButtonPadding,
+        ),
+      ),
+      switchTheme: const SwitchThemeData(
+        thumbColor: MaterialStatePropertyAll(Colors.white),
+      ),
+      tooltipTheme: _tooltipTheme,
+    );
+
+const _iconButtonPadding =
+    MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
+
+const _tooltipTheme = TooltipThemeData(waitDuration: Duration(seconds: 1));

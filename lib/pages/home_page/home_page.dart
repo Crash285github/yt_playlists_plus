@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer.dart';
-import 'package:yt_playlists_plus/pages/home_page/home_page_body.dart';
+import 'package:yt_playlists_plus/pages/home_page/body.dart';
 import 'package:yt_playlists_plus/pages/home_page/search_button.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 

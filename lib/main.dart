@@ -42,8 +42,8 @@ class MainApp extends StatelessWidget {
         return null;
       },
       theme: ApplicationTheme.get() == ApplicationTheme.light
-          ? ThemeData.light(useMaterial3: true)
-          : ThemeData.dark(useMaterial3: true),
+          ? lightTheme
+          : darkTheme,
     );
   }
 }

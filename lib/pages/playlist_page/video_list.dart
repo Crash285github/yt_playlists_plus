@@ -34,9 +34,8 @@ class _VideoListState extends State<VideoList> {
     if (widget.videos.isEmpty) return const Text("");
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.black54,
-      ),
+          borderRadius: BorderRadius.circular(10),
+          color: Theme.of(context).cardColor),
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       child: ExpansionPanelList(
@@ -52,9 +51,10 @@ class _VideoListState extends State<VideoList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Colors.white, width: 2),
+                        bottom: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 2),
                       ),
                     ),
                     child: Padding(
