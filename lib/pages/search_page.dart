@@ -27,9 +27,6 @@ class _SearchPageState extends State<SearchPage> {
   List<Playlist> _searchResults = [];
 
   Future<void> _search() async {
-    final Persistence persistence =
-        Provider.of<Persistence>(context, listen: false);
-
     setState(() {
       _isSearching = true;
       _searchResults = [];
@@ -41,9 +38,9 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       await for (Playlist list in _client.searchByQuery(
           query: _searchQuery,
-          excludedWords: persistence.playlists.map((e) => e.id).toList())) {
+          excludedWords: Persistence.playlists.map((e) => e.id).toList())) {
         if (!_rendered) return;
-        if (persistence.playlists.contains(list)) continue;
+        if (Persistence.playlists.contains(list)) continue;
         setState(() {
           _searchResults.add(list);
         });

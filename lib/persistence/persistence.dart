@@ -15,7 +15,7 @@ class Persistence with ChangeNotifier {
   ///The currently stored Playlists
   ///
   ///Requires Persistence.load() to get the data
-  Set<Playlist> get playlists => _playlists;
+  static Set<Playlist> get playlists => _playlists;
   static Set<Playlist> _playlists = {}; //private representation
 
   ///Adds a `Playlist` item to the Persistent storage, and alerts listeners
