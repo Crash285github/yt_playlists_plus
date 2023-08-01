@@ -23,6 +23,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<ApplicationTheme>(context);
     return MaterialApp(
+      title: "Youtube Playlists+",
       initialRoute: '/',
       debugShowCheckedModeBanner: false,
       routes: {

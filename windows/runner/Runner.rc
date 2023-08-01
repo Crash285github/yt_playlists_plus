@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "yt_playlists_plus" "\0"
+            VALUE "FileDescription", "Youtube Playlists+" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "yt_playlists_plus" "\0"
+            VALUE "InternalName", "Youtube Playlists+" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "yt_playlists_plus.exe" "\0"
-            VALUE "ProductName", "yt_playlists_plus" "\0"
+            VALUE "OriginalFilename", "youtube_playlists_plus.exe" "\0"
+            VALUE "ProductName", "Youtube Playlists+" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
