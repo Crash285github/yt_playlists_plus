@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
@@ -84,8 +85,6 @@ class AppBarActions extends StatefulWidget {
 }
 
 class _AppBarActionsState extends State<AppBarActions> {
-  bool _isFetching = false;
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -93,15 +92,11 @@ class _AppBarActionsState extends State<AppBarActions> {
         IconButton(
           tooltip: "Refresh",
           icon: const Icon(Icons.refresh_outlined),
-          onPressed: _isFetching
+          onPressed: widget.playlist.status == PlaylistStatus.fetching
               ? null
               : () async {
-                  _isFetching = true;
-
                   await widget.playlist.fetchVideos().drain();
                   widget.playlist.check();
-
-                  _isFetching = false;
                 },
         ),
         IconButton(
