@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
+import 'package:yt_playlists_plus/persistence/theme.dart';
 import '../model/video/video.dart';
 
 ///Shows a single video with a configurable `onTap` function
@@ -55,10 +56,11 @@ extension _VideoWidgetExtension on VideoWidget {
             ),
             Text(
               video.author,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelMedium!
-                  .copyWith(color: Colors.grey),
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: ApplicationTheme.get() == ApplicationTheme.light
+                        ? Colors.grey[700]
+                        : Colors.grey,
+                  ),
             ),
           ],
         ),

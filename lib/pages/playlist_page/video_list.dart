@@ -54,7 +54,8 @@ class _VideoListState extends State<VideoList> {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2),
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2),
                       ),
                     ),
                     child: Padding(

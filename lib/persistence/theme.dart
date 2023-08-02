@@ -34,7 +34,6 @@ ThemeData get lightTheme => ThemeData(
           padding: _iconButtonPadding,
         ),
       ),
-      dividerColor: Colors.black,
       switchTheme: const SwitchThemeData(
         thumbColor: MaterialStatePropertyAll(Colors.black),
       ),

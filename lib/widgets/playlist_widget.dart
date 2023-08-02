@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/persistence/theme.dart';
 import '../model/playlist/playlist_status.dart';
 
 class PlaylistWidget extends StatelessWidget {
@@ -71,10 +72,11 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
             //author
             Text(
               playlist.author,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .copyWith(color: Colors.grey),
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: ApplicationTheme.get() == ApplicationTheme.light
+                        ? Colors.grey[700]
+                        : Colors.grey,
+                  ),
             ),
           ],
         ),
