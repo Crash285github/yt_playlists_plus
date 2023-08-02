@@ -41,6 +41,7 @@ class ChangesTab extends StatelessWidget {
                 ],
               )
             : const Text(""),
+        const SizedBox(height: 100),
       ],
     );
   }
@@ -59,6 +60,7 @@ class MoreTab extends StatelessWidget {
           title: "All Videos:",
           videos: playlist.videos,
         ),
+        const SizedBox(height: 100),
       ],
     );
   }

@@ -20,37 +20,40 @@ class _HomePageBodyState extends State<HomePageBody> {
 
     return CustomScrollView(
       slivers: [
-        customSliverAppBar(title: "HomePage", actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _isFetchingAll
-                ? null
-                : () {
-                    setState(() {
-                      _isFetchingAll = true;
-                    });
+        customSliverAppBar(
+          title: "HomePage",
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: _isFetchingAll
+                  ? null
+                  : () {
+                      setState(() {
+                        _isFetchingAll = true;
+                      });
 
-                    Future.wait(
-                      Persistence.playlists.map(
-                        (playlist) {
-                          return playlist.status == PlaylistStatus.fetching
-                              ? Future(() => null)
-                              : playlist
-                                  .fetchVideos()
-                                  .drain()
-                                  .then((_) => playlist.check());
-                        },
-                      ).toList(),
-                    ).then((_) => setState(() {
-                          _isFetchingAll = false;
-                        }));
-                  },
-            tooltip: "Refresh all",
-          )
-        ]),
+                      Future.wait(
+                        Persistence.playlists.map(
+                          (playlist) {
+                            return playlist.status == PlaylistStatus.fetching
+                                ? Future(() => null)
+                                : playlist
+                                    .fetchVideos()
+                                    .drain()
+                                    .then((_) => playlist.check());
+                          },
+                        ).toList(),
+                      ).then((_) => setState(() {
+                            _isFetchingAll = false;
+                          }));
+                    },
+              tooltip: "Refresh all",
+            )
+          ],
+        ),
         SliverList(
-          delegate: SliverChildListDelegate(
-            Persistence.playlists
+          delegate: SliverChildListDelegate([
+            ...Persistence.playlists
                 .map(
                   (e) => ListenableProvider.value(
                     value: e,
@@ -58,7 +61,8 @@ class _HomePageBodyState extends State<HomePageBody> {
                   ),
                 )
                 .toList(),
-          ),
+            const SizedBox(height: 100)
+          ]),
         ),
       ],
     );
