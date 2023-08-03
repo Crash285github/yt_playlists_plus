@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/widgets/video_widget.dart';
-import '../../model/video/video.dart';
 
-///Shows a list of videos as an ExpansionPanel
-///
-///The [title] parameter shows in the header
-class VideoList extends StatefulWidget {
-  final String title;
-  final Set<Video> videos;
-
-  const VideoList({
+class PlannedList extends StatefulWidget {
+  final Set<String> planned;
+  const PlannedList({
     super.key,
-    required this.title,
-    required this.videos,
+    required this.planned,
   });
 
   @override
-  State<VideoList> createState() => _VideoListState();
+  State<PlannedList> createState() => _PlannedListState();
 }
 
-class _VideoListState extends State<VideoList> {
+class _PlannedListState extends State<PlannedList> {
   late final List<bool> _isExpanded;
 
   @override
@@ -31,11 +22,11 @@ class _VideoListState extends State<VideoList> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.videos.isEmpty) return const Text("");
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).cardColor),
+        borderRadius: BorderRadius.circular(10),
+        color: Theme.of(context).cardColor,
+      ),
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       child: ExpansionPanelList(
@@ -58,7 +49,7 @@ class _VideoListState extends State<VideoList> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
-                    widget.title,
+                    "Planned",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -67,12 +58,9 @@ class _VideoListState extends State<VideoList> {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ...widget.videos.map(
-                  (e) => ListenableProvider.value(
-                    value: e,
-                    child: const VideoWidget(),
-                  ),
-                )
+                ...widget.planned.map(
+                  (title) => Text(title),
+                ),
               ],
             ),
             isExpanded: _isExpanded[0],

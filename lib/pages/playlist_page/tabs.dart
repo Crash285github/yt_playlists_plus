@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/video_list.dart';
 import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
@@ -47,18 +48,32 @@ class ChangesTab extends StatelessWidget {
   }
 }
 
-class MoreTab extends StatelessWidget {
+class MoreTab extends StatefulWidget {
   final Playlist playlist;
   const MoreTab({super.key, required this.playlist});
 
   @override
+  State<MoreTab> createState() => _MoreTabState();
+}
+
+class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListView(
       children: [
-        Text(playlist.planned.length.toString()),
+        PlannedList(planned: widget.playlist.planned),
+        IconButton(
+          onPressed: () => widget.playlist.addTitleToPlanned(
+              "planned${widget.playlist.planned.length + 1}"),
+          icon: const Icon(Icons.add),
+        ),
         VideoList(
           title: "All Videos:",
-          videos: playlist.videos,
+          videos: widget.playlist.videos,
         ),
         const SizedBox(height: 100),
       ],
