@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
 enum PlaylistStatus {
+  ///Playlist hasn't been downloaded
+  ///
+  ///Should only appear on the Search Page
+  notDownloaded(
+    displayName: "Not Downloaded",
+    icon: Icons.file_download,
+    color: Colors.grey,
+  ),
+
   ///The Playlist data is currently downloading for the first time
   ///
   ///After the download finished, the state will change to `downloaded`
