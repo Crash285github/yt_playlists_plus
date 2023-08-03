@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
@@ -8,13 +9,21 @@ import 'package:yt_playlists_plus/model/video/video_status.dart';
 class Playlist extends ChangeNotifier {
   String id, title, author, thumbnailUrl;
 
-  Set<Video> videos = {};
+  //? local data
+  Set<Video> _videos = {};
+  Set<Video> get videos => _videos;
+
+  //? planned titles
+  Set<String> _planned = {};
+  Set<String> get planned => _planned;
+
+  //? data from youtube
   final Set<Video> _fetch = {};
 
   PlaylistStatus _status = PlaylistStatus.unChecked;
   PlaylistStatus get status => _status;
 
-  ///Sets the state and notifies listeners
+  /// Sets the state and notifies listeners
   _setStatus(PlaylistStatus newStatus) {
     _status = newStatus;
     notifyListeners();
@@ -27,21 +36,23 @@ class Playlist extends ChangeNotifier {
     required this.thumbnailUrl,
   });
 
-  ///Adds a video to the Set of videos
-  ///
-  ///returns `true` if successful
-  bool add(Video video) => videos.add(video);
+  //#region [videos], [fetch]
 
-  ///Removes a video from the Set of videos
+  ///Adds a video to the Set of [_videos]
   ///
   ///returns `true` if successful
-  bool remove(Video video) => videos.remove(video);
+  bool addToVideos(Video video) => _videos.add(video);
+
+  ///Removes a video from the Set of [_videos]
+  ///
+  ///returns `true` if successful
+  bool removeFromVideos(Video video) => _videos.remove(video);
 
   ///Returns the difference of the `local` videos and the `fetched` videos
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
-    Set<Video> clonedVideos = videos.map((e) => Video.deepCopy(e)).toSet();
+    Set<Video> clonedVideos = _videos.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> missing = clonedVideos.difference(_fetch);
 
     for (var video in missing) {
@@ -49,10 +60,10 @@ class Playlist extends ChangeNotifier {
       video.function = () {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
-          videos.remove(video);
+          _videos.remove(video);
         } else if (video.status == VideoStatus.pending) {
           video.setStatus(VideoStatus.missing);
-          videos.add(video);
+          _videos.add(video);
         }
       };
     }
@@ -65,17 +76,17 @@ class Playlist extends ChangeNotifier {
   ///Video's function is set to `add`
   Set<Video> getAdded() {
     Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
-    Set<Video> added = clonedFetch.difference(videos);
+    Set<Video> added = clonedFetch.difference(_videos);
 
     for (var video in added) {
       video.status = VideoStatus.added;
       video.function = () {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
-          videos.add(video);
+          _videos.add(video);
         } else if (video.status == VideoStatus.pending) {
           video.setStatus(VideoStatus.added);
-          videos.remove(video);
+          _videos.remove(video);
         }
       };
     }
@@ -118,18 +129,46 @@ class Playlist extends ChangeNotifier {
 
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
-      videos.add(video);
+      _videos.add(video);
     }
 
     _setStatus(PlaylistStatus.downloaded);
   }
 
+  //#endregion
+
+  //#region [planned]
+
+  ///Adds a `String` to the [_planned] Set
+  ///
+  ///Returns the success
+  bool addTitleToPlanned(String title) => _planned.add(title);
+
+  ///Removes a `String` from the [_planned] Set
+  ///
+  ///Returns the success
+  bool removeTitleFromPlanned(String title) => _planned.remove(title);
+
+  ///Adds a `Video`'s title to the [_planned] Set
+  ///
+  ///Returns the success
+  bool addVideoToPlanned(Video video) => _planned.add(video.title);
+
+  ///Removes a `Video`'s title from the [_planned] Set
+  ///
+  ///Returns the success
+  bool removeVideoFromPlanned(Video video) => _planned.remove(video.title);
+
+  //#endregion
+
+  //#region @overrides
+
   @override
   String toString() => "\nPlaylist(title: $title, author: $author)";
 
-  ///returns the `Set` of [videos] with the playlist
+  ///returns the `Set` of [_videos] with the playlist
   String toExtendedString() =>
-      "\nPlaylist(title: $title, author: $author, videos: [${videos.toString()}])";
+      "\nPlaylist(title: $title, author: $author, videos: [${_videos.toString()}])";
 
   @override
   bool operator ==(other) => other is Playlist && id == other.id;
@@ -137,13 +176,21 @@ class Playlist extends ChangeNotifier {
   @override
   int get hashCode => Object.hash(id, title);
 
+  //#endregion
+
+  //#region json
+
   ///Converts a `json` Object into a `Playlist` Object
   Playlist.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
         author = json['author'],
         thumbnailUrl = json['thumbnailUrl'],
-        videos = (json['videos'] as List).map((e) => Video.fromJson(e)).toSet();
+        _videos = (json['videos'] as List)
+            .map((video) => Video.fromJson(video))
+            .toSet(),
+        _planned = Set.from(
+            (jsonDecode(json['planned']) as List<dynamic>).cast<String>());
 
   ///Converts a `Playlist` Object into a `json` Object
   Map<String, dynamic> toJson() => {
@@ -151,6 +198,9 @@ class Playlist extends ChangeNotifier {
         'title': title,
         'author': author,
         'thumbnailUrl': thumbnailUrl,
-        'videos': videos.map((e) => e.toJson()).toList(),
+        'videos': _videos.map((video) => video.toJson()).toList(),
+        'planned': jsonEncode(_planned.toList()),
       };
+
+  //#endregion
 }

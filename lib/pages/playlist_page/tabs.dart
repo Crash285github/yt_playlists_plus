@@ -55,7 +55,7 @@ class MoreTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        const VideoList(title: "Planned Videos:", videos: {}),
+        Text(playlist.planned.length.toString()),
         VideoList(
           title: "All Videos:",
           videos: playlist.videos,
