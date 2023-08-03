@@ -44,6 +44,7 @@ class _VideoListState extends State<VideoList> {
         children: [
           ExpansionPanel(
             canTapOnHeader: true,
+            backgroundColor: Colors.transparent,
             headerBuilder: (context, isExpanded) {
               return Container(
                 alignment: Alignment.centerLeft,
