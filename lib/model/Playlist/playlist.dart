@@ -15,7 +15,7 @@ class Playlist extends ChangeNotifier {
   PlaylistStatus get status => _status;
 
   ///Sets the state and notifies listeners
-  _setStatus(PlaylistStatus newStatus) {
+  setStatus(PlaylistStatus newStatus) {
     _status = newStatus;
     notifyListeners();
   }
@@ -91,11 +91,11 @@ class Playlist extends ChangeNotifier {
     if (_status != PlaylistStatus.fetching) {
       throw PlaylistException("PlaylistState != fetching when starting check.");
     }
-    _setStatus(PlaylistStatus.checking);
+    setStatus(PlaylistStatus.checking);
 
     getAdded().isEmpty && getMissing().isEmpty
-        ? _setStatus(PlaylistStatus.unChanged)
-        : _setStatus(PlaylistStatus.changed);
+        ? setStatus(PlaylistStatus.unChanged)
+        : setStatus(PlaylistStatus.changed);
   }
 
   ///Fetches the videos of the playlist and adds them to its `fetch` Set
@@ -103,7 +103,7 @@ class Playlist extends ChangeNotifier {
     if (_status == PlaylistStatus.fetching) return;
 
     _fetch.clear();
-    _setStatus(PlaylistStatus.fetching);
+    setStatus(PlaylistStatus.fetching);
 
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
@@ -114,14 +114,15 @@ class Playlist extends ChangeNotifier {
 
   ///Fetches the videos of the playlist and adds them to its `videos` Set
   Future<void> download() async {
-    _setStatus(PlaylistStatus.downloading);
+    if (status != PlaylistStatus.notDownloaded) return;
+    setStatus(PlaylistStatus.downloading);
 
     YoutubeClient client = YoutubeClient();
     await for (Video video in client.getVideosFromPlaylist(id)) {
       videos.add(video);
     }
 
-    _setStatus(PlaylistStatus.downloaded);
+    setStatus(PlaylistStatus.downloaded);
   }
 
   @override
