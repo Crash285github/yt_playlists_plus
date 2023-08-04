@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/video_list.dart';
 import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
+import '../../model/video/video_history.dart';
 
 class ChangesTab extends StatefulWidget {
   final Set<Video> added;
@@ -89,12 +91,28 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
 }
 
 class HistoryTab extends StatelessWidget {
-  const HistoryTab({super.key});
+  final Set<VideoHistory> history;
+  const HistoryTab({super.key, required this.history});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("WIP"),
+    return Center(
+      child: ListView(
+        children: [
+          IconButton(
+              onPressed: () {
+                history.add(
+                  VideoHistory(
+                    id: history.length.toString(),
+                    title: history.length.toString(),
+                    status: VideoStatus.added,
+                  ),
+                );
+              },
+              icon: Icon(Icons.add)),
+          ...history.map((e) => Text("${e.title} | ${e.id} | ${e.status}")),
+        ],
+      ),
     );
   }
 }

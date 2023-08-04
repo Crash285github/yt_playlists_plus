@@ -103,6 +103,8 @@ class Playlist extends ChangeNotifier {
   ///Compares the playlist's persistent and fetched data,
   ///and changes the state accordingly
   ///
+  ///After check, [history] will be updated
+  ///
   ///Throws `PlaylistException` if the state isn't `fetching`
   void check() {
     if (_status != PlaylistStatus.fetching) {
@@ -113,6 +115,26 @@ class Playlist extends ChangeNotifier {
     getAdded().isEmpty && getMissing().isEmpty
         ? setStatus(PlaylistStatus.unChanged)
         : setStatus(PlaylistStatus.changed);
+
+    if (status == PlaylistStatus.changed) {
+      for (var video in getAdded()) {
+        _history.add(
+          VideoHistory.fromVideo(
+            video: video,
+            status: VideoStatus.added,
+          ),
+        );
+      }
+
+      for (var video in getMissing()) {
+        _history.add(
+          VideoHistory.fromVideo(
+            video: video,
+            status: VideoStatus.missing,
+          ),
+        );
+      }
+    }
   }
 
   ///Fetches the videos of the playlist and adds them to its `fetch` Set
