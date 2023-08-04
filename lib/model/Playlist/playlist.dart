@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 
 class Playlist extends ChangeNotifier {
@@ -13,16 +14,20 @@ class Playlist extends ChangeNotifier {
   Set<Video> _videos = {};
   Set<Video> get videos => _videos;
 
+  //? data from youtube
+  final Set<Video> _fetch = {};
+
   //? planned titles
   Set<String> _planned = {};
   Set<String> get planned => _planned;
 
-  //? data from youtube
-  final Set<Video> _fetch = {};
-
+  //? what the playlist's current state is
   PlaylistStatus _status = PlaylistStatus.unChecked;
   PlaylistStatus get status => _status;
 
+  //? previously deleted and added videos
+  Set<VideoHistory> _history = {};
+  Set<VideoHistory> get history => _history;
 
   ///Sets the state and notifies listeners
   setStatus(PlaylistStatus newStatus) {
@@ -57,7 +62,7 @@ class Playlist extends ChangeNotifier {
     Set<Video> missing = clonedVideos.difference(_fetch);
 
     for (var video in missing) {
-      video.status = VideoStatus.missing;
+      video.setStatus(VideoStatus.missing);
       video.function = () {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
@@ -80,7 +85,7 @@ class Playlist extends ChangeNotifier {
     Set<Video> added = clonedFetch.difference(_videos);
 
     for (var video in added) {
-      video.status = VideoStatus.added;
+      video.setStatus(VideoStatus.added);
       video.function = () {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
@@ -192,7 +197,10 @@ class Playlist extends ChangeNotifier {
             .map((video) => Video.fromJson(video))
             .toSet(),
         _planned = Set.from(
-            (jsonDecode(json['planned']) as List<dynamic>).cast<String>());
+            (jsonDecode(json['planned']) as List<dynamic>).cast<String>()),
+        _history = (json['history'] as List)
+            .map((videoHistory) => VideoHistory.fromJson(videoHistory))
+            .toSet();
 
   ///Converts a `Playlist` Object into a `json` Object
   Map<String, dynamic> toJson() => {
@@ -202,6 +210,8 @@ class Playlist extends ChangeNotifier {
         'thumbnailUrl': thumbnailUrl,
         'videos': _videos.map((video) => video.toJson()).toList(),
         'planned': jsonEncode(_planned.toList()),
+        'history':
+            _history.map((videoHistory) => videoHistory.toJson()).toList()
       };
 
   //#endregion
