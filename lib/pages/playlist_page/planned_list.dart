@@ -13,12 +13,12 @@ class PlannedList extends StatefulWidget {
 }
 
 class _PlannedListState extends State<PlannedList> {
-  late final List<bool> _isExpanded;
+  late bool _isExpanded;
   late TextEditingController _dialogController;
 
   @override
   void initState() {
-    _isExpanded = [false];
+    _isExpanded = false;
     _dialogController = TextEditingController();
     super.initState();
   }
@@ -105,112 +105,55 @@ class _PlannedListState extends State<PlannedList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).cardColor,
-      ),
-      padding: const EdgeInsets.all(10),
+    return Card(
       margin: const EdgeInsets.all(10),
-      child: ExpansionPanelList(
-        elevation: 0,
-        expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 0),
-        children: [
-          ExpansionPanel(
-            canTapOnHeader: true,
-            backgroundColor: Colors.transparent,
-            headerBuilder: (context, isExpanded) {
-              return Container(
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Planned (${widget.planned.length})",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      Row(
-                        children: [
-                          TextButton(
-                            onPressed: () => setState(() {
-                              widget.planned.clear();
-                            }),
-                            child: Row(children: [
-                              const Icon(
-                                Icons.clear,
-                                color: Colors.red,
-                              ),
-                              Text(
-                                "Clear",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: Colors.red),
-                              ),
-                            ]),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              final String title = await openDialog() ?? "";
-                              if (canSubmitPlanned(title)) {
-                                setState(() {
-                                  widget.planned.add(title);
-                                });
-                              }
-                            },
-                            child: Row(children: [
-                              const Icon(
-                                Icons.add,
-                                color: Colors.red,
-                              ),
-                              Text(
-                                "Add",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: Colors.red),
-                              ),
-                            ]),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ...widget.planned.map(
-                  (title) => PlannedWidget(
-                      title: title,
-                      onDeletePressed: () {
-                        setState(() {
-                          widget.planned.remove(title);
-                        });
-                      }),
-                ),
-              ],
-            ),
-            isExpanded: _isExpanded[0],
+      child: ExpansionTile(
+        title: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
           ),
-        ],
-        expansionCallback: (panelIndex, isExpanded) {
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: _isExpanded
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          child: Text("Planned (${widget.planned.length})",
+              style: Theme.of(context).textTheme.titleLarge),
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.add),
+          tooltip: "Add",
+          onPressed: () async {
+            final String? title = await openDialog();
+            if (title == null) return;
+            if (canSubmitPlanned(title)) {
+              setState(() {
+                widget.planned.add(title);
+              });
+            }
+          },
+        ),
+        onExpansionChanged: (value) {
           setState(() {
-            _isExpanded[panelIndex] = !isExpanded;
+            _isExpanded = value;
           });
         },
+        children: [
+          ...widget.planned.map((title) => PlannedWidget(
+                title: title,
+                onDeletePressed: () {
+                  setState(() {
+                    widget.planned.remove(title);
+                  });
+                },
+              )),
+        ],
       ),
     );
   }

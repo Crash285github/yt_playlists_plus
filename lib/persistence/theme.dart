@@ -24,6 +24,7 @@ class ApplicationTheme extends ChangeNotifier {
   }
 }
 
+//? LIGHT THEME
 ThemeData get lightTheme => ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.light().copyWith(primary: Colors.red),
@@ -38,8 +39,16 @@ ThemeData get lightTheme => ThemeData(
         thumbColor: MaterialStatePropertyAll(Colors.black),
       ),
       tooltipTheme: _tooltipTheme,
+      cardTheme: _cardTheme.copyWith(
+        color: Colors.grey[200],
+      ),
+      expansionTileTheme: _expansionTileTheme.copyWith(
+        iconColor: Colors.black,
+      ),
+      dialogTheme: _dialogTheme,
     );
 
+//? DARK THEME
 ThemeData get darkTheme => ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.dark().copyWith(primary: Colors.red),
@@ -54,9 +63,39 @@ ThemeData get darkTheme => ThemeData(
         thumbColor: MaterialStatePropertyAll(Colors.white),
       ),
       tooltipTheme: _tooltipTheme,
+      cardTheme: _cardTheme.copyWith(
+        color: Colors.black26,
+      ),
+      expansionTileTheme: _expansionTileTheme.copyWith(
+        iconColor: Colors.white,
+      ),
+      dialogTheme: _dialogTheme,
     );
 
+//#region CONSTANTS (theme)
 const _iconButtonPadding =
     MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
 
 const _tooltipTheme = TooltipThemeData(waitDuration: Duration(seconds: 1));
+
+const _cardTheme = CardTheme(
+  surfaceTintColor: Colors.transparent,
+  elevation: 0,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(10),
+    ),
+  ),
+  clipBehavior: Clip.antiAlias,
+);
+
+const _expansionTileTheme = ExpansionTileThemeData(
+  shape: Border(),
+  collapsedShape: Border(),
+  tilePadding: EdgeInsets.symmetric(horizontal: 10.0),
+);
+
+const _dialogTheme = DialogTheme(
+  surfaceTintColor: Colors.transparent,
+);
+//#endregion

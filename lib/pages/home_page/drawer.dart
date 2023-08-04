@@ -21,7 +21,7 @@ class HomePageDrawer extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            const Divider(),
+            const Divider(height: 2),
             const Expanded(child: DrawerSettings()),
             const Divider(height: 2),
             //About
