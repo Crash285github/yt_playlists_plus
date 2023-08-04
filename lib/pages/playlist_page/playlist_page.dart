@@ -18,20 +18,34 @@ class PlaylistPage extends StatelessWidget {
           title: Text(playlist.title),
           centerTitle: true,
           actions: [AppBarActions(playlist: playlist)],
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
             tabs: [
               Tab(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.change_circle_outlined),
-                    SizedBox(width: 10),
-                    Text("Changes"),
-                  ],
-                ),
+                child: Stack(clipBehavior: Clip.none, children: [
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.change_circle_outlined),
+                      SizedBox(width: 10),
+                      Text("Changes"),
+                    ],
+                  ),
+                  playlist.status != PlaylistStatus.unChanged &&
+                          playlist.status != PlaylistStatus.unChecked
+                      ? Positioned(
+                          left: 20,
+                          top: -5,
+                          child: Icon(
+                            playlist.status.icon,
+                            size: 15,
+                            color: playlist.status.color,
+                          ),
+                        )
+                      : const SizedBox.shrink()
+                ]),
               ),
-              Tab(
+              const Tab(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -41,7 +55,7 @@ class PlaylistPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Tab(
+              const Tab(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
