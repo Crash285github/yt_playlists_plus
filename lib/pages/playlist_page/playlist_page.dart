@@ -88,15 +88,10 @@ class PlaylistPage extends StatelessWidget {
   }
 }
 
-class AppBarActions extends StatefulWidget {
+class AppBarActions extends StatelessWidget {
   final Playlist playlist;
   const AppBarActions({super.key, required this.playlist});
 
-  @override
-  State<AppBarActions> createState() => _AppBarActionsState();
-}
-
-class _AppBarActionsState extends State<AppBarActions> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -104,16 +99,16 @@ class _AppBarActionsState extends State<AppBarActions> {
         IconButton(
           tooltip: "Refresh",
           icon: const Icon(Icons.refresh_outlined),
-          onPressed: widget.playlist.status == PlaylistStatus.fetching
+          onPressed: playlist.status == PlaylistStatus.fetching
               ? null
               : () async {
-                  await widget.playlist.fetchVideos().drain();
-                  widget.playlist.check();
+                  await playlist.fetchVideos().drain();
+                  playlist.check();
                 },
         ),
         IconButton(
           onPressed: () {
-            Persistence.removePlaylist(widget.playlist);
+            Persistence.removePlaylist(playlist);
             Persistence.save();
             Navigator.pop(context);
           },
