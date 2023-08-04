@@ -12,7 +12,7 @@ For this reason the app saves and compares a Playlist's older and recent states,
 - search Youtube Playlists with keywords ✔️
 - save the selected Playlist's states and compare them later ✔️
 - alert the user about any Playlist's changes ❌
-- store a Planned list for each Playlist ❌
+- store a Planned list for each Playlist ✔️
 - keep a history of a Playlist's states ❌
 - lock video places in Playlists ❌
 
