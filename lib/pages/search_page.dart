@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/widgets/widgets_export.dart';
 
 import '../model/client.dart';
@@ -36,13 +37,15 @@ class _SearchPageState extends State<SearchPage> {
       Playlist? playlist = await _client.searchByLink(url: _searchQuery);
       if (playlist != null) _searchResults.add(playlist);
     } else {
-      await for (Playlist list in _client.searchByQuery(
-          query: _searchQuery,
-          excludedWords: Persistence.playlists.map((e) => e.id).toList())) {
+      await for (Playlist playlist in _client.searchByQuery(
+        query: _searchQuery,
+        excludedWords: Persistence.playlists.map((e) => e.id).toList(),
+      )) {
         if (!_rendered) return;
-        if (Persistence.playlists.contains(list)) continue;
+        if (Persistence.playlists.contains(playlist)) continue;
+        playlist.setStatus(PlaylistStatus.notDownloaded);
         setState(() {
-          _searchResults.add(list);
+          _searchResults.add(playlist);
         });
       }
     }
