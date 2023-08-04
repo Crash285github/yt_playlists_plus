@@ -91,7 +91,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
 }
 
 class HistoryTab extends StatelessWidget {
-  final Set<VideoHistory> history;
+  final List<VideoHistory> history;
   const HistoryTab({super.key, required this.history});
 
   @override
@@ -99,18 +99,8 @@ class HistoryTab extends StatelessWidget {
     return Center(
       child: ListView(
         children: [
-          IconButton(
-              onPressed: () {
-                history.add(
-                  VideoHistory(
-                    id: history.length.toString(),
-                    title: history.length.toString(),
-                    status: VideoStatus.added,
-                  ),
-                );
-              },
-              icon: Icon(Icons.add)),
-          ...history.map((e) => Text("${e.title} | ${e.id} | ${e.status}")),
+          ...history.reversed
+              .map((e) => Text("${e.title} | ${e.id} | ${e.status}")),
         ],
       ),
     );

@@ -26,8 +26,8 @@ class Playlist extends ChangeNotifier {
   PlaylistStatus get status => _status;
 
   //? previously deleted and added videos
-  Set<VideoHistory> _history = {};
-  Set<VideoHistory> get history => _history;
+  List<VideoHistory> _history = [];
+  List<VideoHistory> get history => _history;
 
   ///Sets the state and notifies listeners
   setStatus(PlaylistStatus newStatus) {
@@ -118,21 +118,25 @@ class Playlist extends ChangeNotifier {
 
     if (status == PlaylistStatus.changed) {
       for (var video in getAdded()) {
-        _history.add(
-          VideoHistory.fromVideo(
-            video: video,
-            status: VideoStatus.added,
-          ),
+        VideoHistory videoHistory = VideoHistory.fromVideo(
+          video: video,
+          status: VideoStatus.added,
         );
+
+        if (_history.lastOrNull != videoHistory) {
+          _history.add(videoHistory);
+        }
       }
 
       for (var video in getMissing()) {
-        _history.add(
-          VideoHistory.fromVideo(
-            video: video,
-            status: VideoStatus.missing,
-          ),
+        var videoHistory = VideoHistory.fromVideo(
+          video: video,
+          status: VideoStatus.missing,
         );
+
+        if (_history.lastOrNull != videoHistory) {
+          _history.add(videoHistory);
+        }
       }
     }
   }
@@ -222,7 +226,7 @@ class Playlist extends ChangeNotifier {
             (jsonDecode(json['planned']) as List<dynamic>).cast<String>()),
         _history = (json['history'] as List)
             .map((videoHistory) => VideoHistory.fromJson(videoHistory))
-            .toSet();
+            .toList();
 
   ///Converts a `Playlist` Object into a `json` Object
   Map<String, dynamic> toJson() => {
