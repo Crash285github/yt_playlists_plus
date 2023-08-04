@@ -66,11 +66,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
     return ListView(
       children: [
         PlannedList(planned: widget.playlist.planned),
-        VideoList(
-          title: "All Videos:",
-          videos: widget.playlist.videos,
-        ),
-        const SizedBox(height: 100),
+        PlannedList(planned: widget.playlist.planned),
       ],
     );
   }
