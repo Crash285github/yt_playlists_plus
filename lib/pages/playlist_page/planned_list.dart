@@ -106,7 +106,7 @@ class _PlannedListState extends State<PlannedList> {
   @override
   Widget build(BuildContext context) {
     double expandedTileChildrenHeight =
-        MediaQuery.of(context).size.height - kToolbarHeight - 200;
+        MediaQuery.of(context).size.height - (kToolbarHeight * 6);
     if (expandedTileChildrenHeight < 0) expandedTileChildrenHeight = 0;
 
     return Card(

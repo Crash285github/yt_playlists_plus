@@ -34,7 +34,7 @@ class _VideoListState extends State<VideoList> {
   Widget build(BuildContext context) {
     Provider.of<Playlist>(context);
     double expandedTileChildrenHeight =
-        MediaQuery.of(context).size.height - kToolbarHeight - 200;
+        MediaQuery.of(context).size.height - (kToolbarHeight * 6);
     if (expandedTileChildrenHeight < 0) expandedTileChildrenHeight = 0;
     return Card(
       margin: const EdgeInsets.all(10),
