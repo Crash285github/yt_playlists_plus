@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
+import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
 
 ///Shows a list of videos as an ExpansionPanel
@@ -21,52 +22,51 @@ class VideoList extends StatefulWidget {
 }
 
 class _VideoListState extends State<VideoList> {
-  late final List<bool> _isExpanded;
+  late bool _isExpanded;
 
   @override
   void initState() {
-    _isExpanded = [false];
+    _isExpanded = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.videos.isEmpty) return const Text("");
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).cardColor),
-      padding: const EdgeInsets.all(10),
+    Provider.of<Playlist>(context);
+    double expandedTileChildrenHeight =
+        MediaQuery.of(context).size.height - kToolbarHeight - 200;
+    if (expandedTileChildrenHeight < 0) expandedTileChildrenHeight = 0;
+    return Card(
       margin: const EdgeInsets.all(10),
-      child: ExpansionPanelList(
-        elevation: 0,
-        expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 0),
+      child: ExpansionTile(
+        title: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: _isExpanded
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          child: Text(
+            "${widget.title} (${widget.videos.length})",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        onExpansionChanged: (value) => setState(() {
+          _isExpanded = value;
+        }),
         children: [
-          ExpansionPanel(
-            canTapOnHeader: true,
-            backgroundColor: Colors.transparent,
-            headerBuilder: (context, isExpanded) {
-              return Container(
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Text(
-                    widget.title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-              );
-            },
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: expandedTileChildrenHeight),
+            child: ListView(
+              shrinkWrap: true,
               children: [
                 ...widget.videos.map(
                   (e) => ListenableProvider.value(
@@ -76,14 +76,8 @@ class _VideoListState extends State<VideoList> {
                 )
               ],
             ),
-            isExpanded: _isExpanded[0],
           ),
         ],
-        expansionCallback: (panelIndex, isExpanded) {
-          setState(() {
-            _isExpanded[panelIndex] = !isExpanded;
-          });
-        },
       ),
     );
   }

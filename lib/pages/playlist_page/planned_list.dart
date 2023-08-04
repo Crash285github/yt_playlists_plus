@@ -15,7 +15,6 @@ class PlannedList extends StatefulWidget {
 class _PlannedListState extends State<PlannedList> {
   late bool _isExpanded;
   late TextEditingController _dialogController;
-  late double _expandedTileChildrenHeight;
 
   @override
   void initState() {
@@ -106,9 +105,9 @@ class _PlannedListState extends State<PlannedList> {
 
   @override
   Widget build(BuildContext context) {
-    _expandedTileChildrenHeight =
+    double expandedTileChildrenHeight =
         MediaQuery.of(context).size.height - kToolbarHeight - 200;
-    if (_expandedTileChildrenHeight < 0) _expandedTileChildrenHeight = 0;
+    if (expandedTileChildrenHeight < 0) expandedTileChildrenHeight = 0;
 
     return Card(
       margin: const EdgeInsets.all(10),
@@ -144,14 +143,12 @@ class _PlannedListState extends State<PlannedList> {
             }
           },
         ),
-        onExpansionChanged: (value) {
-          setState(() {
-            _isExpanded = value;
-          });
-        },
+        onExpansionChanged: (value) => setState(() {
+          _isExpanded = value;
+        }),
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: _expandedTileChildrenHeight),
+            constraints: BoxConstraints(maxHeight: expandedTileChildrenHeight),
             child: ListView(
               shrinkWrap: true,
               children: [

@@ -56,11 +56,8 @@ class PlaylistPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            ListenableProvider.value(
-              value: playlist,
-              child: ChangesTab(
-                  added: playlist.getAdded(), missing: playlist.getMissing()),
-            ),
+            ChangesTab(
+                added: playlist.getAdded(), missing: playlist.getMissing()),
             MoreTab(playlist: playlist),
             const HistoryTab(),
           ],
