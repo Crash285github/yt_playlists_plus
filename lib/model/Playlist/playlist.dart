@@ -138,6 +138,8 @@ class Playlist extends ChangeNotifier {
           _history.add(videoHistory);
         }
       }
+    } else if (status == PlaylistStatus.unChanged) {
+      _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
     }
   }
 

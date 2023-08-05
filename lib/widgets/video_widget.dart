@@ -8,7 +8,13 @@ import '../model/video/video.dart';
 class VideoWidget extends StatelessWidget {
   const VideoWidget({
     super.key,
+    required this.isInteractable,
   });
+
+  ///Whether the Widget can be tapped
+  ///
+  ///If false, the Status Icon doesn't show
+  final bool isInteractable;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class VideoWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
-          onTap: video.function,
+          onTap: isInteractable ? video.function : null,
           borderRadius: BorderRadius.circular(10),
           child: Row(
             children: [
@@ -32,7 +38,7 @@ class VideoWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              status(video.status),
+              isInteractable ? status(video.status) : const SizedBox.shrink(),
             ],
           ),
         ),
