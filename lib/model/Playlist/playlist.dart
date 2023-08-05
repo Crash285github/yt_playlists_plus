@@ -29,6 +29,11 @@ class Playlist extends ChangeNotifier {
   List<VideoHistory> _history = [];
   List<VideoHistory> get history => _history;
 
+  //? history since the last Unchanged State of the playlist
+  //? used for comparing recent histories, to not flood the
+  //? main histtory List with the same data
+  final Set<VideoHistory> _recentHistory = {};
+
   ///Sets the state and notifies listeners
   setStatus(PlaylistStatus newStatus) {
     _status = newStatus;
@@ -125,8 +130,10 @@ class Playlist extends ChangeNotifier {
           status: VideoStatus.added,
         );
 
-        if (_history.lastOrNull != videoHistory) {
+        if (_history.lastOrNull != videoHistory &&
+            !_recentHistory.contains(videoHistory)) {
           _history.add(videoHistory);
+          _recentHistory.add(videoHistory);
         }
       }
 
@@ -136,12 +143,15 @@ class Playlist extends ChangeNotifier {
           status: VideoStatus.missing,
         );
 
-        if (_history.lastOrNull != videoHistory) {
+        if (_history.lastOrNull != videoHistory &&
+            !_recentHistory.contains(videoHistory)) {
           _history.add(videoHistory);
+          _recentHistory.add(videoHistory);
         }
       }
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
+      _recentHistory.clear();
     }
   }
 
