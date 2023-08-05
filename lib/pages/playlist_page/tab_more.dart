@@ -25,6 +25,8 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
     return SlidingUpPanel(
       color: Colors.transparent,
       minHeight: 100,
+      parallaxEnabled: true,
+      parallaxOffset: 0.2,
       panelBuilder: (scrollController) {
         return PlannedList(planned: widget.playlist.planned);
       },
