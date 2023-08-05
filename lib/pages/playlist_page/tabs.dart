@@ -102,6 +102,7 @@ class HistoryTab extends StatelessWidget {
           ...history.reversed.map(
             (videoHistory) => HistoryWidget(videoHistory: videoHistory),
           ),
+          const SizedBox(height: 80),
         ],
       ),
     );
