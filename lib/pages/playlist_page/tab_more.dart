@@ -51,7 +51,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
                   isInteractable: false,
                 ));
           }),
-          const SizedBox(height: 80),
+          const SizedBox(height: 200),
         ],
       ),
     );
