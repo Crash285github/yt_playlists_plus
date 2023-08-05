@@ -98,6 +98,7 @@ const _cardTheme = CardTheme(
     ),
   ),
   clipBehavior: Clip.antiAlias,
+  margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
 );
 
 const _expansionTileTheme = ExpansionTileThemeData(

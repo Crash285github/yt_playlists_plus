@@ -44,7 +44,6 @@ class HistoryWidget extends ICardWidget {
 
     return Card(
       shape: borders,
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(

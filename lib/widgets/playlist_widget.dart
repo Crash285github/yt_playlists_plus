@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/widgets/i_card.dart';
 import '../model/playlist/playlist_status.dart';
 
-class PlaylistWidget extends StatelessWidget {
+class PlaylistWidget extends ICardWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
   ///
   ///If not set, it navigates to the Playlist's Page
@@ -12,6 +13,8 @@ class PlaylistWidget extends StatelessWidget {
 
   const PlaylistWidget({
     super.key,
+    super.firstOfList = false,
+    super.lastOfList = false,
     this.onTap,
   });
 
@@ -19,13 +22,34 @@ class PlaylistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Playlist playlist = Provider.of<Playlist>(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Ink(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).cardColor,
+    ShapeBorder borders;
+    if (firstOfList && lastOfList) {
+      borders = const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.0),
         ),
+      );
+    } else if (firstOfList) {
+      borders = const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
+      );
+    } else if (lastOfList) {
+      borders = const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0),
+        ),
+      );
+    } else {
+      borders = const Border();
+    }
+
+    return Card(
+      shape: borders,
+      child: Ink(
         child: InkWell(
           onTap: () {
             if (onTap == null) {
@@ -34,7 +58,6 @@ class PlaylistWidget extends StatelessWidget {
               onTap!();
             }
           },
-          borderRadius: BorderRadius.circular(10),
           child: Row(
             children: [
               Flexible(
@@ -96,7 +119,7 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: [
-          const SizedBox(height: 50),
+          const SizedBox(height: 40),
           icon,
         ],
       ),
@@ -105,8 +128,8 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
 
   ///The thumbnail of the Playlist
   thumbnail(String thumbnailUrl) => Container(
-        height: 100,
-        width: 100,
+        height: 85,
+        width: 85,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(7)),
           image: DecorationImage(

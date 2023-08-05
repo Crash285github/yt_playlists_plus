@@ -17,6 +17,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
+    int index = 0;
 
     return CustomScrollView(
       slivers: [
@@ -53,14 +54,18 @@ class _HomePageBodyState extends State<HomePageBody> {
         ),
         SliverList(
           delegate: SliverChildListDelegate([
-            ...Persistence.playlists
-                .map(
-                  (e) => ListenableProvider.value(
-                    value: e,
-                    child: const PlaylistWidget(),
+            ...Persistence.playlists.map(
+              (e) {
+                index++;
+                return ListenableProvider.value(
+                  value: e,
+                  child: PlaylistWidget(
+                    firstOfList: index == 1,
+                    lastOfList: index == Persistence.playlists.length,
                   ),
-                )
-                .toList(),
+                );
+              },
+            ).toList(),
             const SizedBox(height: 100)
           ]),
         ),

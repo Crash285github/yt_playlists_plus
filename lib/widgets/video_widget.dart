@@ -49,7 +49,6 @@ class VideoWidget extends ICardWidget {
 
     return Card(
       shape: borders,
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
       child: Ink(
         child: InkWell(
           onTap: isInteractable ? video.function : null,
