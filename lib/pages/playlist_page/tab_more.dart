@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
 
 class MoreTab extends StatefulWidget {
@@ -22,8 +23,10 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
     int index = 0;
 
     return SlidingUpPanel(
+      color: Colors.transparent,
+      minHeight: 100,
       panelBuilder: (scrollController) {
-        return Container();
+        return PlannedList(planned: widget.playlist.planned);
       },
       body: ListView(
         children: [

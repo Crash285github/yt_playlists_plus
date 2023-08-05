@@ -111,58 +111,52 @@ class _PlannedListState extends State<PlannedList> {
 
     return Card(
       margin: const EdgeInsets.all(10),
-      child: ExpansionTile(
-        title: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 5,
-          ),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: _isExpanded
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.grey,
-                width: 2,
-              ),
-            ),
-          ),
-          child: Text("Planned (${widget.planned.length})",
-              style: Theme.of(context).textTheme.titleLarge),
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.add),
-          tooltip: "Add",
-          onPressed: () async {
-            final String? title = await openDialog();
-            if (title == null) return;
-            if (canSubmitPlanned(title)) {
-              setState(() {
-                widget.planned.add(title);
-              });
-            }
-          },
-        ),
-        onExpansionChanged: (value) => setState(() {
-          _isExpanded = value;
-        }),
+      child: ListView(
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: expandedTileChildrenHeight),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                ...widget.planned.map((title) => PlannedWidget(
-                      title: title,
-                      onDeletePressed: () {
-                        setState(() {
-                          widget.planned.remove(title);
-                        });
-                      },
-                    )),
-              ],
-            ),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: _isExpanded
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                child: Text("Planned (${widget.planned.length})",
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
+              IconButton(
+                icon: const Icon(Icons.add),
+                tooltip: "Add",
+                onPressed: () async {
+                  final String? title = await openDialog();
+                  if (title == null) return;
+                  if (canSubmitPlanned(title)) {
+                    setState(() {
+                      widget.planned.add(title);
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
+          ...widget.planned.map((title) => PlannedWidget(
+                title: title,
+                onDeletePressed: () {
+                  setState(() {
+                    widget.planned.remove(title);
+                  });
+                },
+              )),
         ],
       ),
     );
