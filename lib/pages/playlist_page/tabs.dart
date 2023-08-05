@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/video_list.dart';
 import 'package:yt_playlists_plus/widgets/history_widget.dart';
+import 'package:yt_playlists_plus/widgets/video_widget.dart';
 import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
 import '../../model/video/video_history.dart';
@@ -15,35 +16,42 @@ class ChangesTab extends StatelessWidget {
   const ChangesTab({super.key, required this.added, required this.missing});
 
   @override
-  @override
   Widget build(BuildContext context) {
+    int index = 0;
+    Set<Video> changes = (added.toList() + missing.toList()).toSet();
+
     Playlist playlist = Provider.of<Playlist>(context);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(
-            'Status: ${playlist.status.displayName}',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: playlist.status.color),
-          ),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                'Status: ${playlist.status.displayName}',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: playlist.status.color),
+              ),
+            ),
+          ],
         ),
         playlist.status == PlaylistStatus.changed
             ? Expanded(
                 child: ListView(
                 children: [
-                  VideoList(
-                    title: "Added",
-                    videos: added,
-                    isInteractable: true,
-                  ),
-                  VideoList(
-                    title: "Missing",
-                    videos: missing,
-                    isInteractable: true,
+                  ...changes.map(
+                    (e) {
+                      index++;
+                      return ListenableProvider.value(
+                        value: e,
+                        child: VideoWidget(
+                          firstOfList: index == 1,
+                          lastOfList: index == changes.length,
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 80),
                 ],
@@ -94,6 +102,7 @@ class HistoryTab extends StatefulWidget {
 class _HistoryTabState extends State<HistoryTab> {
   @override
   Widget build(BuildContext context) {
+    int index = 0;
     return ListView(
       children: [
         Padding(
@@ -116,7 +125,7 @@ class _HistoryTabState extends State<HistoryTab> {
                             color: Colors.red,
                           ),
                     ),
-                    Icon(Icons.clear),
+                    const Icon(Icons.clear),
                   ],
                 ),
               )
@@ -124,12 +133,14 @@ class _HistoryTabState extends State<HistoryTab> {
           ),
         ),
         ...widget.history.reversed.map(
-          (videoHistory) => HistoryWidget(
-            videoHistory: videoHistory,
-            firstOfList:
-                widget.history.last == videoHistory, //?list is reversed
-            lastOfList: widget.history.first == videoHistory, //? -||-
-          ),
+          (videoHistory) {
+            index++;
+            return HistoryWidget(
+              videoHistory: videoHistory,
+              firstOfList: index == 1,
+              lastOfList: index == widget.history.length,
+            );
+          },
         ),
         const SizedBox(height: 80),
       ],

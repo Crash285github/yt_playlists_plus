@@ -2,21 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:yt_playlists_plus/widgets/i_card.dart';
 
-class HistoryWidget extends StatelessWidget {
+class HistoryWidget extends ICardWidget {
+  ///The data to display
   final VideoHistory videoHistory;
-
-  ///If true, the card will have rounded corners on the top half
-  final bool firstOfList;
-
-  ///If true, the card will have rounded corners on the bottom half
-  final bool lastOfList;
 
   const HistoryWidget({
     super.key,
+    super.firstOfList = false,
+    super.lastOfList = false,
     required this.videoHistory,
-    this.firstOfList = false,
-    this.lastOfList = false,
   });
 
   @override
