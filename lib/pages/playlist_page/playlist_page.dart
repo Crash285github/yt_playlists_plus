@@ -18,63 +18,16 @@ class PlaylistPage extends StatelessWidget {
           title: Text(playlist.title),
           centerTitle: true,
           actions: [AppBarActions(playlist: playlist)],
-          bottom: TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(
-                child: Stack(clipBehavior: Clip.none, children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.change_circle_outlined),
-                      SizedBox(width: 10),
-                      Text("Changes"),
-                    ],
-                  ),
-                  playlist.status != PlaylistStatus.unChanged &&
-                          playlist.status != PlaylistStatus.unChecked &&
-                          playlist.status != PlaylistStatus.downloaded
-                      ? Positioned(
-                          left: 20,
-                          top: -5,
-                          child: Icon(
-                            playlist.status.icon,
-                            size: 15,
-                            color: playlist.status.color,
-                          ),
-                        )
-                      : const SizedBox.shrink()
-                ]),
-              ),
-              const Tab(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.more_horiz),
-                    SizedBox(width: 10),
-                    Text("More"),
-                  ],
-                ),
-              ),
-              const Tab(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.history),
-                    SizedBox(width: 10),
-                    Text("History"),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          bottom: _playlistPageTabBar(playlist: playlist),
         ),
         body: TabBarView(
           children: [
             ChangesTab(
-                added: playlist.getAdded(), missing: playlist.getMissing()),
+              added: playlist.getAdded(),
+              missing: playlist.getMissing(),
+            ),
             MoreTab(playlist: playlist),
-            const HistoryTab(),
+            HistoryTab(history: playlist.history),
           ],
         ),
         floatingActionButton: IconButton(
@@ -88,15 +41,10 @@ class PlaylistPage extends StatelessWidget {
   }
 }
 
-class AppBarActions extends StatefulWidget {
+class AppBarActions extends StatelessWidget {
   final Playlist playlist;
   const AppBarActions({super.key, required this.playlist});
 
-  @override
-  State<AppBarActions> createState() => _AppBarActionsState();
-}
-
-class _AppBarActionsState extends State<AppBarActions> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -104,16 +52,16 @@ class _AppBarActionsState extends State<AppBarActions> {
         IconButton(
           tooltip: "Refresh",
           icon: const Icon(Icons.refresh_outlined),
-          onPressed: widget.playlist.status == PlaylistStatus.fetching
+          onPressed: playlist.status == PlaylistStatus.fetching
               ? null
               : () async {
-                  await widget.playlist.fetchVideos().drain();
-                  widget.playlist.check();
+                  await playlist.fetchVideos().drain();
+                  playlist.check();
                 },
         ),
         IconButton(
           onPressed: () {
-            Persistence.removePlaylist(widget.playlist);
+            Persistence.removePlaylist(playlist);
             Persistence.save();
             Navigator.pop(context);
           },
@@ -126,4 +74,57 @@ class _AppBarActionsState extends State<AppBarActions> {
       ],
     );
   }
+}
+
+TabBar _playlistPageTabBar({required Playlist playlist}) {
+  return TabBar(
+    isScrollable: true,
+    tabs: [
+      Tab(
+        child: Stack(clipBehavior: Clip.none, children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.change_circle_outlined),
+              SizedBox(width: 10),
+              Text("Changes"),
+            ],
+          ),
+          playlist.status != PlaylistStatus.unChanged &&
+                  playlist.status != PlaylistStatus.unChecked &&
+                  playlist.status != PlaylistStatus.downloaded
+              ? Positioned(
+                  left: 20,
+                  top: -5,
+                  child: Icon(
+                    playlist.status.icon,
+                    size: 15,
+                    color: playlist.status.color,
+                  ),
+                )
+              : const SizedBox.shrink()
+        ]),
+      ),
+      const Tab(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.more_horiz),
+            SizedBox(width: 10),
+            Text("More"),
+          ],
+        ),
+      ),
+      const Tab(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.history),
+            SizedBox(width: 10),
+            Text("History"),
+          ],
+        ),
+      ),
+    ],
+  );
 }

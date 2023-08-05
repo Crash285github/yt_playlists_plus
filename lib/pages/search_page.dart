@@ -35,7 +35,10 @@ class _SearchPageState extends State<SearchPage> {
 
     if (_isYoutubePlaylistLink(query: _searchQuery)) {
       Playlist? playlist = await _client.searchByLink(url: _searchQuery);
-      if (playlist != null) _searchResults.add(playlist);
+      if (playlist != null) {
+        playlist.setStatus(PlaylistStatus.notDownloaded);
+        _searchResults.add(playlist);
+      }
     } else {
       await for (Playlist playlist in _client.searchByQuery(
         query: _searchQuery,

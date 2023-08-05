@@ -3,7 +3,8 @@ import 'package:yt_playlists_plus/model/video/video_status.dart';
 
 class Video extends ChangeNotifier {
   String id, title, author, thumbnailUrl;
-  VideoStatus status;
+  VideoStatus _status = VideoStatus.hidden;
+  VideoStatus get status => _status;
 
   ///What the Video should do when tapped on it's Widget
   ///
@@ -15,12 +16,11 @@ class Video extends ChangeNotifier {
     required this.title,
     required this.author,
     required this.thumbnailUrl,
-    this.status = VideoStatus.hidden,
   });
 
   ///Changes status & alerts listeners
   setStatus(VideoStatus newStatus) {
-    status = newStatus;
+    _status = newStatus;
     notifyListeners();
   }
 
@@ -41,7 +41,7 @@ class Video extends ChangeNotifier {
         title = json['title'],
         author = json['author'],
         thumbnailUrl = json['thumbnailUrl'],
-        status = VideoStatus.hidden;
+        _status = VideoStatus.hidden;
 
   ///Converts a `Video` Object into a `json` Object
   Map<String, dynamic> toJson() => {

@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/video_list.dart';
+import 'package:yt_playlists_plus/widgets/history_widget.dart';
 import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
+import '../../model/video/video_history.dart';
 
 class ChangesTab extends StatefulWidget {
   final Set<Video> added;
@@ -89,12 +91,19 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
 }
 
 class HistoryTab extends StatelessWidget {
-  const HistoryTab({super.key});
+  final List<VideoHistory> history;
+  const HistoryTab({super.key, required this.history});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("WIP"),
+    return Center(
+      child: ListView(
+        children: [
+          ...history.reversed.map(
+            (videoHistory) => HistoryWidget(videoHistory: videoHistory),
+          ),
+        ],
+      ),
     );
   }
 }
