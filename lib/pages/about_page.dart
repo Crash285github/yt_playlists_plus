@@ -9,7 +9,7 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          customSliverAppBar(title: "About"),
+          const PresetSliverAppBar(title: Text("About")),
           SliverList(
             delegate: SliverChildListDelegate([
               const Placeholder(

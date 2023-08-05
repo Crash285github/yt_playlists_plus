@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import '../../persistence/persistence.dart';
-import '../../widgets/custom_sliver_app_bar.dart';
+import '../../widgets/preset_sliver_app_bar.dart';
 import '../../widgets/playlist_widget.dart';
 
 class HomePageBody extends StatefulWidget {
@@ -21,8 +21,8 @@ class _HomePageBodyState extends State<HomePageBody> {
 
     return CustomScrollView(
       slivers: [
-        customSliverAppBar(
-          title: "HomePage",
+        PresetSliverAppBar(
+          title: const Text("HomePage"),
           actions: [
             IconButton(
               icon: const Icon(Icons.refresh),
