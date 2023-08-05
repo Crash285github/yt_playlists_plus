@@ -131,18 +131,12 @@ class _HistoryTabState extends State<HistoryTab> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               TextButton(
-                onPressed: () => setState(() => widget.history.clear()),
-                child: Row(
+                onPressed: widget.history.isEmpty
+                    ? null
+                    : () => setState(() => widget.history.clear()),
+                child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Clear",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            color: Colors.red,
-                          ),
-                    ),
-                    const Icon(Icons.clear),
-                  ],
+                  children: [Text("Clear"), Icon(Icons.clear)],
                 ),
               )
             ],
