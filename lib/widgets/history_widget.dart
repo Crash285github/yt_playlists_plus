@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:yt_playlists_plus/persistence/theme_constants.dart';
 import 'package:yt_playlists_plus/widgets/i_card.dart';
 
 class HistoryWidget extends ICardWidget {
@@ -17,33 +18,8 @@ class HistoryWidget extends ICardWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShapeBorder borders;
-    if (firstOfList && lastOfList) {
-      borders = const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      );
-    } else if (firstOfList) {
-      borders = const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0),
-        ),
-      );
-    } else if (lastOfList) {
-      borders = const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10.0),
-          bottomRight: Radius.circular(10.0),
-        ),
-      );
-    } else {
-      borders = const Border();
-    }
-
     return Card(
-      shape: borders,
+      shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(

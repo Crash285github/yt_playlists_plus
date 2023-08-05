@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/persistence/theme_constants.dart';
 import 'package:yt_playlists_plus/widgets/i_card.dart';
 import '../model/playlist/playlist_status.dart';
 
@@ -22,33 +23,8 @@ class PlaylistWidget extends ICardWidget {
   Widget build(BuildContext context) {
     Playlist playlist = Provider.of<Playlist>(context);
 
-    ShapeBorder borders;
-    if (firstOfList && lastOfList) {
-      borders = const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      );
-    } else if (firstOfList) {
-      borders = const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0),
-        ),
-      );
-    } else if (lastOfList) {
-      borders = const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10.0),
-          bottomRight: Radius.circular(10.0),
-        ),
-      );
-    } else {
-      borders = const Border();
-    }
-
     return Card(
-      shape: borders,
+      shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
         child: InkWell(
           onTap: () {
@@ -65,7 +41,10 @@ class PlaylistWidget extends ICardWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
-                      child: thumbnail(playlist.thumbnailUrl),
+                      child: thumbnail(
+                          thumbnailUrl: playlist.thumbnailUrl,
+                          firstOfList: firstOfList,
+                          lastOfList: lastOfList),
                     ),
                     details(context, playlist),
                   ],
@@ -127,11 +106,36 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
   }
 
   ///The thumbnail of the Playlist
-  thumbnail(String thumbnailUrl) => Container(
+  thumbnail(
+          {required String thumbnailUrl,
+          bool firstOfList = false,
+          bool lastOfList = false}) =>
+      Container(
         height: 85,
         width: 85,
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(7)),
+          borderRadius: firstOfList && lastOfList
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(13),
+                  topRight: Radius.circular(4),
+                  bottomLeft: Radius.circular(13),
+                  bottomRight: Radius.circular(4),
+                )
+              : firstOfList
+                  ? const BorderRadius.only(
+                      topLeft: Radius.circular(13),
+                      topRight: Radius.circular(4),
+                      bottomLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    )
+                  : lastOfList
+                      ? const BorderRadius.only(
+                          topLeft: Radius.circular(4),
+                          topRight: Radius.circular(4),
+                          bottomLeft: Radius.circular(13),
+                          bottomRight: Radius.circular(4),
+                        )
+                      : const BorderRadius.all(Radius.circular(4)),
           image: DecorationImage(
             image: NetworkImage(
               thumbnailUrl,
