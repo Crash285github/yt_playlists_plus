@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/video_list.dart';
 import 'package:yt_playlists_plus/widgets/history_widget.dart';
+import 'package:yt_playlists_plus/widgets/planned_widget.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
 import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
@@ -93,14 +93,31 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    int index = 0;
+
     return ListView(
       children: [
-        PlannedList(planned: widget.playlist.planned),
-        VideoList(
-          title: "Videos",
-          videos: widget.playlist.videos,
-          isInteractable: false,
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              Text(
+                "Videos:",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ],
+          ),
         ),
+        ...widget.playlist.videos.map((e) {
+          index++;
+          return ListenableProvider.value(
+              value: e,
+              child: VideoWidget(
+                firstOfList: index == 1,
+                lastOfList: index == widget.playlist.videos.length,
+                isInteractable: false,
+              ));
+        }),
         const SizedBox(height: 80),
       ],
     );
