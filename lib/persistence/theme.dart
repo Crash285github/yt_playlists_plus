@@ -45,7 +45,7 @@ ThemeData get lightTheme => ThemeData(
       ),
       tooltipTheme: _tooltipTheme,
       cardTheme: _cardTheme.copyWith(
-        color: Colors.grey[200],
+        color: Colors.grey[300],
       ),
       expansionTileTheme: _expansionTileTheme.copyWith(
         iconColor: Colors.black,
@@ -75,7 +75,7 @@ ThemeData get darkTheme => ThemeData(
       ),
       tooltipTheme: _tooltipTheme,
       cardTheme: _cardTheme.copyWith(
-        color: Colors.black26,
+        color: Colors.grey[900],
       ),
       expansionTileTheme: _expansionTileTheme.copyWith(
         iconColor: Colors.white,
@@ -98,7 +98,7 @@ const _cardTheme = CardTheme(
     ),
   ),
   clipBehavior: Clip.antiAlias,
-  margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+  margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
 );
 
 const _expansionTileTheme = ExpansionTileThemeData(
