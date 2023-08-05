@@ -23,19 +23,34 @@ class ChangesTab extends StatelessWidget {
     Playlist playlist = Provider.of<Playlist>(context);
     return Column(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                'Status: ${playlist.status.displayName}',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: playlist.status.color),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  'Status: ${playlist.status.displayName}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: playlist.status.color),
+                ),
               ),
-            ),
-          ],
+              TextButton(
+                  onPressed: changes.isEmpty
+                      ? null
+                      : () {
+                          for (var video in changes) {
+                            video.function!();
+                          }
+                        },
+                  child: const Row(
+                    children: [Text("Confirm all"), Icon(Icons.clear_all)],
+                  ))
+            ],
+          ),
         ),
         playlist.status == PlaylistStatus.changed
             ? Expanded(
