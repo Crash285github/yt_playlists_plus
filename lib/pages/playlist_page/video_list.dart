@@ -11,10 +11,16 @@ class VideoList extends StatefulWidget {
   final String title;
   final Set<Video> videos;
 
+  ///Whether the Widget's videos can be tapped or not
+  ///
+  ///If false, the Status Icons also do not appear
+  final bool isInteractable;
+
   const VideoList({
     super.key,
     required this.title,
     required this.videos,
+    required this.isInteractable,
   });
 
   @override
@@ -71,7 +77,7 @@ class _VideoListState extends State<VideoList> {
                 ...widget.videos.map(
                   (e) => ListenableProvider.value(
                     value: e,
-                    child: const VideoWidget(),
+                    child: VideoWidget(isInteractable: widget.isInteractable),
                   ),
                 )
               ],

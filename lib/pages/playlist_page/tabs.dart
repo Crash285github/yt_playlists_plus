@@ -8,25 +8,15 @@ import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
 import '../../model/video/video_history.dart';
 
-class ChangesTab extends StatefulWidget {
+class ChangesTab extends StatelessWidget {
   final Set<Video> added;
   final Set<Video> missing;
 
   const ChangesTab({super.key, required this.added, required this.missing});
 
   @override
-  State<ChangesTab> createState() => _ChangesTabState();
-}
-
-class _ChangesTabState extends State<ChangesTab>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     Playlist playlist = Provider.of<Playlist>(context);
     return Column(
       children: [
@@ -47,11 +37,13 @@ class _ChangesTabState extends State<ChangesTab>
                 children: [
                   VideoList(
                     title: "Added",
-                    videos: widget.added,
+                    videos: added,
+                    isInteractable: true,
                   ),
                   VideoList(
                     title: "Missing",
-                    videos: widget.missing,
+                    videos: missing,
+                    isInteractable: true,
                   ),
                   const SizedBox(height: 80),
                 ],
@@ -83,6 +75,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
         VideoList(
           title: "Videos",
           videos: widget.playlist.videos,
+          isInteractable: false,
         ),
         const SizedBox(height: 80),
       ],
