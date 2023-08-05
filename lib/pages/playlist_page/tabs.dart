@@ -83,21 +83,56 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
   }
 }
 
-class HistoryTab extends StatelessWidget {
+class HistoryTab extends StatefulWidget {
   final List<VideoHistory> history;
   const HistoryTab({super.key, required this.history});
 
   @override
+  State<HistoryTab> createState() => _HistoryTabState();
+}
+
+class _HistoryTabState extends State<HistoryTab> {
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListView(
-        children: [
-          ...history.reversed.map(
-            (videoHistory) => HistoryWidget(videoHistory: videoHistory),
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "History",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              TextButton(
+                onPressed: () => setState(() => widget.history.clear()),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Clear",
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: Colors.red,
+                          ),
+                    ),
+                    Icon(Icons.clear),
+                  ],
+                ),
+              )
+            ],
           ),
-          const SizedBox(height: 80),
-        ],
-      ),
+        ),
+        ...widget.history.reversed.map(
+          (videoHistory) => HistoryWidget(
+            videoHistory: videoHistory,
+            firstOfList:
+                widget.history.last == videoHistory, //?list is reversed
+            lastOfList: widget.history.first == videoHistory, //? -||-
+          ),
+        ),
+        const SizedBox(height: 80),
+      ],
     );
   }
 }

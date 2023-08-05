@@ -32,7 +32,12 @@ ThemeData get lightTheme => ThemeData(
       cardColor: Colors.grey[200],
       iconButtonTheme: const IconButtonThemeData(
         style: ButtonStyle(
-          padding: _iconButtonPadding,
+          padding: _buttonPadding,
+        ),
+      ),
+      textButtonTheme: const TextButtonThemeData(
+        style: ButtonStyle(
+          padding: _buttonPadding,
         ),
       ),
       switchTheme: const SwitchThemeData(
@@ -56,7 +61,12 @@ ThemeData get darkTheme => ThemeData(
       cardColor: Colors.black26,
       iconButtonTheme: const IconButtonThemeData(
         style: ButtonStyle(
-          padding: _iconButtonPadding,
+          padding: _buttonPadding,
+        ),
+      ),
+      textButtonTheme: const TextButtonThemeData(
+        style: ButtonStyle(
+          padding: _buttonPadding,
         ),
       ),
       switchTheme: const SwitchThemeData(
@@ -73,8 +83,7 @@ ThemeData get darkTheme => ThemeData(
     );
 
 //#region CONSTANTS (theme)
-const _iconButtonPadding =
-    MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
+const _buttonPadding = MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
 
 const _tooltipTheme = TooltipThemeData(waitDuration: Duration(seconds: 1));
 
