@@ -18,7 +18,7 @@ class PlaylistPage extends StatelessWidget {
           title: Text(playlist.title),
           centerTitle: true,
           actions: [AppBarActions(playlist: playlist)],
-          bottom: _playlistPageTabBar(playlist: playlist),
+          bottom: _playlistPageTabBar(playlist: playlist, context: context),
         ),
         body: TabBarView(
           children: [
@@ -76,7 +76,8 @@ class AppBarActions extends StatelessWidget {
   }
 }
 
-TabBar _playlistPageTabBar({required Playlist playlist}) {
+TabBar _playlistPageTabBar(
+    {required Playlist playlist, required BuildContext context}) {
   return TabBar(
     isScrollable: true,
     tabs: [

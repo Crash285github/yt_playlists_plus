@@ -39,7 +39,8 @@ class ChangesTab extends StatelessWidget {
                 ),
               ),
               TextButton(
-                  onPressed: changes.isEmpty
+                  onPressed: changes.isEmpty ||
+                          playlist.status != PlaylistStatus.changed
                       ? null
                       : () {
                           for (var video in changes) {

@@ -51,6 +51,7 @@ ThemeData get lightTheme => ThemeData(
         iconColor: Colors.black,
       ),
       dialogTheme: _dialogTheme,
+      tabBarTheme: const TabBarTheme(dividerColor: Colors.black),
     );
 
 //? DARK THEME
@@ -80,6 +81,7 @@ ThemeData get darkTheme => ThemeData(
         iconColor: Colors.white,
       ),
       dialogTheme: _dialogTheme,
+      tabBarTheme: const TabBarTheme(dividerColor: Colors.white),
     );
 
 //#region CONSTANTS (theme)
@@ -107,4 +109,5 @@ const _expansionTileTheme = ExpansionTileThemeData(
 const _dialogTheme = DialogTheme(
   surfaceTintColor: Colors.transparent,
 );
+
 //#endregion
