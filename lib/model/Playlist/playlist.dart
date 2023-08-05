@@ -112,6 +112,8 @@ class Playlist extends ChangeNotifier {
     }
     setStatus(PlaylistStatus.checking);
 
+    thumbnailUrl = _fetch.first.thumbnailUrl;
+
     getAdded().isEmpty && getMissing().isEmpty
         ? setStatus(PlaylistStatus.unChanged)
         : setStatus(PlaylistStatus.changed);
@@ -140,7 +142,6 @@ class Playlist extends ChangeNotifier {
       }
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
-      thumbnailUrl = _fetch.first.thumbnailUrl;
     }
   }
 
