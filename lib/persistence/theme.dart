@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'theme_constants.dart' as constants;
 
 ///The theme of the Application
 ///
@@ -30,28 +31,19 @@ ThemeData get lightTheme => ThemeData(
       colorScheme: const ColorScheme.light().copyWith(primary: Colors.red),
       drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
       cardColor: Colors.grey[200],
-      iconButtonTheme: const IconButtonThemeData(
-        style: ButtonStyle(
-          padding: _buttonPadding,
-        ),
-      ),
-      textButtonTheme: const TextButtonThemeData(
-        style: ButtonStyle(
-          padding: _buttonPadding,
-        ),
-      ),
-      switchTheme: const SwitchThemeData(
-        thumbColor: MaterialStatePropertyAll(Colors.black),
-      ),
-      tooltipTheme: _tooltipTheme,
-      cardTheme: _cardTheme.copyWith(
-        color: Colors.grey[300],
-      ),
-      expansionTileTheme: _expansionTileTheme.copyWith(
-        iconColor: Colors.black,
-      ),
-      dialogTheme: _dialogTheme,
+      cardTheme: constants.cardTheme.copyWith(color: Colors.grey[300]),
+      dialogTheme: constants.dialogTheme,
+      tooltipTheme: constants.tooltipTheme,
+      appBarTheme: constants.appBarTheme,
       tabBarTheme: const TabBarTheme(dividerColor: Colors.black),
+      iconButtonTheme: const IconButtonThemeData(
+          style: ButtonStyle(padding: constants.buttonPadding)),
+      textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(padding: constants.buttonPadding)),
+      switchTheme: const SwitchThemeData(
+          thumbColor: MaterialStatePropertyAll(Colors.black)),
+      expansionTileTheme:
+          constants.expansionTileTheme.copyWith(iconColor: Colors.black),
     );
 
 //? DARK THEME
@@ -60,55 +52,17 @@ ThemeData get darkTheme => ThemeData(
       colorScheme: const ColorScheme.dark().copyWith(primary: Colors.red),
       drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
       cardColor: Colors.black26,
-      iconButtonTheme: const IconButtonThemeData(
-        style: ButtonStyle(
-          padding: _buttonPadding,
-        ),
-      ),
-      textButtonTheme: const TextButtonThemeData(
-        style: ButtonStyle(
-          padding: _buttonPadding,
-        ),
-      ),
-      switchTheme: const SwitchThemeData(
-        thumbColor: MaterialStatePropertyAll(Colors.white),
-      ),
-      tooltipTheme: _tooltipTheme,
-      cardTheme: _cardTheme.copyWith(
-        color: Colors.grey[900],
-      ),
-      expansionTileTheme: _expansionTileTheme.copyWith(
-        iconColor: Colors.white,
-      ),
-      dialogTheme: _dialogTheme,
+      cardTheme: constants.cardTheme.copyWith(color: Colors.grey[900]),
+      dialogTheme: constants.dialogTheme,
+      tooltipTheme: constants.tooltipTheme,
+      appBarTheme: constants.appBarTheme,
       tabBarTheme: const TabBarTheme(dividerColor: Colors.white),
+      iconButtonTheme: const IconButtonThemeData(
+          style: ButtonStyle(padding: constants.buttonPadding)),
+      textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(padding: constants.buttonPadding)),
+      switchTheme: const SwitchThemeData(
+          thumbColor: MaterialStatePropertyAll(Colors.white)),
+      expansionTileTheme:
+          constants.expansionTileTheme.copyWith(iconColor: Colors.white),
     );
-
-//#region CONSTANTS (theme)
-const _buttonPadding = MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
-
-const _tooltipTheme = TooltipThemeData(waitDuration: Duration(seconds: 1));
-
-const _cardTheme = CardTheme(
-  surfaceTintColor: Colors.transparent,
-  elevation: 0,
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(10),
-    ),
-  ),
-  clipBehavior: Clip.antiAlias,
-  margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-);
-
-const _expansionTileTheme = ExpansionTileThemeData(
-  shape: Border(),
-  collapsedShape: Border(),
-  tilePadding: EdgeInsets.symmetric(horizontal: 10.0),
-);
-
-const _dialogTheme = DialogTheme(
-  surfaceTintColor: Colors.transparent,
-);
-
-//#endregion
