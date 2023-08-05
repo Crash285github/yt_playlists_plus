@@ -140,6 +140,7 @@ class Playlist extends ChangeNotifier {
       }
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
+      thumbnailUrl = _fetch.first.thumbnailUrl;
     }
   }
 
