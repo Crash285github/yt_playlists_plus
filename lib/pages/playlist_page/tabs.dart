@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/video_list.dart';
+import 'package:yt_playlists_plus/widgets/history_widget.dart';
 import '../../model/playlist/playlist.dart';
 import '../../model/video/video.dart';
 import '../../model/video/video_history.dart';
@@ -99,8 +100,9 @@ class HistoryTab extends StatelessWidget {
     return Center(
       child: ListView(
         children: [
-          ...history.reversed
-              .map((e) => Text("${e.title} | ${e.id} | ${e.status}")),
+          ...history.reversed.map(
+            (videoHistory) => HistoryWidget(videoHistory: videoHistory),
+          ),
         ],
       ),
     );
