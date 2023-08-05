@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/persistence/theme_constants.dart';
-import 'package:yt_playlists_plus/widgets/i_card.dart';
+import 'package:yt_playlists_plus/widgets/icard.dart';
 import '../model/playlist/playlist_status.dart';
 
 class PlaylistWidget extends ICardWidget {

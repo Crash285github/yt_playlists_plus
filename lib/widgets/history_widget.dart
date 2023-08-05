@@ -3,7 +3,7 @@ import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:yt_playlists_plus/persistence/theme_constants.dart';
-import 'package:yt_playlists_plus/widgets/i_card.dart';
+import 'package:yt_playlists_plus/widgets/icard.dart';
 
 class HistoryWidget extends ICardWidget {
   ///The data to display

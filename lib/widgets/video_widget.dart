@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/persistence/theme_constants.dart%20';
-import 'package:yt_playlists_plus/widgets/i_card.dart';
+import 'package:yt_playlists_plus/widgets/icard.dart';
 import '../model/video/video.dart';
 
 ///Shows a single video with a configurable `onTap` function
