@@ -109,6 +109,10 @@ class _ChangeStatusText extends StatelessWidget {
       default:
         message = "";
     }
-    return Text(message);
+    return Text(message,
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(color: Colors.grey));
   }
 }
