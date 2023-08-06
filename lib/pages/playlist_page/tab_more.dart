@@ -42,30 +42,35 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
           controller: _controller,
         );
       },
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              "Videos: (${widget.playlist.videos.length})",
-              style: Theme.of(context).textTheme.titleLarge,
+      body: widget.playlist.videos.isEmpty
+          ? const Expanded(
+              child: Center(
+              child: Text("This playlist... is empty"),
+            ))
+          : ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "Videos: (${widget.playlist.videos.length})",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                const Divider(),
+                const SizedBox(height: 16),
+                ...widget.playlist.videos.map((e) {
+                  index++;
+                  return ListenableProvider.value(
+                      value: e,
+                      child: VideoWidget(
+                        firstOfList: index == 1,
+                        lastOfList: index == widget.playlist.videos.length,
+                        isInteractable: false,
+                      ));
+                }),
+                const BottomPadding(androidHeight: 230, windowsHeight: 200),
+              ],
             ),
-          ),
-          const Divider(),
-          const SizedBox(height: 16),
-          ...widget.playlist.videos.map((e) {
-            index++;
-            return ListenableProvider.value(
-                value: e,
-                child: VideoWidget(
-                  firstOfList: index == 1,
-                  lastOfList: index == widget.playlist.videos.length,
-                  isInteractable: false,
-                ));
-          }),
-          const BottomPadding(androidHeight: 230, windowsHeight: 200),
-        ],
-      ),
     );
   }
 }
