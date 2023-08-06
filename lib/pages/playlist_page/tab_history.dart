@@ -37,6 +37,8 @@ class _HistoryTabState extends State<HistoryTab> {
             ],
           ),
         ),
+        const Divider(),
+        const SizedBox(height: 16),
         ...widget.history.reversed.map(
           (videoHistory) {
             index++;

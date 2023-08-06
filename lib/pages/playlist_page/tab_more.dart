@@ -44,20 +44,15 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-            child: Row(
-              children: [
-                Text(
-                  "Videos: (${widget.playlist.videos.length})",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ],
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
+            child: Text(
+              "Videos: (${widget.playlist.videos.length})",
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
-          const Divider(
-            indent: 10,
-            endIndent: 10,
-          ),
+          const Divider(),
+          const SizedBox(height: 16),
           ...widget.playlist.videos.map((e) {
             index++;
             return ListenableProvider.value(

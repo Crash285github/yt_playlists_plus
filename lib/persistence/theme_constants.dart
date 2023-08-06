@@ -30,6 +30,12 @@ const appBarTheme = AppBarTheme(
 const floatingActionButtonTheme =
     FloatingActionButtonThemeData(backgroundColor: Colors.red);
 
+const dividerTheme = DividerThemeData(
+  indent: 10,
+  endIndent: 10,
+  space: 2,
+);
+
 ShapeBorder cardBorder({required bool firstOfList, required bool lastOfList}) {
   double strongCorner = 15.0;
   double weakCorner = 4.0;
