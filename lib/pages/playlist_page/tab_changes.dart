@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
 
 class ChangesTab extends StatelessWidget {
@@ -40,11 +41,13 @@ class ChangesTab extends StatelessWidget {
                       ? null
                       : () {
                           for (var video in changes) {
-                            video.function!();
+                            if (video.status != VideoStatus.pending) {
+                              video.function!();
+                            }
                           }
                         },
                   child: const Row(
-                    children: [Text("Confirm all"), Icon(Icons.clear_all)],
+                    children: [Text("Pend all"), Icon(Icons.clear_all)],
                   ))
             ],
           ),
