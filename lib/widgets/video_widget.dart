@@ -78,9 +78,7 @@ extension _VideoWidgetExtension on VideoWidget {
 
   thumbnail(String thumbnailUrl) => SizedBox(
         height: 70,
-        width: 70,
         child: Image.network(
-          colorBlendMode: BlendMode.difference,
           thumbnailUrl,
           fit: BoxFit.cover,
         ),
