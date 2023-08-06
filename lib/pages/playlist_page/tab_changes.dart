@@ -26,12 +26,20 @@ class ChangesTab extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Status: ${playlist.status.displayName}',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: playlist.status.color),
+              Card(
+                elevation: 3,
+                shadowColor: Colors.transparent,
+                color: Theme.of(context).cardColor,
+                surfaceTintColor: playlist.status.color,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    'Status: ${playlist.status.displayName}',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: playlist.status.color,
+                        ),
+                  ),
+                ),
               ),
               TextButton(
                   onPressed: changes.isEmpty ||
