@@ -18,17 +18,28 @@ class PlaylistPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text(playlist.title),
           centerTitle: true,
           actions: [AppBarActions(playlist: playlist)],
           bottom: _playlistPageTabBar(playlist: playlist, context: context),
-          flexibleSpace: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 90),
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Opacity(
-                opacity: 0.1,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Stack(children: [
+          ShaderMask(
+            shaderCallback: (rect) {
+              return const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.black, Colors.transparent],
+              ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+            },
+            blendMode: BlendMode.dstIn,
+            child: Opacity(
+              opacity: 0.9,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
                 child: Image.network(
                   playlist.thumbnailUrl,
                   fit: BoxFit.cover,
@@ -36,17 +47,22 @@ class PlaylistPage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        body: TabBarView(
-          children: [
-            ChangesTab(
-              added: playlist.getAdded(),
-              missing: playlist.getMissing(),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+            child: SafeArea(
+              child: TabBarView(
+                children: [
+                  ChangesTab(
+                    added: playlist.getAdded(),
+                    missing: playlist.getMissing(),
+                  ),
+                  MoreTab(playlist: playlist),
+                  HistoryTab(history: playlist.history),
+                ],
+              ),
             ),
-            MoreTab(playlist: playlist),
-            HistoryTab(history: playlist.history),
-          ],
-        ),
+          ),
+        ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Persistence.save();

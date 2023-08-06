@@ -35,7 +35,7 @@ ThemeData get lightTheme => ThemeData(
       dialogTheme: constants.dialogTheme,
       tooltipTheme: constants.tooltipTheme,
       appBarTheme: constants.appBarTheme,
-      tabBarTheme: TabBarTheme(dividerColor: Colors.grey[300]),
+      tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(padding: constants.buttonPadding)),
       textButtonTheme: const TextButtonThemeData(
@@ -58,7 +58,7 @@ ThemeData get darkTheme => ThemeData(
       dialogTheme: constants.dialogTheme,
       tooltipTheme: constants.tooltipTheme,
       appBarTheme: constants.appBarTheme,
-      tabBarTheme: TabBarTheme(dividerColor: Colors.grey[900]),
+      tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
         padding: constants.buttonPadding,
