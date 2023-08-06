@@ -59,12 +59,15 @@ ThemeData get darkTheme => ThemeData(
       appBarTheme: constants.appBarTheme,
       tabBarTheme: TabBarTheme(dividerColor: Colors.grey[900]),
       iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(padding: constants.buttonPadding)),
+          style: ButtonStyle(
+        padding: constants.buttonPadding,
+      )),
       textButtonTheme: const TextButtonThemeData(
           style: ButtonStyle(padding: constants.buttonPadding)),
       switchTheme: const SwitchThemeData(
           thumbColor: MaterialStatePropertyAll(Colors.white)),
       expansionTileTheme:
           constants.expansionTileTheme.copyWith(iconColor: Colors.white),
-      floatingActionButtonTheme: constants.floatingActionButtonTheme,
+      floatingActionButtonTheme: constants.floatingActionButtonTheme
+          .copyWith(foregroundColor: const Color(0xff121212)),
     );
