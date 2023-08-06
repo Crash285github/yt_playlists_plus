@@ -34,7 +34,14 @@ class VideoWidget extends ICardWidget {
               Flexible(
                 child: Row(
                   children: [
-                    thumbnail(video.thumbnailUrl),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(3, 3, 0, 3),
+                      child: thumbnail(
+                        thumbnailUrl: video.thumbnailUrl,
+                        firstOfList: firstOfList,
+                        lastOfList: lastOfList,
+                      ),
+                    ),
                     details(context, video),
                   ],
                 ),
@@ -76,11 +83,42 @@ extension _VideoWidgetExtension on VideoWidget {
         ),
       );
 
-  thumbnail(String thumbnailUrl) => SizedBox(
+  thumbnail(
+          {required String thumbnailUrl,
+          bool firstOfList = false,
+          bool lastOfList = false}) =>
+      Container(
         height: 70,
-        child: Image.network(
-          thumbnailUrl,
-          fit: BoxFit.cover,
+        width: 70,
+        decoration: BoxDecoration(
+          borderRadius: firstOfList && lastOfList
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(13),
+                  topRight: Radius.circular(4),
+                  bottomLeft: Radius.circular(13),
+                  bottomRight: Radius.circular(4),
+                )
+              : firstOfList
+                  ? const BorderRadius.only(
+                      topLeft: Radius.circular(13),
+                      topRight: Radius.circular(4),
+                      bottomLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    )
+                  : lastOfList
+                      ? const BorderRadius.only(
+                          topLeft: Radius.circular(4),
+                          topRight: Radius.circular(4),
+                          bottomLeft: Radius.circular(13),
+                          bottomRight: Radius.circular(4),
+                        )
+                      : const BorderRadius.all(Radius.circular(4)),
+          image: DecorationImage(
+            image: NetworkImage(
+              thumbnailUrl,
+            ),
+            fit: BoxFit.cover,
+          ),
         ),
       );
 
