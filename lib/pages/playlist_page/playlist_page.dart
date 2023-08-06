@@ -37,7 +37,7 @@ class PlaylistPage extends StatelessWidget {
             },
             blendMode: BlendMode.dstIn,
             child: Opacity(
-              opacity: 0.9,
+              opacity: 0.7,
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Image.network(

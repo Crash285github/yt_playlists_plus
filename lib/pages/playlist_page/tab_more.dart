@@ -63,7 +63,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
                   isInteractable: false,
                 ));
           }),
-          const BottomPadding(androidHeight: 230),
+          const BottomPadding(androidHeight: 230, windowsHeight: 200),
         ],
       ),
     );
