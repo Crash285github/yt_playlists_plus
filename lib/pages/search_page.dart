@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/widgets/widgets_export.dart';
-
-import '../model/client.dart';
-import '../model/playlist/playlist.dart';
-import '../persistence/persistence.dart';
+import 'package:yt_playlists_plus/widgets/playlist_widget.dart';
+import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
+import 'package:yt_playlists_plus/model/client.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

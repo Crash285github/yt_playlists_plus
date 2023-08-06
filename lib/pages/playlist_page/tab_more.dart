@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/planned_list.dart';
+import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
 
 class MoreTab extends StatefulWidget {
@@ -62,7 +63,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
                   isInteractable: false,
                 ));
           }),
-          const SizedBox(height: 200),
+          const BottomPadding(androidHeight: 240),
         ],
       ),
     );

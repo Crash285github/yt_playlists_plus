@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
+import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/widgets/video_widget.dart';
 
 class ChangesTab extends StatelessWidget {
@@ -67,7 +68,7 @@ class ChangesTab extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(height: 80),
+                  const BottomPadding(),
                 ],
               ))
             : const SizedBox.shrink()

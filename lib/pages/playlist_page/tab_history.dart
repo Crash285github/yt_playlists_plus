@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/widgets/history_widget.dart';
 import '../../model/video/video_history.dart';
 
@@ -49,7 +50,7 @@ class _HistoryTabState extends State<HistoryTab> {
             );
           },
         ),
-        const SizedBox(height: 80),
+        const BottomPadding(),
       ],
     );
   }

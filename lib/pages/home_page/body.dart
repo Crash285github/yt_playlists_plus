@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import '../../persistence/persistence.dart';
 import '../../widgets/preset_sliver_app_bar.dart';
 import '../../widgets/playlist_widget.dart';
@@ -66,7 +67,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                 );
               },
             ).toList(),
-            const SizedBox(height: 100)
+            const BottomPadding()
           ]),
         ),
       ],
