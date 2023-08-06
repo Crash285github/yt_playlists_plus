@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
-import '../../persistence/persistence.dart';
-import '../../widgets/preset_sliver_app_bar.dart';
-import '../../widgets/playlist_widget.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
+import 'package:yt_playlists_plus/widgets/playlist_widget.dart';
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({super.key});
@@ -15,6 +15,7 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
   bool _isFetchingAll = false;
+  int _fetchCount = 0;
   @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
@@ -25,13 +26,14 @@ class _HomePageBodyState extends State<HomePageBody> {
         PresetSliverAppBar(
           title: const Text("HomePage"),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
+            RefreshButton(
+              fetchCount: _fetchCount,
               onPressed: _isFetchingAll
                   ? null
                   : () {
                       setState(() {
                         _isFetchingAll = true;
+                        _fetchCount = Persistence.playlists.length;
                       });
 
                       Future.wait(
@@ -42,14 +44,17 @@ class _HomePageBodyState extends State<HomePageBody> {
                                 : playlist
                                     .fetchVideos()
                                     .drain()
-                                    .then((_) => playlist.check());
+                                    .then((_) => playlist.check())
+                                    .then((_) => setState(() {
+                                          _fetchCount--;
+                                        }));
                           },
                         ).toList(),
                       ).then((_) => setState(() {
                             _isFetchingAll = false;
+                            _fetchCount = 0;
                           }));
                     },
-              tooltip: "Refresh all",
             )
           ],
         ),
@@ -70,6 +75,39 @@ class _HomePageBodyState extends State<HomePageBody> {
             const BottomPadding()
           ]),
         ),
+      ],
+    );
+  }
+}
+
+class RefreshButton extends StatelessWidget {
+  final Function()? onPressed;
+  final int fetchCount;
+
+  const RefreshButton(
+      {super.key, required this.onPressed, required this.fetchCount});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: onPressed,
+          tooltip: "Refresh all",
+        ),
+        fetchCount == 0
+            ? const SizedBox.shrink()
+            : Positioned(
+                left: 15,
+                bottom: 10,
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: Text("$fetchCount",
+                      style: Theme.of(context).textTheme.titleSmall),
+                ),
+              ),
       ],
     );
   }
