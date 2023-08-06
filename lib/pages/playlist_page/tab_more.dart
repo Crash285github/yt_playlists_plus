@@ -14,8 +14,10 @@ class MoreTab extends StatefulWidget {
 }
 
 class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
+  final PanelController _controller = PanelController();
+
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +29,34 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
       minHeight: 100,
       parallaxEnabled: true,
       parallaxOffset: 0.2,
+      backdropTapClosesPanel: true,
+      backdropOpacity: 0.5,
+      backdropColor: Colors.black,
+      backdropEnabled: true,
+      boxShadow: const [],
+      controller: _controller,
       panelBuilder: (scrollController) {
-        return PlannedList(planned: widget.playlist.planned);
+        return PlannedList(
+          planned: widget.playlist.planned,
+          controller: _controller,
+        );
       },
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
             child: Row(
               children: [
                 Text(
-                  "Videos:",
+                  "Videos: (${widget.playlist.videos.length})",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),
+          ),
+          const Divider(
+            indent: 10,
+            endIndent: 10,
           ),
           ...widget.playlist.videos.map((e) {
             index++;

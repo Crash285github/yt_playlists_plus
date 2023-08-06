@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/widgets/planned_widget.dart';
 
 class PlannedList extends StatefulWidget {
   final Set<String> planned;
+  final PanelController controller;
+
   const PlannedList({
     super.key,
     required this.planned,
+    required this.controller,
   });
 
   @override
@@ -13,12 +18,10 @@ class PlannedList extends StatefulWidget {
 }
 
 class _PlannedListState extends State<PlannedList> {
-  late bool _isExpanded;
   late TextEditingController _dialogController;
 
   @override
   void initState() {
-    _isExpanded = false;
     _dialogController = TextEditingController();
     super.initState();
   }
@@ -31,20 +34,23 @@ class _PlannedListState extends State<PlannedList> {
 
   bool canSubmitPlanned(String title) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    if (title.isEmpty) {
+    if (title.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             "Can't be empty",
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           showCloseIcon: true,
-          closeIconColor: Colors.white,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+          closeIconColor: ApplicationTheme.get() == ApplicationTheme.light
+              ? Colors.black
+              : Colors.white,
+          backgroundColor: Theme.of(context).cardTheme.color,
+          behavior: SnackBarBehavior.floating,
+          dismissDirection: DismissDirection.none,
+          margin: const EdgeInsets.all(15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         ),
       );
 
@@ -105,49 +111,61 @@ class _PlannedListState extends State<PlannedList> {
 
   @override
   Widget build(BuildContext context) {
-    double expandedTileChildrenHeight =
-        MediaQuery.of(context).size.height - (kToolbarHeight * 6);
-    if (expandedTileChildrenHeight < 0) expandedTileChildrenHeight = 0;
-
     return Card(
       margin: const EdgeInsets.all(10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 3,
+      color: Theme.of(context).colorScheme.background,
+      surfaceTintColor: Theme.of(context).colorScheme.primary,
       child: ListView(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: _isExpanded
-                          ? Theme.of(context).colorScheme.primary
-                          : Colors.grey,
-                      width: 2,
-                    ),
+          GestureDetector(
+            //? isPanelOpen always returned false, so had to find a workaround
+            onTap: () => widget.controller.panelPosition.round() == 1
+                ? widget.controller.close()
+                : widget.controller.open(),
+            child: Container(
+              height: 30,
+              color: Colors.transparent,
+              child: Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  height: 5,
+                  width: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text("Planned (${widget.planned.length})",
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Planned (${widget.planned.length})",
                     style: Theme.of(context).textTheme.titleLarge),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                tooltip: "Add",
-                onPressed: () async {
-                  final String? title = await openDialog();
-                  if (title == null) return;
-                  if (canSubmitPlanned(title)) {
-                    setState(() {
-                      widget.planned.add(title);
-                    });
-                  }
-                },
-              ),
-            ],
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  tooltip: "Add",
+                  onPressed: () async {
+                    final String? title = await openDialog();
+                    if (title == null) return;
+                    if (canSubmitPlanned(title)) {
+                      setState(() {
+                        widget.planned.add(title);
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+          const Divider(
+            indent: 10,
+            endIndent: 10,
           ),
           ...widget.planned.map((title) => PlannedWidget(
                 title: title,
@@ -157,6 +175,7 @@ class _PlannedListState extends State<PlannedList> {
                   });
                 },
               )),
+          const SizedBox(height: 80)
         ],
       ),
     );

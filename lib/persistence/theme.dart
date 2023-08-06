@@ -30,12 +30,12 @@ ThemeData get lightTheme => ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.light().copyWith(primary: Colors.red),
       drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
-      cardColor: Colors.grey[200],
+      cardColor: Colors.grey[300],
       cardTheme: constants.cardTheme.copyWith(color: Colors.grey[300]),
       dialogTheme: constants.dialogTheme,
       tooltipTheme: constants.tooltipTheme,
       appBarTheme: constants.appBarTheme,
-      tabBarTheme: const TabBarTheme(dividerColor: Colors.black),
+      tabBarTheme: TabBarTheme(dividerColor: Colors.grey[300]),
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(padding: constants.buttonPadding)),
       textButtonTheme: const TextButtonThemeData(
@@ -44,6 +44,7 @@ ThemeData get lightTheme => ThemeData(
           thumbColor: MaterialStatePropertyAll(Colors.black)),
       expansionTileTheme:
           constants.expansionTileTheme.copyWith(iconColor: Colors.black),
+      floatingActionButtonTheme: constants.floatingActionButtonTheme,
     );
 
 //? DARK THEME
@@ -51,12 +52,12 @@ ThemeData get darkTheme => ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.dark().copyWith(primary: Colors.red),
       drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
-      cardColor: Colors.black26,
+      cardColor: Colors.grey[900],
       cardTheme: constants.cardTheme.copyWith(color: Colors.grey[900]),
       dialogTheme: constants.dialogTheme,
       tooltipTheme: constants.tooltipTheme,
       appBarTheme: constants.appBarTheme,
-      tabBarTheme: const TabBarTheme(dividerColor: Colors.white),
+      tabBarTheme: TabBarTheme(dividerColor: Colors.grey[900]),
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(padding: constants.buttonPadding)),
       textButtonTheme: const TextButtonThemeData(
@@ -65,4 +66,5 @@ ThemeData get darkTheme => ThemeData(
           thumbColor: MaterialStatePropertyAll(Colors.white)),
       expansionTileTheme:
           constants.expansionTileTheme.copyWith(iconColor: Colors.white),
+      floatingActionButtonTheme: constants.floatingActionButtonTheme,
     );
