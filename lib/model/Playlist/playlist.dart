@@ -94,6 +94,8 @@ class Playlist extends ChangeNotifier {
     Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> added = clonedFetch.difference(_videos);
 
+    _added.removeWhere((video) => !_fetch.contains(video));
+
     for (var video in added) {
       video.setStatus(VideoStatus.added);
       video.function = () {
