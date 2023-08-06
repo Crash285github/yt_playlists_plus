@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
@@ -21,6 +23,19 @@ class PlaylistPage extends StatelessWidget {
           centerTitle: true,
           actions: [AppBarActions(playlist: playlist)],
           bottom: _playlistPageTabBar(playlist: playlist, context: context),
+          flexibleSpace: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 90),
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Opacity(
+                opacity: 0.1,
+                child: Image.network(
+                  playlist.thumbnailUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
         ),
         body: TabBarView(
           children: [
