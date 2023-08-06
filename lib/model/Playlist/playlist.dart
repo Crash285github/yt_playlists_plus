@@ -29,6 +29,15 @@ class Playlist extends ChangeNotifier {
   List<VideoHistory> _history = [];
   List<VideoHistory> get history => _history;
 
+  //? history since the last Unchanged State of the playlist
+  //? used for comparing recent histories, to not flood the
+  //? main histtory List with the same data
+  final Set<VideoHistory> _recentHistory = {};
+
+  //?used to keep changes until they're finalized
+  final Set<Video> _added = {};
+  final Set<Video> _missing = {};
+
   ///Sets the state and notifies listeners
   setStatus(PlaylistStatus newStatus) {
     _status = newStatus;
@@ -58,6 +67,7 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
+    if (_fetch.isEmpty) return {};
     Set<Video> clonedVideos = _videos.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> missing = clonedVideos.difference(_fetch);
 
@@ -73,8 +83,8 @@ class Playlist extends ChangeNotifier {
         }
       };
     }
-
-    return missing;
+    _missing.addAll(missing);
+    return _missing;
   }
 
   ///Returns the difference of the `fetched` videos and the `local` videos
@@ -83,6 +93,8 @@ class Playlist extends ChangeNotifier {
   Set<Video> getAdded() {
     Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> added = clonedFetch.difference(_videos);
+
+    _added.removeWhere((video) => !_fetch.contains(video));
 
     for (var video in added) {
       video.setStatus(VideoStatus.added);
@@ -96,8 +108,15 @@ class Playlist extends ChangeNotifier {
         }
       };
     }
+    _added.addAll(added);
+    return _added;
+  }
 
-    return added;
+  ///Used after saving
+  void clearPending() {
+    _added.removeWhere((video) => video.status == VideoStatus.pending);
+    _missing.removeWhere((video) => video.status == VideoStatus.pending);
+    notifyListeners();
   }
 
   ///Compares the playlist's persistent and fetched data,
@@ -125,8 +144,10 @@ class Playlist extends ChangeNotifier {
           status: VideoStatus.added,
         );
 
-        if (_history.lastOrNull != videoHistory) {
+        if (_history.lastOrNull != videoHistory &&
+            !_recentHistory.contains(videoHistory)) {
           _history.add(videoHistory);
+          _recentHistory.add(videoHistory);
         }
       }
 
@@ -136,12 +157,15 @@ class Playlist extends ChangeNotifier {
           status: VideoStatus.missing,
         );
 
-        if (_history.lastOrNull != videoHistory) {
+        if (_history.lastOrNull != videoHistory &&
+            !_recentHistory.contains(videoHistory)) {
           _history.add(videoHistory);
+          _recentHistory.add(videoHistory);
         }
       }
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
+      _recentHistory.clear();
     }
   }
 

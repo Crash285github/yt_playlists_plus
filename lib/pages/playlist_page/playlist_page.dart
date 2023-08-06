@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tab_changes.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tab_more.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tab_history.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlaylistPage extends StatelessWidget {
@@ -14,27 +18,61 @@ class PlaylistPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text(playlist.title),
           centerTitle: true,
           actions: [AppBarActions(playlist: playlist)],
-          bottom: _playlistPageTabBar(playlist: playlist),
+          bottom: _playlistPageTabBar(playlist: playlist, context: context),
+          backgroundColor: Colors.transparent,
         ),
-        body: TabBarView(
-          children: [
-            ChangesTab(
-              added: playlist.getAdded(),
-              missing: playlist.getMissing(),
+        body: Stack(children: [
+          ShaderMask(
+            shaderCallback: (rect) {
+              return const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.black, Colors.transparent],
+              ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+            },
+            blendMode: BlendMode.dstIn,
+            child: Opacity(
+              opacity: 0.7,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.network(
+                  playlist.thumbnailUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            MoreTab(playlist: playlist),
-            HistoryTab(history: playlist.history),
-          ],
-        ),
-        floatingActionButton: IconButton(
-          icon: const Icon(Icons.save),
-          onPressed: () => Persistence.save(),
-          iconSize: 30,
+          ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+            child: SafeArea(
+              child: TabBarView(
+                children: [
+                  ChangesTab(
+                    added: playlist.getAdded(),
+                    missing: playlist.getMissing(),
+                  ),
+                  MoreTab(playlist: playlist),
+                  HistoryTab(history: playlist.history),
+                ],
+              ),
+            ),
+          ),
+        ]),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Persistence.save();
+            playlist.clearPending();
+          },
           tooltip: "Save",
+          child: const Icon(
+            Icons.save,
+            size: 30,
+          ),
         ),
       ),
     );
@@ -76,7 +114,8 @@ class AppBarActions extends StatelessWidget {
   }
 }
 
-TabBar _playlistPageTabBar({required Playlist playlist}) {
+TabBar _playlistPageTabBar(
+    {required Playlist playlist, required BuildContext context}) {
   return TabBar(
     isScrollable: true,
     tabs: [

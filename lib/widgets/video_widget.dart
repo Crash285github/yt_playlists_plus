@@ -2,32 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/persistence/theme_constants.dart%20';
+import 'package:yt_playlists_plus/widgets/icard.dart';
 import '../model/video/video.dart';
 
 ///Shows a single video with a configurable `onTap` function
-class VideoWidget extends StatelessWidget {
-  const VideoWidget({
-    super.key,
-    required this.isInteractable,
-  });
-
+class VideoWidget extends ICardWidget {
   ///Whether the Widget can be tapped
   ///
   ///If false, the Status Icon doesn't show
   final bool isInteractable;
 
+  const VideoWidget({
+    super.key,
+    super.firstOfList = false,
+    super.lastOfList = false,
+    this.isInteractable = true,
+  });
+
   @override
   Widget build(BuildContext context) {
     Video video = Provider.of<Video>(context);
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
+
+    return Card(
+      shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
         child: InkWell(
           onTap: isInteractable ? video.function : null,
-          borderRadius: BorderRadius.circular(10),
           child: Row(
             children: [
               Flexible(
@@ -49,43 +50,37 @@ class VideoWidget extends StatelessWidget {
 
 extension _VideoWidgetExtension on VideoWidget {
   details(BuildContext context, Video video) => Flexible(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Tooltip(
-              message: video.title,
-              child: Text(
-                video.title,
-                style: Theme.of(context).textTheme.labelLarge,
-                overflow: TextOverflow.ellipsis,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Tooltip(
+                message: video.title,
+                child: Text(
+                  video.title,
+                  style: Theme.of(context).textTheme.labelLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Text(
-              video.author,
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: ApplicationTheme.get() == ApplicationTheme.light
-                        ? Colors.grey[700]
-                        : Colors.grey,
-                  ),
-            ),
-          ],
+              Text(
+                video.author,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: ApplicationTheme.get() == ApplicationTheme.light
+                          ? Colors.grey[700]
+                          : Colors.grey,
+                    ),
+              ),
+            ],
+          ),
         ),
       );
 
-  thumbnail(String thumbnailUrl) => Padding(
-        padding: const EdgeInsets.only(right: 10.0),
-        child: Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            image: DecorationImage(
-              image: NetworkImage(
-                thumbnailUrl,
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
+  thumbnail(String thumbnailUrl) => SizedBox(
+        height: 70,
+        child: Image.network(
+          thumbnailUrl,
+          fit: BoxFit.cover,
         ),
       );
 

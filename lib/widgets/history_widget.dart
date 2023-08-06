@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:yt_playlists_plus/persistence/theme_constants.dart';
+import 'package:yt_playlists_plus/widgets/icard.dart';
 
-class HistoryWidget extends StatelessWidget {
+class HistoryWidget extends ICardWidget {
+  ///The data to display
   final VideoHistory videoHistory;
-  const HistoryWidget({super.key, required this.videoHistory});
+
+  const HistoryWidget({
+    super.key,
+    super.firstOfList = false,
+    super.lastOfList = false,
+    required this.videoHistory,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(

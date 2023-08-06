@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/persistence/theme_constants.dart';
+import 'package:yt_playlists_plus/widgets/icard.dart';
 import '../model/playlist/playlist_status.dart';
 
-class PlaylistWidget extends StatelessWidget {
+class PlaylistWidget extends ICardWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
   ///
   ///If not set, it navigates to the Playlist's Page
@@ -12,6 +14,8 @@ class PlaylistWidget extends StatelessWidget {
 
   const PlaylistWidget({
     super.key,
+    super.firstOfList = false,
+    super.lastOfList = false,
     this.onTap,
   });
 
@@ -19,13 +23,9 @@ class PlaylistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Playlist playlist = Provider.of<Playlist>(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
+    return Card(
+      shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).cardColor,
-        ),
         child: InkWell(
           onTap: () {
             if (onTap == null) {
@@ -34,7 +34,6 @@ class PlaylistWidget extends StatelessWidget {
               onTap!();
             }
           },
-          borderRadius: BorderRadius.circular(10),
           child: Row(
             children: [
               Flexible(
@@ -42,7 +41,10 @@ class PlaylistWidget extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
-                      child: thumbnail(playlist.thumbnailUrl),
+                      child: thumbnail(
+                          thumbnailUrl: playlist.thumbnailUrl,
+                          firstOfList: firstOfList,
+                          lastOfList: lastOfList),
                     ),
                     details(context, playlist),
                   ],
@@ -96,7 +98,7 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: [
-          const SizedBox(height: 50),
+          const SizedBox(height: 40),
           icon,
         ],
       ),
@@ -104,11 +106,36 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
   }
 
   ///The thumbnail of the Playlist
-  thumbnail(String thumbnailUrl) => Container(
-        height: 100,
-        width: 100,
+  thumbnail(
+          {required String thumbnailUrl,
+          bool firstOfList = false,
+          bool lastOfList = false}) =>
+      Container(
+        height: 85,
+        width: 85,
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(7)),
+          borderRadius: firstOfList && lastOfList
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(13),
+                  topRight: Radius.circular(4),
+                  bottomLeft: Radius.circular(13),
+                  bottomRight: Radius.circular(4),
+                )
+              : firstOfList
+                  ? const BorderRadius.only(
+                      topLeft: Radius.circular(13),
+                      topRight: Radius.circular(4),
+                      bottomLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    )
+                  : lastOfList
+                      ? const BorderRadius.only(
+                          topLeft: Radius.circular(4),
+                          topRight: Radius.circular(4),
+                          bottomLeft: Radius.circular(13),
+                          bottomRight: Radius.circular(4),
+                        )
+                      : const BorderRadius.all(Radius.circular(4)),
           image: DecorationImage(
             image: NetworkImage(
               thumbnailUrl,

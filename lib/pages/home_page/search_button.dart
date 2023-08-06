@@ -5,11 +5,13 @@ class HomePageSearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.search),
-      iconSize: 30,
-      tooltip: "Search",
+    return FloatingActionButton(
       onPressed: () => Navigator.of(context).pushNamed('/search'),
+      tooltip: "Search",
+      child: const Icon(
+        Icons.search,
+        size: 30,
+      ),
     );
   }
 }
