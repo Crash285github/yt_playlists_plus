@@ -27,6 +27,9 @@ const appBarTheme = AppBarTheme(
   surfaceTintColor: Colors.transparent,
 );
 
+const floatingActionButtonTheme =
+    FloatingActionButtonThemeData(backgroundColor: Colors.red);
+
 ShapeBorder cardBorder({required bool firstOfList, required bool lastOfList}) {
   double strongCorner = 15.0;
   double weakCorner = 4.0;

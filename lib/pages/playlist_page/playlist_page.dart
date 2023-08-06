@@ -7,7 +7,6 @@ import 'package:yt_playlists_plus/pages/playlist_page/tab_more.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tab_history.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
-
 class PlaylistPage extends StatelessWidget {
   const PlaylistPage({super.key});
 
@@ -33,11 +32,13 @@ class PlaylistPage extends StatelessWidget {
             HistoryTab(history: playlist.history),
           ],
         ),
-        floatingActionButton: IconButton(
-          icon: const Icon(Icons.save),
+        floatingActionButton: FloatingActionButton(
           onPressed: () => Persistence.save(),
-          iconSize: 30,
           tooltip: "Save",
+          child: const Icon(
+            Icons.save,
+            size: 30,
+          ),
         ),
       ),
     );
