@@ -44,8 +44,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
       body: ListView(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
               "Videos: (${widget.playlist.videos.length})",
               style: Theme.of(context).textTheme.titleLarge,

@@ -50,32 +50,33 @@ class VideoWidget extends ICardWidget {
 
 extension _VideoWidgetExtension on VideoWidget {
   details(BuildContext context, Video video) => Flexible(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Tooltip(
-              message: video.title,
-              child: Text(
-                video.title,
-                style: Theme.of(context).textTheme.labelLarge,
-                overflow: TextOverflow.ellipsis,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Tooltip(
+                message: video.title,
+                child: Text(
+                  video.title,
+                  style: Theme.of(context).textTheme.labelLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Text(
-              video.author,
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: ApplicationTheme.get() == ApplicationTheme.light
-                        ? Colors.grey[700]
-                        : Colors.grey,
-                  ),
-            ),
-          ],
+              Text(
+                video.author,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: ApplicationTheme.get() == ApplicationTheme.light
+                          ? Colors.grey[700]
+                          : Colors.grey,
+                    ),
+              ),
+            ],
+          ),
         ),
       );
 
-  thumbnail(String thumbnailUrl) => Padding(
-      padding: const EdgeInsets.only(right: 10.0),
-      child: SizedBox(
+  thumbnail(String thumbnailUrl) => SizedBox(
         height: 70,
         width: 70,
         child: Image.network(
@@ -83,7 +84,7 @@ extension _VideoWidgetExtension on VideoWidget {
           thumbnailUrl,
           fit: BoxFit.cover,
         ),
-      ));
+      );
 
   status(VideoStatus status) {
     if (status == VideoStatus.hidden) return const SizedBox.shrink();
