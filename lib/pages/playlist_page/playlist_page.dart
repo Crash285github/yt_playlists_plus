@@ -33,7 +33,10 @@ class PlaylistPage extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Persistence.save(),
+          onPressed: () {
+            Persistence.save();
+            playlist.clearPending();
+          },
           tooltip: "Save",
           child: const Icon(
             Icons.save,

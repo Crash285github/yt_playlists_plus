@@ -34,6 +34,10 @@ class Playlist extends ChangeNotifier {
   //? main histtory List with the same data
   final Set<VideoHistory> _recentHistory = {};
 
+  //?used to keep changes until they're finalized
+  final Set<Video> _added = {};
+  final Set<Video> _missing = {};
+
   ///Sets the state and notifies listeners
   setStatus(PlaylistStatus newStatus) {
     _status = newStatus;
@@ -63,6 +67,7 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
+    if (_fetch.isEmpty) return {};
     Set<Video> clonedVideos = _videos.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> missing = clonedVideos.difference(_fetch);
 
@@ -78,8 +83,8 @@ class Playlist extends ChangeNotifier {
         }
       };
     }
-
-    return missing;
+    _missing.addAll(missing);
+    return _missing;
   }
 
   ///Returns the difference of the `fetched` videos and the `local` videos
@@ -101,8 +106,15 @@ class Playlist extends ChangeNotifier {
         }
       };
     }
+    _added.addAll(added);
+    return _added;
+  }
 
-    return added;
+  ///Used after saving
+  void clearPending() {
+    _added.removeWhere((video) => video.status == VideoStatus.pending);
+    _missing.removeWhere((video) => video.status == VideoStatus.pending);
+    notifyListeners();
   }
 
   ///Compares the playlist's persistent and fetched data,
