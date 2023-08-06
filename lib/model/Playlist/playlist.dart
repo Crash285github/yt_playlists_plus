@@ -125,13 +125,18 @@ class Playlist extends ChangeNotifier {
   ///After check, [history] will be updated
   ///
   ///Throws `PlaylistException` if the state isn't `fetching`
-  void check() {
+  void check() async {
     if (_status != PlaylistStatus.fetching) {
       throw PlaylistException("PlaylistState != fetching when starting check.");
     }
     setStatus(PlaylistStatus.checking);
 
     thumbnailUrl = _fetch.firstOrNull?.thumbnailUrl ?? "";
+
+    if ((thumbnailUrl == "") && !(await YoutubeClient().existsPlaylist(id))) {
+      setStatus(PlaylistStatus.notFound);
+      return;
+    }
 
     getAdded().isEmpty && getMissing().isEmpty
         ? setStatus(PlaylistStatus.unChanged)

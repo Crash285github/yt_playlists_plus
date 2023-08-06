@@ -61,6 +61,11 @@ class YoutubeClient {
     return playlist;
   }
 
+  Future<bool> existsPlaylist(String playlistId) async {
+    var result = await _client.playlists.get(playlistId);
+    return result.title != "";
+  }
+
   Future<Playlist> _getPlaylist(String playlistId) async {
     var result = await _client.playlists.get(playlistId);
     yt_explode.Video video =
