@@ -117,76 +117,129 @@ class _PlannedListState extends State<PlannedList> {
       elevation: 3,
       color: Theme.of(context).colorScheme.background,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
-      child: ListView(children: [
-        GestureDetector(
-          //? isPanelOpen always returned false, so had to find a workaround
-          onTap: () => widget.controller.panelPosition.round() == 1
-              ? widget.controller.close()
-              : widget.controller.open(),
-          child: Container(
-            height: 30,
-            color: Colors.transparent,
-            child: Center(
-              child: Container(
-                margin: const EdgeInsets.only(top: 10),
-                height: 5,
-                width: 20,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(10),
+      child: widget.planned.isEmpty
+          ? Column(
+              children: [
+                _TopBean(
+                  onTap: () => widget.controller.panelPosition.round() == 1
+                      ? widget.controller.close()
+                      : widget.controller.open(),
                 ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: _TopRow(
+                      length: widget.planned.length,
+                      onAddPressed: () async {
+                        final String? title = await openDialog();
+                        if (title == null) return;
+                        if (canSubmitPlanned(title)) {
+                          setState(() {
+                            widget.planned.add(title);
+                          });
+                        }
+                      },
+                    )),
+                const Divider(
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                Expanded(
+                    child: Center(
+                  child: Text(
+                    "Nothing in planned...",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.grey),
+                  ),
+                ))
+              ],
+            )
+          : ListView(children: [
+              _TopBean(
+                onTap: () => widget.controller.panelPosition.round() == 1
+                    ? widget.controller.close()
+                    : widget.controller.open(),
               ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: _TopRow(
+                    length: widget.planned.length,
+                    onAddPressed: () async {
+                      final String? title = await openDialog();
+                      if (title == null) return;
+                      if (canSubmitPlanned(title)) {
+                        setState(() {
+                          widget.planned.add(title);
+                        });
+                      }
+                    },
+                  )),
+              const Divider(
+                indent: 10,
+                endIndent: 10,
+              ),
+              ...widget.planned.map((title) => PlannedWidget(
+                    title: title,
+                    onDeletePressed: () {
+                      setState(() {
+                        widget.planned.remove(title);
+                      });
+                    },
+                  )),
+              const SizedBox(height: 80),
+            ]),
+    );
+  }
+}
+
+///You tap it to open or close the Planned Tab
+class _TopBean extends StatelessWidget {
+  final Function()? onTap;
+  const _TopBean({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      //? isPanelOpen always returned false, so had to find a workaround
+      onTap: onTap,
+      child: Container(
+        height: 30,
+        color: Colors.transparent,
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.only(top: 10),
+            height: 5,
+            width: 20,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Planned (${widget.planned.length})",
-                  style: Theme.of(context).textTheme.titleLarge),
-              IconButton(
-                icon: const Icon(Icons.add),
-                tooltip: "Add",
-                onPressed: () async {
-                  final String? title = await openDialog();
-                  if (title == null) return;
-                  if (canSubmitPlanned(title)) {
-                    setState(() {
-                      widget.planned.add(title);
-                    });
-                  }
-                },
-              ),
-            ],
-          ),
+      ),
+    );
+  }
+}
+
+class _TopRow extends StatelessWidget {
+  final Function()? onAddPressed;
+  final int length;
+  const _TopRow({required this.onAddPressed, required this.length});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Planned ($length)",
+            style: Theme.of(context).textTheme.titleLarge),
+        IconButton(
+          icon: const Icon(Icons.add),
+          tooltip: "Add",
+          onPressed: onAddPressed,
         ),
-        const Divider(
-          indent: 10,
-          endIndent: 10,
-        ),
-        ...widget.planned.isEmpty
-            ? [
-                const Padding(
-                  padding: EdgeInsets.only(top: 30.0),
-                  child: Center(
-                    child: Text("Nothing in planned..."),
-                  ),
-                ),
-              ]
-            : [
-                ...widget.planned.map((title) => PlannedWidget(
-                      title: title,
-                      onDeletePressed: () {
-                        setState(() {
-                          widget.planned.remove(title);
-                        });
-                      },
-                    )),
-                const SizedBox(height: 80)
-              ],
-      ]),
+      ],
     );
   }
 }
