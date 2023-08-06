@@ -27,7 +27,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
 
     return SlidingUpPanel(
       color: Colors.transparent,
-      minHeight: 100,
+      minHeight: 95,
       parallaxEnabled: true,
       parallaxOffset: 0.2,
       backdropTapClosesPanel: true,
@@ -63,7 +63,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
                   isInteractable: false,
                 ));
           }),
-          const BottomPadding(androidHeight: 240),
+          const BottomPadding(androidHeight: 230),
         ],
       ),
     );
