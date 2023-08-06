@@ -58,23 +58,38 @@ class _HomePageBodyState extends State<HomePageBody> {
             )
           ],
         ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            ...Persistence.playlists.map(
-              (e) {
-                index++;
-                return ListenableProvider.value(
-                  value: e,
-                  child: PlaylistWidget(
-                    firstOfList: index == 1,
-                    lastOfList: index == Persistence.playlists.length,
+        Persistence.playlists.isEmpty
+            ? SliverFillRemaining(
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "No Playlists... let's find one!",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.grey),
                   ),
-                );
-              },
-            ).toList(),
-            const BottomPadding()
-          ]),
-        ),
+                )),
+              )
+            : SliverList(
+                delegate: SliverChildListDelegate([
+                  ...Persistence.playlists.map(
+                    (e) {
+                      index++;
+                      return ListenableProvider.value(
+                        value: e,
+                        child: PlaylistWidget(
+                          firstOfList: index == 1,
+                          lastOfList: index == Persistence.playlists.length,
+                        ),
+                      );
+                    },
+                  ).toList(),
+                  const BottomPadding()
+                ]),
+              ),
       ],
     );
   }

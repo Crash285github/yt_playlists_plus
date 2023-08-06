@@ -131,7 +131,7 @@ class Playlist extends ChangeNotifier {
     }
     setStatus(PlaylistStatus.checking);
 
-    thumbnailUrl = _fetch.first.thumbnailUrl;
+    thumbnailUrl = _fetch.firstOrNull?.thumbnailUrl ?? "";
 
     getAdded().isEmpty && getMissing().isEmpty
         ? setStatus(PlaylistStatus.unChanged)
