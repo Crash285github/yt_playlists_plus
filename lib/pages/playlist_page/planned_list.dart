@@ -117,67 +117,76 @@ class _PlannedListState extends State<PlannedList> {
       elevation: 3,
       color: Theme.of(context).colorScheme.background,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
-      child: ListView(
-        children: [
-          GestureDetector(
-            //? isPanelOpen always returned false, so had to find a workaround
-            onTap: () => widget.controller.panelPosition.round() == 1
-                ? widget.controller.close()
-                : widget.controller.open(),
-            child: Container(
-              height: 30,
-              color: Colors.transparent,
-              child: Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  height: 5,
-                  width: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+      child: ListView(children: [
+        GestureDetector(
+          //? isPanelOpen always returned false, so had to find a workaround
+          onTap: () => widget.controller.panelPosition.round() == 1
+              ? widget.controller.close()
+              : widget.controller.open(),
+          child: Container(
+            height: 30,
+            color: Colors.transparent,
+            child: Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 10),
+                height: 5,
+                width: 20,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Planned (${widget.planned.length})",
-                    style: Theme.of(context).textTheme.titleLarge),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  tooltip: "Add",
-                  onPressed: () async {
-                    final String? title = await openDialog();
-                    if (title == null) return;
-                    if (canSubmitPlanned(title)) {
-                      setState(() {
-                        widget.planned.add(title);
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-          const Divider(
-            indent: 10,
-            endIndent: 10,
-          ),
-          ...widget.planned.map((title) => PlannedWidget(
-                title: title,
-                onDeletePressed: () {
-                  setState(() {
-                    widget.planned.remove(title);
-                  });
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Planned (${widget.planned.length})",
+                  style: Theme.of(context).textTheme.titleLarge),
+              IconButton(
+                icon: const Icon(Icons.add),
+                tooltip: "Add",
+                onPressed: () async {
+                  final String? title = await openDialog();
+                  if (title == null) return;
+                  if (canSubmitPlanned(title)) {
+                    setState(() {
+                      widget.planned.add(title);
+                    });
+                  }
                 },
-              )),
-          const SizedBox(height: 80)
-        ],
-      ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(
+          indent: 10,
+          endIndent: 10,
+        ),
+        ...widget.planned.isEmpty
+            ? [
+                const Padding(
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: Center(
+                    child: Text("Nothing in planned..."),
+                  ),
+                ),
+              ]
+            : [
+                ...widget.planned.map((title) => PlannedWidget(
+                      title: title,
+                      onDeletePressed: () {
+                        setState(() {
+                          widget.planned.remove(title);
+                        });
+                      },
+                    )),
+                const SizedBox(height: 80)
+              ],
+      ]),
     );
   }
 }
