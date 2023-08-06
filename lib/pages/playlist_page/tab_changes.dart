@@ -79,8 +79,36 @@ class ChangesTab extends StatelessWidget {
                   const BottomPadding(),
                 ],
               ))
-            : const SizedBox.shrink()
+            : Expanded(
+                child: Center(
+                  child: _ChangeStatusText(status: playlist.status),
+                ),
+              )
       ],
     );
+  }
+}
+
+class _ChangeStatusText extends StatelessWidget {
+  final PlaylistStatus status;
+  const _ChangeStatusText({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    String message = "";
+    switch (status) {
+      case PlaylistStatus.downloaded:
+        message = "Just downloaded.";
+        break;
+      case PlaylistStatus.notFound:
+        message = "Hmm... that's not good.";
+        break;
+      case PlaylistStatus.unChanged:
+        message = "No changes. That's good.";
+        break;
+      default:
+        message = "";
+    }
+    return Text(message);
   }
 }
