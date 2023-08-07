@@ -243,7 +243,7 @@ class Playlist extends ChangeNotifier {
   bool operator ==(other) => other is Playlist && id == other.id;
 
   @override
-  int get hashCode => Object.hash(id, title);
+  int get hashCode => Object.hash(id, null);
 
   //#endregion
 
