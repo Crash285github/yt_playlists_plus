@@ -16,6 +16,7 @@ class HomePageBody extends StatefulWidget {
 class _HomePageBodyState extends State<HomePageBody> {
   bool _isFetchingAll = false;
   int _fetchCount = 0;
+
   @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
@@ -39,7 +40,9 @@ class _HomePageBodyState extends State<HomePageBody> {
                       Future.wait(
                         Persistence.playlists.map(
                           (playlist) {
-                            return playlist.status == PlaylistStatus.fetching
+                            return playlist.status == PlaylistStatus.fetching ||
+                                    playlist.status ==
+                                        PlaylistStatus.downloading
                                 ? Future(() => null)
                                 : playlist
                                     .fetchVideos()
