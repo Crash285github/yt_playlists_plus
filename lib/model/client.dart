@@ -2,6 +2,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class YoutubeClient {
   late yt_explode.YoutubeExplode _client;
@@ -47,6 +48,12 @@ class YoutubeClient {
   ///Returns null if the url is invalid or the Playlist ID doesn't exist
   Future<Playlist?> searchByLink({required String url}) async {
     final String id = url.substring(url.length - 34, url.length);
+
+    //if already contains
+    if (Persistence.playlists.any((element) => element.id == id)) {
+      return null;
+    }
+
     Playlist playlist = await _getPlaylist(id).onError(
       (error, stackTrace) {
         return Playlist(id: "", title: "", author: "", thumbnailUrl: "");
