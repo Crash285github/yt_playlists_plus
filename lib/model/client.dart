@@ -89,7 +89,7 @@ class YoutubeClient {
       id: result.id.toString(),
       title: result.title,
       author: author,
-      thumbnailUrl: video.thumbnails.highResUrl,
+      thumbnailUrl: video.thumbnails.mediumResUrl,
     );
   }
 
