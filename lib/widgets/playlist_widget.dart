@@ -110,37 +110,54 @@ extension _PlaylistWidgetExtension on PlaylistWidget {
           {required String thumbnailUrl,
           bool firstOfList = false,
           bool lastOfList = false}) =>
-      Container(
-        height: 85,
-        width: 85,
-        decoration: BoxDecoration(
-          borderRadius: firstOfList && lastOfList
-              ? const BorderRadius.only(
-                  topLeft: Radius.circular(13),
-                  topRight: Radius.circular(4),
-                  bottomLeft: Radius.circular(13),
-                  bottomRight: Radius.circular(4),
-                )
-              : firstOfList
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(13),
-                      topRight: Radius.circular(4),
-                      bottomLeft: Radius.circular(4),
-                      bottomRight: Radius.circular(4),
-                    )
-                  : lastOfList
-                      ? const BorderRadius.only(
-                          topLeft: Radius.circular(4),
-                          topRight: Radius.circular(4),
-                          bottomLeft: Radius.circular(13),
-                          bottomRight: Radius.circular(4),
-                        )
-                      : const BorderRadius.all(Radius.circular(4)),
-          image: DecorationImage(
-            image: NetworkImage(
-              thumbnailUrl,
-            ),
+      ClipRRect(
+        borderRadius: firstOfList && lastOfList
+            ? const BorderRadius.only(
+                topLeft: Radius.circular(13),
+                topRight: Radius.circular(4),
+                bottomLeft: Radius.circular(13),
+                bottomRight: Radius.circular(4),
+              )
+            : firstOfList
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(13),
+                    topRight: Radius.circular(4),
+                    bottomLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
+                  )
+                : lastOfList
+                    ? const BorderRadius.only(
+                        topLeft: Radius.circular(4),
+                        topRight: Radius.circular(4),
+                        bottomLeft: Radius.circular(13),
+                        bottomRight: Radius.circular(4),
+                      )
+                    : const BorderRadius.all(Radius.circular(4)),
+        child: SizedBox(
+          height: 85,
+          width: 85,
+          child: Image.network(
+            thumbnailUrl,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Stack(
+                alignment: Alignment.center,
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    "assets/no-thumbnail.png",
+                    fit: BoxFit.cover,
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomRight,
+                    child: Tooltip(
+                      message: "Thumbnail not found",
+                      child: Icon(
+                        Icons.warning,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  )
+                ]),
           ),
         ),
       );

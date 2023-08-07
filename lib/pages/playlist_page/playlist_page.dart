@@ -50,6 +50,11 @@ class PlaylistPage extends StatelessWidget {
                       child: Image.network(
                         playlist.thumbnailUrl,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
+                          "assets/no-thumbnail.png",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
