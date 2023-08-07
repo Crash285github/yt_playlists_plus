@@ -33,7 +33,7 @@ class Video extends ChangeNotifier {
   bool operator ==(other) => other is Video && id == other.id;
 
   @override
-  int get hashCode => Object.hash(id, title);
+  int get hashCode => Object.hash(id, null);
 
   ///Converts a `json` Object into a `Video` Object
   Video.fromJson(Map<String, dynamic> json)
