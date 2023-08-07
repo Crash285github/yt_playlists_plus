@@ -68,7 +68,7 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
-    if (_fetching) return {};
+    if (_fetching || _fetch.isEmpty) return {};
     Set<Video> clonedVideos = _videos.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> missing = clonedVideos.difference(_fetch);
 
