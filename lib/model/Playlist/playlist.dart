@@ -16,6 +16,7 @@ class Playlist extends ChangeNotifier {
 
   //? data from youtube
   final Set<Video> _fetch = {};
+  bool _fetching = false;
 
   //? planned titles
   Set<String> _planned = {};
@@ -67,7 +68,7 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
-    if (_fetch.isEmpty) return {};
+    if (_fetching) return {};
     Set<Video> clonedVideos = _videos.map((e) => Video.deepCopy(e)).toSet();
     Set<Video> missing = clonedVideos.difference(_fetch);
 
@@ -178,6 +179,7 @@ class Playlist extends ChangeNotifier {
   Stream<Video> fetchVideos() async* {
     if (_status == PlaylistStatus.fetching) return;
 
+    _fetching = true;
     _fetch.clear();
     setStatus(PlaylistStatus.fetching);
 
@@ -186,6 +188,7 @@ class Playlist extends ChangeNotifier {
       _fetch.add(video);
       yield video;
     }
+    _fetching = false;
   }
 
   ///Fetches the videos of the playlist and adds them to its `videos` Set
