@@ -101,7 +101,8 @@ class AppBarActions extends StatelessWidget {
           tooltip: "Refresh",
           icon: const Icon(Icons.refresh_outlined),
           onPressed: playlist.status == PlaylistStatus.fetching ||
-                  playlist.status == PlaylistStatus.checking
+                  playlist.status == PlaylistStatus.checking ||
+                  playlist.status == PlaylistStatus.downloading
               ? null
               : () async {
                   await playlist.fetchVideos().drain();
