@@ -6,11 +6,13 @@ import 'package:yt_playlists_plus/widgets/planned_widget.dart';
 class PlannedList extends StatefulWidget {
   final Set<String> planned;
   final PanelController controller;
+  final ScrollController scrollController;
 
   const PlannedList({
     super.key,
     required this.planned,
     required this.controller,
+    required this.scrollController,
   });
 
   @override
@@ -155,7 +157,7 @@ class _PlannedListState extends State<PlannedList> {
                 ))
               ],
             )
-          : ListView(controller: ScrollController(), children: [
+          : ListView(controller: widget.scrollController, children: [
               _TopBean(
                 onTap: () => widget.controller.panelPosition.round() == 1
                     ? widget.controller.close()
