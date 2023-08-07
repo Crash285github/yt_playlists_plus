@@ -155,7 +155,7 @@ class _PlannedListState extends State<PlannedList> {
                 ))
               ],
             )
-          : ListView(children: [
+          : ListView(controller: ScrollController(), children: [
               _TopBean(
                 onTap: () => widget.controller.panelPosition.round() == 1
                     ? widget.controller.close()
