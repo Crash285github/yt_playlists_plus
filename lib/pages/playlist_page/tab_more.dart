@@ -40,6 +40,7 @@ class _MoreTabState extends State<MoreTab> with AutomaticKeepAliveClientMixin {
         return PlannedList(
           planned: widget.playlist.planned,
           controller: _controller,
+          scrollController: scrollController,
         );
       },
       body: widget.playlist.videos.isEmpty
