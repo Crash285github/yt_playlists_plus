@@ -23,6 +23,8 @@ class _SearchPageState extends State<SearchPage> {
 
   double _progress = 0;
 
+  late String _placeholder;
+
   //SearchBar linking with Button & _searchQuery
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
@@ -30,6 +32,8 @@ class _SearchPageState extends State<SearchPage> {
   List<Playlist> _searchResults = [];
 
   Future<void> _search() async {
+    _placeholder = "No results found.";
+
     setState(() {
       _isSearching = true;
       _searchResults = [];
@@ -64,6 +68,12 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   @override
+  void initState() {
+    _placeholder = "Search for a playlist here!";
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     _rendered = false;
@@ -81,30 +91,45 @@ class _SearchPageState extends State<SearchPage> {
             title: const Text("Search Playlists"),
             bottom: _searchField(progress: _progress / 20),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                ..._searchResults.map(
-                  (e) {
-                    index++;
-                    return ListenableProvider.value(
-                      value: e,
-                      child: PlaylistWidget(
-                        firstOfList: index == 1,
-                        lastOfList: index == _searchResults.length,
-                        onTap: () async {
-                          Persistence.addPlaylist(e);
-                          await e.download();
-                          await Persistence.save();
+          _searchResults.isEmpty && !_isSearching
+              ? SliverFillRemaining(
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      _placeholder,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.grey),
+                    ),
+                  )),
+                )
+              : SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      ..._searchResults.map(
+                        (e) {
+                          index++;
+                          return ListenableProvider.value(
+                            value: e,
+                            child: PlaylistWidget(
+                              firstOfList: index == 1,
+                              lastOfList: index == _searchResults.length,
+                              onTap: () async {
+                                Persistence.addPlaylist(e);
+                                await e.download();
+                                await Persistence.save();
+                              },
+                            ),
+                          );
                         },
                       ),
-                    );
-                  },
+                      const SizedBox(height: 80),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 80),
-              ],
-            ),
-          ),
         ],
       ),
     );
