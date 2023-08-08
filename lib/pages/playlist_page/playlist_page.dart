@@ -66,6 +66,7 @@ class PlaylistPage extends StatelessWidget {
             filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
             child: SafeArea(
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   ChangesTab(
                     added: playlist.getAdded(),
