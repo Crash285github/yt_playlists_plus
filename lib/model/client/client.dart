@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
+import 'package:yt_playlists_plus/model/client/client_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
@@ -69,8 +72,12 @@ class YoutubeClient {
   }
 
   Future<bool> existsPlaylist(String playlistId) async {
-    var result = await _client.playlists.get(playlistId);
-    return result.title != "";
+    try {
+      var result = await _client.playlists.get(playlistId);
+      return result.title != "";
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<Playlist> _getPlaylist(String playlistId) async {
@@ -95,14 +102,18 @@ class YoutubeClient {
 
   ///Yields all `videos` from a given playlist
   Stream<Video> getVideosFromPlaylist(String playlistId) async* {
-    await for (yt_explode.Video vid
-        in _client.playlists.getVideos(playlistId)) {
-      Video video = Video(
-          id: vid.id.toString(),
-          title: vid.title,
-          author: vid.author,
-          thumbnailUrl: vid.thumbnails.mediumResUrl);
-      yield video;
+    try {
+      await for (yt_explode.Video vid
+          in _client.playlists.getVideos(playlistId)) {
+        Video video = Video(
+            id: vid.id.toString(),
+            title: vid.title,
+            author: vid.author,
+            thumbnailUrl: vid.thumbnails.mediumResUrl);
+        yield video;
+      }
+    } on SocketException catch (socketException) {
+      throw ClientException(socketException.message);
     }
   }
 }
