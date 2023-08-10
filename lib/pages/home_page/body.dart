@@ -25,7 +25,7 @@ class _HomePageBodyState extends State<HomePageBody> {
     return CustomScrollView(
       slivers: [
         PresetSliverAppBar(
-          title: const Text("HomePage"),
+          title: const Text("Playlists"),
           actions: [
             RefreshButton(
               fetchCount: _fetchCount,
