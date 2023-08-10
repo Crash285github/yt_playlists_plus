@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/widgets/playlist_widget.dart';
 import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
-import 'package:yt_playlists_plus/model/client/client.dart';
+import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
@@ -41,23 +43,32 @@ class _SearchPageState extends State<SearchPage> {
     });
 
     if (_isYoutubePlaylistLink(query: _searchQuery.trim())) {
-      Playlist? playlist = await _client.searchByLink(url: _searchQuery.trim());
-      if (playlist != null) {
-        playlist.setStatus(PlaylistStatus.notDownloaded);
-        _searchResults.add(playlist);
+      try {
+        Playlist? playlist =
+            await _client.searchByLink(url: _searchQuery.trim());
+        if (playlist != null) {
+          playlist.setStatus(PlaylistStatus.notDownloaded);
+          _searchResults.add(playlist);
+        }
+      } on SocketException catch (_) {
+        //? do nothing
       }
     } else {
-      await for (Playlist playlist in _client.searchByQuery(
-        query: _searchQuery,
-        excludedWords: Persistence.playlists.map((e) => e.id).toList(),
-      )) {
-        if (!_rendered) return;
-        if (Persistence.playlists.contains(playlist)) continue;
-        playlist.setStatus(PlaylistStatus.notDownloaded);
-        setState(() {
-          _searchResults.add(playlist);
-          _progress++;
-        });
+      try {
+        await for (Playlist playlist in _client.searchByQuery(
+          query: _searchQuery,
+          excludedWords: Persistence.playlists.map((e) => e.id).toList(),
+        )) {
+          if (!_rendered) return;
+          if (Persistence.playlists.contains(playlist)) continue;
+          playlist.setStatus(PlaylistStatus.notDownloaded);
+          setState(() {
+            _searchResults.add(playlist);
+            _progress++;
+          });
+        }
+      } on SocketException catch (_) {
+        //? do nothing
       }
     }
 

@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/client/client_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/model/client/client.dart';
+import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
@@ -190,7 +190,7 @@ class Playlist extends ChangeNotifier {
         _fetch.add(video);
         yield video;
       }
-    } on ClientException catch (_) {
+    } on SocketException catch (_) {
       setStatus(PlaylistStatus.unChecked);
       rethrow;
     } finally {

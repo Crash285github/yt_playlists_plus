@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/client/client_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tab_changes.dart';
@@ -115,7 +115,7 @@ class AppBarActions extends StatelessWidget {
                   try {
                     await playlist.fetchVideos().drain();
                     playlist.check();
-                  } on ClientException catch (_) {
+                  } on SocketException catch (_) {
                     return;
                   }
                 },
