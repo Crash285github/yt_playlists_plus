@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/client/client_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/model/client.dart';
+import 'package:yt_playlists_plus/model/client/client.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
@@ -184,11 +185,17 @@ class Playlist extends ChangeNotifier {
     setStatus(PlaylistStatus.fetching);
 
     YoutubeClient client = YoutubeClient();
-    await for (Video video in client.getVideosFromPlaylist(id)) {
-      _fetch.add(video);
-      yield video;
+    try {
+      await for (Video video in client.getVideosFromPlaylist(id)) {
+        _fetch.add(video);
+        yield video;
+      }
+    } on ClientException catch (_) {
+      setStatus(PlaylistStatus.unChecked);
+      rethrow;
+    } finally {
+      _fetching = false;
     }
-    _fetching = false;
   }
 
   ///Fetches the videos of the playlist and adds them to its `videos` Set

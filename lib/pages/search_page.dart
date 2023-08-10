@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/widgets/playlist_widget.dart';
 import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
-import 'package:yt_playlists_plus/model/client.dart';
+import 'package:yt_playlists_plus/model/client/client.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
