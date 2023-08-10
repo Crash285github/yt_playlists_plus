@@ -204,8 +204,13 @@ class Playlist extends ChangeNotifier {
     setStatus(PlaylistStatus.downloading);
 
     YoutubeClient client = YoutubeClient();
-    await for (Video video in client.getVideosFromPlaylist(id)) {
-      _videos.add(video);
+    try {
+      await for (Video video in client.getVideosFromPlaylist(id)) {
+        _videos.add(video);
+      }
+    } on SocketException catch (_) {
+      setStatus(PlaylistStatus.notDownloaded);
+      rethrow;
     }
 
     setStatus(PlaylistStatus.downloaded);

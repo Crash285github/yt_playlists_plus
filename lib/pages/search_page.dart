@@ -121,19 +121,26 @@ class _SearchPageState extends State<SearchPage> {
                   delegate: SliverChildListDelegate(
                     [
                       ..._searchResults.map(
-                        (e) {
+                        (playlist) {
                           index++;
                           return ListenableProvider.value(
-                            value: e,
+                            value: playlist,
                             child: PlaylistWidget(
-                              firstOfList: index == 1,
-                              lastOfList: index == _searchResults.length,
-                              onTap: () async {
-                                Persistence.addPlaylist(e);
-                                await e.download();
-                                await Persistence.save();
-                              },
-                            ),
+                                firstOfList: index == 1,
+                                lastOfList: index == _searchResults.length,
+                                onTap: () async {
+                                  if (playlist.status ==
+                                      PlaylistStatus.notDownloaded) {
+                                    try {
+                                      await playlist.download();
+                                      Persistence.addPlaylist(playlist);
+                                    } on SocketException catch (_) {
+                                      Persistence.removePlaylist(playlist);
+                                    } finally {
+                                      await Persistence.save();
+                                    }
+                                  }
+                                }),
                           );
                         },
                       ),

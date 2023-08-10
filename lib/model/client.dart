@@ -45,6 +45,8 @@ class YoutubeClient {
       }
     } on SocketException catch (_) {
       rethrow;
+    } on PlaylistException catch (_) {
+      return;
     }
   }
 
