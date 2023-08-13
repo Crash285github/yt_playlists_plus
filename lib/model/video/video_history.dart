@@ -15,6 +15,7 @@ class VideoHistory {
     time = DateTime.now();
   }
 
+  ///Convert a Video to a VideoHistory object
   static VideoHistory fromVideo({required Video video, VideoStatus? status}) {
     return VideoHistory(
         id: video.id,

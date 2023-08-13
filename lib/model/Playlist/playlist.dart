@@ -7,40 +7,42 @@ import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class Playlist extends ChangeNotifier {
-  String id, title, author, thumbnailUrl;
+  final String id;
+  String title, author, thumbnailUrl;
 
-  //? local data
-  Set<Video> _videos = {};
+  ///Local data
   Set<Video> get videos => _videos;
+  Set<Video> _videos = {};
 
-  //? data from youtube
+  ///Data from youtube
   final Set<Video> _fetch = {};
   bool _fetching = false;
 
-  //? planned titles
-  Set<String> _planned = {};
+  ///Set of planned titles
   Set<String> get planned => _planned;
+  Set<String> _planned = {};
 
-  //? what the playlist's current state is
-  PlaylistStatus _status = PlaylistStatus.unChecked;
+  ///The playlist's `current` status
   PlaylistStatus get status => _status;
+  PlaylistStatus _status = PlaylistStatus.unChecked;
 
-  //? previously deleted and added videos
-  List<VideoHistory> _history = [];
+  ///Previously deleted and added videos
   List<VideoHistory> get history => _history;
+  List<VideoHistory> _history = [];
 
   //? history since the last Unchanged State of the playlist
   //? used for comparing recent histories, to not flood the
-  //? main histtory List with the same data
+  //? main history List with the same data
   final Set<VideoHistory> _recentHistory = {};
 
-  //?used to keep changes until they're finalized
+  //? used to keep changes until they're finalized
   final Set<Video> _added = {};
   final Set<Video> _missing = {};
 
-  ///Sets the state and notifies listeners
+  ///Changes status & alerts listeners
   setStatus(PlaylistStatus newStatus) {
     _status = newStatus;
     notifyListeners();
@@ -53,14 +55,14 @@ class Playlist extends ChangeNotifier {
     required this.thumbnailUrl,
   });
 
-  //#region [videos], [fetch]
+  //#region [videos], [fetch], [history]
 
-  ///Adds a video to the Set of [_videos]
+  ///Adds a video to the Set of [videos]
   ///
   ///returns `true` if successful
   bool addToVideos(Video video) => _videos.add(video);
 
-  ///Removes a video from the Set of [_videos]
+  ///Removes a video from the Set of [videos]
   ///
   ///returns `true` if successful
   bool removeFromVideos(Video video) => _videos.remove(video);
@@ -69,12 +71,17 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<Video> getMissing() {
+    //? do nothing, if empty or fetching (otherwise false data)
     if (_fetching || _fetch.isEmpty) return {};
-    Set<Video> clonedVideos = _videos.map((e) => Video.deepCopy(e)).toSet();
-    Set<Video> missing = clonedVideos.difference(_fetch);
 
-    for (var video in missing) {
+    final Set<Video> clonedVideos =
+        _videos.map((e) => Video.deepCopy(e)).toSet();
+    final Set<Video> clonedMissing = clonedVideos.difference(_fetch);
+
+    for (final Video video in clonedMissing) {
       video.setStatus(VideoStatus.missing);
+
+      //? onTap
       video.function = () {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
@@ -85,7 +92,8 @@ class Playlist extends ChangeNotifier {
         }
       };
     }
-    _missing.addAll(missing);
+
+    _missing.addAll(clonedMissing);
     return _missing;
   }
 
@@ -93,13 +101,16 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `add`
   Set<Video> getAdded() {
-    Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
-    Set<Video> added = clonedFetch.difference(_videos);
+    final Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
+    final Set<Video> clonedAdded = clonedFetch.difference(_videos);
 
+    //? cleanup previus fetch
     _added.removeWhere((video) => !_fetch.contains(video));
 
-    for (var video in added) {
+    for (final Video video in clonedAdded) {
       video.setStatus(VideoStatus.added);
+
+      //? onTap
       video.function = () {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
@@ -110,15 +121,63 @@ class Playlist extends ChangeNotifier {
         }
       };
     }
-    _added.addAll(added);
+
+    _added.addAll(clonedAdded);
     return _added;
   }
 
-  ///Used after saving
+  ///Clears all videos from [_added] & [_missing] that are in `Pending` status
+  ///
+  ///Notifies listeners after
   void clearPending() {
     _added.removeWhere((video) => video.status == VideoStatus.pending);
     _missing.removeWhere((video) => video.status == VideoStatus.pending);
     notifyListeners();
+  }
+
+  ///Fetches the videos of the playlist and adds them to its [videos] Set
+  Future<void> download() async {
+    if (status != PlaylistStatus.notDownloaded) return;
+    setStatus(PlaylistStatus.downloading);
+
+    try {
+      YoutubeClient();
+      await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
+        _videos.add(video);
+        //? if it started, add Playlist
+        Persistence.addPlaylist(this);
+      }
+    } on SocketException {
+      //? if it fails anytime, remove Playlist
+      Persistence.removePlaylist(this);
+      setStatus(PlaylistStatus.notDownloaded);
+      rethrow;
+    }
+
+    setStatus(PlaylistStatus.downloaded);
+  }
+
+  ///Fetches the videos of the playlist and adds them to its [_fetch] Set
+  Future<void> fetchVideos() async {
+    if (_status == PlaylistStatus.fetching ||
+        _status == PlaylistStatus.downloading) return;
+
+    //? cleanup
+    _fetching = true;
+    _fetch.clear();
+    setStatus(PlaylistStatus.fetching);
+
+    try {
+      YoutubeClient();
+      await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
+        _fetch.add(video);
+      }
+    } on SocketException {
+      setStatus(PlaylistStatus.unChecked);
+      rethrow;
+    } finally {
+      _fetching = false;
+    }
   }
 
   ///Compares the playlist's persistent and fetched data,
@@ -127,15 +186,20 @@ class Playlist extends ChangeNotifier {
   ///After check, [history] will be updated
   ///
   ///Throws `PlaylistException` if the state isn't `fetching`
-  void check() async {
+  Future<void> check() async {
     if (_status != PlaylistStatus.fetching) {
       throw PlaylistException("PlaylistState != fetching when starting check.");
     }
+
     setStatus(PlaylistStatus.checking);
 
-    thumbnailUrl = _fetch.firstOrNull?.thumbnailUrl ?? "";
+    //? update thumbnail if different
+    final String newthumbnailUrl = _fetch.firstOrNull?.thumbnailUrl ?? "";
+    if (newthumbnailUrl != thumbnailUrl) {
+      thumbnailUrl = newthumbnailUrl;
+    }
 
-    if ((thumbnailUrl == "") && !(await YoutubeClient().existsPlaylist(id))) {
+    if ((thumbnailUrl == "") && !(await YoutubeClient.existsPlaylist(id))) {
       setStatus(PlaylistStatus.notFound);
       return;
     }
@@ -145,29 +209,29 @@ class Playlist extends ChangeNotifier {
         : setStatus(PlaylistStatus.changed);
 
     if (status == PlaylistStatus.changed) {
-      for (var video in getAdded()) {
-        VideoHistory videoHistory = VideoHistory.fromVideo(
+      for (final Video video in getAdded()) {
+        final VideoHistory addedHistory = VideoHistory.fromVideo(
           video: video,
           status: VideoStatus.added,
         );
 
-        if (_history.lastOrNull != videoHistory &&
-            !_recentHistory.contains(videoHistory)) {
-          _history.add(videoHistory);
-          _recentHistory.add(videoHistory);
+        if (_history.lastOrNull != addedHistory &&
+            !_recentHistory.contains(addedHistory)) {
+          _history.add(addedHistory);
+          _recentHistory.add(addedHistory);
         }
       }
 
-      for (var video in getMissing()) {
-        var videoHistory = VideoHistory.fromVideo(
+      for (final Video video in getMissing()) {
+        final VideoHistory missingHistory = VideoHistory.fromVideo(
           video: video,
           status: VideoStatus.missing,
         );
 
-        if (_history.lastOrNull != videoHistory &&
-            !_recentHistory.contains(videoHistory)) {
-          _history.add(videoHistory);
-          _recentHistory.add(videoHistory);
+        if (_history.lastOrNull != missingHistory &&
+            !_recentHistory.contains(missingHistory)) {
+          _history.add(missingHistory);
+          _recentHistory.add(missingHistory);
         }
       }
     } else if (status == PlaylistStatus.unChanged) {
@@ -175,70 +239,6 @@ class Playlist extends ChangeNotifier {
       _recentHistory.clear();
     }
   }
-
-  ///Fetches the videos of the playlist and adds them to its `fetch` Set
-  Stream<Video> fetchVideos() async* {
-    if (_status == PlaylistStatus.fetching) return;
-
-    _fetching = true;
-    _fetch.clear();
-    setStatus(PlaylistStatus.fetching);
-
-    YoutubeClient client = YoutubeClient();
-    try {
-      await for (Video video in client.getVideosFromPlaylist(id)) {
-        _fetch.add(video);
-        yield video;
-      }
-    } on SocketException catch (_) {
-      setStatus(PlaylistStatus.unChecked);
-      rethrow;
-    } finally {
-      _fetching = false;
-    }
-  }
-
-  ///Fetches the videos of the playlist and adds them to its `videos` Set
-  Future<void> download() async {
-    if (status != PlaylistStatus.notDownloaded) return;
-    setStatus(PlaylistStatus.downloading);
-
-    YoutubeClient client = YoutubeClient();
-    try {
-      await for (Video video in client.getVideosFromPlaylist(id)) {
-        _videos.add(video);
-      }
-    } on SocketException catch (_) {
-      setStatus(PlaylistStatus.notDownloaded);
-      rethrow;
-    }
-
-    setStatus(PlaylistStatus.downloaded);
-  }
-
-  //#endregion
-
-  //#region [planned]
-
-  ///Adds a `String` to the [_planned] Set
-  ///
-  ///Returns the success
-  bool addTitleToPlanned(String title) => _planned.add(title);
-
-  ///Removes a `String` from the [_planned] Set
-  ///
-  ///Returns the success
-  bool removeTitleFromPlanned(String title) => _planned.remove(title);
-
-  ///Adds a `Video`'s title to the [_planned] Set
-  ///
-  ///Returns the success
-  bool addVideoToPlanned(Video video) => _planned.add(video.title);
-
-  ///Removes a `Video`'s title from the [_planned] Set
-  ///
-  ///Returns the success
-  bool removeVideoFromPlanned(Video video) => _planned.remove(video.title);
 
   //#endregion
 

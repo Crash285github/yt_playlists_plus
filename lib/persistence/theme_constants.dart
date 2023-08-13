@@ -36,6 +36,16 @@ const dividerTheme = DividerThemeData(
   space: 2,
 );
 
+var snackBarTheme = SnackBarThemeData(
+  showCloseIcon: true,
+  behavior: SnackBarBehavior.floating,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15),
+  ),
+  insetPadding: const EdgeInsets.all(15),
+  elevation: 0,
+);
+
 ShapeBorder cardBorder({required bool firstOfList, required bool lastOfList}) {
   double strongCorner = 15.0;
   double weakCorner = 4.0;

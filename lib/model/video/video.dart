@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 
 class Video extends ChangeNotifier {
-  String id, title, author, thumbnailUrl;
-  VideoStatus _status = VideoStatus.hidden;
+  final String id;
+  String title, author, thumbnailUrl;
+
+  ///The video's current status
   VideoStatus get status => _status;
+  VideoStatus _status = VideoStatus.hidden;
 
   ///What the Video should do when tapped on it's Widget
   ///
@@ -17,6 +20,14 @@ class Video extends ChangeNotifier {
     required this.author,
     required this.thumbnailUrl,
   });
+
+  ///Creates a copy if a Video
+  factory Video.deepCopy(Video source) => Video(
+        id: source.id,
+        title: source.title,
+        author: source.author,
+        thumbnailUrl: source.thumbnailUrl,
+      );
 
   ///Changes status & alerts listeners
   setStatus(VideoStatus newStatus) {
@@ -50,11 +61,4 @@ class Video extends ChangeNotifier {
         'author': author,
         'thumbnailUrl': thumbnailUrl,
       };
-
-  factory Video.deepCopy(Video source) => Video(
-        id: source.id,
-        title: source.title,
-        author: source.author,
-        thumbnailUrl: source.thumbnailUrl,
-      );
 }

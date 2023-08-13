@@ -46,6 +46,10 @@ ThemeData get lightTheme => ThemeData(
           constants.expansionTileTheme.copyWith(iconColor: Colors.black),
       floatingActionButtonTheme: constants.floatingActionButtonTheme,
       dividerTheme: constants.dividerTheme,
+      snackBarTheme: constants.snackBarTheme.copyWith(
+        backgroundColor: Colors.grey[300],
+        closeIconColor: Colors.black,
+      ),
     );
 
 //? DARK THEME
@@ -72,4 +76,8 @@ ThemeData get darkTheme => ThemeData(
       floatingActionButtonTheme: constants.floatingActionButtonTheme
           .copyWith(foregroundColor: const Color(0xff121212)),
       dividerTheme: constants.dividerTheme,
+      snackBarTheme: constants.snackBarTheme.copyWith(
+        backgroundColor: Colors.grey[900],
+        closeIconColor: Colors.white,
+      ),
     );
