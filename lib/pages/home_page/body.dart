@@ -50,7 +50,9 @@ class _HomePageBodyState extends State<HomePageBody> {
                                     .then((_) => playlist.check())
                                     .then((_) => setState(() {
                                           _fetchCount--;
-                                        }));
+                                        }))
+                                    .onError(
+                                        (error, stackTrace) => _fetchCount = 0);
                           },
                         ).toList(),
                       ).then((_) => setState(() {

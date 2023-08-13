@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
@@ -34,12 +36,17 @@ class YoutubeClient {
       }
     }
 
-    var result = await _client.search
-        .searchContent(query, filter: yt_explode.TypeFilters.playlist);
-
-    for (var list in result) {
-      yield await _getPlaylist(
-          (list as yt_explode.SearchPlaylist).playlistId.toString());
+    try {
+      var result = await _client.search
+          .searchContent(query, filter: yt_explode.TypeFilters.playlist);
+      for (var list in result) {
+        yield await _getPlaylist(
+            (list as yt_explode.SearchPlaylist).playlistId.toString());
+      }
+    } on SocketException catch (_) {
+      rethrow;
+    } on PlaylistException catch (_) {
+      return;
     }
   }
 
@@ -54,55 +61,65 @@ class YoutubeClient {
       return null;
     }
 
-    Playlist playlist = await _getPlaylist(id).onError(
-      (error, stackTrace) {
-        return Playlist(id: "", title: "", author: "", thumbnailUrl: "");
-      },
-    );
+    try {
+      Playlist playlist = await _getPlaylist(id);
 
-    //if the ID doesn't exist:
-    if (playlist.title.isEmpty || playlist.author.isEmpty) {
+      return playlist;
+    } on SocketException catch (_) {
+      rethrow;
+    } on PlaylistException catch (_) {
       return null;
     }
-
-    return playlist;
   }
 
   Future<bool> existsPlaylist(String playlistId) async {
-    var result = await _client.playlists.get(playlistId);
-    return result.title != "";
+    try {
+      var result = await _client.playlists.get(playlistId);
+      return result.title != "";
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<Playlist> _getPlaylist(String playlistId) async {
-    var result = await _client.playlists.get(playlistId);
-    yt_explode.Video video =
-        await _client.playlists.getVideos(result.id).first.onError(
-      (error, stackTrace) {
-        throw PlaylistException("Invalid PlaylistId");
-      },
-    );
+    try {
+      var result = await _client.playlists.get(playlistId);
 
-    String author = result.author;
-    if (!result.author.startsWith("by")) author = "by ${result.author}";
+      yt_explode.Video video =
+          await _client.playlists.getVideos(result.id).first.onError(
+        (error, stackTrace) {
+          throw PlaylistException("Invalid PlaylistId");
+        },
+      );
 
-    return Playlist(
-      id: result.id.toString(),
-      title: result.title,
-      author: author,
-      thumbnailUrl: video.thumbnails.mediumResUrl,
-    );
+      String author = result.author;
+      if (!result.author.startsWith("by")) author = "by ${result.author}";
+
+      return Playlist(
+        id: result.id.toString(),
+        title: result.title,
+        author: author,
+        thumbnailUrl: video.thumbnails.mediumResUrl,
+      );
+    } on SocketException catch (_) {
+      rethrow;
+    }
   }
 
   ///Yields all `videos` from a given playlist
   Stream<Video> getVideosFromPlaylist(String playlistId) async* {
-    await for (yt_explode.Video vid
-        in _client.playlists.getVideos(playlistId)) {
-      Video video = Video(
-          id: vid.id.toString(),
-          title: vid.title,
-          author: vid.author,
-          thumbnailUrl: vid.thumbnails.mediumResUrl);
-      yield video;
+    try {
+      await for (yt_explode.Video vid
+          in _client.playlists.getVideos(playlistId)) {
+        Video video = Video(
+            id: vid.id.toString(),
+            title: vid.title,
+            author: vid.author,
+            thumbnailUrl: vid.thumbnails.mediumResUrl);
+        yield video;
+      }
+    } on SocketException catch (_) {
+      rethrow;
     }
   }
 }

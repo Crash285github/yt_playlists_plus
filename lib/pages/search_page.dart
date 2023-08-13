@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
@@ -41,23 +43,32 @@ class _SearchPageState extends State<SearchPage> {
     });
 
     if (_isYoutubePlaylistLink(query: _searchQuery.trim())) {
-      Playlist? playlist = await _client.searchByLink(url: _searchQuery.trim());
-      if (playlist != null) {
-        playlist.setStatus(PlaylistStatus.notDownloaded);
-        _searchResults.add(playlist);
+      try {
+        Playlist? playlist =
+            await _client.searchByLink(url: _searchQuery.trim());
+        if (playlist != null) {
+          playlist.setStatus(PlaylistStatus.notDownloaded);
+          _searchResults.add(playlist);
+        }
+      } on SocketException catch (_) {
+        //? do nothing
       }
     } else {
-      await for (Playlist playlist in _client.searchByQuery(
-        query: _searchQuery,
-        excludedWords: Persistence.playlists.map((e) => e.id).toList(),
-      )) {
-        if (!_rendered) return;
-        if (Persistence.playlists.contains(playlist)) continue;
-        playlist.setStatus(PlaylistStatus.notDownloaded);
-        setState(() {
-          _searchResults.add(playlist);
-          _progress++;
-        });
+      try {
+        await for (Playlist playlist in _client.searchByQuery(
+          query: _searchQuery,
+          excludedWords: Persistence.playlists.map((e) => e.id).toList(),
+        )) {
+          if (!_rendered) return;
+          if (Persistence.playlists.contains(playlist)) continue;
+          playlist.setStatus(PlaylistStatus.notDownloaded);
+          setState(() {
+            _searchResults.add(playlist);
+            _progress++;
+          });
+        }
+      } on SocketException catch (_) {
+        //? do nothing
       }
     }
 
@@ -110,19 +121,26 @@ class _SearchPageState extends State<SearchPage> {
                   delegate: SliverChildListDelegate(
                     [
                       ..._searchResults.map(
-                        (e) {
+                        (playlist) {
                           index++;
                           return ListenableProvider.value(
-                            value: e,
+                            value: playlist,
                             child: PlaylistWidget(
-                              firstOfList: index == 1,
-                              lastOfList: index == _searchResults.length,
-                              onTap: () async {
-                                Persistence.addPlaylist(e);
-                                await e.download();
-                                await Persistence.save();
-                              },
-                            ),
+                                firstOfList: index == 1,
+                                lastOfList: index == _searchResults.length,
+                                onTap: () async {
+                                  if (playlist.status ==
+                                      PlaylistStatus.notDownloaded) {
+                                    try {
+                                      await playlist.download();
+                                      Persistence.addPlaylist(playlist);
+                                    } on SocketException catch (_) {
+                                      Persistence.removePlaylist(playlist);
+                                    } finally {
+                                      await Persistence.save();
+                                    }
+                                  }
+                                }),
                           );
                         },
                       ),

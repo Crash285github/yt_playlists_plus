@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -111,8 +112,12 @@ class AppBarActions extends StatelessWidget {
                   playlist.status == PlaylistStatus.downloading
               ? null
               : () async {
-                  await playlist.fetchVideos().drain();
-                  playlist.check();
+                  try {
+                    await playlist.fetchVideos().drain();
+                    playlist.check();
+                  } on SocketException catch (_) {
+                    return;
+                  }
                 },
         ),
         IconButton(

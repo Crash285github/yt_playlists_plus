@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
@@ -184,11 +185,17 @@ class Playlist extends ChangeNotifier {
     setStatus(PlaylistStatus.fetching);
 
     YoutubeClient client = YoutubeClient();
-    await for (Video video in client.getVideosFromPlaylist(id)) {
-      _fetch.add(video);
-      yield video;
+    try {
+      await for (Video video in client.getVideosFromPlaylist(id)) {
+        _fetch.add(video);
+        yield video;
+      }
+    } on SocketException catch (_) {
+      setStatus(PlaylistStatus.unChecked);
+      rethrow;
+    } finally {
+      _fetching = false;
     }
-    _fetching = false;
   }
 
   ///Fetches the videos of the playlist and adds them to its `videos` Set
@@ -197,8 +204,13 @@ class Playlist extends ChangeNotifier {
     setStatus(PlaylistStatus.downloading);
 
     YoutubeClient client = YoutubeClient();
-    await for (Video video in client.getVideosFromPlaylist(id)) {
-      _videos.add(video);
+    try {
+      await for (Video video in client.getVideosFromPlaylist(id)) {
+        _videos.add(video);
+      }
+    } on SocketException catch (_) {
+      setStatus(PlaylistStatus.notDownloaded);
+      rethrow;
     }
 
     setStatus(PlaylistStatus.downloaded);
