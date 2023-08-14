@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/changes/tab_changes.dart';
@@ -34,10 +35,13 @@ class PlaylistPageBody extends StatelessWidget {
                 opacity: 0.7,
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Image.network(
-                    playlist.thumbnailUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: playlist.thumbnailUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                    useOldImageOnUrlChange: true,
+                    fadeInDuration: const Duration(milliseconds: 200),
+                    fadeOutDuration: const Duration(milliseconds: 200),
+                    errorWidget: (context, url, error) => Image.asset(
                       "assets/no-thumbnail.png",
                       fit: BoxFit.cover,
                     ),
