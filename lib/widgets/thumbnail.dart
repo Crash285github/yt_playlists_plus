@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ThumbnailImage extends StatelessWidget {
@@ -51,32 +52,34 @@ class ThumbnailImage extends StatelessWidget {
                     )
                   : BorderRadius.all(Radius.circular(smallRadius)),
       child: SizedBox(
-        height: size,
-        width: size,
-        child: Image.network(
-          thumbnailUrl,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => Stack(
-              alignment: Alignment.center,
-              fit: StackFit.expand,
-              children: [
-                Image.asset(
-                  "assets/no-thumbnail.png",
-                  fit: BoxFit.cover,
-                ),
-                const Align(
-                  alignment: Alignment.bottomRight,
-                  child: Tooltip(
-                    message: "Thumbnail not found",
-                    child: Icon(
-                      Icons.warning,
-                      color: Colors.amber,
-                    ),
+          height: size,
+          width: size,
+          child: CachedNetworkImage(
+            imageUrl: thumbnailUrl,
+            fit: BoxFit.cover,
+            useOldImageOnUrlChange: true,
+            fadeInDuration: const Duration(milliseconds: 200),
+            fadeOutDuration: const Duration(milliseconds: 200),
+            errorWidget: (context, url, error) => Stack(
+                alignment: Alignment.center,
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    "assets/no-thumbnail.png",
+                    fit: BoxFit.cover,
                   ),
-                )
-              ]),
-        ),
-      ),
+                  const Align(
+                    alignment: Alignment.bottomRight,
+                    child: Tooltip(
+                      message: "Thumbnail not found",
+                      child: Icon(
+                        Icons.warning,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  )
+                ]),
+          )),
     );
   }
 }
