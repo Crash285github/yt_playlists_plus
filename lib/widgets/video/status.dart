@@ -10,8 +10,6 @@ class VideoStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (status == VideoStatus.hidden) return const SizedBox.shrink();
-
     Widget icon = Tooltip(
         message: status.displayName,
         child: Icon(

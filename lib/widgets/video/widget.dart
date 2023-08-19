@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/persistence/theme_constants.dart%20';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/thumbnail.dart';
@@ -50,9 +51,9 @@ class VideoWidget extends ICardWidget {
                   ],
                 ),
               ),
-              isInteractable
+              isInteractable || video.status != VideoStatus.normal
                   ? VideoStatusWidget(status: video.status)
-                  : const SizedBox.shrink(),
+                  : const SizedBox(width: 10),
             ],
           ),
         ),

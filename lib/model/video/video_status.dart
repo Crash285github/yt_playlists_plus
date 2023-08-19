@@ -4,10 +4,10 @@ enum VideoStatus {
   ///The video is both in the Persistence and fetch
   ///
   ///This is also the default state before checking
-  hidden(
-    displayName: null,
-    icon: null,
-    color: null,
+  normal(
+    displayName: "Normal",
+    icon: Icons.error,
+    color: Colors.grey,
   ),
 
   ///The video is pending

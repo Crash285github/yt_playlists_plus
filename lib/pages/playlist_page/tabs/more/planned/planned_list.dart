@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/top_bar.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/planned_widget.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/widget.dart';
 
 class PlannedList extends StatefulWidget {
   final ScrollController scrollController;
