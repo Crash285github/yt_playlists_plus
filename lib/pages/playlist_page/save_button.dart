@@ -13,7 +13,7 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        Persistence.save();
+        Persistence.savePlaylists();
         playlist.clearPending();
       },
       tooltip: "Save",
