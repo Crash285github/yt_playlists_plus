@@ -3,6 +3,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/planned_list.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlannedPanel extends StatefulWidget {
   final Set<String> planned;
@@ -71,6 +72,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
       setState(() {
         widget.planned.add(title);
       });
+      Persistence.savePlaylists();
     }
   }
 

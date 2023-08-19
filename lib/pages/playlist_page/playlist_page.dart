@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/appbar_actions.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/body.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/save_button.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabbar.dart';
 
 class PlaylistPage extends StatelessWidget {
@@ -27,7 +26,6 @@ class PlaylistPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
         body: PlaylistPageBody(playlist: playlist),
-        floatingActionButton: SaveButton(playlist: playlist),
       ),
     );
   }
