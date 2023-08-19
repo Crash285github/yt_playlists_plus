@@ -21,9 +21,15 @@ class _PlannedWidgetState extends State<PlannedWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.title,
-            style: Theme.of(context).textTheme.titleLarge,
+          Flexible(
+            child: Tooltip(
+              message: widget.title,
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.titleLarge,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
           IconButton(
             onPressed: () => widget.onDeletePressed(),
