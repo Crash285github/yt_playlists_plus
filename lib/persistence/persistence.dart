@@ -55,14 +55,15 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
-  ///Saves current Persistent Storage state
-  static Future<bool> save() async {
+  static Future<bool> saveTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //theme
-    prefs.setInt('theme', ApplicationTheme.get());
+    return prefs.setInt('theme', ApplicationTheme.get());
+  }
 
-    //playlists
+  static Future<bool> savePlaylists() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     return prefs.setStringList(
         'playlists', (_playlists.map((e) => jsonEncode(e))).toList());
   }
