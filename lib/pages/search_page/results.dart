@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/widgets/playlist/widget.dart';
 
 class SearchResults extends StatelessWidget {
@@ -32,7 +33,7 @@ class SearchResults extends StatelessWidget {
                       if (playlist.status == PlaylistStatus.notDownloaded) {
                         try {
                           await playlist.download();
-                          await Persistence.save();
+                          await Persistence.savePlaylists();
                         } on SocketException {
                           //? do nothing
                         }
@@ -41,7 +42,7 @@ class SearchResults extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: 80),
+          const BottomPadding(),
         ],
       ),
     );

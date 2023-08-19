@@ -79,7 +79,7 @@ class _DrawerSettingsState extends State<DrawerSettings> {
             setState(() {
               _isDarkModeOn = value;
             });
-            Persistence.save();
+            Persistence.saveTheme();
           },
         ),
       ],

@@ -28,7 +28,7 @@ class AppBarActions {
       IconButton(
         onPressed: () {
           Persistence.removePlaylist(playlist);
-          Persistence.save();
+          Persistence.savePlaylists();
           Navigator.pop(context);
         },
         icon: const Icon(
