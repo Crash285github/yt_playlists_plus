@@ -7,7 +7,7 @@ class Video extends ChangeNotifier {
 
   ///The video's current status
   VideoStatus get status => _status;
-  VideoStatus _status = VideoStatus.hidden;
+  VideoStatus _status = VideoStatus.normal;
 
   ///What the Video should do when tapped on it's Widget
   ///
@@ -52,7 +52,7 @@ class Video extends ChangeNotifier {
         title = json['title'],
         author = json['author'],
         thumbnailUrl = json['thumbnailUrl'],
-        _status = VideoStatus.hidden;
+        _status = VideoStatus.normal;
 
   ///Converts a `Video` Object into a `json` Object
   Map<String, dynamic> toJson() => {
