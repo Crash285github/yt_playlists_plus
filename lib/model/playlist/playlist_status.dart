@@ -74,6 +74,12 @@ enum PlaylistStatus {
     displayName: "Not Found",
     icon: Icons.close,
     color: Colors.red,
+  ),
+
+  saved(
+    displayName: "Saved",
+    icon: Icons.save,
+    color: Colors.lightBlue,
   );
 
   const PlaylistStatus({
