@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class ConfirmDeleteSwitch extends StatefulWidget {
   const ConfirmDeleteSwitch({super.key});
@@ -8,7 +9,7 @@ class ConfirmDeleteSwitch extends StatefulWidget {
 }
 
 class _ConfirmDeleteSwitchState extends State<ConfirmDeleteSwitch> {
-  bool _showConfirmDialog = true;
+  bool _showConfirmDialog = Persistence.confirmDeletions;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,8 @@ class _ConfirmDeleteSwitchState extends State<ConfirmDeleteSwitch> {
         setState(() {
           _showConfirmDialog = value;
         });
+        Persistence.confirmDeletions = value;
+        Persistence.saveConfirmDeletions();
       },
     );
   }
