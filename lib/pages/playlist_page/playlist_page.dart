@@ -19,9 +19,11 @@ class PlaylistPage extends StatelessWidget {
           title: Text(playlist.title),
           centerTitle: true,
           actions: AppBarActions.build(context: context, playlist: playlist),
-          bottom: PlaylistPageTabBar.build(
-            context: context,
-            playlist: playlist,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: PlaylistPageTabBar(
+              playlist: playlist,
+            ),
           ),
           backgroundColor: Colors.transparent,
         ),
