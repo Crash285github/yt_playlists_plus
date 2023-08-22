@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/save_button.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/changes/save_button.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/changes/changes_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/changes/changes_top_row.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/changes/status.dart';
