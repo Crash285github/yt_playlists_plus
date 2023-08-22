@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PopUpManager {
   //Singleton
@@ -46,6 +47,7 @@ class PopUpManager {
     required BuildContext context,
     required Playlist playlist,
   }) async {
+    if (!Persistence.confirmDeletions) return true;
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
