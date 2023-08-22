@@ -34,20 +34,26 @@ class Persistence with ChangeNotifier {
 
   ///Removes a `Playlist` item from the Persistent storage, and alerts listeners
   ///
-  ///Doesn't save on it's own
+  ///Doesn't save on its own
   static void removePlaylist(Playlist item) {
     _playlists.remove(item);
     _instance.notifyListeners();
   }
 
+  ///Whether to show a confirmation dialog before deleting playlists
+  static bool confirmDeletions = true;
+
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //theme
+    //? theme
     ApplicationTheme.set(prefs.getInt('theme') ?? 0);
 
-    //playlists
+    //? confirmDeletions
+    confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
+
+    //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
 
@@ -57,13 +63,16 @@ class Persistence with ChangeNotifier {
 
   static Future<bool> saveTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     return prefs.setInt('theme', ApplicationTheme.get());
+  }
+
+  static Future<bool> saveConfirmDeletions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool('confirmDeletions', confirmDeletions);
   }
 
   static Future<bool> savePlaylists() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     return prefs.setStringList(
         'playlists', (_playlists.map((e) => jsonEncode(e))).toList());
   }

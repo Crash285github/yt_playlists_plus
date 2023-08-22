@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/settings_list.dart';
 
 class HomePageDrawer extends StatelessWidget {
   const HomePageDrawer({super.key});
@@ -22,7 +21,7 @@ class HomePageDrawer extends StatelessWidget {
               ),
             ),
             const Divider(height: 2),
-            const Expanded(child: DrawerSettings()),
+            const Expanded(child: Settings()),
             const Divider(height: 2),
             //About
             InkWell(
@@ -48,41 +47,6 @@ class HomePageDrawer extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class DrawerSettings extends StatefulWidget {
-  const DrawerSettings({super.key});
-
-  @override
-  State<DrawerSettings> createState() => _DrawerSettingsState();
-}
-
-class _DrawerSettingsState extends State<DrawerSettings> {
-  bool _isDarkModeOn = ApplicationTheme.get() == ApplicationTheme.dark;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SwitchListTile(
-          value: _isDarkModeOn,
-          title: Text(_isDarkModeOn ? "Dark Mode" : "Light Mode"),
-          secondary: Icon(_isDarkModeOn
-              ? Icons.dark_mode_outlined
-              : Icons.light_mode_outlined),
-          onChanged: (value) {
-            _isDarkModeOn
-                ? ApplicationTheme.set(ApplicationTheme.light)
-                : ApplicationTheme.set(ApplicationTheme.dark);
-            setState(() {
-              _isDarkModeOn = value;
-            });
-            Persistence.saveTheme();
-          },
-        ),
-      ],
     );
   }
 }
