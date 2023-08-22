@@ -29,6 +29,12 @@ class Playlist extends ChangeNotifier {
   PlaylistStatus get status => _status;
   PlaylistStatus _status = PlaylistStatus.unChecked;
 
+  ///Changes status & alerts listeners
+  setStatus(PlaylistStatus newStatus) {
+    _status = newStatus;
+    notifyListeners();
+  }
+
   ///Previously deleted and added videos
   List<VideoHistory> get history => _history;
   List<VideoHistory> _history = [];
@@ -42,11 +48,11 @@ class Playlist extends ChangeNotifier {
   final Set<Video> _added = {};
   final Set<Video> _missing = {};
 
-  ///Changes status & alerts listeners
-  setStatus(PlaylistStatus newStatus) {
-    _status = newStatus;
-    notifyListeners();
-  }
+  ///Whether the playlist has been changed
+  ///
+  ///0 if not changed, otherwise shows the number of changes
+  int get modified => _modified;
+  int _modified = 0;
 
   Playlist({
     required this.id,
@@ -86,10 +92,13 @@ class Playlist extends ChangeNotifier {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
           _videos.remove(video);
+          _modified++;
         } else if (video.status == VideoStatus.pending) {
           video.setStatus(VideoStatus.missing);
           _videos.add(video);
+          _modified--;
         }
+        notifyListeners();
       };
     }
 
@@ -101,6 +110,8 @@ class Playlist extends ChangeNotifier {
   ///
   ///Video's function is set to `add`
   Set<Video> getAdded() {
+    if (_fetching || _fetch.isEmpty) return {};
+
     final Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
     final Set<Video> clonedAdded = clonedFetch.difference(_videos);
 
@@ -115,10 +126,13 @@ class Playlist extends ChangeNotifier {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
           _videos.add(video);
+          _modified++;
         } else if (video.status == VideoStatus.pending) {
           video.setStatus(VideoStatus.added);
           _videos.remove(video);
+          _modified--;
         }
+        notifyListeners();
       };
     }
 
@@ -132,6 +146,7 @@ class Playlist extends ChangeNotifier {
   void clearPending() {
     _added.removeWhere((video) => video.status == VideoStatus.pending);
     _missing.removeWhere((video) => video.status == VideoStatus.pending);
+    _modified = 0;
     notifyListeners();
   }
 

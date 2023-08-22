@@ -41,7 +41,7 @@ class _VideosListState extends State<VideosList>
                 isInteractable: false,
               ));
         }),
-        const BottomPadding(androidHeight: 230, windowsHeight: 200),
+        const BottomPadding(androidHeight: 230, windowsHeight: 210),
       ],
     );
   }
