@@ -26,7 +26,8 @@ class PlaylistPageTabBar extends StatelessWidget {
             ),
             playlist.status != PlaylistStatus.unChanged &&
                     playlist.status != PlaylistStatus.unChecked &&
-                    playlist.status != PlaylistStatus.downloaded
+                    playlist.status != PlaylistStatus.downloaded &&
+                    playlist.status != PlaylistStatus.saved
                 ? Positioned(
                     left: 20,
                     top: -5,
