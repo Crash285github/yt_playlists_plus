@@ -76,6 +76,7 @@ enum PlaylistStatus {
     color: Colors.red,
   ),
 
+  ///The Playlist has been saved
   saved(
     displayName: "Saved",
     icon: Icons.save,
