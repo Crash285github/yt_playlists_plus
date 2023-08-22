@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class AppBarActions {
@@ -26,10 +27,15 @@ class AppBarActions {
               },
       ),
       IconButton(
-        onPressed: () {
-          Persistence.removePlaylist(playlist);
-          Persistence.savePlaylists();
-          Navigator.pop(context);
+        onPressed: () async {
+          PopUpManager.openConfirmDialog(context: context, playlist: playlist)
+              .then((value) {
+            if (value ?? false) {
+              Persistence.removePlaylist(playlist);
+              Persistence.savePlaylists();
+              Navigator.pop(context);
+            }
+          });
         },
         icon: const Icon(
           Icons.delete_outline,

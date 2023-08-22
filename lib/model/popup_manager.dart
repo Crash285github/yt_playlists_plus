@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 class PopUpManager {
   //Singleton
@@ -35,6 +36,36 @@ class PopUpManager {
               Navigator.of(context).pop(controller.text);
             },
             child: Text(submitLabel),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Future<bool?> openConfirmDialog({
+    required BuildContext context,
+    required Playlist playlist,
+  }) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Delete \"${playlist.title}\"?"),
+        content: Text(
+          "This will erase all of the playlist's data.",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text("No"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text("Yes"),
           ),
         ],
       ),
