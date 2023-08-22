@@ -43,7 +43,7 @@ class PopUpManager {
     );
   }
 
-  static Future<bool?> openConfirmDialog({
+  static Future<bool?> openDeletionConfirmDialog({
     required BuildContext context,
     required Playlist playlist,
   }) async {

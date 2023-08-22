@@ -34,25 +34,26 @@ class Persistence with ChangeNotifier {
 
   ///Removes a `Playlist` item from the Persistent storage, and alerts listeners
   ///
-  ///Doesn't save on it's own
+  ///Doesn't save on its own
   static void removePlaylist(Playlist item) {
     _playlists.remove(item);
     _instance.notifyListeners();
   }
 
+  ///Whether to show a confirmation dialog before deleting playlists
   static bool confirmDeletions = true;
 
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //theme
+    //? theme
     ApplicationTheme.set(prefs.getInt('theme') ?? 0);
 
-    //confirmDeletions
+    //? confirmDeletions
     confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
 
-    //playlists
+    //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
 

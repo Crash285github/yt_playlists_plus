@@ -27,7 +27,8 @@ class AppBarActions {
       ),
       IconButton(
         onPressed: () async {
-          PopUpManager.openConfirmDialog(context: context, playlist: playlist)
+          PopUpManager.openDeletionConfirmDialog(
+                  context: context, playlist: playlist)
               .then((value) {
             if (value ?? false) {
               Persistence.removePlaylist(playlist);
