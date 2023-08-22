@@ -15,7 +15,7 @@ class SaveButton extends StatelessWidget {
     return AnimatedScale(
       duration: const Duration(milliseconds: 300),
       curve: Curves.decelerate,
-      scale: playlist.status == PlaylistStatus.changed ? 1 : 0,
+      scale: playlist.modified == 0 ? 0 : 1,
       child: FloatingActionButton(
         onPressed: () async {
           await Persistence.savePlaylists();
