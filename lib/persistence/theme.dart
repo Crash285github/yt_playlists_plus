@@ -25,59 +25,29 @@ class ApplicationTheme extends ChangeNotifier {
   }
 }
 
-//? LIGHT THEME
-ThemeData get lightTheme => ThemeData(
-      useMaterial3: true,
-      colorScheme: const ColorScheme.light().copyWith(primary: Colors.red),
-      drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
-      cardColor: Colors.grey[300],
-      cardTheme: constants.cardTheme.copyWith(color: Colors.grey[300]),
-      dialogTheme: constants.dialogTheme,
-      tooltipTheme: constants.tooltipTheme,
-      appBarTheme: constants.appBarTheme,
-      tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
-      iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(padding: constants.buttonPadding)),
-      textButtonTheme: const TextButtonThemeData(
-          style: ButtonStyle(padding: constants.buttonPadding)),
-      switchTheme: const SwitchThemeData(
-          thumbColor: MaterialStatePropertyAll(Colors.black)),
-      expansionTileTheme:
-          constants.expansionTileTheme.copyWith(iconColor: Colors.black),
-      floatingActionButtonTheme: constants.floatingActionButtonTheme,
-      dividerTheme: constants.dividerTheme,
-      snackBarTheme: constants.snackBarTheme.copyWith(
-        backgroundColor: Colors.grey[300],
-        closeIconColor: Colors.black,
-      ),
-    );
+//? theme builder
+ThemeData themeBuilder({ColorScheme? scheme}) {
+  //fallback
+  scheme ??= ApplicationTheme.get() == ApplicationTheme.light
+      ? const ColorScheme.light().copyWith(primary: Colors.red)
+      : const ColorScheme.dark().copyWith(primary: Colors.red);
 
-//? DARK THEME
-ThemeData get darkTheme => ThemeData(
-      useMaterial3: true,
-      colorScheme: const ColorScheme.dark().copyWith(primary: Colors.red),
-      drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.transparent),
-      cardColor: Colors.grey[900],
-      cardTheme: constants.cardTheme.copyWith(color: Colors.grey[900]),
-      dialogTheme: constants.dialogTheme,
-      tooltipTheme: constants.tooltipTheme,
-      appBarTheme: constants.appBarTheme,
-      tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
-      iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(
-        padding: constants.buttonPadding,
-      )),
-      textButtonTheme: const TextButtonThemeData(
-          style: ButtonStyle(padding: constants.buttonPadding)),
-      switchTheme: const SwitchThemeData(
-          thumbColor: MaterialStatePropertyAll(Colors.white)),
-      expansionTileTheme:
-          constants.expansionTileTheme.copyWith(iconColor: Colors.white),
-      floatingActionButtonTheme: constants.floatingActionButtonTheme
-          .copyWith(foregroundColor: const Color(0xff121212)),
-      dividerTheme: constants.dividerTheme,
-      snackBarTheme: constants.snackBarTheme.copyWith(
-        backgroundColor: Colors.grey[900],
-        closeIconColor: Colors.white,
-      ),
-    );
+  return ThemeData(
+    useMaterial3: true,
+    colorScheme: scheme,
+    cardColor: scheme.surface,
+    cardTheme: constants.cardTheme.copyWith(color: scheme.surface),
+    tooltipTheme: constants.tooltipTheme,
+    appBarTheme: constants.appBarTheme,
+    tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
+    iconButtonTheme: const IconButtonThemeData(
+        style: ButtonStyle(padding: constants.buttonPadding)),
+    textButtonTheme: const TextButtonThemeData(
+        style: ButtonStyle(padding: constants.buttonPadding)),
+    dividerTheme: constants.dividerTheme,
+    snackBarTheme: constants.snackBarTheme.copyWith(
+      backgroundColor: scheme.error,
+      closeIconColor: scheme.onError,
+    ),
+  );
+}
