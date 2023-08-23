@@ -42,7 +42,10 @@ class SearchResults extends StatelessWidget {
               );
             },
           ),
-          const BottomPadding(),
+          const BottomPadding(
+            androidHeight: 20,
+            windowsHeight: 10,
+          ),
         ],
       ),
     );

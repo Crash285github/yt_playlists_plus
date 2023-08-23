@@ -82,7 +82,9 @@ class PopUpManager {
       SnackBar(
         content: Text(
           message,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onError,
+              ),
         ),
         dismissDirection: DismissDirection.none,
       ),

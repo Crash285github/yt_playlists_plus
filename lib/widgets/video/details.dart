@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
 
 class VideoDetails extends StatelessWidget {
   final Video video;
@@ -30,9 +29,8 @@ class VideoDetails extends StatelessWidget {
             video.author,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                  color: ApplicationTheme.get() == ApplicationTheme.light
-                      ? Colors.grey[700]
-                      : Colors.grey,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                 ),
           ),
         ],

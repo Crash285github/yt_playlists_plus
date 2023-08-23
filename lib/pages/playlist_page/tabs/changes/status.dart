@@ -21,16 +21,19 @@ class ChangesCenterText extends StatelessWidget {
       case PlaylistStatus.unChanged:
         message = "No changes. That's good.";
         break;
+      case PlaylistStatus.saved:
+        message = "Playlist saved.";
+        break;
       default:
         message = "";
     }
     return Expanded(
       child: Center(
         child: Text(message,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: Colors.grey)),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                )),
       ),
     );
   }

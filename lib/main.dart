@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
@@ -26,29 +27,41 @@ class MainApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return MaterialApp(
-      title: "Youtube Playlists+",
-      initialRoute: '/',
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => const HomePage(),
-        '/about': (context) => const AboutPage(),
-        '/search': (context) => const SearchPage(),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == '/playlist') {
-          final args = settings.arguments as Playlist;
-          return MaterialPageRoute(
-              builder: (context) => ListenableProvider.value(
-                    value: args,
-                    child: const PlaylistPage(),
-                  ));
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        ColorScheme? lightDynamicColorScheme;
+        ColorScheme? darkDynamicColorScheme;
+
+        if (lightDynamic != null && darkDynamic != null) {
+          lightDynamicColorScheme = lightDynamic.harmonized();
+          darkDynamicColorScheme = darkDynamic.harmonized();
         }
-        return null;
+
+        return MaterialApp(
+          title: "Youtube Playlists+",
+          initialRoute: '/',
+          debugShowCheckedModeBanner: false,
+          routes: {
+            '/': (context) => const HomePage(),
+            '/about': (context) => const AboutPage(),
+            '/search': (context) => const SearchPage(),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name == '/playlist') {
+              final args = settings.arguments as Playlist;
+              return MaterialPageRoute(
+                  builder: (context) => ListenableProvider.value(
+                        value: args,
+                        child: const PlaylistPage(),
+                      ));
+            }
+            return null;
+          },
+          theme: ApplicationTheme.get() == ApplicationTheme.light
+              ? themeBuilder(scheme: lightDynamicColorScheme)
+              : themeBuilder(scheme: darkDynamicColorScheme),
+        );
       },
-      theme: ApplicationTheme.get() == ApplicationTheme.light
-          ? lightTheme
-          : darkTheme,
     );
   }
 }

@@ -32,10 +32,10 @@ class _EmptyPlannedState extends State<EmptyPlanned> {
             child: Center(
           child: Text(
             "Nothing in planned...",
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: Colors.grey),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                ),
           ),
         ))
       ],
