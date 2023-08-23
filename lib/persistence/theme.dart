@@ -27,8 +27,10 @@ class ApplicationTheme extends ChangeNotifier {
 
 //? theme builder
 ThemeData themeBuilder({ColorScheme? scheme}) {
+  bool isLight = ApplicationTheme.get() == ApplicationTheme.light;
+
   //fallback
-  scheme ??= ApplicationTheme.get() == ApplicationTheme.light
+  scheme ??= isLight
       ? const ColorScheme.light().copyWith(primary: Colors.red)
       : const ColorScheme.dark().copyWith(primary: Colors.red);
 
@@ -36,9 +38,11 @@ ThemeData themeBuilder({ColorScheme? scheme}) {
     useMaterial3: true,
     colorScheme: scheme,
     cardColor: scheme.surface,
+    scaffoldBackgroundColor: isLight ? scheme.surfaceVariant : null,
     cardTheme: constants.cardTheme.copyWith(color: scheme.surface),
     tooltipTheme: constants.tooltipTheme,
-    appBarTheme: constants.appBarTheme,
+    appBarTheme:
+        isLight ? AppBarTheme(backgroundColor: scheme.surfaceVariant) : null,
     tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
     iconButtonTheme: const IconButtonThemeData(
         style: ButtonStyle(padding: constants.buttonPadding)),

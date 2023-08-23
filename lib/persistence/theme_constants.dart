@@ -10,10 +10,6 @@ const cardTheme = CardTheme(
   clipBehavior: Clip.antiAlias,
 );
 
-const appBarTheme = AppBarTheme(
-  surfaceTintColor: Colors.transparent,
-);
-
 const dividerTheme = DividerThemeData(
   indent: 10,
   endIndent: 10,
