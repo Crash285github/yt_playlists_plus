@@ -15,10 +15,10 @@ class EmptyVideos extends StatelessWidget {
             child: Center(
           child: Text(
             "This playlist... is empty",
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: Colors.grey),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                ),
           ),
         )),
       ],
