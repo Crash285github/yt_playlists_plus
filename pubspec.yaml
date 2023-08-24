@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   provider: ^6.0.5
   shared_preferences: ^2.2.0
-  sliding_up_panel: ^2.0.0+1
   timeago: ^3.5.0
   youtube_explode_dart: ^1.12.4
 #   flutter_launcher_icons: ^0.13.1
