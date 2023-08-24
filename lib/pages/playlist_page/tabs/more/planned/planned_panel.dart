@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/planned_list.dart';
@@ -7,13 +6,11 @@ import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlannedPanel extends StatefulWidget {
   final Set<String> planned;
-  final PanelController panelController;
   final ScrollController scrollController;
 
   const PlannedPanel({
     super.key,
     required this.planned,
-    required this.panelController,
     required this.scrollController,
   });
 
@@ -85,21 +82,19 @@ class _PlannedPanelState extends State<PlannedPanel> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 3,
       color: Theme.of(context).colorScheme.background,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
       child: widget.planned.isEmpty
           ? EmptyPlanned(
-              panelController: widget.panelController,
-              planned: widget.planned,
               onAddPressed: addTitle,
+              scrollController: widget.scrollController,
             )
           : PlannedList(
               scrollController: widget.scrollController,
               planned: widget.planned,
-              panelController: widget.panelController,
               onAddPressed: addTitle,
               onDeletePressed: deleteTitle,
             ),
