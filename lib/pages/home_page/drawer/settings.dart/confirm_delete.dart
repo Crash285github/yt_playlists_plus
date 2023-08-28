@@ -18,10 +18,8 @@ class _ConfirmDeleteSwitchState extends State<ConfirmDeleteSwitch> {
       title: const Text("Confirm deletions"),
       subtitle: Text(
         "Show pop-up before playlist deletions",
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(color: Colors.grey),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),
       secondary: const Icon(Icons.question_mark),
       onChanged: (value) {
