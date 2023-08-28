@@ -3,6 +3,8 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/planned_panel.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/videos_list.dart';
+import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class MoreTab extends StatefulWidget {
   final Playlist playlist;
@@ -70,7 +72,10 @@ class _MoreTabState extends State<MoreTab> {
         ),
         DraggableScrollableSheet(
           controller: _draggableScrollableController,
-          initialChildSize: minSize,
+          initialChildSize:
+              Persistence.initialPlannedSize == InitialPlannedSize.normal
+                  ? minSize
+                  : 0.05,
           minChildSize: 0.05,
           maxChildSize: maxSize,
           snap: true,
