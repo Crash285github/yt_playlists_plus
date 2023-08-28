@@ -21,7 +21,7 @@ class _ConfirmDeleteSwitchState extends State<ConfirmDeleteSwitch> {
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),
-      secondary: const Icon(Icons.question_mark),
+      secondary: const Icon(Icons.delete_outline),
       onChanged: (value) {
         setState(() {
           _showConfirmDialog = value;
