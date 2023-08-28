@@ -4,31 +4,90 @@ import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/planned_panel.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/videos_list.dart';
 
-class MoreTab extends StatelessWidget {
+class MoreTab extends StatefulWidget {
   final Playlist playlist;
+
   const MoreTab({
     super.key,
     required this.playlist,
   });
 
   @override
+  State<MoreTab> createState() => _MoreTabState();
+}
+
+class _MoreTabState extends State<MoreTab> {
+  final DraggableScrollableController _draggableScrollableController =
+      DraggableScrollableController();
+
+  double _opacity = 0.0;
+  bool _visible = false;
+
+  double minSize = 0.2;
+  double maxSize = 0.7;
+
+  @override
+  void initState() {
+    _draggableScrollableController.addListener(() {
+      setState(() {
+        if (_draggableScrollableController.size <= minSize + 0.01) {
+          _opacity = 0;
+          _visible = false;
+        } else if (_draggableScrollableController.size >= maxSize - 0.01) {
+          _opacity = 0.5;
+          _visible = true;
+        } else {
+          _opacity = (_draggableScrollableController.size - minSize);
+          _visible = true;
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _draggableScrollableController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(children: [
-        playlist.videos.isEmpty
+        widget.playlist.videos.isEmpty
             ? const EmptyVideos()
-            : VideosList(videos: playlist.videos),
+            : VideosList(videos: widget.playlist.videos),
+        Visibility(
+          visible: _visible,
+          child: Opacity(
+            opacity: _opacity,
+            child: Container(
+              color: Colors.black,
+            ),
+          ),
+        ),
         DraggableScrollableSheet(
-          initialChildSize: 0.2,
+          controller: _draggableScrollableController,
+          initialChildSize: minSize,
           minChildSize: 0.05,
-          maxChildSize: 0.7,
+          maxChildSize: maxSize,
           snap: true,
-          snapSizes: const [0.2],
+          snapSizes: const [0.2], //? minSize
           builder: (BuildContext context, ScrollController scrollController) {
             return PlannedPanel(
-              planned: playlist.planned,
+              planned: widget.playlist.planned,
               scrollController: scrollController,
+              onHandleTapped: () {
+                if (_draggableScrollableController.size <= 0.051) {
+                  _draggableScrollableController.animateTo(
+                    0.7,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.decelerate,
+                  );
+                }
+              },
             );
           },
         ),

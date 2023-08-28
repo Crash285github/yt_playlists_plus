@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/top_bar.dart';
 
 class EmptyPlanned extends StatefulWidget {
-  final Function()? onAddPressed;
   final ScrollController scrollController;
+  final Function()? onAddPressed;
+  final Function()? onHandleTapped;
 
   const EmptyPlanned({
     super.key,
     required this.onAddPressed,
     required this.scrollController,
+    required this.onHandleTapped,
   });
 
   @override
@@ -24,6 +26,7 @@ class _EmptyPlannedState extends State<EmptyPlanned> {
         ...TopBar.build(
           plannedSize: 0,
           onAddPressed: widget.onAddPressed,
+          onHandleTapped: widget.onHandleTapped,
         ),
         Center(
             child: Text(

@@ -7,11 +7,13 @@ import 'package:yt_playlists_plus/persistence/persistence.dart';
 class PlannedPanel extends StatefulWidget {
   final Set<String> planned;
   final ScrollController scrollController;
+  final Function()? onHandleTapped;
 
   const PlannedPanel({
     super.key,
     required this.planned,
     required this.scrollController,
+    required this.onHandleTapped,
   });
 
   @override
@@ -91,12 +93,14 @@ class _PlannedPanelState extends State<PlannedPanel> {
           ? EmptyPlanned(
               onAddPressed: addTitle,
               scrollController: widget.scrollController,
+              onHandleTapped: widget.onHandleTapped,
             )
           : PlannedList(
               scrollController: widget.scrollController,
               planned: widget.planned,
               onAddPressed: addTitle,
               onDeletePressed: deleteTitle,
+              onHandleTapped: widget.onHandleTapped,
             ),
     );
   }

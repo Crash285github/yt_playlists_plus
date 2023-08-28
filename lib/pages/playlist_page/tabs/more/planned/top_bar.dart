@@ -6,9 +6,10 @@ class TopBar {
   static List<Widget> build({
     required int plannedSize,
     required Function()? onAddPressed,
+    required Function()? onHandleTapped,
   }) {
     return [
-      const TopHandle(),
+      TopHandle(onTap: onHandleTapped),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: TitleRow(

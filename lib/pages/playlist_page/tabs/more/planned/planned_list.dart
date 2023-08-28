@@ -7,6 +7,7 @@ class PlannedList extends StatefulWidget {
   final Set<String> planned;
   final Function()? onAddPressed;
   final Function(String) onDeletePressed;
+  final Function()? onHandleTapped;
 
   const PlannedList({
     super.key,
@@ -14,6 +15,7 @@ class PlannedList extends StatefulWidget {
     required this.planned,
     required this.onAddPressed,
     required this.onDeletePressed,
+    required this.onHandleTapped,
   });
 
   @override
@@ -27,6 +29,7 @@ class _PlannedListState extends State<PlannedList> {
       ...TopBar.build(
         plannedSize: widget.planned.length,
         onAddPressed: widget.onAddPressed,
+        onHandleTapped: widget.onHandleTapped,
       ),
       ...widget.planned.map(
         (title) => PlannedWidget(
