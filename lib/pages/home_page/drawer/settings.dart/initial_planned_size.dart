@@ -17,7 +17,7 @@ class _InitialPlannedSizeSettingState extends State<InitialPlannedSizeSetting> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.draw_outlined),
-      title: const Text("Initial Planned Height"),
+      title: const Text("Planned height"),
       trailing: DropdownButton(
         value: _initialPlannedSize,
         icon: const Icon(Icons.draw_outlined),
