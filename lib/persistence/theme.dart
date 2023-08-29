@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'theme_constants.dart' as constants;
 
 ///The theme of the Application

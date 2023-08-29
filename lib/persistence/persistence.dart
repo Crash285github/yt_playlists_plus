@@ -64,12 +64,22 @@ class Persistence with ChangeNotifier {
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    ApplicationTheme.set(prefs.getInt('theme') ?? 0);
-    confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
-    initialPlannedSize =
-        InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
-    hideTopics = prefs.getBool('hideTopics') ?? false;
-    color = ApplicationColor.values[prefs.getInt('colorScheme') ?? 0];
+    try {
+      ApplicationTheme.set(prefs.getInt('theme') ?? 0);
+    } catch (_) {}
+    try {
+      confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
+    } catch (_) {}
+    try {
+      initialPlannedSize =
+          InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
+    } catch (_) {}
+    try {
+      hideTopics = prefs.getBool('hideTopics') ?? false;
+    } catch (_) {}
+    try {
+      color = ApplicationColor.values[prefs.getInt('colorScheme') ?? 0];
+    } catch (_) {}
 
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
