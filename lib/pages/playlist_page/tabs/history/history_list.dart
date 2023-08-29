@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget.dart';
-import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
 class HistoryList extends StatefulWidget {
   final List<VideoHistory> history;
@@ -33,7 +32,6 @@ class _HistoryListState extends State<HistoryList> {
               );
             },
           ),
-          const BottomPadding(),
         ],
       ),
     );
