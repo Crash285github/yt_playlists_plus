@@ -83,29 +83,32 @@ class _PlannedPanelState extends State<PlannedPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
-      )),
-      elevation: 3,
-      color: Theme.of(context).colorScheme.background,
-      surfaceTintColor: Theme.of(context).colorScheme.primary,
-      child: widget.planned.isEmpty
-          ? EmptyPlanned(
-              onAddPressed: addTitle,
-              scrollController: widget.scrollController,
-              onHandleTapped: widget.onHandleTapped,
-            )
-          : PlannedList(
-              scrollController: widget.scrollController,
-              planned: widget.planned,
-              onAddPressed: addTitle,
-              onDeletePressed: deleteTitle,
-              onHandleTapped: widget.onHandleTapped,
-            ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        )),
+        elevation: 3,
+        color: Theme.of(context).colorScheme.background,
+        surfaceTintColor: Theme.of(context).colorScheme.primary,
+        child: widget.planned.isEmpty
+            ? EmptyPlanned(
+                onAddPressed: addTitle,
+                scrollController: widget.scrollController,
+                onHandleTapped: widget.onHandleTapped,
+              )
+            : PlannedList(
+                scrollController: widget.scrollController,
+                planned: widget.planned,
+                onAddPressed: addTitle,
+                onDeletePressed: deleteTitle,
+                onHandleTapped: widget.onHandleTapped,
+              ),
+      ),
     );
   }
 }
