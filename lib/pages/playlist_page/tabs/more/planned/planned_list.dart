@@ -31,12 +31,12 @@ class _PlannedListState extends State<PlannedList> {
         onAddPressed: widget.onAddPressed,
         onHandleTapped: widget.onHandleTapped,
       ),
-      ...widget.planned.map(
-        (title) => PlannedWidget(
-          title: title,
-          onDeletePressed: () => widget.onDeletePressed(title),
-        ),
-      ),
+      ...widget.planned.toList().reversed.map(
+            (title) => PlannedWidget(
+              title: title,
+              onDeletePressed: () => widget.onDeletePressed(title),
+            ),
+          ),
     ]);
   }
 }
