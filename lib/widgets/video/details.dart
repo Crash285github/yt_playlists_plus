@@ -8,6 +8,12 @@ class VideoDetails extends StatelessWidget {
     required this.video,
   });
 
+  String hideTopic(String author) {
+    return author.endsWith(" - Topic")
+        ? author.substring(0, author.length - 8)
+        : author;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -26,7 +32,7 @@ class VideoDetails extends StatelessWidget {
           const SizedBox(height: 7),
           //? author
           Text(
-            video.author,
+            hideTopic(video.author),
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   color:
