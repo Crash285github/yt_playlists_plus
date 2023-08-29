@@ -28,16 +28,19 @@ class _VideosListState extends State<VideosList>
     return Expanded(
       child: ListView(
         children: [
-          ...widget.videos.map((e) {
-            index++;
-            return ListenableProvider.value(
+          ...widget.videos.map(
+            (e) {
+              index++;
+              return ListenableProvider.value(
                 value: e,
                 child: VideoWidget(
                   firstOfList: index == 1,
                   lastOfList: index == widget.videos.length,
                   isInteractable: false,
-                ));
-          }),
+                ),
+              );
+            },
+          ),
           const BottomPadding(androidHeight: 50, windowsHeight: 10),
         ],
       ),

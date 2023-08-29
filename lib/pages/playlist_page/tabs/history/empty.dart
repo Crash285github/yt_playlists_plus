@@ -6,21 +6,13 @@ class EmptyHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Column(
-        children: [
-          Expanded(
-              child: Center(
-            child: Text(
-              "History is empty.",
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.5),
-                  ),
-            ),
-          ))
-        ],
+      child: Center(
+        child: Text(
+          "History is empty.",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              ),
+        ),
       ),
     );
   }

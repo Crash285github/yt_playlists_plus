@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_list.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_top_row.dart';
-import '../../../../model/video/video_history.dart';
+import 'package:yt_playlists_plus/model/video/video_history.dart';
 
 class HistoryTab extends StatefulWidget {
   final List<VideoHistory> history;
