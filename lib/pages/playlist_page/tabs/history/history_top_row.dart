@@ -10,21 +10,24 @@ class HistoryTopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "History",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        TextButton(
-          onPressed: onClearPressed,
-          child: const Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text("Clear"), Icon(Icons.clear)],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "History",
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-        )
-      ],
+          TextButton(
+            onPressed: onClearPressed,
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text("Clear"), Icon(Icons.clear)],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

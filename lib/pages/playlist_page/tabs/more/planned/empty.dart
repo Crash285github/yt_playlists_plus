@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/top_bar.dart';
 
 class EmptyPlanned extends StatefulWidget {
-  final PanelController panelController;
-  final Set<String> planned;
+  final ScrollController scrollController;
   final Function()? onAddPressed;
+  final Function()? onHandleTapped;
 
   const EmptyPlanned({
     super.key,
-    required this.panelController,
-    required this.planned,
     required this.onAddPressed,
+    required this.scrollController,
+    required this.onHandleTapped,
   });
 
   @override
@@ -21,22 +20,20 @@ class EmptyPlanned extends StatefulWidget {
 class _EmptyPlannedState extends State<EmptyPlanned> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      controller: widget.scrollController,
       children: [
         ...TopBar.build(
-          panelController: widget.panelController,
-          plannedSize: widget.planned.length,
+          plannedSize: 0,
           onAddPressed: widget.onAddPressed,
+          onHandleTapped: widget.onHandleTapped,
         ),
-        Expanded(
-            child: Center(
-          child: Text(
-            "Nothing in planned...",
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                ),
-          ),
+        Center(
+            child: Text(
+          "Nothing in planned...",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              ),
         ))
       ],
     );

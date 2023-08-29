@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/more_top_row.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/widgets/video/widget.dart';
 
@@ -26,23 +25,25 @@ class _VideosListState extends State<VideosList>
     super.build(context);
     int index = 0;
 
-    return ListView(
-      children: [
-        MoreTopRow(length: widget.videos.length),
-        const Divider(),
-        const SizedBox(height: 16),
-        ...widget.videos.map((e) {
-          index++;
-          return ListenableProvider.value(
-              value: e,
-              child: VideoWidget(
-                firstOfList: index == 1,
-                lastOfList: index == widget.videos.length,
-                isInteractable: false,
-              ));
-        }),
-        const BottomPadding(androidHeight: 250, windowsHeight: 210),
-      ],
+    return Expanded(
+      child: ListView(
+        children: [
+          ...widget.videos.map(
+            (e) {
+              index++;
+              return ListenableProvider.value(
+                value: e,
+                child: VideoWidget(
+                  firstOfList: index == 1,
+                  lastOfList: index == widget.videos.length,
+                  isInteractable: false,
+                ),
+              );
+            },
+          ),
+          const BottomPadding(androidHeight: 50, windowsHeight: 10),
+        ],
+      ),
     );
   }
 }

@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
-import '../model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
 ///
 ///It implements the Singleton Design Pattern
 class Persistence with ChangeNotifier {
-  //Singleton Design Pattern
+  //? Singleton Design Pattern
   static final Persistence _instance = Persistence._internal();
   Persistence._internal();
   factory Persistence() => _instance;
+
+  //#region Playlist data
 
   ///The currently stored Playlists
   ///
@@ -40,8 +43,13 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
+  //#endregion
+
   ///Whether to show a confirmation dialog before deleting playlists
   static bool confirmDeletions = true;
+
+  ///The height of planned list initially
+  static InitialPlannedSize initialPlannedSize = InitialPlannedSize.normal;
 
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
@@ -52,6 +60,10 @@ class Persistence with ChangeNotifier {
 
     //? confirmDeletions
     confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
+
+    //? initialPlannedSize
+    initialPlannedSize =
+        InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
 
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
@@ -69,6 +81,11 @@ class Persistence with ChangeNotifier {
   static Future<bool> saveConfirmDeletions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool('confirmDeletions', confirmDeletions);
+  }
+
+  static Future<bool> saveInitialPlannedSize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt('initialPlannedSize', initialPlannedSize.index);
   }
 
   static Future<bool> savePlaylists() async {

@@ -29,7 +29,6 @@ class ChangesTab extends StatelessWidget {
             playlist: playlist,
           ),
           const Divider(),
-          const SizedBox(height: 16),
           playlist.status == PlaylistStatus.changed
               ? ChangesList(
                   changes: (added.toList() + missing.toList()).toSet())
