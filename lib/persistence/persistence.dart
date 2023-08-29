@@ -51,24 +51,22 @@ class Persistence with ChangeNotifier {
   ///The height of planned list initially
   static InitialPlannedSize initialPlannedSize = InitialPlannedSize.normal;
 
+  ///Hide ' - Topic' from channel names
+  static bool hideTopics = false;
+
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //? theme
     ApplicationTheme.set(prefs.getInt('theme') ?? 0);
-
-    //? confirmDeletions
     confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
-
-    //? initialPlannedSize
     initialPlannedSize =
         InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
+    hideTopics = prefs.getBool('hideTopics') ?? false;
 
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
-
     _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toSet();
     _instance.notifyListeners();
   }
@@ -86,6 +84,11 @@ class Persistence with ChangeNotifier {
   static Future<bool> saveInitialPlannedSize() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setInt('initialPlannedSize', initialPlannedSize.index);
+  }
+
+  static Future<bool> saveHideTopics() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool('hideTopics', hideTopics);
   }
 
   static Future<bool> savePlaylists() async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class VideoDetails extends StatelessWidget {
   final Video video;
@@ -9,6 +10,7 @@ class VideoDetails extends StatelessWidget {
   });
 
   String hideTopic(String author) {
+    if (!Persistence.hideTopics) return author;
     return author.endsWith(" - Topic")
         ? author.substring(0, author.length - 8)
         : author;
