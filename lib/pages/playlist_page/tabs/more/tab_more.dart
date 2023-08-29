@@ -25,7 +25,7 @@ class MoreTab extends StatelessWidget {
             MoreTopRow(playlist: playlist),
             const Divider(),
             playlist.videos.isEmpty
-                ? EmptyVideos()
+                ? const EmptyVideos()
                 : VideosList(videos: playlist.videos),
           ],
         ),
