@@ -31,8 +31,8 @@ ThemeData themeBuilder({ColorScheme? scheme}) {
 
   //fallback
   scheme ??= isLight
-      ? const ColorScheme.light().copyWith(primary: Colors.red)
-      : const ColorScheme.dark().copyWith(primary: Colors.red);
+      ? const ColorScheme.light()
+      : const ColorScheme.dark();
 
   return ThemeData(
     useMaterial3: true,

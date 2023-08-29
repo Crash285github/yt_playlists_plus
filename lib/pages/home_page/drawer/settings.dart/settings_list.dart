@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/color.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/confirm_delete.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/hide_topics.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/initial_planned_size.dart';
@@ -15,6 +16,7 @@ class Settings extends StatelessWidget {
         ConfirmDeleteSwitch(),
         HideTopicsSwitch(),
         InitialPlannedSizeSetting(),
+        ColorSetting(),
       ],
     );
   }

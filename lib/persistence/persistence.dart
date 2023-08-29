@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
@@ -54,6 +55,11 @@ class Persistence with ChangeNotifier {
   ///Hide ' - Topic' from channel names
   static bool hideTopics = false;
 
+  ///Colorscheme of the App
+  ///
+  ///Default is `dynamic`
+  static ApplicationColor color = ApplicationColor.dynamic;
+
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -63,6 +69,7 @@ class Persistence with ChangeNotifier {
     initialPlannedSize =
         InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
     hideTopics = prefs.getBool('hideTopics') ?? false;
+    color = ApplicationColor.values[prefs.getInt('colorScheme') ?? 0];
 
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
@@ -89,6 +96,11 @@ class Persistence with ChangeNotifier {
   static Future<bool> saveHideTopics() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool('hideTopics', hideTopics);
+  }
+
+  static Future<bool> saveColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt('colorScheme', color.index);
   }
 
   static Future<bool> savePlaylists() async {

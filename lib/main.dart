@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 
@@ -32,7 +33,12 @@ class MainApp extends StatelessWidget {
         ColorScheme? lightDynamicColorScheme;
         ColorScheme? darkDynamicColorScheme;
 
-        if (lightDynamic != null && darkDynamic != null) {
+        if (Persistence.color != ApplicationColor.dynamic) {
+          lightDynamicColorScheme =
+              ColorScheme.fromSeed(seedColor: Persistence.color.color!);
+          darkDynamicColorScheme = ColorScheme.fromSeed(
+              seedColor: Persistence.color.color!, brightness: Brightness.dark);
+        } else if (lightDynamic != null && darkDynamic != null) {
           lightDynamicColorScheme = lightDynamic.harmonized();
           darkDynamicColorScheme = darkDynamic.harmonized();
         }
