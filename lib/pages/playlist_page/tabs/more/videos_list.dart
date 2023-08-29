@@ -7,9 +7,11 @@ import 'package:yt_playlists_plus/widgets/video/widget.dart';
 
 class VideosList extends StatefulWidget {
   final Set<Video> videos;
+  final MoreTopRow topRow;
   const VideosList({
     super.key,
     required this.videos,
+    required this.topRow,
   });
 
   @override
@@ -28,7 +30,7 @@ class _VideosListState extends State<VideosList>
 
     return ListView(
       children: [
-        MoreTopRow(length: widget.videos.length),
+        widget.topRow,
         const Divider(),
         const SizedBox(height: 16),
         ...widget.videos.map((e) {
@@ -41,7 +43,7 @@ class _VideosListState extends State<VideosList>
                 isInteractable: false,
               ));
         }),
-        const BottomPadding(androidHeight: 50, windowsHeight: 50),
+        const BottomPadding(androidHeight: 50, windowsHeight: 10),
       ],
     );
   }

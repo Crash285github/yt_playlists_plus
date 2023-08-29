@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/more_top_row.dart';
 
 class EmptyVideos extends StatelessWidget {
-  const EmptyVideos({super.key});
+  final MoreTopRow topRow;
+  const EmptyVideos({
+    super.key,
+    required this.topRow,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MoreTopRow(length: 0),
+        topRow,
         const Divider(),
         Expanded(
             child: Center(
