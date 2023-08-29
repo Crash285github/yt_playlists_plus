@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'theme_constants.dart' as constants;
 
 ///The theme of the Application
@@ -30,9 +31,7 @@ ThemeData themeBuilder({ColorScheme? scheme}) {
   bool isLight = ApplicationTheme.get() == ApplicationTheme.light;
 
   //fallback
-  scheme ??= isLight
-      ? const ColorScheme.light()
-      : const ColorScheme.dark();
+  scheme ??= isLight ? const ColorScheme.light() : const ColorScheme.dark();
 
   return ThemeData(
     useMaterial3: true,
