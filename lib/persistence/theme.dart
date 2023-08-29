@@ -30,9 +30,7 @@ ThemeData themeBuilder({ColorScheme? scheme}) {
   bool isLight = ApplicationTheme.get() == ApplicationTheme.light;
 
   //fallback
-  scheme ??= isLight
-      ? const ColorScheme.light().copyWith(primary: Colors.red)
-      : const ColorScheme.dark().copyWith(primary: Colors.red);
+  scheme ??= isLight ? const ColorScheme.light() : const ColorScheme.dark();
 
   return ThemeData(
     useMaterial3: true,

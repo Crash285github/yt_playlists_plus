@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PopUpManager {
@@ -43,19 +42,22 @@ class PopUpManager {
     );
   }
 
-  static Future<bool?> openDeletionConfirmDialog({
+  static Future<bool?> openConfirmDialog({
     required BuildContext context,
-    required Playlist playlist,
+    required String title,
+    String? content,
   }) async {
     if (!Persistence.confirmDeletions) return true;
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Delete \"${playlist.title}\"?"),
-        content: Text(
-          "This will erase all of the playlist's data.",
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        title: Text(title),
+        content: content != null
+            ? Text(
+                content,
+                style: Theme.of(context).textTheme.bodyLarge,
+              )
+            : null,
         actions: [
           TextButton(
             onPressed: () {

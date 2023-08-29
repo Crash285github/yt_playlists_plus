@@ -1,17 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yt_playlists_plus/persistence/color_scheme.dart';
+import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
-import '../model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
 ///
 ///It implements the Singleton Design Pattern
 class Persistence with ChangeNotifier {
-  //Singleton Design Pattern
+  //? Singleton Design Pattern
   static final Persistence _instance = Persistence._internal();
   Persistence._internal();
   factory Persistence() => _instance;
+
+  //#region Playlist data
 
   ///The currently stored Playlists
   ///
@@ -40,23 +44,46 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
+  //#endregion
+
   ///Whether to show a confirmation dialog before deleting playlists
   static bool confirmDeletions = true;
+
+  ///The height of planned list initially
+  static InitialPlannedSize initialPlannedSize = InitialPlannedSize.normal;
+
+  ///Hide ' - Topic' from channel names
+  static bool hideTopics = false;
+
+  ///Colorscheme of the App
+  ///
+  ///Default is `dynamic`
+  static ApplicationColor color = ApplicationColor.dynamic;
 
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //? theme
-    ApplicationTheme.set(prefs.getInt('theme') ?? 0);
-
-    //? confirmDeletions
-    confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
+    try {
+      ApplicationTheme.set(prefs.getInt('theme') ?? 0);
+    } catch (_) {}
+    try {
+      confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
+    } catch (_) {}
+    try {
+      initialPlannedSize =
+          InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
+    } catch (_) {}
+    try {
+      hideTopics = prefs.getBool('hideTopics') ?? false;
+    } catch (_) {}
+    try {
+      color = ApplicationColor.values[prefs.getInt('colorScheme') ?? 0];
+    } catch (_) {}
 
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
-
     _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toSet();
     _instance.notifyListeners();
   }
@@ -69,6 +96,21 @@ class Persistence with ChangeNotifier {
   static Future<bool> saveConfirmDeletions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool('confirmDeletions', confirmDeletions);
+  }
+
+  static Future<bool> saveInitialPlannedSize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt('initialPlannedSize', initialPlannedSize.index);
+  }
+
+  static Future<bool> saveHideTopics() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool('hideTopics', hideTopics);
+  }
+
+  static Future<bool> saveColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt('colorScheme', color.index);
   }
 
   static Future<bool> savePlaylists() async {

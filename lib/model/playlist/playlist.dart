@@ -252,6 +252,7 @@ class Playlist extends ChangeNotifier {
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
       _recentHistory.clear();
+      Persistence.savePlaylists();
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class VideoDetails extends StatelessWidget {
   final Video video;
@@ -7,6 +8,13 @@ class VideoDetails extends StatelessWidget {
     super.key,
     required this.video,
   });
+
+  String hideTopic(String author) {
+    if (!Persistence.hideTopics) return author;
+    return author.endsWith(" - Topic")
+        ? author.substring(0, author.length - 8)
+        : author;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class VideoDetails extends StatelessWidget {
           const SizedBox(height: 7),
           //? author
           Text(
-            video.author,
+            hideTopic(video.author),
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   color:
