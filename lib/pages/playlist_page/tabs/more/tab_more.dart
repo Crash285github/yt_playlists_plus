@@ -17,14 +17,18 @@ class MoreTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MoreTopRow topRow = MoreTopRow(playlist: playlist);
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(children: [
-        playlist.videos.isEmpty
-            ? EmptyVideos(topRow: topRow)
-            : VideosList(videos: playlist.videos, topRow: topRow),
+        Column(
+          children: [
+            MoreTopRow(playlist: playlist),
+            const Divider(),
+            playlist.videos.isEmpty
+                ? EmptyVideos()
+                : VideosList(videos: playlist.videos),
+          ],
+        ),
         Platform.isAndroid
             ? PlannedSheetMobile(playlist: playlist)
             : const SizedBox.shrink()
