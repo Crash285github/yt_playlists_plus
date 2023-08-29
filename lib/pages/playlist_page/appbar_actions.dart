@@ -27,9 +27,11 @@ class AppBarActions {
       ),
       IconButton(
         onPressed: () async {
-          PopUpManager.openDeletionConfirmDialog(
-                  context: context, playlist: playlist)
-              .then((value) {
+          PopUpManager.openConfirmDialog(
+            context: context,
+            title: "Delete \"${playlist.title}\"?",
+            content: "This will erase all of the playlist's data.",
+          ).then((value) {
             if (value ?? false) {
               Persistence.removePlaylist(playlist);
               Persistence.savePlaylists();
