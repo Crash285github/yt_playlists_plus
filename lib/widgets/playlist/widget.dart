@@ -29,14 +29,16 @@ class PlaylistWidget extends ICardWidget {
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
         child: InkWell(
-          onTap: () async {
-            if (onTap == null) {
-              Navigator.pushNamed(context, '/playlist', arguments: playlist);
-              Persistence.disableReorder();
-            } else {
-              onTap!();
-            }
-          },
+          onTap: Persistence.canReorder
+              ? null
+              : () async {
+                  if (onTap == null) {
+                    Navigator.pushNamed(context, '/playlist',
+                        arguments: playlist);
+                  } else {
+                    onTap!();
+                  }
+                },
           child: Row(
             children: [
               Flexible(
