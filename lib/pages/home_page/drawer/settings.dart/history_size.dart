@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class HistorySizeSetting extends StatefulWidget {
   const HistorySizeSetting({super.key});
@@ -11,7 +12,7 @@ class HistorySizeSetting extends StatefulWidget {
 
 class _HistorySizeSettingState extends State<HistorySizeSetting> {
   late TextEditingController _textEditingController;
-  int historySize = 100;
+  int? historySize = Persistence.historyLimit;
   int topLimit = 500; //? before infinite
 
   @override
@@ -40,9 +41,18 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
             ) ??
             "");
 
+        if (result == null) return;
+
+        if (result > topLimit) {
+          result = null;
+        }
+
         setState(() {
-          historySize = result ?? historySize;
+          historySize = result;
         });
+
+        Persistence.historyLimit = historySize;
+        Persistence.saveHistoryLimit();
       },
       leading: const Icon(Icons.history),
       title: const Text("History limit"),
@@ -52,7 +62,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
             color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),
       trailing: Text(
-        "${historySize > topLimit ? "Infinite" : historySize} ",
+        "${historySize ?? "Infinite"}",
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),
