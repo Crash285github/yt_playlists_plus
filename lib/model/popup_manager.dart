@@ -16,6 +16,7 @@ class PopUpManager {
     final String submitLabel = "Submit",
     final String cancelLabel = "Cancel",
     List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
   }) async {
     controller.clear();
     return showDialog<String>(
@@ -29,6 +30,7 @@ class PopUpManager {
           ),
           autofocus: true,
           inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
           controller: controller,
           onSubmitted: (value) {
             Navigator.of(context).pop(value);
