@@ -28,13 +28,17 @@ class _EmptyPlannedState extends State<EmptyPlanned> {
           onAddPressed: widget.onAddPressed,
           onHandleTapped: widget.onHandleTapped,
         ),
-        Center(
-            child: Text(
-          "Nothing in planned...",
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-              ),
-        ))
+        SizedBox(
+          height: 300,
+          child: Center(
+              child: Text(
+            "Nothing in planned...",
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                ),
+          )),
+        )
       ],
     );
   }
