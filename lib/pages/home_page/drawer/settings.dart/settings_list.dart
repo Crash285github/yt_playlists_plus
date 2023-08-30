@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/color.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/confirm_delete.dart';
@@ -11,12 +13,14 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: const [
-        ThemeSwitch(),
-        ConfirmDeleteSwitch(),
-        HideTopicsSwitch(),
-        InitialPlannedSizeSetting(),
-        ColorSetting(),
+      children: [
+        const ThemeSwitch(),
+        const ConfirmDeleteSwitch(),
+        const HideTopicsSwitch(),
+        Platform.isAndroid
+            ? const InitialPlannedSizeSetting()
+            : const SizedBox.shrink(),
+        const ColorSetting(),
       ],
     );
   }
