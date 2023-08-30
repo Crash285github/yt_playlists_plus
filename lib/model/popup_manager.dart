@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PopUpManager {
@@ -11,8 +12,11 @@ class PopUpManager {
     required BuildContext context,
     required TextEditingController controller,
     required final String title,
-    required final String label,
-    required final String submitLabel,
+    final String? label,
+    final String submitLabel = "Submit",
+    final String cancelLabel = "Cancel",
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
   }) async {
     controller.clear();
     return showDialog<String>(
@@ -21,16 +25,24 @@ class PopUpManager {
         title: Text(title),
         content: TextField(
           decoration: InputDecoration(
-            label: Text(label),
+            label: label == null ? null : Text(label),
             border: const OutlineInputBorder(),
           ),
           autofocus: true,
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
           controller: controller,
           onSubmitted: (value) {
             Navigator.of(context).pop(value);
           },
         ),
         actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(null);
+            },
+            child: Text(cancelLabel),
+          ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(controller.text);

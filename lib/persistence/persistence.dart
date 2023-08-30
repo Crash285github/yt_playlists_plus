@@ -68,6 +68,11 @@ class Persistence with ChangeNotifier {
   ///Hide ' - Topic' from channel names
   static bool hideTopics = false;
 
+  ///Size of each playlist's history
+  ///
+  ///`null` means infinite
+  static int? historyLimit;
+
   ///Colorscheme of the App
   ///
   ///Default is `dynamic`
@@ -92,6 +97,12 @@ class Persistence with ChangeNotifier {
     } catch (_) {}
     try {
       color = ApplicationColor.values[prefs.getInt('colorScheme') ?? 0];
+    } catch (_) {}
+    try {
+      historyLimit = prefs.getInt('historyLimit');
+      if (historyLimit == -1) {
+        historyLimit = null;
+      }
     } catch (_) {}
 
     //? playlists
@@ -124,6 +135,11 @@ class Persistence with ChangeNotifier {
   static Future<bool> saveColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setInt('colorScheme', color.index);
+  }
+
+  static Future<bool> saveHistoryLimit() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt('historyLimit', historyLimit ?? -1);
   }
 
   static Future<bool> savePlaylists() async {
