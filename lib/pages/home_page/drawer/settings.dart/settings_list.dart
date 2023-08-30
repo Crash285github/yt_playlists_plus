@@ -5,6 +5,7 @@ import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/color.dar
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/confirm_delete.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/hide_topics.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/initial_planned_size.dart';
+import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/reorder.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/theme.dart';
 
 class Settings extends StatelessWidget {
@@ -21,6 +22,7 @@ class Settings extends StatelessWidget {
             ? const InitialPlannedSizeSetting()
             : const SizedBox.shrink(),
         const ColorSetting(),
+        const ReorderPlaylistsSetting(),
       ],
     );
   }

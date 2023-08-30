@@ -46,6 +46,19 @@ class Persistence with ChangeNotifier {
 
   //#endregion
 
+  static bool _canReorder = false;
+  static bool get canReorder => _canReorder;
+
+  static void enableReorder() {
+    _canReorder = true;
+    _instance.notifyListeners();
+  }
+
+  static void disableReorder() {
+    _canReorder = false;
+    _instance.notifyListeners();
+  }
+
   ///Whether to show a confirmation dialog before deleting playlists
   static bool confirmDeletions = true;
 

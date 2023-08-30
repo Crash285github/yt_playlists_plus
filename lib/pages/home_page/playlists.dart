@@ -19,7 +19,7 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
     return SliverReorderableList(
       itemBuilder: (context, index) {
         return ReorderableDragStartListener(
-          enabled: false,
+          enabled: Persistence.canReorder,
           index: index,
           key: ValueKey(Persistence.playlists[index]),
           child: ListenableProvider.value(
