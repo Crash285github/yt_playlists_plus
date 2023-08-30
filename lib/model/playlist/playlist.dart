@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/client.dart';
+import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
@@ -88,7 +89,7 @@ class Playlist extends ChangeNotifier {
       video.setStatus(VideoStatus.missing);
 
       //? onTap
-      video.function = () {
+      video.onTap = () {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
           _videos.remove(video);
@@ -99,6 +100,15 @@ class Playlist extends ChangeNotifier {
           _modified--;
         }
         notifyListeners();
+      };
+
+      //? onLongPress
+      video.onLongPress = (BuildContext context) {
+        bool added = planned.add(video.title);
+        PopUpManager.showSnackBar(
+            context: context,
+            message:
+                added ? "Video added to Planned" : "Video already in Planned");
       };
     }
 
@@ -122,7 +132,7 @@ class Playlist extends ChangeNotifier {
       video.setStatus(VideoStatus.added);
 
       //? onTap
-      video.function = () {
+      video.onTap = () {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
           _videos.add(video);
@@ -134,6 +144,9 @@ class Playlist extends ChangeNotifier {
         }
         notifyListeners();
       };
+
+      //? onLongPress
+      video.onLongPress = (BuildContext context) => null;
     }
 
     _added.addAll(clonedAdded);

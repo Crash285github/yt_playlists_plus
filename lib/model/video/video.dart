@@ -12,7 +12,12 @@ class Video extends ChangeNotifier {
   ///What the Video should do when tapped on it's Widget
   ///
   ///The add/remove functions are assigned usually
-  Function()? function;
+  Function()? onTap;
+
+  ///What the Video should do when long pressed in it's Widget
+  ///
+  ///Here it's for add to planned
+  Function? onLongPress;
 
   Video({
     required this.id,

@@ -80,6 +80,7 @@ class PopUpManager {
     required BuildContext context,
     required final String message,
   }) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -92,7 +93,4 @@ class PopUpManager {
       ),
     );
   }
-
-  static void hideCurrentSnackBar(BuildContext context) =>
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
