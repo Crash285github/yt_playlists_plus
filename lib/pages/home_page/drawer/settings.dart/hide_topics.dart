@@ -16,7 +16,7 @@ class _HideTopicsSwitchState extends State<HideTopicsSwitch> {
     return SwitchListTile(
       value: _hideTopics,
       title: const Text("Hide '- Topic' from channel names"),
-      secondary: const Icon(Icons.music_note_outlined),
+      secondary: const Icon(Icons.note_outlined),
       onChanged: (value) {
         setState(() {
           _hideTopics = value;
