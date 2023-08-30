@@ -95,7 +95,7 @@ class AboutPage extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(_padding),
                   child: Text(
-                    "Pro tip: Changes will get saved only when you press the Save Button on a Playlist's Page, or download a new Playlist",
+                    "Pro tip: Missing videos can be long-pressed, and they will be added to the Planned list.",
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
