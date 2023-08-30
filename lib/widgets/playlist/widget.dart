@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/persistence/theme_constants.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/playlist/details.dart';
@@ -28,9 +29,10 @@ class PlaylistWidget extends ICardWidget {
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             if (onTap == null) {
               Navigator.pushNamed(context, '/playlist', arguments: playlist);
+              Persistence.disableReorder();
             } else {
               onTap!();
             }
