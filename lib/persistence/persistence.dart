@@ -20,15 +20,15 @@ class Persistence with ChangeNotifier {
   ///The currently stored Playlists
   ///
   ///Requires Persistence.load() to get the data
-  static Set<Playlist> get playlists => _playlists;
-  static Set<Playlist> _playlists = {}; //private representation
+  static List<Playlist> get playlists => _playlists;
+  static List<Playlist> _playlists = []; //private representation
 
   ///Adds a `Playlist` item to the Persistent storage, and alerts listeners
   ///
   ///Doesn't save on it's own
   static void addPlaylist(Playlist item) {
     if (_playlists.contains(item)) {
-      //playlist videos can be different, == only checks ids
+      //? playlist videos can be different, == only checks ids
       _playlists.remove(item);
     }
 
@@ -84,7 +84,7 @@ class Persistence with ChangeNotifier {
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
-    _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toSet();
+    _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toList();
     _instance.notifyListeners();
   }
 

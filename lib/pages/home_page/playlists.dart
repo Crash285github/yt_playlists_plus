@@ -1,33 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/widgets/playlist/widget.dart';
 
-class HomePagePlaylists extends StatelessWidget {
+class HomePagePlaylists extends StatefulWidget {
   const HomePagePlaylists({super.key});
 
   @override
+  State<HomePagePlaylists> createState() => _HomePagePlaylistsState();
+}
+
+class _HomePagePlaylistsState extends State<HomePagePlaylists> {
+  @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
-    int index = 0;
 
-    return SliverList(
-      delegate: SliverChildListDelegate([
-        ...Persistence.playlists.map(
-          (e) {
-            index++;
-            return ListenableProvider.value(
-              value: e,
-              child: PlaylistWidget(
-                firstOfList: index == 1,
-                lastOfList: index == Persistence.playlists.length,
-              ),
-            );
-          },
-        ).toList(),
-        const BottomPadding()
-      ]),
+    return SliverReorderableList(
+      itemBuilder: (context, index) {
+        return ReorderableDragStartListener(
+          index: index,
+          key: ValueKey(Persistence.playlists[index]),
+          child: ListenableProvider.value(
+            value: Persistence.playlists[index],
+            child: PlaylistWidget(
+              firstOfList: index == 0,
+              lastOfList: index == Persistence.playlists.length - 1,
+            ),
+          ),
+        );
+      },
+      itemCount: Persistence.playlists.length,
+      onReorder: (oldIndex, newIndex) {
+        setState(() {
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
+
+          final Playlist item = Persistence.playlists.removeAt(oldIndex);
+          Persistence.playlists.insert(newIndex, item);
+        });
+        Persistence.savePlaylists();
+      },
     );
   }
 }

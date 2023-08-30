@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/pages/home_page/appbar.dart';
 import 'package:yt_playlists_plus/pages/home_page/empty.dart';
 import 'package:yt_playlists_plus/pages/home_page/playlists.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody({super.key});
@@ -17,7 +18,10 @@ class HomePageBody extends StatelessWidget {
         const HomePageAppBar(),
         Persistence.playlists.isEmpty
             ? const HomePageEmpty()
-            : const HomePagePlaylists()
+            : const HomePagePlaylists(),
+        Persistence.playlists.isEmpty
+            ? const SliverToBoxAdapter(child: SizedBox.shrink())
+            : const SliverToBoxAdapter(child: BottomPadding())
       ],
     );
   }
