@@ -63,18 +63,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
                   width: 60,
                   height: 60,
                   child: widget.isSearching
-                      ? widget.isEmpty
-                          ? const Center(child: CircularProgressIndicator())
-                          : Center(
-                              child: TweenAnimationBuilder(
-                              duration: const Duration(milliseconds: 250),
-                              curve: Curves.easeInOut,
-                              tween: Tween<double>(
-                                  begin: widget.isSearching ? 0 : 1,
-                                  end: widget.progress),
-                              builder: (context, value, _) =>
-                                  CircularProgressIndicator(value: value),
-                            ))
+                      ? const Center(child: CircularProgressIndicator())
                       : Center(
                           child: IconButton(
                             onPressed: () =>
