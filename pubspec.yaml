@@ -27,7 +27,7 @@ dependencies:
 #     generate: true
 #     image_path: "assets/icon/app_icon.png"
 
-#? uncomment the above to and run:
+#? uncomment the above and run:
 #? flutter pub run flutter_launcher_icons
 #? to generate new icons
 
