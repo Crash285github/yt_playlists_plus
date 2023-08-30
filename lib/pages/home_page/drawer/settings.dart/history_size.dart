@@ -14,6 +14,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
   late TextEditingController _textEditingController;
   int? historySize = Persistence.historyLimit;
   int topLimit = 500; //? before infinite
+  int bottomLimit = 10;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
               submitLabel: "Set",
               label: "Enter a number",
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
             ) ??
             "");
 
@@ -45,6 +47,8 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
 
         if (result > topLimit) {
           result = null;
+        } else if (result < bottomLimit) {
+          result = 10;
         }
 
         setState(() {
@@ -57,7 +61,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
       leading: const Icon(Icons.history),
       title: const Text("History limit"),
       subtitle: Text(
-        "Between 0 and $topLimit",
+        "Between $bottomLimit and $topLimit",
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),
