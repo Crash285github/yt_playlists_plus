@@ -61,7 +61,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
       leading: const Icon(Icons.history),
       title: const Text("History limit"),
       subtitle: Text(
-        "Between $bottomLimit and $topLimit",
+        "Between $bottomLimit and $topLimit, \nor infinite if above.",
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),
