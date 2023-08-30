@@ -36,8 +36,6 @@ class _PlannedPanelState extends State<PlannedPanel> {
   }
 
   bool canSubmitPlanned(String title) {
-    PopUpManager.hideCurrentSnackBar(context);
-
     if (title.trim().isEmpty) {
       PopUpManager.showSnackBar(
         context: context,

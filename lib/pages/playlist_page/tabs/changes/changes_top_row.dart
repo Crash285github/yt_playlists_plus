@@ -31,7 +31,7 @@ class ChangesTopRow extends StatelessWidget {
                     : () {
                         for (var video in changes) {
                           if (video.status != VideoStatus.pending) {
-                            video.function!();
+                            video.onTap!();
                           }
                         }
                       },

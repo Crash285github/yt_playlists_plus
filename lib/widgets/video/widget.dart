@@ -6,9 +6,9 @@ import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/thumbnail.dart';
 import 'package:yt_playlists_plus/widgets/video/details.dart';
 import 'package:yt_playlists_plus/widgets/video/status.dart';
-import '../../model/video/video.dart';
+import 'package:yt_playlists_plus/model/video/video.dart';
 
-///Shows a single video with a configurable `onTap` function
+///Shows a single video
 class VideoWidget extends ICardWidget {
   ///Whether the Widget can be tapped
   ///
@@ -30,7 +30,9 @@ class VideoWidget extends ICardWidget {
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
         child: InkWell(
-          onTap: isInteractable ? video.function : null,
+          onTap: isInteractable ? video.onTap : null,
+          onLongPress:
+              isInteractable ? () => video.onLongPress!(context) : null,
           child: Row(
             children: [
               Flexible(
