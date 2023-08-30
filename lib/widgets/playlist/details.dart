@@ -13,6 +13,7 @@ class PlaylistDetails extends StatelessWidget {
     return Flexible(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           //? title
           Tooltip(
