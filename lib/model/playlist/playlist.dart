@@ -306,16 +306,23 @@ class Playlist extends ChangeNotifier {
             .toList();
 
   ///Converts a `Playlist` Object into a `json` Object
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'author': author,
-        'thumbnailUrl': thumbnailUrl,
-        'videos': _videos.map((video) => video.toJson()).toList(),
-        'planned': jsonEncode(_planned.toList()),
-        'history':
-            _history.map((videoHistory) => videoHistory.toJson()).toList()
-      };
+  Map<String, dynamic> toJson() {
+    int historyLimit = Persistence.historyLimit ?? _history.length;
+    return {
+      'id': id,
+      'title': title,
+      'author': author,
+      'thumbnailUrl': thumbnailUrl,
+      'videos': _videos.map((video) => video.toJson()).toList(),
+      'planned': jsonEncode(_planned.toList()),
+      'history': _history.reversed
+          .take(historyLimit)
+          .toList()
+          .reversed
+          .map((videoHistory) => videoHistory.toJson())
+          .toList()
+    };
+  }
 
   //#endregion
 }
