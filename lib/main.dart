@@ -1,6 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
@@ -49,17 +48,6 @@ class MainApp extends StatelessWidget {
             '/': (context) => const Responsive(),
             '/about': (context) => const AboutPage(),
             '/search': (context) => const SearchPage(),
-          },
-          onGenerateRoute: (settings) {
-            if (settings.name == '/playlist') {
-              final args = settings.arguments as Playlist;
-              return MaterialPageRoute(
-                  builder: (context) => ListenableProvider.value(
-                        value: args,
-                        child: const PlaylistPage(),
-                      ));
-            }
-            return null;
           },
           theme: ApplicationTheme.get() == ApplicationTheme.light
               ? themeBuilder(scheme: lightDynamicColorScheme)

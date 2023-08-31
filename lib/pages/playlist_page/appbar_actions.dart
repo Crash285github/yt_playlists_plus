@@ -2,12 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class AppBarActions {
-  static List<Widget>? build(
-      {required BuildContext context, required Playlist playlist}) {
+  static List<Widget>? build({
+    required BuildContext context,
+    required Playlist playlist,
+    required Function() onDelete,
+  }) {
     return [
       IconButton(
         tooltip: "Refresh",
@@ -26,19 +27,7 @@ class AppBarActions {
               },
       ),
       IconButton(
-        onPressed: () async {
-          PopUpManager.openConfirmDialog(
-            context: context,
-            title: "Delete \"${playlist.title}\"?",
-            content: "This will erase all of the playlist's data.",
-          ).then((value) {
-            if (value ?? false) {
-              Persistence.removePlaylist(playlist);
-              Persistence.savePlaylists();
-              Navigator.pop(context);
-            }
-          });
-        },
+        onPressed: onDelete,
         icon: const Icon(
           Icons.delete_outline,
           color: Colors.red,
