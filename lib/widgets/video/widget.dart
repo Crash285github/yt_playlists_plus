@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/persistence/theme_constants.dart%20';
@@ -10,16 +11,13 @@ import 'package:yt_playlists_plus/model/video/video.dart';
 
 ///Shows a single video
 class VideoWidget extends ICardWidget {
-  ///Whether the Widget can be tapped
-  ///
-  ///If false, the Status Icon doesn't show
-  final bool isInteractable;
+  final bool showStatus;
 
   const VideoWidget({
     super.key,
     super.firstOfList = false,
     super.lastOfList = false,
-    this.isInteractable = true,
+    this.showStatus = true,
   });
 
   @override
@@ -30,9 +28,12 @@ class VideoWidget extends ICardWidget {
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
         child: InkWell(
-          onTap: isInteractable ? video.onTap : null,
-          onLongPress:
-              isInteractable ? () => video.onLongPress!(context) : null,
+          onTap: showStatus
+              ? video.onTap
+              : () async {
+                  await Clipboard.setData(ClipboardData(text: video.title));
+                },
+          onLongPress: showStatus ? () => video.onLongPress!(context) : null,
           child: Row(
             children: [
               Flexible(
@@ -53,7 +54,7 @@ class VideoWidget extends ICardWidget {
                   ],
                 ),
               ),
-              isInteractable || video.status != VideoStatus.normal
+              showStatus || video.status != VideoStatus.normal
                   ? VideoStatusWidget(status: video.status)
                   : const SizedBox(width: 10),
             ],

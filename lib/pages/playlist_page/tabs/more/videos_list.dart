@@ -36,7 +36,7 @@ class _VideosListState extends State<VideosList>
                 child: VideoWidget(
                   firstOfList: index == 1,
                   lastOfList: index == widget.videos.length,
-                  isInteractable: false,
+                  showStatus: false,
                 ),
               );
             },
