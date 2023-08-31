@@ -26,9 +26,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<ApplicationTheme>(context);
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         ColorScheme? lightDynamicColorScheme;
