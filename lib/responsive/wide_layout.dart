@@ -21,7 +21,18 @@ class _WideLayoutState extends State<WideLayout> {
         Expanded(
           flex: 3,
           child: _playlist == null
-              ? const Placeholder()
+              ? Scaffold(
+                  body: Center(
+                    child: Text(
+                      "Tap on a playlist to show data.",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5)),
+                    ),
+                  ),
+                )
               : ListenableProvider.value(
                   value: _playlist,
                   child: const PlaylistPage(),
