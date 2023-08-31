@@ -17,56 +17,59 @@ class _WideLayoutState extends State<WideLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      textDirection: TextDirection.rtl,
-      children: [
-        Expanded(
-          flex: 3,
-          child: _playlist == null
-              ? Scaffold(
-                  body: Center(
-                    child: Text(
-                      "Tap on a playlist to show data.",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5)),
+    return Scaffold(
+      body: Row(
+        textDirection: TextDirection.rtl,
+        children: [
+          Expanded(
+            flex: 3,
+            child: _playlist == null
+                ? Scaffold(
+                    body: Center(
+                      child: Text(
+                        "Tap on a playlist to show data.",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.5)),
+                      ),
+                    ),
+                  )
+                : ListenableProvider.value(
+                    value: _playlist,
+                    child: PlaylistPage(
+                      onDelete: () async {
+                        PopUpManager.openConfirmDialog(
+                          context: context,
+                          title: "Delete \"${_playlist!.title}\"?",
+                          content:
+                              "This will erase all of the playlist's data.",
+                        ).then((value) {
+                          if (value ?? false) {
+                            Persistence.removePlaylist(_playlist!);
+                            Persistence.savePlaylists();
+                            setState(() {
+                              _playlist = null;
+                            });
+                          }
+                        });
+                      },
                     ),
                   ),
-                )
-              : ListenableProvider.value(
-                  value: _playlist,
-                  child: PlaylistPage(
-                    onDelete: () async {
-                      PopUpManager.openConfirmDialog(
-                        context: context,
-                        title: "Delete \"${_playlist!.title}\"?",
-                        content: "This will erase all of the playlist's data.",
-                      ).then((value) {
-                        if (value ?? false) {
-                          Persistence.removePlaylist(_playlist!);
-                          Persistence.savePlaylists();
-                          setState(() {
-                            _playlist = null;
-                          });
-                        }
-                      });
-                    },
-                  ),
-                ),
-        ),
-        Expanded(
-          flex: 2,
-          child: HomePage(
-            onPlaylistTap: (Playlist playlist) {
-              setState(() {
-                _playlist = playlist;
-              });
-            },
           ),
-        ),
-      ],
+          Expanded(
+            flex: 2,
+            child: HomePage(
+              onPlaylistTap: (Playlist playlist) {
+                setState(() {
+                  _playlist = playlist;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
