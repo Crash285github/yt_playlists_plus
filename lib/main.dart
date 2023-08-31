@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/responsive/responsive.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -48,7 +49,7 @@ class MainApp extends StatelessWidget {
           initialRoute: '/',
           debugShowCheckedModeBanner: false,
           routes: {
-            '/': (context) => const HomePage(),
+            '/': (context) => const Responsive(),
             '/about': (context) => const AboutPage(),
             '/search': (context) => const SearchPage(),
           },
