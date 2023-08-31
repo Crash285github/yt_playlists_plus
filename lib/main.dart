@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
@@ -33,8 +34,13 @@ class YPPApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ApplicationTheme>(context);
+    final query = MediaQuery.of(context);
+    if ((query.orientation == Orientation.portrait && query.size.width < 500) ||
+        query.size.height < 500) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
 
+    Provider.of<ApplicationTheme>(context);
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         ColorScheme? lightDynamicColorScheme;
