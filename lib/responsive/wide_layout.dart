@@ -13,7 +13,7 @@ class WideLayout extends StatefulWidget {
 }
 
 class _WideLayoutState extends State<WideLayout> {
-  Playlist? _playlist;
+  static Playlist? _playlist;
 
   @override
   Widget build(BuildContext context) {
