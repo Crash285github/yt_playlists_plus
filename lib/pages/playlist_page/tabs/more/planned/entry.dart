@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PlannedWidget extends StatefulWidget {
   final String title;
@@ -31,11 +32,23 @@ class _PlannedWidgetState extends State<PlannedWidget> {
               ),
             ),
           ),
-          IconButton(
-            onPressed: () => widget.onDeletePressed(),
-            icon: const Icon(Icons.remove),
-            color: Colors.red,
-            tooltip: "Remove",
+          Row(
+            children: [
+              IconButton(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: widget.title));
+                },
+                icon: const Icon(Icons.copy_outlined),
+                color: Colors.grey,
+                tooltip: "Copy",
+              ),
+              IconButton(
+                onPressed: () => widget.onDeletePressed(),
+                icon: const Icon(Icons.remove),
+                color: Colors.red,
+                tooltip: "Remove",
+              ),
+            ],
           ),
         ],
       ),
