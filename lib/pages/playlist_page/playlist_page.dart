@@ -6,7 +6,11 @@ import 'package:yt_playlists_plus/pages/playlist_page/body.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabbar.dart';
 
 class PlaylistPage extends StatelessWidget {
-  const PlaylistPage({super.key});
+  final Function() onDelete;
+  const PlaylistPage({
+    super.key,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,11 @@ class PlaylistPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(playlist.title),
           centerTitle: true,
-          actions: AppBarActions.build(context: context, playlist: playlist),
+          actions: AppBarActions.build(
+            context: context,
+            playlist: playlist,
+            onDelete: onDelete,
+          ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: PlaylistPageTabBar(

@@ -10,8 +10,6 @@ import 'package:yt_playlists_plus/widgets/thumbnail.dart';
 
 class PlaylistWidget extends ICardWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
-  ///
-  ///If not set, it navigates to the Playlist's Page
   final void Function()? onTap;
 
   const PlaylistWidget({
@@ -29,16 +27,7 @@ class PlaylistWidget extends ICardWidget {
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Ink(
         child: InkWell(
-          onTap: Persistence.canReorder
-              ? null
-              : () async {
-                  if (onTap == null) {
-                    Navigator.pushNamed(context, '/playlist',
-                        arguments: playlist);
-                  } else {
-                    onTap!();
-                  }
-                },
+          onTap: Persistence.canReorder ? null : onTap,
           child: Row(
             children: [
               Flexible(

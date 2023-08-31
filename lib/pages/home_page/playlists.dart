@@ -5,7 +5,8 @@ import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/playlist/widget.dart';
 
 class HomePagePlaylists extends StatefulWidget {
-  const HomePagePlaylists({super.key});
+  final Function(Playlist) onTap;
+  const HomePagePlaylists({super.key, required this.onTap});
 
   @override
   State<HomePagePlaylists> createState() => _HomePagePlaylistsState();
@@ -27,6 +28,7 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
             child: PlaylistWidget(
               firstOfList: index == 0,
               lastOfList: index == Persistence.playlists.length - 1,
+              onTap: () => widget.onTap(Persistence.playlists[index]),
             ),
           ),
         );
