@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,16 +12,17 @@ import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/responsive/responsive.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  await windowManager.waitUntilReadyToShow().then((_) async {
-    await windowManager.setSize(const Size(1100, 900));
-    await windowManager.setMinimumSize(const Size(600, 400));
-    await windowManager.setAlignment(Alignment.center);
-    await windowManager.show();
-  });
+  if (Platform.isWindows) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
+    await windowManager.waitUntilReadyToShow().then((_) async {
+      await windowManager.setSize(const Size(1100, 900));
+      await windowManager.setMinimumSize(const Size(600, 400));
+      await windowManager.setAlignment(Alignment.center);
+      await windowManager.show();
+    });
+  }
 
-  await Persistence.load();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
@@ -27,6 +30,7 @@ void main() async {
     ],
     child: const YPPApp(),
   ));
+  Persistence.load();
 }
 
 class YPPApp extends StatelessWidget {
