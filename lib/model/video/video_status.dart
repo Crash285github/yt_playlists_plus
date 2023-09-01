@@ -4,6 +4,7 @@ enum VideoStatus {
   ///The video is both in the Persistence and fetch
   ///
   ///This is also the default state before checking
+  ///Icon is error since it should not be seen
   normal(
     displayName: "Normal",
     icon: Icons.error,
