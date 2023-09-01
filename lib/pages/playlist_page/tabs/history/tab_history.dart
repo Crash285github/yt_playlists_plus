@@ -20,6 +20,7 @@ class _HistoryTabState extends State<HistoryTab> {
     return Column(
       children: [
         HistoryTopRow(
+          size: widget.history.length,
           onClearPressed: widget.history.isEmpty
               ? null
               : () async {
