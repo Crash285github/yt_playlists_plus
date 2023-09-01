@@ -33,7 +33,11 @@ class VideoWidget extends ICardWidget {
               : () async {
                   await Clipboard.setData(ClipboardData(text: video.title));
                 },
-          onLongPress: showStatus ? () => video.onLongPress!(context) : null,
+          onLongPress: showStatus
+              ? () => video.onLongPress!(context)
+              : () async {
+                  await Clipboard.setData(ClipboardData(text: video.id));
+                },
           child: Row(
             children: [
               Flexible(
