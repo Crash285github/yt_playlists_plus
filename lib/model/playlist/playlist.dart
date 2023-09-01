@@ -62,7 +62,7 @@ class Playlist extends ChangeNotifier {
 
   ///Sets new progress and notifies listeners
   setProgress(double newProgress) {
-    const int steps = 10;
+    const int steps = 100;
 
     final int newProgressInt =
         (newProgress * steps).round() * (100 / steps).round();
@@ -211,6 +211,7 @@ class Playlist extends ChangeNotifier {
     _fetching = true;
     _fetch.clear();
     setStatus(PlaylistStatus.fetching);
+    setProgress(0);
 
     try {
       YoutubeClient();
@@ -223,7 +224,6 @@ class Playlist extends ChangeNotifier {
       rethrow;
     } finally {
       _fetching = false;
-      setProgress(0);
     }
   }
 
@@ -247,7 +247,7 @@ class Playlist extends ChangeNotifier {
       thumbnailUrl = newthumbnailUrl;
     }
 
-    if (!(await YoutubeClient.existsPlaylist(id))) {
+    if (_fetch.isEmpty && !(await YoutubeClient.existsPlaylist(id))) {
       setStatus(PlaylistStatus.notFound);
       return;
     }
