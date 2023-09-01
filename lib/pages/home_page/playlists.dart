@@ -26,8 +26,9 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
           child: ListenableProvider.value(
             value: Persistence.playlists[index],
             child: PlaylistWidget(
-              firstOfList: index == 0,
-              lastOfList: index == Persistence.playlists.length - 1,
+              firstOfList: index == 0 && !Persistence.canReorder,
+              lastOfList: index == Persistence.playlists.length - 1 &&
+                  !Persistence.canReorder,
               onTap: () => widget.onTap(Persistence.playlists[index]),
             ),
           ),
