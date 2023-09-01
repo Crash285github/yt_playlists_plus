@@ -39,8 +39,7 @@ class YPPApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final query = MediaQuery.of(context);
-    if ((query.orientation == Orientation.portrait && query.size.width < 500) ||
-        query.size.height < 500) {
+    if (query.size.width < 450 || query.size.height < 450) {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
 
