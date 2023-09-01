@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 enum ApplicationColor {
   dynamic(color: null, displayName: "Dynamic"),
   red(color: Colors.red, displayName: "Red"),
+  pink(color: Colors.pink, displayName: "Pink"),
   orange(color: Colors.amber, displayName: "Orange"),
   yellow(color: Colors.yellowAccent, displayName: "Yellow"),
   green(color: Colors.lightGreenAccent, displayName: "Green"),
