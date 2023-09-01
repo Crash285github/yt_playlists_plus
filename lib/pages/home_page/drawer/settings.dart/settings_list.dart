@@ -15,6 +15,7 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool canSnap = MediaQuery.of(context).size.height * 0.2 > 100;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -29,9 +30,7 @@ class Settings extends StatelessWidget {
           const ThemeSwitch(),
           const ConfirmDeleteSwitch(),
           const HideTopicsSwitch(),
-          Platform.isAndroid
-              ? const InitialPlannedSizeSetting()
-              : const SizedBox.shrink(),
+          if (Platform.isAndroid && canSnap) const InitialPlannedSizeSetting(),
           const ColorSetting(),
           const SplitViewSetting(),
           const HistorySizeSetting(),

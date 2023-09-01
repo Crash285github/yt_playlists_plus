@@ -52,8 +52,9 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double minSize = 50 / height;
+    final double height = MediaQuery.of(context).size.height;
+    final double minSize = 50 / height;
+    final bool canSnap = height * 0.2 > 100;
     return Stack(
       children: [
         Visibility(
@@ -68,13 +69,14 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
         DraggableScrollableSheet(
           controller: _draggableScrollableController,
           initialChildSize:
-              Persistence.initialPlannedSize == InitialPlannedSize.normal
+              Persistence.initialPlannedSize == InitialPlannedSize.normal &&
+                      canSnap
                   ? snapSize
                   : minSize,
           minChildSize: minSize,
           maxChildSize: maxSize,
           snap: true,
-          snapSizes: height * 0.2 > 100 ? const [0.2] : null, //? minSize
+          snapSizes: canSnap ? const [0.2] : null, //? minSize
           builder: (BuildContext context, ScrollController scrollController) {
             return PlannedPanel(
               planned: widget.playlist.planned,
