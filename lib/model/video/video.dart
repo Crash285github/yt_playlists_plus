@@ -9,6 +9,12 @@ class Video extends ChangeNotifier {
   VideoStatus get status => _status;
   VideoStatus _status = VideoStatus.normal;
 
+  ///Changes status & alerts listeners
+  setStatus(VideoStatus newStatus) {
+    _status = newStatus;
+    notifyListeners();
+  }
+
   ///What the Video should do when tapped on it's Widget
   ///
   ///The add/remove functions are assigned usually
@@ -33,12 +39,6 @@ class Video extends ChangeNotifier {
         author: source.author,
         thumbnailUrl: source.thumbnailUrl,
       );
-
-  ///Changes status & alerts listeners
-  setStatus(VideoStatus newStatus) {
-    _status = newStatus;
-    notifyListeners();
-  }
 
   @override
   String toString() {
