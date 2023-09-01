@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
+import 'package:yt_playlists_plus/persistence/split_portions.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
@@ -73,6 +74,9 @@ class Persistence with ChangeNotifier {
   ///`null` means infinite
   static int? historyLimit;
 
+  ///Left and right side's size on wide displays
+  static SplitPortions splitPortions = SplitPortions.uneven;
+
   ///Colorscheme of the App
   ///
   ///Default is `dynamic`
@@ -103,6 +107,9 @@ class Persistence with ChangeNotifier {
       if (historyLimit == -1) {
         historyLimit = null;
       }
+    } catch (_) {}
+    try {
+      splitPortions = SplitPortions.values[prefs.getInt('splitPortions') ?? 0];
     } catch (_) {}
 
     //? playlists
@@ -140,6 +147,11 @@ class Persistence with ChangeNotifier {
   static Future<bool> saveHistoryLimit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setInt('historyLimit', historyLimit ?? -1);
+  }
+
+  static Future<bool> saveSplitPortions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt('splitPortions', splitPortions.index);
   }
 
   static Future<bool> savePlaylists() async {
