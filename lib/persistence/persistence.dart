@@ -119,44 +119,84 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
+  static bool _isSavingTheme = false;
   static Future<bool> saveTheme() async {
+    if (_isSavingTheme) return false;
+    _isSavingTheme = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setInt('theme', ApplicationTheme.get());
+    return prefs
+        .setInt('theme', ApplicationTheme.get())
+        .then((_) => _isSavingTheme = false);
   }
 
+  static bool _isSavingConfirmDeletions = false;
   static Future<bool> saveConfirmDeletions() async {
+    if (_isSavingConfirmDeletions) return false;
+    _isSavingConfirmDeletions = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setBool('confirmDeletions', confirmDeletions);
+    return prefs
+        .setBool('confirmDeletions', confirmDeletions)
+        .then((_) => _isSavingConfirmDeletions = false);
   }
 
+  static bool _isSavingInitialPlannedSize = false;
   static Future<bool> saveInitialPlannedSize() async {
+    if (_isSavingInitialPlannedSize) return false;
+    _isSavingInitialPlannedSize = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setInt('initialPlannedSize', initialPlannedSize.index);
+    return prefs
+        .setInt('initialPlannedSize', initialPlannedSize.index)
+        .then((_) => _isSavingInitialPlannedSize = false);
   }
 
+  static bool _isSavingHideTopics = false;
   static Future<bool> saveHideTopics() async {
+    if (_isSavingHideTopics) return false;
+    _isSavingHideTopics = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setBool('hideTopics', hideTopics);
+    return prefs
+        .setBool('hideTopics', hideTopics)
+        .then((_) => _isSavingHideTopics = false);
   }
 
+  static bool _isSavingColor = false;
   static Future<bool> saveColor() async {
+    if (_isSavingColor) return false;
+    _isSavingColor = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setInt('colorScheme', color.index);
+    return prefs
+        .setInt('colorScheme', color.index)
+        .then((_) => _isSavingColor = false);
   }
 
+  static bool _isSavingHistoryLimit = false;
   static Future<bool> saveHistoryLimit() async {
+    if (_isSavingHistoryLimit) return false;
+    _isSavingHistoryLimit = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setInt('historyLimit', historyLimit ?? -1);
+    return prefs
+        .setInt('historyLimit', historyLimit ?? -1)
+        .then((_) => _isSavingHistoryLimit = false);
   }
 
+  static bool _isSavingSplitPortions = false;
   static Future<bool> saveSplitPortions() async {
+    if (_isSavingSplitPortions) return false;
+    _isSavingSplitPortions = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setInt('splitPortions', splitPortions.index);
+    return prefs
+        .setInt('splitPortions', splitPortions.index)
+        .then((_) => _isSavingSplitPortions = false);
   }
 
+  static bool _isSavingPlaylists = false;
   static Future<bool> savePlaylists() async {
+    if (_isSavingPlaylists) return false;
+    _isSavingPlaylists = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setStringList(
-        'playlists', (_playlists.map((e) => jsonEncode(e))).toList());
+    return prefs
+        .setStringList(
+            'playlists', (_playlists.map((e) => jsonEncode(e))).toList())
+        .then((_) => _isSavingPlaylists = false);
   }
 }
