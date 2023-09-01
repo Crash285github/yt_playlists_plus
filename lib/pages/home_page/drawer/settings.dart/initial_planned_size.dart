@@ -20,7 +20,6 @@ class _InitialPlannedSizeSettingState extends State<InitialPlannedSizeSetting> {
       title: const Text("Planned height"),
       trailing: DropdownButton(
         value: _initialPlannedSize,
-        icon: const Icon(Icons.draw_outlined),
         iconSize: 0,
         items: [
           DropdownMenuItem(

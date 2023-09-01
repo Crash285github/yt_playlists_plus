@@ -24,7 +24,6 @@ class _ColorSettingState extends State<ColorSetting> {
       ),
       trailing: DropdownButton<ApplicationColor>(
         value: _color,
-        icon: const Icon(Icons.color_lens_outlined),
         iconSize: 0,
         items: [
           ...ApplicationColor.values.map((ApplicationColor color) {
