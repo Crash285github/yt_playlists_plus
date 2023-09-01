@@ -22,7 +22,7 @@ class _WideLayoutState extends State<WideLayout> {
         textDirection: TextDirection.rtl,
         children: [
           Expanded(
-            flex: 3,
+            flex: Persistence.splitPortions.right,
             child: _playlist == null
                 ? Scaffold(
                     body: Center(
@@ -59,7 +59,7 @@ class _WideLayoutState extends State<WideLayout> {
                   ),
           ),
           Expanded(
-            flex: 2,
+            flex: Persistence.splitPortions.left,
             child: HomePage(
               onPlaylistTap: (Playlist playlist) {
                 setState(() {
