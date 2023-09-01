@@ -3,9 +3,12 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 
 class ChangesCenterText extends StatelessWidget {
   final PlaylistStatus status;
+  final int progress;
+
   const ChangesCenterText({
     super.key,
     required this.status,
+    required this.progress,
   });
 
   @override
@@ -20,6 +23,12 @@ class ChangesCenterText extends StatelessWidget {
         break;
       case PlaylistStatus.unChanged:
         message = "No changes. That's good.";
+        break;
+      case PlaylistStatus.unChecked:
+        message = "Press the refresh button to check.";
+        break;
+      case PlaylistStatus.fetching:
+        message = "Fetching... $progress%";
         break;
       case PlaylistStatus.saved:
         message = "Playlist saved.";

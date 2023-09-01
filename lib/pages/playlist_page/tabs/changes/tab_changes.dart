@@ -32,7 +32,10 @@ class ChangesTab extends StatelessWidget {
           playlist.status == PlaylistStatus.changed
               ? ChangesList(
                   changes: (added.toList() + missing.toList()).toSet())
-              : ChangesCenterText(status: playlist.status)
+              : ChangesCenterText(
+                  status: playlist.status,
+                  progress: playlist.progress,
+                )
         ],
       ),
       floatingActionButton: SaveButton(playlist: playlist),
