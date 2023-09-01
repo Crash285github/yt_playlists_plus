@@ -53,7 +53,7 @@ class YoutubeClient {
   ///
   ///Returns null if the url is invalid or the Playlist ID doesn't exist
   static Future<Playlist?> searchByLink({required String url}) async {
-    final String id = url.substring(url.length - 34, url.length);
+    final String id = url.split("?list=")[1].split('&')[0];
 
     //if already contains
     if (Persistence.playlists.any((final Playlist pl) => pl.id == id)) {

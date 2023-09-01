@@ -56,7 +56,7 @@ class _SearchPageState extends State<SearchPage> {
         )) {
           if (!_rendered) return;
           if (Persistence.playlists.contains(playlist)) continue;
-          
+
           playlist.setStatus(PlaylistStatus.notDownloaded);
           setState(() {
             _searchResults.add(playlist);
@@ -118,7 +118,7 @@ class _SearchPageState extends State<SearchPage> {
 
   bool _isYoutubePlaylistLink({required String query}) {
     final youtubeLinkRegExp = RegExp(
-        r"^(https?:\/\/)?((www|m)\.)?youtu(.?)be\.com\/playlist\?list=.{34}$");
+        r"^(https?:\/\/)?((www|m)\.)?youtu(.?)be\.com\/playlist\?list=.{34}");
 
     return youtubeLinkRegExp.hasMatch(query);
   }
