@@ -1,6 +1,9 @@
 enum SplitPortions {
-  uneven(2, 3),
-  even(1, 1);
+  uneven(left: 2, right: 3),
+  even(left: 1, right: 1);
 
-  const SplitPortions(int left, int right);
+  const SplitPortions({required this.left, required this.right});
+
+  final int left;
+  final int right;
 }

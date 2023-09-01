@@ -18,6 +18,14 @@ class Settings extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Text(
+            "Some changes apply after a restart.",
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onBackground
+                    .withOpacity(0.5)),
+          ),
           const ThemeSwitch(),
           const ConfirmDeleteSwitch(),
           const HideTopicsSwitch(),

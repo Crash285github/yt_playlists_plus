@@ -17,11 +17,6 @@ class _ColorSettingState extends State<ColorSetting> {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
       title: const Text("App color"),
-      subtitle: Text(
-        "Change applies after restart.",
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
-      ),
       trailing: DropdownButton<ApplicationColor>(
         value: _color,
         iconSize: 0,
