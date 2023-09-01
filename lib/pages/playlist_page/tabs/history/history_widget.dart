@@ -18,6 +18,9 @@ class HistoryWidget extends ICardWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime localTime = videoHistory.time.toLocal();
+    final String localString = localTime.toString().split('.')[0];
+
     return Card(
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Padding(
@@ -37,11 +40,14 @@ class HistoryWidget extends ICardWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  Text(
-                    "${videoHistory.author} • ${timeago.format(videoHistory.time)}",
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          color: Colors.grey,
-                        ),
+                  Tooltip(
+                    message: localString,
+                    child: Text(
+                      "${videoHistory.author} • ${timeago.format(videoHistory.time)}",
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: Colors.grey,
+                          ),
+                    ),
                   )
                 ],
               ),
