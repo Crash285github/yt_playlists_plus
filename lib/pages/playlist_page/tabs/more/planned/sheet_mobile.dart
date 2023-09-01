@@ -22,21 +22,21 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
   double _opacity = 0.0;
   bool _visible = false;
 
-  double minSize = 0.2;
+  double snapSize = 0.2;
   double maxSize = 0.7;
 
   @override
   void initState() {
     _draggableScrollableController.addListener(() {
       setState(() {
-        if (_draggableScrollableController.size <= minSize + 0.01) {
+        if (_draggableScrollableController.size <= snapSize + 0.01) {
           _opacity = 0;
           _visible = false;
         } else if (_draggableScrollableController.size >= maxSize - 0.01) {
           _opacity = 0.5;
           _visible = true;
         } else {
-          _opacity = (_draggableScrollableController.size - minSize);
+          _opacity = (_draggableScrollableController.size - snapSize);
           _visible = true;
         }
       });
@@ -52,6 +52,8 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double minSize = 50 / height;
     return Stack(
       children: [
         Visibility(
@@ -67,18 +69,18 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
           controller: _draggableScrollableController,
           initialChildSize:
               Persistence.initialPlannedSize == InitialPlannedSize.normal
-                  ? minSize
-                  : 0.05,
-          minChildSize: 0.05,
+                  ? snapSize
+                  : minSize,
+          minChildSize: minSize,
           maxChildSize: maxSize,
           snap: true,
-          snapSizes: const [0.2], //? minSize
+          snapSizes: height * 0.2 > 100 ? const [0.2] : null, //? minSize
           builder: (BuildContext context, ScrollController scrollController) {
             return PlannedPanel(
               planned: widget.playlist.planned,
               scrollController: scrollController,
               onHandleTapped: () {
-                if (_draggableScrollableController.size <= 0.051) {
+                if (_draggableScrollableController.size < snapSize) {
                   _draggableScrollableController.animateTo(
                     0.7,
                     duration: const Duration(milliseconds: 400),
