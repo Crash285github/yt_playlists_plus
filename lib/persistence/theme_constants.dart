@@ -8,6 +8,7 @@ const cardTheme = CardTheme(
   shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(10))),
   clipBehavior: Clip.antiAlias,
+  margin: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
 );
 
 const dividerTheme = DividerThemeData(
