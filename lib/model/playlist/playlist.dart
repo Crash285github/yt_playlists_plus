@@ -222,12 +222,13 @@ class Playlist extends ChangeNotifier {
     setStatus(PlaylistStatus.checking);
 
     //? update thumbnail if different
-    final String newthumbnailUrl = _fetch.firstOrNull?.thumbnailUrl ?? "";
+    final String newthumbnailUrl =
+        _fetch.firstOrNull?.thumbnailUrl ?? thumbnailUrl;
     if (newthumbnailUrl != thumbnailUrl) {
       thumbnailUrl = newthumbnailUrl;
     }
 
-    if ((thumbnailUrl == "") && !(await YoutubeClient.existsPlaylist(id))) {
+    if (!(await YoutubeClient.existsPlaylist(id))) {
       setStatus(PlaylistStatus.notFound);
       return;
     }
