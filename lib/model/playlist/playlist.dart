@@ -55,6 +55,23 @@ class Playlist extends ChangeNotifier {
   int get modified => _modified;
   int _modified = 0;
 
+  ///Shows the fetching progress
+  ///
+  ///Not exact, but the bigger the list the more accurate
+  int progress = 0;
+
+  ///Sets new progress and notifies listeners
+  setProgress(double newProgress) {
+    const int steps = 10;
+
+    final int newProgressInt =
+        (newProgress * steps).round() * (100 / steps).round();
+    if (progress != newProgressInt) {
+      progress = newProgressInt;
+      notifyListeners();
+    }
+  }
+
   Playlist({
     required this.id,
     required this.title,
@@ -199,12 +216,14 @@ class Playlist extends ChangeNotifier {
       YoutubeClient();
       await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
         _fetch.add(video);
+        setProgress(_fetch.length / _videos.length);
       }
     } on SocketException {
       setStatus(PlaylistStatus.unChecked);
       rethrow;
     } finally {
       _fetching = false;
+      setProgress(0);
     }
   }
 
