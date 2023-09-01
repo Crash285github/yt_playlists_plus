@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class HistoryTopRow extends StatelessWidget {
   final Function()? onClearPressed;
+  final int size;
 
   const HistoryTopRow({
     super.key,
     required this.onClearPressed,
+    required this.size,
   });
 
   @override
@@ -16,7 +18,7 @@ class HistoryTopRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "History",
+            "History ($size)",
             style: Theme.of(context).textTheme.titleLarge,
           ),
           TextButton(
