@@ -20,9 +20,25 @@ class HomePageDrawer extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            const Divider(height: 2),
+            const Divider(),
             const Expanded(child: Settings()),
-            const Divider(height: 2),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.note_add_outlined),
+                      label: const Text("Export")),
+                  TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.file_open_outlined),
+                      label: const Text("Import")),
+                ],
+              ),
+            ),
+            const Divider(),
             //About
             InkWell(
               onTap: () {
