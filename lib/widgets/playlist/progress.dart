@@ -23,8 +23,7 @@ class _PlaylistProgressIndicatorState extends State<PlaylistProgressIndicator> {
         return LinearProgressIndicator(
           backgroundColor: Colors.transparent,
           value: value,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          minHeight: 91, //? thumbnail height (85) + padding (3+3)
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
         );
       },
     );
