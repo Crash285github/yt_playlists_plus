@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/top_bar.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/entry.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/top_bar.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/entry.dart';
 
 class PlannedList extends StatefulWidget {
   final ScrollController scrollController;

@@ -44,9 +44,9 @@ class PlaylistPageTabBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.more_horiz),
+              Icon(Icons.list),
               SizedBox(width: 10),
-              Text("More"),
+              Text("Videos"),
             ],
           ),
         ),

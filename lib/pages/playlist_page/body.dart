@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/changes/tab_changes.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/tab_history.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/tab_more.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/tab_videos.dart';
 
 class PlaylistPageBody extends StatelessWidget {
   final Playlist playlist;
@@ -61,7 +61,7 @@ class PlaylistPageBody extends StatelessWidget {
                 added: playlist.getAdded(),
                 missing: playlist.getMissing(),
               ),
-              MoreTab(playlist: playlist),
+              VideosTab(playlist: playlist),
               HistoryTab(history: playlist.history),
             ],
           ),

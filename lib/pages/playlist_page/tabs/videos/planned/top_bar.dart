@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/title_row.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/top_handle.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/title_row.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/top_handle.dart';
 
 class TopBar {
   static List<Widget> build({
