@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/persistence/split_portions.dart';
 
@@ -11,10 +12,12 @@ class SplitViewSetting extends StatefulWidget {
 
 class _SplitViewSettingState extends State<SplitViewSetting> {
   final double _pi = 3.1415926535897932;
-  SplitPortions _portions = Persistence.splitPortions;
+  SplitPortions _portions = ApplicationSplitPortions.get();
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ApplicationSplitPortions>(context);
+
     return ListTile(
       leading: Transform.rotate(
           angle: (_pi / 2), child: const Icon(Icons.splitscreen_outlined)),
@@ -36,7 +39,7 @@ class _SplitViewSettingState extends State<SplitViewSetting> {
           setState(() {
             _portions = value!;
           });
-          Persistence.splitPortions = value!;
+          ApplicationSplitPortions.set(value!);
           Persistence.saveSplitPortions();
         },
       ),

@@ -74,9 +74,6 @@ class Persistence with ChangeNotifier {
   ///`null` means infinite
   static int? historyLimit;
 
-  ///Left and right side's size on wide displays
-  static SplitPortions splitPortions = SplitPortions.uneven;
-
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -105,7 +102,8 @@ class Persistence with ChangeNotifier {
       }
     } catch (_) {}
     try {
-      splitPortions = SplitPortions.values[prefs.getInt('splitPortions') ?? 0];
+      ApplicationSplitPortions.set(
+          SplitPortions.values[prefs.getInt('splitPortions') ?? 0]);
     } catch (_) {}
 
     //? playlists
@@ -181,7 +179,7 @@ class Persistence with ChangeNotifier {
     _isSavingSplitPortions = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs
-        .setInt('splitPortions', splitPortions.index)
+        .setInt('splitPortions', ApplicationSplitPortions.get().index)
         .then((_) => _isSavingSplitPortions = false);
   }
 

@@ -8,6 +8,7 @@ import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/persistence/split_portions.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/responsive/responsive.dart';
 
@@ -27,7 +28,8 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
       ChangeNotifierProvider(create: (context) => ApplicationTheme()),
-      ChangeNotifierProvider(create: (context) => ApplicationColorScheme())
+      ChangeNotifierProvider(create: (context) => ApplicationColorScheme()),
+      ChangeNotifierProvider(create: (context) => ApplicationSplitPortions()),
     ],
     child: const YPPApp(),
   ));
