@@ -13,6 +13,7 @@ class PlaylistPageTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       isScrollable: true,
+      splashBorderRadius: BorderRadius.circular(10.0),
       tabs: [
         Tab(
           child: Stack(clipBehavior: Clip.none, children: [
