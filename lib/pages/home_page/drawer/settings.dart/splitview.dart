@@ -24,6 +24,10 @@ class _SplitViewSettingState extends State<SplitViewSetting> {
       title: const Text("Split view"),
       trailing: DropdownButton(
         value: _portions,
+        alignment: Alignment.center,
+        underline: const SizedBox.shrink(),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        borderRadius: BorderRadius.circular(10.0),
         iconSize: 0,
         items: const [
           DropdownMenuItem(

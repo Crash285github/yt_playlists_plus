@@ -25,8 +25,8 @@ enum ApplicationColor {
   green(color: Colors.lightGreenAccent, displayName: "Green"),
   cyan(color: Colors.cyanAccent, displayName: "Cyan"),
   blue(color: Colors.lightBlue, displayName: "Blue"),
-  purple(color: Colors.purpleAccent, displayName: "Purple"),
   indigo(color: Colors.indigoAccent, displayName: "Indigo"),
+  purple(color: Colors.purpleAccent, displayName: "Purple"),
   ;
 
   const ApplicationColor({

@@ -19,11 +19,23 @@ class _ColorSettingState extends State<ColorSetting> {
       title: const Text("App color"),
       trailing: DropdownButton<ApplicationColor>(
         value: _color,
+        alignment: Alignment.center,
+        underline: const SizedBox.shrink(),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        borderRadius: BorderRadius.circular(10.0),
         iconSize: 0,
         items: [
           ...ApplicationColor.values.map((ApplicationColor color) {
             return DropdownMenuItem<ApplicationColor>(
-                value: color, child: Text(color.displayName));
+              value: color,
+              child: Text(
+                color.displayName,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: color.color),
+              ),
+            );
           })
         ],
         onChanged: (value) {
