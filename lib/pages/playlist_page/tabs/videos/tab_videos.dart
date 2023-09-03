@@ -19,20 +19,20 @@ class VideosTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Stack(children: [
-        Column(
-          children: [
-            VideosTopRow(playlist: playlist),
-            const Divider(),
-            playlist.videos.isEmpty
-                ? const EmptyVideos()
-                : VideosList(videos: playlist.videos),
-          ],
-        ),
-        Platform.isAndroid
-            ? PlannedSheetMobile(playlist: playlist)
-            : const SizedBox.shrink()
-      ]),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              VideosTopRow(playlist: playlist),
+              const Divider(),
+              playlist.videos.isEmpty
+                  ? const EmptyVideos()
+                  : VideosList(videos: playlist.videos),
+            ],
+          ),
+          if (Platform.isAndroid) PlannedSheetMobile(playlist: playlist)
+        ],
+      ),
     );
   }
 }

@@ -31,9 +31,8 @@ class HomePage extends StatelessWidget {
               : HomePagePlaylists(
                   onTap: onPlaylistTap,
                 ),
-          Persistence.playlists.isEmpty
-              ? const SliverToBoxAdapter(child: SizedBox.shrink())
-              : const SliverToBoxAdapter(child: BottomPadding())
+          if (Persistence.playlists.isNotEmpty)
+            const SliverToBoxAdapter(child: BottomPadding())
         ],
       ),
       floatingActionButton: Persistence.canReorder
