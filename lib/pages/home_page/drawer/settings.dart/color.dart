@@ -10,7 +10,7 @@ class ColorSetting extends StatefulWidget {
 }
 
 class _ColorSettingState extends State<ColorSetting> {
-  ApplicationColor _color = Persistence.color;
+  ApplicationColor _color = ApplicationColorScheme.get();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _ColorSettingState extends State<ColorSetting> {
           setState(() {
             _color = value!;
           });
-          Persistence.color = value ?? ApplicationColor.dynamic;
+          ApplicationColorScheme.set(value ?? ApplicationColor.dynamic);
           Persistence.saveColor();
         },
       ),

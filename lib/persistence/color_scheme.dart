@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 
+class ApplicationColorScheme extends ChangeNotifier {
+  //Singleton
+  static final ApplicationColorScheme _instance =
+      ApplicationColorScheme._internal();
+  ApplicationColorScheme._internal();
+  factory ApplicationColorScheme() => _instance;
+
+  static ApplicationColor _currentColorScheme = ApplicationColor.dynamic;
+  static ApplicationColor get() => _currentColorScheme;
+
+  static set(ApplicationColor scheme) {
+    _currentColorScheme = scheme;
+    _instance.notifyListeners();
+  }
+}
+
 enum ApplicationColor {
   dynamic(color: null, displayName: "Dynamic"),
   red(color: Colors.red, displayName: "Red"),

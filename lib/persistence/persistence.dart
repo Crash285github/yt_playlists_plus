@@ -77,11 +77,6 @@ class Persistence with ChangeNotifier {
   ///Left and right side's size on wide displays
   static SplitPortions splitPortions = SplitPortions.uneven;
 
-  ///Colorscheme of the App
-  ///
-  ///Default is `dynamic`
-  static ApplicationColor color = ApplicationColor.dynamic;
-
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -100,7 +95,8 @@ class Persistence with ChangeNotifier {
       hideTopics = prefs.getBool('hideTopics') ?? false;
     } catch (_) {}
     try {
-      color = ApplicationColor.values[prefs.getInt('colorScheme') ?? 0];
+      ApplicationColorScheme.set(
+          ApplicationColor.values[prefs.getInt('colorScheme') ?? 0]);
     } catch (_) {}
     try {
       historyLimit = prefs.getInt('historyLimit');
@@ -165,7 +161,7 @@ class Persistence with ChangeNotifier {
     _isSavingColor = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs
-        .setInt('colorScheme', color.index)
+        .setInt('colorScheme', ApplicationColorScheme.get().index)
         .then((_) => _isSavingColor = false);
   }
 

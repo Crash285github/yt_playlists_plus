@@ -27,6 +27,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
       ChangeNotifierProvider(create: (context) => ApplicationTheme()),
+      ChangeNotifierProvider(create: (context) => ApplicationColorScheme())
     ],
     child: const YPPApp(),
   ));
@@ -39,16 +40,18 @@ class YPPApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<ApplicationTheme>(context);
+    Provider.of<ApplicationColorScheme>(context);
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         ColorScheme? lightDynamicColorScheme;
         ColorScheme? darkDynamicColorScheme;
 
-        if (Persistence.color != ApplicationColor.dynamic) {
-          lightDynamicColorScheme =
-              ColorScheme.fromSeed(seedColor: Persistence.color.color!);
+        if (ApplicationColorScheme.get() != ApplicationColor.dynamic) {
+          lightDynamicColorScheme = ColorScheme.fromSeed(
+              seedColor: ApplicationColorScheme.get().color!);
           darkDynamicColorScheme = ColorScheme.fromSeed(
-              seedColor: Persistence.color.color!, brightness: Brightness.dark);
+              seedColor: ApplicationColorScheme.get().color!,
+              brightness: Brightness.dark);
         } else if (lightDynamic != null && darkDynamic != null) {
           lightDynamicColorScheme = lightDynamic.harmonized();
           darkDynamicColorScheme = darkDynamic.harmonized();

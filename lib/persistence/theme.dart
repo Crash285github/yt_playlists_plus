@@ -16,9 +16,6 @@ class ApplicationTheme extends ChangeNotifier {
   static int _currentTheme = 0;
   static int get() => _currentTheme;
 
-  ///0 == ApplicationTheme.light
-  ///
-  ///1 == ApplicationTheme.dark
   static set(int theme) {
     _currentTheme = theme;
     _instance.notifyListeners();
