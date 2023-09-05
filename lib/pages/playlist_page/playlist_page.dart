@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/appbar_actions.dart';
@@ -20,7 +21,19 @@ class PlaylistPage extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          title: Text(playlist.title),
+          title: InkWell(
+              customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              onTap: () async {
+                await Clipboard.setData(ClipboardData(text: playlist.title));
+              },
+              onLongPress: () async {
+                await Clipboard.setData(ClipboardData(text: playlist.id));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(playlist.title),
+              )),
           centerTitle: true,
           actions: AppBarActions.build(
             context: context,

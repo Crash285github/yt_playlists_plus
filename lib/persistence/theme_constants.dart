@@ -27,7 +27,7 @@ var snackBarTheme = SnackBarThemeData(
   elevation: 0,
 );
 
-ShapeBorder cardBorder({required bool firstOfList, required bool lastOfList}) {
+ShapeBorder cardBorder({bool firstOfList = false, bool lastOfList = false}) {
   double strongCorner = 15.0;
   double weakCorner = 4.0;
 
