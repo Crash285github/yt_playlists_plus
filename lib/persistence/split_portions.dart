@@ -17,11 +17,23 @@ class ApplicationSplitPortions extends ChangeNotifier {
 }
 
 enum SplitPortions {
-  uneven(left: 2, right: 3),
-  even(left: 1, right: 1);
+  ///2 / 3
+  uneven(left: 2, right: 3, displayName: 'Uneven'),
 
-  const SplitPortions({required this.left, required this.right});
+  ///1 / 1
+  even(left: 1, right: 1, displayName: 'Even'),
+
+  ///No split view
+  disabled(left: 1, right: 1, displayName: 'Disabled'),
+  ;
+
+  const SplitPortions({
+    required this.left,
+    required this.right,
+    required this.displayName,
+  });
 
   final int left;
   final int right;
+  final String displayName;
 }

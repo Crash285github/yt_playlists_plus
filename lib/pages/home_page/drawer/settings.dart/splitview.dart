@@ -29,15 +29,11 @@ class _SplitViewSettingState extends State<SplitViewSetting> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         borderRadius: BorderRadius.circular(10.0),
         iconSize: 0,
-        items: const [
-          DropdownMenuItem(
-            value: SplitPortions.even,
-            child: Text("Even"),
-          ),
-          DropdownMenuItem(
-            value: SplitPortions.uneven,
-            child: Text("Uneven"),
-          ),
+        items: [
+          ...SplitPortions.values.map((SplitPortions portions) {
+            return DropdownMenuItem(
+                value: portions, child: Text(portions.displayName));
+          })
         ],
         onChanged: (value) {
           setState(() {

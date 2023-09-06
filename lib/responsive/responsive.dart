@@ -9,9 +9,11 @@ class Responsive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ApplicationSplitPortions>(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 700) {
+        if (constraints.maxWidth > 700 &&
+            ApplicationSplitPortions.get() != SplitPortions.disabled) {
           return ListenableProvider.value(
             value: ApplicationSplitPortions(),
             child: const WideLayout(),
