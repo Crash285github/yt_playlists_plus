@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:yt_playlists_plus/persistence/constants.dart';
+import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 
 class HistoryWidget extends ICardWidget {
