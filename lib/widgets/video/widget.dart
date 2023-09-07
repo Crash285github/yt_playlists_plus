@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/persistence/constants.dart';
+import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/thumbnail.dart';
 import 'package:yt_playlists_plus/widgets/video/details.dart';
