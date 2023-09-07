@@ -18,6 +18,7 @@ class ApplicationColorScheme extends ChangeNotifier {
 
 enum ApplicationColor {
   dynamic(color: null, displayName: "Dynamic"),
+  mono(color: null, displayName: 'Mono'),
   red(color: Colors.red, displayName: "Red"),
   pink(color: Colors.pink, displayName: "Pink"),
   orange(color: Colors.amber, displayName: "Orange"),

@@ -48,12 +48,31 @@ class YPPApp extends StatelessWidget {
         ColorScheme? darkDynamicColorScheme;
 
         if (ApplicationColorScheme.get() != ApplicationColor.dynamic) {
-          lightDynamicColorScheme = ColorScheme.fromSeed(
-              seedColor: ApplicationColorScheme.get().color!);
-          darkDynamicColorScheme = ColorScheme.fromSeed(
-              seedColor: ApplicationColorScheme.get().color!,
-              brightness: Brightness.dark);
+          //? static color schemes
+          if (ApplicationColorScheme.get() == ApplicationColor.mono) {
+            //? monochromatic
+            lightDynamicColorScheme = const ColorScheme.light().copyWith(
+              primary: Colors.black,
+              secondary: Colors.black,
+              surfaceTint: Colors.black,
+              primaryContainer: Colors.grey,
+            );
+            darkDynamicColorScheme = const ColorScheme.dark().copyWith(
+              primary: Colors.white,
+              secondary: Colors.white,
+              surfaceTint: Colors.white,
+              primaryContainer: Colors.grey,
+            );
+          } else {
+            //? colorful
+            lightDynamicColorScheme = ColorScheme.fromSeed(
+                seedColor: ApplicationColorScheme.get().color!);
+            darkDynamicColorScheme = ColorScheme.fromSeed(
+                seedColor: ApplicationColorScheme.get().color!,
+                brightness: Brightness.dark);
+          }
         } else if (lightDynamic != null && darkDynamic != null) {
+          //? dynamic
           lightDynamicColorScheme = lightDynamic.harmonized();
           darkDynamicColorScheme = darkDynamic.harmonized();
         }
