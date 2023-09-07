@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const double pi = 3.1415926535897932;
+
 const buttonPadding = MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
 
 const tooltipTheme = TooltipThemeData(waitDuration: Duration(seconds: 1));
