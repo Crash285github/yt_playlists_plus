@@ -22,6 +22,7 @@ class HistoryWidget extends ICardWidget {
     final String localString = localTime.toString().split('.')[0];
 
     return Card(
+      surfaceTintColor: videoHistory.status.color,
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
