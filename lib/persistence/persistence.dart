@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
@@ -192,5 +194,27 @@ class Persistence with ChangeNotifier {
         .setStringList(
             'playlists', (_playlists.map((e) => jsonEncode(e))).toList())
         .then((_) => _isSavingPlaylists = false);
+  }
+
+  static void import() async {
+    
+  }
+
+  static void export() async {
+    final Directory dir = await getApplicationDocumentsDirectory();
+    final File file =
+        File('${dir.path}/export${DateTime.now().millisecondsSinceEpoch}.json');
+
+    final json = {
+      'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
+      'colorScheme': ApplicationColorScheme.get(),
+      'splitView': ApplicationSplitPortions.get(),
+      'confirmDeletions': confirmDeletions,
+      'hideTopics': hideTopics,
+      'historyLimit': historyLimit,
+      'playlists': playlists,
+    };
+
+    await file.writeAsString(jsonEncode(json));
   }
 }

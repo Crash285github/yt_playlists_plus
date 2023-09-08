@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/settings_list.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class HomePageDrawer extends StatelessWidget {
   const HomePageDrawer({super.key});
@@ -28,11 +29,11 @@ class HomePageDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () => Persistence.export(),
                       icon: const Icon(Icons.note_add_outlined),
                       label: const Text("Export")),
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () => Persistence.import(),
                       icon: const Icon(Icons.file_open_outlined),
                       label: const Text("Import")),
                 ],
