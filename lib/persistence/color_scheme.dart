@@ -37,4 +37,7 @@ enum ApplicationColor {
 
   final Color? color;
   final String displayName;
+
+  String toJson() => name;
+  static ApplicationColor fromJson(String json) => values.byName(json);
 }

@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
@@ -192,5 +195,63 @@ class Persistence with ChangeNotifier {
         .setStringList(
             'playlists', (_playlists.map((e) => jsonEncode(e))).toList())
         .then((_) => _isSavingPlaylists = false);
+  }
+
+  static Future<void> saveAll() async {
+    await saveTheme();
+    await saveColor();
+    await saveSplitPortions();
+    await saveHistoryLimit();
+    await saveConfirmDeletions();
+    await saveHideTopics();
+    await savePlaylists();
+  }
+
+  static Future<bool> import() async {
+    final Directory dir = await getApplicationDocumentsDirectory();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      initialDirectory: dir.path,
+      allowedExtensions: ['json'],
+      type: FileType.custom,
+    );
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      Map json = jsonDecode(await file.readAsString());
+      ApplicationTheme.set(json['darkMode'] ? 1 : 0);
+      ApplicationColorScheme.set(
+          ApplicationColor.values.byName(json['colorScheme']));
+      ApplicationSplitPortions.set(
+          SplitPortions.values.byName(json['splitView']));
+      confirmDeletions = json['confirmDeletions'];
+      hideTopics = json['hideTopics'];
+      historyLimit = json['historyLimit'];
+      _playlists = (json['playlists'] as List).map((element) {
+        return Playlist.fromJson(element);
+      }).toList();
+      return true;
+    }
+
+    return false;
+  }
+
+  static Future<bool> export() async {
+    String? dir = await FilePicker.platform.getDirectoryPath();
+    if (dir == null) return false; //? cancelled
+
+    final File file =
+        File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
+
+    final json = {
+      'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
+      'colorScheme': ApplicationColorScheme.get(),
+      'splitView': ApplicationSplitPortions.get(),
+      'confirmDeletions': confirmDeletions,
+      'hideTopics': hideTopics,
+      'historyLimit': historyLimit,
+      'playlists': playlists,
+    };
+
+    await file.writeAsString(jsonEncode(json));
+    return true;
   }
 }

@@ -9,6 +9,7 @@ import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/initial_p
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/reorder.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/splitview.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/theme.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -34,7 +35,7 @@ class Settings extends StatelessWidget {
           const ColorSetting(),
           const SplitViewSetting(),
           const HistorySizeSetting(),
-          const ReorderPlaylistsSetting(),
+          if (Persistence.playlists.length > 1) const ReorderPlaylistsSetting(),
         ],
       ),
     );

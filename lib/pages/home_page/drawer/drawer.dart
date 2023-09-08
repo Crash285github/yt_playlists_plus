@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/settings_list.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/responsive/wide_layout.dart';
 
 class HomePageDrawer extends StatelessWidget {
   const HomePageDrawer({super.key});
@@ -20,9 +23,38 @@ class HomePageDrawer extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            const Divider(height: 2),
+            const Divider(),
             const Expanded(child: Settings()),
-            const Divider(height: 2),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton.icon(
+                      onPressed: () async {
+                        await Persistence.export().then((success) {
+                          if (success) {
+                            PopUpManager.showSnackBar(
+                                context: context, message: "Data exported.");
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_downward),
+                      label: const Text("Export")),
+                  TextButton.icon(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        if (!await Persistence.import()) return;
+                        await Persistence.saveAll().then((_) {
+                          WideLayoutState.playlist = null;
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_upward),
+                      label: const Text("Import")),
+                ],
+              ),
+            ),
+            const Divider(),
             //About
             InkWell(
               onTap: () {
