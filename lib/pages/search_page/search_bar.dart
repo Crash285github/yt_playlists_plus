@@ -32,6 +32,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
   @override
   void dispose() {
     _textEditingController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -42,18 +43,32 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //? TextField
-              Expanded(
-                child: TextField(
-                  focusNode: _focusNode,
-                  controller: _textEditingController,
-                  enabled: !widget.isSearching,
-                  decoration: const InputDecoration(
-                    label: Text("Search playlists..."),
-                    border: OutlineInputBorder(),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 100),
+                child: SizedBox(
+                  width: 700,
+                  child: TextField(
+                    focusNode: _focusNode,
+                    controller: _textEditingController,
+                    enabled: !widget.isSearching,
+                    decoration: InputDecoration(
+                        label: const Text("Search playlists..."),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: IconButton(
+                              onPressed: () {
+                                _textEditingController.clear();
+                                _focusNode.requestFocus();
+                              },
+                              icon: const Icon(Icons.clear)),
+                        )),
+                    onSubmitted: widget.onSubmitted,
                   ),
-                  onSubmitted: widget.onSubmitted,
                 ),
               ),
               //? Button or Indicator

@@ -24,21 +24,34 @@ class SearchResults extends StatelessWidget {
           ...results.map(
             (playlist) {
               index++;
-              return ListenableProvider.value(
-                value: playlist,
-                child: PlaylistWidget(
-                    firstOfList: index == 1,
-                    lastOfList: index == results.length,
-                    onTap: () async {
-                      if (playlist.status == PlaylistStatus.notDownloaded) {
-                        try {
-                          await playlist.download();
-                          await Persistence.savePlaylists();
-                        } on SocketException {
-                          //? do nothing
-                        }
-                      }
-                    }),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width),
+                    child: SizedBox(
+                        width: 700,
+                        child: ListenableProvider.value(
+                          value: playlist,
+                          child: PlaylistWidget(
+                            firstOfList: index == 1,
+                            lastOfList: index == results.length,
+                            onTap: () async {
+                              if (playlist.status ==
+                                  PlaylistStatus.notDownloaded) {
+                                try {
+                                  await playlist.download();
+                                  await Persistence.savePlaylists();
+                                } on SocketException {
+                                  //? do nothing
+                                }
+                              }
+                            },
+                          ),
+                        )),
+                  )
+                ],
               );
             },
           ),
