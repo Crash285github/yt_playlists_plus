@@ -36,4 +36,7 @@ enum SplitPortions {
   final int left;
   final int right;
   final String displayName;
+
+  String toJson() => name;
+  static SplitPortions fromJson(String json) => values.byName(json);
 }
