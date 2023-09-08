@@ -40,17 +40,19 @@ class PlaylistWidget extends ICardWidget {
                   Flexible(
                     child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
-                          child: ThumbnailImage(
-                            thumbnailUrl: playlist.thumbnailUrl,
-                            largeRadius: 13.0,
-                            smallRadius: 4.0,
-                            size: 85.0,
-                            firstOfList: firstOfList,
-                            lastOfList: lastOfList,
-                          ),
-                        ),
+                        playlist.thumbnailUrl != ""
+                            ? Padding(
+                                padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
+                                child: ThumbnailImage(
+                                  thumbnailUrl: playlist.thumbnailUrl,
+                                  largeRadius: 13.0,
+                                  smallRadius: 4.0,
+                                  size: 85.0,
+                                  firstOfList: firstOfList,
+                                  lastOfList: lastOfList,
+                                ),
+                              )
+                            : const SizedBox(width: 10),
                         PlaylistDetails(playlist: playlist),
                       ],
                     ),

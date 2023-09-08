@@ -86,13 +86,6 @@ class YoutubeClient {
       final yt_explode.Playlist result =
           await _client.playlists.get(playlistId);
 
-      final yt_explode.Video video =
-          await _client.playlists.getVideos(result.id).first.onError(
-        (error, stackTrace) {
-          throw PlaylistException("Invalid PlaylistId");
-        },
-      );
-
       String author = result.author;
       if (!result.author.startsWith("by")) author = "by ${result.author}";
 
@@ -100,7 +93,7 @@ class YoutubeClient {
         id: result.id.toString(),
         title: result.title,
         author: author,
-        thumbnailUrl: video.thumbnails.mediumResUrl,
+        thumbnailUrl: "", //? at download
       );
     } on SocketException {
       rethrow;
@@ -113,10 +106,11 @@ class YoutubeClient {
       await for (final yt_explode.Video vid
           in _client.playlists.getVideos(playlistId)) {
         Video video = Video(
-            id: vid.id.toString(),
-            title: vid.title,
-            author: vid.author,
-            thumbnailUrl: vid.thumbnails.mediumResUrl);
+          id: vid.id.toString(),
+          title: vid.title,
+          author: vid.author,
+          thumbnailUrl: vid.thumbnails.mediumResUrl,
+        );
         yield video;
       }
     } on SocketException {

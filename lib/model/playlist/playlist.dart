@@ -185,10 +185,18 @@ class Playlist extends ChangeNotifier {
     if (status != PlaylistStatus.notDownloaded) return;
     setStatus(PlaylistStatus.downloading);
 
+    
+
+    bool first = true;
     try {
       YoutubeClient();
       await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
         _videos.add(video);
+        if (first) {
+          thumbnailUrl = video.thumbnailUrl;
+          notifyListeners();
+          first = false;
+        }
         //? if it started, add Playlist
         Persistence.addPlaylist(this);
       }
