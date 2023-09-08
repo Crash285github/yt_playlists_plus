@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
-import 'package:yt_playlists_plus/constants.dart';
 
 class VideosTopRow extends StatelessWidget {
   final Playlist playlist;
@@ -26,23 +25,14 @@ class VideosTopRow extends StatelessWidget {
           if (Platform.isWindows)
             TextButton(
               onPressed: () {
-                Scaffold.of(context).showBottomSheet<void>(
+                showModalBottomSheet<void>(
+                  context: context,
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height * 0.5),
-                  (context) => Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.black54, Colors.transparent],
-                          stops: [0.0, 0.8],
-                          transform: GradientRotation(-pi / 2)),
-                    ),
-                    child: PlannedPanel(
-                      planned: playlist.planned,
-                      scrollController: ScrollController(),
-                      onHandleTapped: null,
-                    ),
+                  builder: (context) => PlannedPanel(
+                    planned: playlist.planned,
+                    scrollController: ScrollController(),
+                    onHandleTapped: null,
                   ),
                 );
               },
