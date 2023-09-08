@@ -41,7 +41,7 @@ class PlaylistPage extends StatelessWidget {
             onDelete: onDelete,
           ),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(50),
             child: PlaylistPageTabBar(
               playlist: playlist,
             ),
