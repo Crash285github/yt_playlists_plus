@@ -222,6 +222,8 @@ class Persistence with ChangeNotifier {
           ApplicationColor.values.byName(json['colorScheme']));
       ApplicationSplitPortions.set(
           SplitPortions.values.byName(json['splitView']));
+      initialPlannedSize =
+          InitialPlannedSize.values.byName(json['initialPlannedSize']);
       confirmDeletions = json['confirmDeletions'];
       hideTopics = json['hideTopics'];
       historyLimit = json['historyLimit'];
@@ -246,6 +248,7 @@ class Persistence with ChangeNotifier {
       'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
       'colorScheme': ApplicationColorScheme.get(),
       'splitView': ApplicationSplitPortions.get(),
+      'initialPlannedSize': initialPlannedSize.name,
       'confirmDeletions': confirmDeletions,
       'hideTopics': hideTopics,
       'historyLimit': historyLimit,
