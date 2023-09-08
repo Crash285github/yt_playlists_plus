@@ -20,7 +20,7 @@ class Settings extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Some changes apply after a restart.",
+            "Some changes may apply after a restart.",
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context)
                     .colorScheme

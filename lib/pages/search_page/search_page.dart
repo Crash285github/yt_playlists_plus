@@ -92,6 +92,8 @@ class _SearchPageState extends State<SearchPage> {
       body: CustomScrollView(
         slivers: [
           PresetSliverAppBar(
+            pinned: true,
+            snap: false,
             title: const Text("Search Playlists"),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(80),

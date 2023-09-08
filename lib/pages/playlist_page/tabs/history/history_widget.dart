@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:yt_playlists_plus/persistence/theme_constants.dart';
+import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 
 class HistoryWidget extends ICardWidget {
@@ -22,6 +22,7 @@ class HistoryWidget extends ICardWidget {
     final String localString = localTime.toString().split('.')[0];
 
     return Card(
+      surfaceTintColor: videoHistory.status.color,
       shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

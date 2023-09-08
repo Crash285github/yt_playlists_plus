@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/empty.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/more/planned/planned_list.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/empty.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/planned_list.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PlannedPanel extends StatefulWidget {

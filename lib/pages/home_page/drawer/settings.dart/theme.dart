@@ -17,9 +17,8 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
   Widget build(BuildContext context) {
     return SwitchListTile(
       value: _isDarkModeOn,
-      title: Text(_isDarkModeOn ? "Dark mode" : "Light mode"),
-      secondary: Icon(
-          _isDarkModeOn ? Icons.dark_mode_outlined : Icons.light_mode_outlined),
+      title: const Text("Dark mode"),
+      secondary: const Icon(Icons.dark_mode_outlined),
       onChanged: (value) {
         _isDarkModeOn
             ? ApplicationTheme.set(ApplicationTheme.light)

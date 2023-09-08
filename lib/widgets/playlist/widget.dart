@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/persistence/theme_constants.dart';
+import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/playlist/details.dart';
 import 'package:yt_playlists_plus/widgets/playlist/progress.dart';
@@ -40,17 +40,19 @@ class PlaylistWidget extends ICardWidget {
                   Flexible(
                     child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
-                          child: ThumbnailImage(
-                            thumbnailUrl: playlist.thumbnailUrl,
-                            largeRadius: 13.0,
-                            smallRadius: 4.0,
-                            size: 85.0,
-                            firstOfList: firstOfList,
-                            lastOfList: lastOfList,
-                          ),
-                        ),
+                        playlist.thumbnailUrl != ""
+                            ? Padding(
+                                padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
+                                child: ThumbnailImage(
+                                  thumbnailUrl: playlist.thumbnailUrl,
+                                  largeRadius: 13.0,
+                                  smallRadius: 4.0,
+                                  size: 85.0,
+                                  firstOfList: firstOfList,
+                                  lastOfList: lastOfList,
+                                ),
+                              )
+                            : const SizedBox(width: 10),
                         PlaylistDetails(playlist: playlist),
                       ],
                     ),

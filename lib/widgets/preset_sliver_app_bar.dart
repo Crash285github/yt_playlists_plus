@@ -10,5 +10,6 @@ class PresetSliverAppBar extends SliverAppBar {
     super.floating = true,
     super.snap = true,
     super.centerTitle = true,
+    super.pinned = false,
   });
 }

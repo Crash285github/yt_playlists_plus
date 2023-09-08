@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const double pi = 3.1415926535897932;
+
 const buttonPadding = MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
 
 const tooltipTheme = TooltipThemeData(waitDuration: Duration(seconds: 1));
@@ -27,7 +29,7 @@ var snackBarTheme = SnackBarThemeData(
   elevation: 0,
 );
 
-ShapeBorder cardBorder({required bool firstOfList, required bool lastOfList}) {
+ShapeBorder cardBorder({bool firstOfList = false, bool lastOfList = false}) {
   double strongCorner = 15.0;
   double weakCorner = 4.0;
 
