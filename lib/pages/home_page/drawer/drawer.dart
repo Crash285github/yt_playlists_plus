@@ -32,20 +32,21 @@ class HomePageDrawer extends StatelessWidget {
                 children: [
                   TextButton.icon(
                       onPressed: () async {
-                        await Persistence.export().then((_) =>
+                        await Persistence.export().then((success) {
+                          if (success) {
                             PopUpManager.showSnackBar(
-                                context: context, message: "Data exported."));
+                                context: context, message: "Data exported.");
+                          }
+                        });
                       },
                       icon: const Icon(Icons.arrow_downward),
                       label: const Text("Export")),
                   TextButton.icon(
                       onPressed: () async {
+                        Navigator.pop(context);
                         if (!await Persistence.import()) return;
                         await Persistence.saveAll().then((_) {
                           WideLayoutState.playlist = null;
-                          if (DrawerController.of(context).isDrawerOpen) {
-                            Navigator.pop(context);
-                          }
                         });
                       },
                       icon: const Icon(Icons.arrow_upward),

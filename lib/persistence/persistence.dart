@@ -209,8 +209,11 @@ class Persistence with ChangeNotifier {
 
   static Future<bool> import() async {
     final Directory dir = await getApplicationDocumentsDirectory();
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(initialDirectory: dir.path);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      initialDirectory: dir.path,
+      allowedExtensions: ['json'],
+      type: FileType.custom,
+    );
     if (result != null) {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
@@ -231,10 +234,12 @@ class Persistence with ChangeNotifier {
     return false;
   }
 
-  static Future<void> export() async {
-    final Directory dir = await getApplicationDocumentsDirectory();
+  static Future<bool> export() async {
+    String? dir = await FilePicker.platform.getDirectoryPath();
+    if (dir == null) return false; //? cancelled
+
     final File file =
-        File('${dir.path}/export${DateTime.now().millisecondsSinceEpoch}.json');
+        File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
       'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
@@ -247,5 +252,6 @@ class Persistence with ChangeNotifier {
     };
 
     await file.writeAsString(jsonEncode(json));
+    return true;
   }
 }
