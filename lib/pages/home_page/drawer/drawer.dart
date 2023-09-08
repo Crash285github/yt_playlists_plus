@@ -36,7 +36,7 @@ class HomePageDrawer extends StatelessWidget {
                             PopUpManager.showSnackBar(
                                 context: context, message: "Data exported."));
                       },
-                      icon: const Icon(Icons.note_add_outlined),
+                      icon: const Icon(Icons.arrow_downward),
                       label: const Text("Export")),
                   TextButton.icon(
                       onPressed: () async {
@@ -48,7 +48,7 @@ class HomePageDrawer extends StatelessWidget {
                           }
                         });
                       },
-                      icon: const Icon(Icons.file_open_outlined),
+                      icon: const Icon(Icons.arrow_upward),
                       label: const Text("Import")),
                 ],
               ),
