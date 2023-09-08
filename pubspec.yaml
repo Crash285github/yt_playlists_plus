@@ -9,6 +9,7 @@ environment:
 dependencies:
   cached_network_image: ^3.2.3
   dynamic_color: ^1.6.6
+  file_picker: ^5.5.0
   flutter:
     sdk: flutter
   path_provider: ^2.1.1
