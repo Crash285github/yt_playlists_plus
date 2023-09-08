@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -196,11 +197,41 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingPlaylists = false);
   }
 
-  static void import() async {
-    
+  static Future<void> saveAll() async {
+    await saveTheme();
+    await saveColor();
+    await saveSplitPortions();
+    await saveHistoryLimit();
+    await saveConfirmDeletions();
+    await saveHideTopics();
+    await savePlaylists();
   }
 
-  static void export() async {
+  static Future<bool> import() async {
+    final Directory dir = await getApplicationDocumentsDirectory();
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(initialDirectory: dir.path);
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      Map json = jsonDecode(await file.readAsString());
+      ApplicationTheme.set(json['darkMode'] ? 1 : 0);
+      ApplicationColorScheme.set(
+          ApplicationColor.values.byName(json['colorScheme']));
+      ApplicationSplitPortions.set(
+          SplitPortions.values.byName(json['splitView']));
+      confirmDeletions = json['confirmDeletions'];
+      hideTopics = json['hideTopics'];
+      historyLimit = json['historyLimit'];
+      _playlists = (json['playlists'] as List).map((element) {
+        return Playlist.fromJson(element);
+      }).toList();
+      return true;
+    }
+
+    return false;
+  }
+
+  static Future<void> export() async {
     final Directory dir = await getApplicationDocumentsDirectory();
     final File file =
         File('${dir.path}/export${DateTime.now().millisecondsSinceEpoch}.json');

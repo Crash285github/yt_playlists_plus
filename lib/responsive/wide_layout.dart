@@ -10,11 +10,11 @@ class WideLayout extends StatefulWidget {
   const WideLayout({super.key});
 
   @override
-  State<WideLayout> createState() => _WideLayoutState();
+  State<WideLayout> createState() => WideLayoutState();
 }
 
-class _WideLayoutState extends State<WideLayout> {
-  static Playlist? _playlist;
+class WideLayoutState extends State<WideLayout> {
+  static Playlist? playlist;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _WideLayoutState extends State<WideLayout> {
         children: [
           Expanded(
             flex: ApplicationSplitPortions.get().right,
-            child: _playlist == null
+            child: playlist == null
                 ? Scaffold(
                     body: Center(
                       child: Text(
@@ -39,20 +39,20 @@ class _WideLayoutState extends State<WideLayout> {
                     ),
                   )
                 : ListenableProvider.value(
-                    value: _playlist,
+                    value: playlist,
                     child: PlaylistPage(
                       onDelete: () async {
                         PopUpManager.openConfirmDialog(
                           context: context,
-                          title: "Delete \"${_playlist!.title}\"?",
+                          title: "Delete \"${playlist!.title}\"?",
                           content:
                               "This will erase all of the playlist's data.",
                         ).then((value) {
                           if (value ?? false) {
-                            Persistence.removePlaylist(_playlist!);
+                            Persistence.removePlaylist(playlist!);
                             Persistence.savePlaylists();
                             setState(() {
-                              _playlist = null;
+                              playlist = null;
                             });
                           }
                         });
@@ -63,9 +63,9 @@ class _WideLayoutState extends State<WideLayout> {
           Expanded(
             flex: ApplicationSplitPortions.get().left,
             child: HomePage(
-              onPlaylistTap: (Playlist playlist) {
+              onPlaylistTap: (Playlist pl) {
                 setState(() {
-                  _playlist = playlist;
+                  playlist = pl;
                 });
               },
             ),
