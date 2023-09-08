@@ -28,11 +28,11 @@ class HistoryWidget extends ICardWidget {
       margin: EdgeInsets.only(
           left: 4,
           right: 4,
-          top: firstOfGroup ? 6 : 0,
-          bottom: lastOfGroup ? 6 : 0),
+          top: firstOfGroup ? 6 : 1,
+          bottom: lastOfGroup ? 6 : 1),
       surfaceTintColor: videoHistory.status.color,
       shape: cardBorder(
-          firstOfList: firstOfGroup, lastOfList: lastOfGroup, weakCorner: 0),
+          firstOfList: firstOfGroup, lastOfList: lastOfGroup, weakCorner: 3),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
