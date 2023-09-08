@@ -228,6 +228,7 @@ class Persistence with ChangeNotifier {
       _playlists = (json['playlists'] as List).map((element) {
         return Playlist.fromJson(element);
       }).toList();
+      _instance.notifyListeners();
       return true;
     }
 
