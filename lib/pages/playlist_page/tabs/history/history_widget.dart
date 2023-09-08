@@ -9,10 +9,13 @@ class HistoryWidget extends ICardWidget {
   ///The data to display
   final VideoHistory videoHistory;
 
+  final bool firstOfGroup;
+  final bool lastOfGroup;
+
   const HistoryWidget({
     super.key,
-    super.firstOfList = false,
-    super.lastOfList = false,
+    this.firstOfGroup = false,
+    this.lastOfGroup = false,
     required this.videoHistory,
   });
 
@@ -22,8 +25,14 @@ class HistoryWidget extends ICardWidget {
     final String localString = localTime.toString().split('.')[0];
 
     return Card(
+      margin: EdgeInsets.only(
+          left: 4,
+          right: 4,
+          top: firstOfGroup ? 6 : 0,
+          bottom: lastOfGroup ? 6 : 0),
       surfaceTintColor: videoHistory.status.color,
-      shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
+      shape: cardBorder(
+          firstOfList: firstOfGroup, lastOfList: lastOfGroup, weakCorner: 0),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(

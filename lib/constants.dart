@@ -29,10 +29,12 @@ var snackBarTheme = SnackBarThemeData(
   elevation: 0,
 );
 
-ShapeBorder cardBorder({bool firstOfList = false, bool lastOfList = false}) {
-  double strongCorner = 15.0;
-  double weakCorner = 4.0;
-
+ShapeBorder cardBorder({
+  bool firstOfList = false,
+  bool lastOfList = false,
+  double strongCorner = 15.0,
+  double weakCorner = 4.0,
+}) {
   ShapeBorder borders;
   if (firstOfList && lastOfList) {
     borders = RoundedRectangleBorder(
