@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
@@ -7,6 +5,7 @@ import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:yt_playlists_plus/constants.dart';
+import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 
 class HistoryWidget extends ICardWidget {
@@ -50,14 +49,9 @@ class HistoryWidget extends ICardWidget {
       )
     ];
 
-    return GestureDetector(
-      onSecondaryTapDown: Platform.isWindows
-          ? (details) async => PopUpManager.showContextMenu(
-                context: context,
-                offset: details.globalPosition,
-                items: copyItems,
-              )
-          : null,
+    return AdaptiveGestureDetector(
+      onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+          context: context, offset: offset, items: copyItems),
       child: Card(
         margin: EdgeInsets.only(
             left: 4,

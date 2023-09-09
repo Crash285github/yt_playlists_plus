@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/constants.dart';
+import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/thumbnail.dart';
 import 'package:yt_playlists_plus/widgets/video/details.dart';
@@ -55,21 +54,9 @@ class VideoWidget extends ICardWidget {
       )
     ];
 
-    return GestureDetector(
-      onLongPressStart: Platform.isAndroid
-          ? (details) async => PopUpManager.showContextMenu(
-                context: context,
-                offset: details.globalPosition,
-                items: copyItems,
-              )
-          : null,
-      onSecondaryTapUp: Platform.isWindows
-          ? (details) async => PopUpManager.showContextMenu(
-                context: context,
-                offset: details.globalPosition,
-                items: copyItems,
-              )
-          : null,
+    return AdaptiveGestureDetector(
+      onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+          context: context, offset: offset, items: copyItems),
       child: Card(
         shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
         child: Ink(
