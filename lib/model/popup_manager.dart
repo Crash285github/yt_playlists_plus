@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class PopUpManager {
@@ -103,6 +104,20 @@ class PopUpManager {
         ),
         dismissDirection: DismissDirection.none,
       ),
+    );
+  }
+
+  static Future<void> showContextMenu({
+    required BuildContext context,
+    required Offset offset,
+    required List<PopupMenuEntry<dynamic>> items,
+  }) async {
+    await showMenu(
+      shape: cardBorder(weakCorner: 15),
+      context: context,
+      position: RelativeRect.fromLTRB(offset.dx, offset.dy,
+          MediaQuery.of(context).size.width - offset.dx, 0),
+      items: items,
     );
   }
 }
