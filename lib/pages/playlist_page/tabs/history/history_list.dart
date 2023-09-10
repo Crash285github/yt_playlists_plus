@@ -29,8 +29,8 @@ class _HistoryListState extends State<HistoryList> {
       try {
         DateTime time1 = displayedHistory[index1].time;
         DateTime time2 = displayedHistory[index2].time;
-        return time1.millisecondsSinceEpoch / 1000 ==
-            time2.millisecondsSinceEpoch / 1000;
+        return time1.millisecondsSinceEpoch ~/ 1000 ==
+            time2.millisecondsSinceEpoch ~/ 1000;
       } on RangeError {
         return false;
       }
