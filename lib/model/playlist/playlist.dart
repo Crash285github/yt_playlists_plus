@@ -119,8 +119,8 @@ class Playlist extends ChangeNotifier {
         notifyListeners();
       };
 
-      //? onLongPress
-      video.onLongPress = (BuildContext context) {
+      //? statusFunction
+      video.statusFunction = (BuildContext context) {
         bool added = planned.add(video.title);
         PopUpManager.showSnackBar(
             context: context,
@@ -162,8 +162,8 @@ class Playlist extends ChangeNotifier {
         notifyListeners();
       };
 
-      //? onLongPress
-      video.onLongPress = (BuildContext context) => null;
+      //? statusFunction
+      video.statusFunction = (BuildContext context) => null;
     }
 
     _added.addAll(clonedAdded);
@@ -184,8 +184,6 @@ class Playlist extends ChangeNotifier {
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
     setStatus(PlaylistStatus.downloading);
-
-    
 
     bool first = true;
     try {
