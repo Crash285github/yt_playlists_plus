@@ -28,7 +28,7 @@ class VideoDetails extends StatelessWidget {
             child: Text(
               video.title,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           const SizedBox(height: 7),
@@ -36,7 +36,7 @@ class VideoDetails extends StatelessWidget {
           Text(
             hideTopic(video.author),
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
                   color:
                       Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                 ),
