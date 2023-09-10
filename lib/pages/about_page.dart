@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
 
@@ -95,7 +97,7 @@ class AboutPage extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(_padding),
                   child: Text(
-                    "Pro tip: Missing videos can be long-pressed, and they will be added to the Planned list.",
+                    "Pro tip: Bringing up the context menu of missing videos (${Platform.isAndroid ? "long-press" : "right-click"}) shows the option to save them to planned.",
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
