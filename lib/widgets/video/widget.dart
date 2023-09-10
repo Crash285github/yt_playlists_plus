@@ -32,7 +32,14 @@ class VideoWidget extends ICardWidget {
   Widget build(BuildContext context) {
     Video video = Provider.of<Video>(context);
 
-    final List<PopupMenuEntry<dynamic>> copyItems = [
+    final List<PopupMenuEntry<dynamic>> contextMenuItems = [
+      if (video.status == VideoStatus.missing) ...[
+        PopupMenuItem(
+          child: const Center(child: Text('Add to planned')),
+          onTap: () => video.statusFunction!(context),
+        ),
+        const PopupMenuDivider(),
+      ],
       PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {
@@ -51,12 +58,12 @@ class VideoWidget extends ICardWidget {
           await Clipboard.setData(
               ClipboardData(text: "www.youtube.com/watch?v=${video.id}"));
         },
-      )
+      ),
     ];
 
     return AdaptiveGestureDetector(
       onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
-          context: context, offset: offset, items: copyItems),
+          context: context, offset: offset, items: contextMenuItems),
       child: Card(
         shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
         child: Ink(
