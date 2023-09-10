@@ -119,7 +119,7 @@ class Playlist extends ChangeNotifier {
         notifyListeners();
       };
 
-      //? onLongPress
+      //? statusFunction
       video.statusFunction = (BuildContext context) {
         bool added = planned.add(video.title);
         PopUpManager.showSnackBar(
@@ -162,7 +162,7 @@ class Playlist extends ChangeNotifier {
         notifyListeners();
       };
 
-      //? onLongPress
+      //? statusFunction
       video.statusFunction = (BuildContext context) => null;
     }
 
