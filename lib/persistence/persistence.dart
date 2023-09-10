@@ -227,9 +227,15 @@ class Persistence with ChangeNotifier {
       confirmDeletions = json['confirmDeletions'];
       hideTopics = json['hideTopics'];
       historyLimit = json['historyLimit'];
-      _playlists = (json['playlists'] as List).map((element) {
+      playlists.clear();
+      _instance.notifyListeners();
+
+      //hack: refresh wont work otherwise after import
+      await Future.delayed(const Duration(milliseconds: 250));
+
+      playlists.addAll((json['playlists'] as List).map((element) {
         return Playlist.fromJson(element);
-      }).toList();
+      }));
       _instance.notifyListeners();
       return true;
     }
