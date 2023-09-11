@@ -114,6 +114,7 @@ class PopUpManager {
   }) async {
     await showMenu(
       shape: cardBorder(weakCorner: 15),
+      clipBehavior: Clip.antiAlias,
       context: context,
       position: RelativeRect.fromLTRB(offset.dx, offset.dy,
           MediaQuery.of(context).size.width - offset.dx, 0),
