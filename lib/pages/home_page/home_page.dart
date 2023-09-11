@@ -21,23 +21,32 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
-    return Scaffold(
-      drawer: const HomePageDrawer(),
-      body: CustomScrollView(
-        slivers: [
-          const HomePageAppBar(),
-          Persistence.playlists.isEmpty
-              ? const HomePageEmpty()
-              : HomePagePlaylists(
-                  onTap: onPlaylistTap,
-                ),
-          if (Persistence.playlists.isNotEmpty)
-            const SliverToBoxAdapter(child: BottomPadding())
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        if (Persistence.canReorder) {
+          Persistence.disableReorder();
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        drawer: const HomePageDrawer(),
+        body: CustomScrollView(
+          slivers: [
+            const HomePageAppBar(),
+            Persistence.playlists.isEmpty
+                ? const HomePageEmpty()
+                : HomePagePlaylists(
+                    onTap: onPlaylistTap,
+                  ),
+            if (Persistence.playlists.isNotEmpty)
+              const SliverToBoxAdapter(child: BottomPadding())
+          ],
+        ),
+        floatingActionButton: Persistence.canReorder
+            ? const DisableReorderButton()
+            : const HomePageSearchButton(),
       ),
-      floatingActionButton: Persistence.canReorder
-          ? const DisableReorderButton()
-          : const HomePageSearchButton(),
     );
   }
 }
