@@ -34,6 +34,8 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                           _fetchCount = Persistence.playlists.length;
                         });
 
+                        Persistence.disableExportImport();
+
                         Future.wait(
                           Persistence.playlists.map(
                             (playlist) {
@@ -58,6 +60,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                             _isFetchingAll = false;
                             _fetchCount = 0;
                           });
+                          Persistence.mayEnableExportImport();
                         });
                       },
               )

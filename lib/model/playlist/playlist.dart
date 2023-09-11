@@ -184,6 +184,7 @@ class Playlist extends ChangeNotifier {
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
     setStatus(PlaylistStatus.downloading);
+    Persistence.disableExportImport();
 
     bool first = true;
     try {
@@ -206,6 +207,7 @@ class Playlist extends ChangeNotifier {
     }
 
     setStatus(PlaylistStatus.downloaded);
+    Persistence.mayEnableExportImport();
   }
 
   ///Fetches the videos of the playlist and adds them to its [_fetch] Set

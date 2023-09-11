@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/settings_list.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/responsive/wide_layout.dart';
 
-class HomePageDrawer extends StatelessWidget {
+class HomePageDrawer extends StatefulWidget {
   const HomePageDrawer({super.key});
 
   @override
+  State<HomePageDrawer> createState() => _HomePageDrawerState();
+}
+
+class _HomePageDrawerState extends State<HomePageDrawer> {
+  @override
   Widget build(BuildContext context) {
+    Provider.of<Persistence>(context);
+
     return SafeArea(
       child: Drawer(
         child: Column(
@@ -31,24 +39,29 @@ class HomePageDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton.icon(
-                      onPressed: () async {
-                        await Persistence.export().then((success) {
-                          if (success) {
-                            PopUpManager.showSnackBar(
-                                context: context, message: "Data exported.");
-                          }
-                        });
-                      },
+                      onPressed: Persistence.canExImport
+                          ? () async {
+                              await Persistence.export().then((success) {
+                                if (success) {
+                                  PopUpManager.showSnackBar(
+                                      context: context,
+                                      message: "Data exported.");
+                                }
+                              });
+                            }
+                          : null,
                       icon: const Icon(Icons.arrow_downward),
                       label: const Text("Export")),
                   TextButton.icon(
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        if (!await Persistence.import()) return;
-                        await Persistence.saveAll().then((_) {
-                          WideLayoutState.playlist = null;
-                        });
-                      },
+                      onPressed: Persistence.canExImport
+                          ? () async {
+                              Navigator.pop(context);
+                              if (!await Persistence.import()) return;
+                              await Persistence.saveAll().then((_) {
+                                WideLayoutState.playlist = null;
+                              });
+                            }
+                          : null,
                       icon: const Icon(Icons.arrow_upward),
                       label: const Text("Import")),
                 ],
