@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/persistence/split_portions.dart';
@@ -60,6 +61,24 @@ class Persistence with ChangeNotifier {
 
   static void disableReorder() {
     _canReorder = false;
+    _instance.notifyListeners();
+  }
+
+  static bool _canExImport = true;
+  static bool get canExImport => _canExImport;
+
+  static void mayEnableExportImport() {
+    if (_playlists.any((element) =>
+        element.status == PlaylistStatus.fetching ||
+        element.status == PlaylistStatus.checking)) {
+      return;
+    }
+    _canExImport = true;
+    _instance.notifyListeners();
+  }
+
+  static void disableExportImport() {
+    _canExImport = false;
     _instance.notifyListeners();
   }
 
