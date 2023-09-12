@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class HistoryTopRow extends StatelessWidget {
   final Function()? onClearPressed;
@@ -12,13 +15,16 @@ class HistoryTopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int displaySize = min(size, Persistence.historyLimit ?? 0);
+    if (displaySize == 0) displaySize = size;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "History ($size)",
+            "History ($displaySize)",
             style: Theme.of(context).textTheme.titleLarge,
           ),
           TextButton(
