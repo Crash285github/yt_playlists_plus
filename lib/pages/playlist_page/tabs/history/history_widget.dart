@@ -86,7 +86,7 @@ class HistoryWidget extends ICardWidget {
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
                 formattedTime(videoHistory.time),
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
                         .onBackground
