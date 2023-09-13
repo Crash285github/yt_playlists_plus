@@ -89,12 +89,30 @@ class Persistence with ChangeNotifier {
   static InitialPlannedSize initialPlannedSize = InitialPlannedSize.normal;
 
   ///Hide ' - Topic' from channel names
-  static bool hideTopics = false;
+  static bool _hideTopics = false;
+  static bool get hideTopics => _hideTopics;
+  static set hideTopics(bool value) {
+    _hideTopics = value;
+    _instance.notifyListeners();
+  }
 
   ///Size of each playlist's history
   ///
   ///`null` means infinite
-  static int? historyLimit;
+  static int? _historyLimit;
+  static int? get historyLimit => _historyLimit;
+  static set historyLimit(int? value) {
+    _historyLimit = value;
+    _instance.notifyListeners();
+  }
+
+  ///Show the exact time above each history group
+  static bool _showHistoryTime = false;
+  static bool get showHistoryTime => _showHistoryTime;
+  static set showHistoryTime(bool value) {
+    _showHistoryTime = value;
+    _instance.notifyListeners();
+  }
 
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
@@ -122,6 +140,9 @@ class Persistence with ChangeNotifier {
       if (historyLimit == -1) {
         historyLimit = null;
       }
+    } catch (_) {}
+    try {
+      showHistoryTime = prefs.getBool('showHistoryTime') ?? false;
     } catch (_) {}
     try {
       ApplicationSplitPortions.set(
@@ -216,6 +237,16 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingPlaylists = false);
   }
 
+  static bool _isSavingShowHistoryTime = false;
+  static Future<bool> saveShowHistoryTime() async {
+    if (_isSavingShowHistoryTime) return false;
+    _isSavingShowHistoryTime = true;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs
+        .setBool('showHistoryTime', showHistoryTime)
+        .then((_) => _isSavingShowHistoryTime = false);
+  }
+
   static Future<void> saveAll() async {
     await saveTheme();
     await saveColor();
@@ -237,15 +268,17 @@ class Persistence with ChangeNotifier {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
       ApplicationTheme.set(json['darkMode'] ? 1 : 0);
-      ApplicationColorScheme.set(
-          ApplicationColor.values.byName(json['colorScheme']));
-      ApplicationSplitPortions.set(
-          SplitPortions.values.byName(json['splitView']));
-      initialPlannedSize =
-          InitialPlannedSize.values.byName(json['initialPlannedSize']);
-      confirmDeletions = json['confirmDeletions'];
-      hideTopics = json['hideTopics'];
+      ApplicationColorScheme.set(ApplicationColor.values
+          .byName(json['colorScheme'] ?? ApplicationColor.dynamic));
+      ApplicationSplitPortions.set(SplitPortions.values
+          .byName(json['splitView'] ?? SplitPortions.uneven));
+      initialPlannedSize = InitialPlannedSize.values
+          .byName(json['initialPlannedSize'] ?? InitialPlannedSize.normal);
+      confirmDeletions = json['confirmDeletions'] ?? true;
+      hideTopics = json['hideTopics'] ?? false;
       historyLimit = json['historyLimit'];
+      showHistoryTime = json['showHistoryTime'] ?? false;
+
       playlists.clear();
       _instance.notifyListeners();
 
@@ -277,6 +310,7 @@ class Persistence with ChangeNotifier {
       'confirmDeletions': confirmDeletions,
       'hideTopics': hideTopics,
       'historyLimit': historyLimit,
+      'showHistoryTime': showHistoryTime,
       'playlists': playlists,
     };
 

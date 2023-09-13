@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
@@ -18,6 +19,8 @@ class VideoDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Persistence>(context);
+
     return Flexible(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

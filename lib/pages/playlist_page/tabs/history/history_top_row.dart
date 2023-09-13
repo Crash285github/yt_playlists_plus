@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class HistoryTopRow extends StatelessWidget {
@@ -15,6 +16,8 @@ class HistoryTopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Persistence>(context);
+
     int displaySize = min(size, Persistence.historyLimit ?? 0);
     if (displaySize == 0) displaySize = size;
 

@@ -7,6 +7,7 @@ import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/hide_topi
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/history_size.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/initial_planned_size.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/reorder.dart';
+import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/show_history_time.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/splitview.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/theme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
@@ -35,6 +36,7 @@ class Settings extends StatelessWidget {
           const ColorSetting(),
           const SplitViewSetting(),
           const HistorySizeSetting(),
+          const ShowHistoryTimeSwitch(),
           if (Persistence.playlists.length > 1) const ReorderPlaylistsSetting(),
         ],
       ),
