@@ -17,7 +17,7 @@ class _ConfirmDeleteSwitchState extends State<ConfirmDeleteSwitch> {
       value: _showConfirmDialog,
       title: const Text("Confirm deletions"),
       subtitle: Text(
-        "Show pop-up before playlist deletions",
+        "Show pop-up before playlist deletions.",
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
       ),

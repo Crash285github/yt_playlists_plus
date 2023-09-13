@@ -58,7 +58,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
         Persistence.historyLimit = historySize;
         Persistence.saveHistoryLimit();
       },
-      leading: const Icon(Icons.history),
+      leading: const Icon(Icons.manage_history),
       title: const Text("History limit"),
       subtitle: Text(
         "Between $bottomLimit and $topLimit, \nor infinite if above.",
