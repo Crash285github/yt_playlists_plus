@@ -81,7 +81,7 @@ class HistoryWidget extends ICardWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (firstOfGroup && Persistence.showHistoryTime)
+          if (firstOfGroup && Persistence.groupHistoryTime)
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
@@ -124,17 +124,31 @@ class HistoryWidget extends ICardWidget {
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
-                          Tooltip(
-                            message: localString,
-                            child: Text(
-                              "${videoHistory.author} • ${timeago.format(videoHistory.time)}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                    color: Colors.grey,
+                          Row(
+                            children: [
+                              Text(
+                                videoHistory.author,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                      color: Colors.grey,
+                                    ),
+                              ),
+                              if (!Persistence.groupHistoryTime)
+                                Tooltip(
+                                  message: localString,
+                                  child: Text(
+                                    " • ${timeago.format(videoHistory.time)}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                   ),
-                            ),
+                                ),
+                            ],
                           )
                         ],
                       ),

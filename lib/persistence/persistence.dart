@@ -107,10 +107,10 @@ class Persistence with ChangeNotifier {
   }
 
   ///Show the exact time above each history group
-  static bool _showHistoryTime = false;
-  static bool get showHistoryTime => _showHistoryTime;
-  static set showHistoryTime(bool value) {
-    _showHistoryTime = value;
+  static bool _groupHistoryTime = false;
+  static bool get groupHistoryTime => _groupHistoryTime;
+  static set groupHistoryTime(bool value) {
+    _groupHistoryTime = value;
     _instance.notifyListeners();
   }
 
@@ -142,7 +142,7 @@ class Persistence with ChangeNotifier {
       }
     } catch (_) {}
     try {
-      showHistoryTime = prefs.getBool('showHistoryTime') ?? false;
+      groupHistoryTime = prefs.getBool('groupHistoryTime') ?? false;
     } catch (_) {}
     try {
       ApplicationSplitPortions.set(
@@ -237,14 +237,14 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingPlaylists = false);
   }
 
-  static bool _isSavingShowHistoryTime = false;
-  static Future<bool> saveShowHistoryTime() async {
-    if (_isSavingShowHistoryTime) return false;
-    _isSavingShowHistoryTime = true;
+  static bool _isSavingGroupHistoryTime = false;
+  static Future<bool> saveGroupHistoryTime() async {
+    if (_isSavingGroupHistoryTime) return false;
+    _isSavingGroupHistoryTime = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs
-        .setBool('showHistoryTime', showHistoryTime)
-        .then((_) => _isSavingShowHistoryTime = false);
+        .setBool('groupHistoryTime', groupHistoryTime)
+        .then((_) => _isSavingGroupHistoryTime = false);
   }
 
   static Future<void> saveAll() async {
@@ -252,6 +252,7 @@ class Persistence with ChangeNotifier {
     await saveColor();
     await saveSplitPortions();
     await saveHistoryLimit();
+    await saveGroupHistoryTime();
     await saveConfirmDeletions();
     await saveHideTopics();
     await savePlaylists();
@@ -277,7 +278,7 @@ class Persistence with ChangeNotifier {
       confirmDeletions = json['confirmDeletions'] ?? true;
       hideTopics = json['hideTopics'] ?? false;
       historyLimit = json['historyLimit'];
-      showHistoryTime = json['showHistoryTime'] ?? false;
+      groupHistoryTime = json['groupHistoryTime'] ?? false;
 
       playlists.clear();
       _instance.notifyListeners();
@@ -310,7 +311,7 @@ class Persistence with ChangeNotifier {
       'confirmDeletions': confirmDeletions,
       'hideTopics': hideTopics,
       'historyLimit': historyLimit,
-      'showHistoryTime': showHistoryTime,
+      'groupHistoryTime': groupHistoryTime,
       'playlists': playlists,
     };
 
