@@ -276,7 +276,7 @@ class Persistence with ChangeNotifier {
           .byName(json['initialPlannedSize'] ?? InitialPlannedSize.normal);
       confirmDeletions = json['confirmDeletions'] ?? true;
       hideTopics = json['hideTopics'] ?? false;
-      historyLimit = json['historyLimit'] ?? -1;
+      historyLimit = json['historyLimit'];
       showHistoryTime = json['showHistoryTime'] ?? false;
 
       playlists.clear();
