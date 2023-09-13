@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class ShowHistoryTimeSwitch extends StatefulWidget {
   const ShowHistoryTimeSwitch({super.key});
@@ -8,7 +9,7 @@ class ShowHistoryTimeSwitch extends StatefulWidget {
 }
 
 class _ShowHistoryTimeSwitchState extends State<ShowHistoryTimeSwitch> {
-  bool _isHistoryTimeShown = false;
+  bool _isHistoryTimeShown = Persistence.showHistoryTime;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class _ShowHistoryTimeSwitchState extends State<ShowHistoryTimeSwitch> {
       onChanged: (value) {
         setState(() {
           _isHistoryTimeShown = value;
+          Persistence.showHistoryTime = value;
         });
       },
     );

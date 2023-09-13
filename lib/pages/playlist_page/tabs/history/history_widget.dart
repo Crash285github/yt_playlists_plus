@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:yt_playlists_plus/constants.dart';
+import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 
@@ -46,6 +48,8 @@ class HistoryWidget extends ICardWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Persistence>(context);
+
     final DateTime localTime = videoHistory.time.toLocal();
     final String localString = localTime.toString().split('.')[0];
 
@@ -80,7 +84,7 @@ class HistoryWidget extends ICardWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (firstOfGroup)
+            if (firstOfGroup && Persistence.showHistoryTime)
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
@@ -97,7 +101,7 @@ class HistoryWidget extends ICardWidget {
                   left: 0,
                   right: 0,
                   top: firstOfGroup ? 4 : 1,
-                  bottom: lastOfGroup ? 16 : 1),
+                  bottom: lastOfGroup ? 10 : 1),
               surfaceTintColor: videoHistory.status.color,
               shape: cardBorder(
                   firstOfList: firstOfGroup,

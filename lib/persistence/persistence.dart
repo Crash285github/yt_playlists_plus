@@ -94,7 +94,20 @@ class Persistence with ChangeNotifier {
   ///Size of each playlist's history
   ///
   ///`null` means infinite
-  static int? historyLimit;
+  static int? _historyLimit;
+  static int? get historyLimit => _historyLimit;
+  static set historyLimit(int? value) {
+    _historyLimit = value;
+    _instance.notifyListeners();
+  }
+
+  ///Show the exact time above each history group
+  static bool _showHistoryTime = false;
+  static bool get showHistoryTime => _showHistoryTime;
+  static set showHistoryTime(bool value) {
+    _showHistoryTime = value;
+    _instance.notifyListeners();
+  }
 
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
