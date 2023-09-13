@@ -26,6 +26,7 @@ class _ShowHistoryTimeSwitchState extends State<ShowHistoryTimeSwitch> {
         setState(() {
           _isHistoryTimeShown = value;
           Persistence.showHistoryTime = value;
+          Persistence.saveShowHistoryTime();
         });
       },
     );
