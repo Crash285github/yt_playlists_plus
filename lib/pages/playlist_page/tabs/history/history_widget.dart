@@ -75,28 +75,28 @@ class HistoryWidget extends ICardWidget {
       )
     ];
 
-    return AdaptiveGestureDetector(
-      onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
-          context: context, offset: offset, items: copyItems),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (firstOfGroup && Persistence.showHistoryTime)
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  formattedTime(videoHistory.time),
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.5)),
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (firstOfGroup && Persistence.showHistoryTime)
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(
+                formattedTime(videoHistory.time),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.5)),
               ),
-            Card(
+            ),
+          AdaptiveGestureDetector(
+            onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+                context: context, offset: offset, items: copyItems),
+            child: Card(
               margin: EdgeInsets.only(
                   left: 0,
                   right: 0,
@@ -152,8 +152,8 @@ class HistoryWidget extends ICardWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
