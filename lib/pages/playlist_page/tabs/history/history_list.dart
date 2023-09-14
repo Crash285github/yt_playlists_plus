@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
-import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_widget.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
