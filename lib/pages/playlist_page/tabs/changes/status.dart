@@ -3,18 +3,23 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 
 class ChangesCenterText extends StatelessWidget {
   final PlaylistStatus status;
-  final int progress;
+  final int fetchProgress;
+  final int downloadProgress;
 
   const ChangesCenterText({
     super.key,
     required this.status,
-    required this.progress,
+    required this.fetchProgress,
+    required this.downloadProgress,
   });
 
   @override
   Widget build(BuildContext context) {
     String message = "";
     switch (status) {
+      case PlaylistStatus.downloading:
+        message = "Downloading... $downloadProgress%";
+        break;
       case PlaylistStatus.downloaded:
         message = "Just downloaded.";
         break;
@@ -28,7 +33,7 @@ class ChangesCenterText extends StatelessWidget {
         message = "Press the refresh button to check.";
         break;
       case PlaylistStatus.fetching:
-        message = "Fetching... $progress%";
+        message = "Fetching... $fetchProgress%";
         break;
       case PlaylistStatus.saved:
         message = "Playlist saved.";

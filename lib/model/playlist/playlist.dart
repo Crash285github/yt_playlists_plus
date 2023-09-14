@@ -13,6 +13,7 @@ import 'package:yt_playlists_plus/persistence/persistence.dart';
 class Playlist extends ChangeNotifier {
   final String id;
   String title, author, thumbnailUrl;
+  int? length; //? only used during download
 
   ///Local data
   Set<Video> get videos => _videos;
@@ -57,26 +58,46 @@ class Playlist extends ChangeNotifier {
 
   ///Shows the fetching progress
   ///
-  ///Not exact, but the bigger the list the more accurate
-  int progress = 0;
+  ///Not exact, but the bigger the list the more accurate it is
+  int fetchProgress = 0;
 
   ///Sets new progress and notifies listeners
-  setProgress(double newProgress) {
-    const int steps = 100;
-
-    final int newProgressInt =
-        (newProgress * steps).round() * (100 / steps).round();
-    if (progress != newProgressInt) {
-      progress = newProgressInt;
-      notifyListeners();
-    }
+  void setFetchProgress(double newProgress) {
+    fetchProgress = _setProgress(fetchProgress, newProgress);
+    notifyListeners();
   }
+
+  ///Shows the download progress
+  int downloadProgress = 0;
+
+  ///Sets the download progress
+  void setDownloadProgress(double newProgress) {
+    downloadProgress = _setProgress(downloadProgress, newProgress);
+    notifyListeners();
+  }
+
+  int _setProgress(int toSet, double newProgress) {
+    const int steps = 40;
+
+    final int returnProgress =
+        (newProgress * steps).round() * (100 / steps).round();
+    if (toSet != returnProgress) {
+      return returnProgress <= 100 ? returnProgress : 100;
+    }
+    return toSet;
+  }
+
+  bool _isNetworkingCancelled = false;
+
+  ///Cancels download or fetching, if it is in progress
+  void cancelNetworking() => _isNetworkingCancelled = true;
 
   Playlist({
     required this.id,
     required this.title,
     required this.author,
     required this.thumbnailUrl,
+    this.length,
   });
 
   //#region [videos], [fetch], [history]
@@ -183,14 +204,20 @@ class Playlist extends ChangeNotifier {
   ///Fetches the videos of the playlist and adds them to its [videos] Set
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
-    setStatus(PlaylistStatus.downloading);
     Persistence.disableExportImport();
+    setStatus(PlaylistStatus.downloading);
+    setDownloadProgress(0);
+    _isNetworkingCancelled = false;
 
     bool first = true;
     try {
       YoutubeClient();
       await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
+        if (_isNetworkingCancelled) {
+          return;
+        }
         _videos.add(video);
+        setDownloadProgress(_videos.length / (length ?? 1));
         if (first) {
           thumbnailUrl = video.thumbnailUrl;
           notifyListeners();
@@ -219,13 +246,17 @@ class Playlist extends ChangeNotifier {
     _fetching = true;
     _fetch.clear();
     setStatus(PlaylistStatus.fetching);
-    setProgress(0);
+    setFetchProgress(0);
+    _isNetworkingCancelled = false;
 
     try {
       YoutubeClient();
       await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
+        if (_isNetworkingCancelled) {
+          return;
+        }
         _fetch.add(video);
-        setProgress(_fetch.length / _videos.length);
+        setFetchProgress(_fetch.length / _videos.length);
       }
     } on SocketException {
       setStatus(PlaylistStatus.unChecked);

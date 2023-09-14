@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class PlaylistProgressIndicator extends StatefulWidget {
   final double progress;
+  final Color? color;
   const PlaylistProgressIndicator({
     super.key,
     required this.progress,
+    this.color,
   });
 
   @override
@@ -23,7 +25,8 @@ class _PlaylistProgressIndicatorState extends State<PlaylistProgressIndicator> {
         return LinearProgressIndicator(
           backgroundColor: Colors.transparent,
           value: value,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          color: widget.color?.withOpacity(0.4) ??
+              Theme.of(context).colorScheme.primary.withOpacity(0.1),
         );
       },
     );

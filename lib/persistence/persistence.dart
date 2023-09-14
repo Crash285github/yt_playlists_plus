@@ -45,6 +45,7 @@ class Persistence with ChangeNotifier {
   ///
   ///Doesn't save on its own
   static void removePlaylist(Playlist item) {
+    item.cancelNetworking();
     _playlists.remove(item);
     _instance.notifyListeners();
   }
