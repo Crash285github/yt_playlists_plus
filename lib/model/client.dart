@@ -93,6 +93,7 @@ class YoutubeClient {
         id: result.id.toString(),
         title: result.title,
         author: author,
+        length: result.videoCount,
         thumbnailUrl: "", //? at download
       );
     } on SocketException {

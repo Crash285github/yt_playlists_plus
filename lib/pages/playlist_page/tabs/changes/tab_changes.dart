@@ -34,7 +34,8 @@ class ChangesTab extends StatelessWidget {
                   changes: (added.toList() + missing.toList()).toSet())
               : ChangesCenterText(
                   status: playlist.status,
-                  progress: playlist.progress,
+                  fetchProgress: playlist.fetchProgress,
+                  downloadProgress: playlist.downloadProgress,
                 )
         ],
       ),

@@ -59,7 +59,15 @@ class PlaylistWidget extends ICardWidget {
           alignment: Alignment.bottomCenter,
           children: [
             if (playlist.status == PlaylistStatus.fetching)
-              PlaylistProgressIndicator(progress: playlist.progress / 100),
+              PlaylistProgressIndicator(
+                progress: playlist.fetchProgress / 100,
+                color: PlaylistStatus.fetching.color,
+              ),
+            if (playlist.status == PlaylistStatus.downloading)
+              PlaylistProgressIndicator(
+                progress: playlist.downloadProgress / 100,
+                color: PlaylistStatus.downloading.color,
+              ),
             Ink(
               child: InkWell(
                 onTap: Persistence.canReorder ? null : onTap,
