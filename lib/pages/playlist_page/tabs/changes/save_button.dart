@@ -12,21 +12,16 @@ class SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedScale(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.decelerate,
-      scale: playlist.modified == 0 ? 0 : 1,
-      child: FloatingActionButton(
-        onPressed: () async {
-          await Persistence.savePlaylists();
-          playlist.clearPending();
-          playlist.setStatus(PlaylistStatus.saved);
-        },
-        tooltip: "Save",
-        child: const Icon(
-          Icons.save,
-          size: 30,
-        ),
+    return FloatingActionButton(
+      onPressed: () async {
+        await Persistence.savePlaylists();
+        playlist.clearPending();
+        playlist.setStatus(PlaylistStatus.saved);
+      },
+      tooltip: "Save",
+      child: const Icon(
+        Icons.save,
+        size: 30,
       ),
     );
   }
