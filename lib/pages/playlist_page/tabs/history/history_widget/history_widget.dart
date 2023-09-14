@@ -6,6 +6,8 @@ import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:yt_playlists_plus/constants.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_details.dart';
+import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_group_time.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
@@ -78,18 +80,8 @@ class HistoryWidget extends ICardWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (firstOfGroup && Persistence.groupHistoryTime)
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                formattedTime(videoHistory.time),
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onBackground
-                        .withOpacity(0.5)),
-              ),
-            ),
+          if (firstOfGroup)
+            HistoryGroupTime(time: formattedTime(videoHistory.time)),
           AdaptiveGestureDetector(
             onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
                 context: context, offset: offset, items: copyItems),
@@ -109,46 +101,11 @@ class HistoryWidget extends ICardWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Tooltip(
-                            message: videoHistory.title,
-                            child: Text(
-                              videoHistory.title,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                videoHistory.author,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                      color: Colors.grey,
-                                    ),
-                              ),
-                              if (!Persistence.groupHistoryTime)
-                                Tooltip(
-                                  message: formattedTime(videoHistory.time),
-                                  child: Text(
-                                    " • ${timeago.format(videoHistory.time)}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                          color: Colors.grey,
-                                        ),
-                                  ),
-                                ),
-                            ],
-                          )
-                        ],
-                      ),
+                    HistoryDetails(
+                      title: videoHistory.title,
+                      author: videoHistory.author,
+                      time: formattedTime(videoHistory.time),
+                      timeago: timeago.format(videoHistory.time),
                     ),
                     Tooltip(
                       message: videoHistory.status == VideoStatus.missing

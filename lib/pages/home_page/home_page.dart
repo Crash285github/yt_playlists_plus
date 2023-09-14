@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/home_page/appbar.dart';
-import 'package:yt_playlists_plus/pages/home_page/disable_reorder_button.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/drawer.dart';
 import 'package:yt_playlists_plus/pages/home_page/empty.dart';
+import 'package:yt_playlists_plus/pages/home_page/fab.dart';
 import 'package:yt_playlists_plus/pages/home_page/playlists.dart';
-import 'package:yt_playlists_plus/pages/home_page/search_button.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
@@ -43,9 +42,7 @@ class HomePage extends StatelessWidget {
               const SliverToBoxAdapter(child: BottomPadding())
           ],
         ),
-        floatingActionButton: Persistence.canReorder
-            ? const DisableReorderButton()
-            : const HomePageSearchButton(),
+        floatingActionButton: const HomePageFab(),
       ),
     );
   }

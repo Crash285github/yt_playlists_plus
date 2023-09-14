@@ -38,7 +38,8 @@ class ChangesTab extends StatelessWidget {
                 )
         ],
       ),
-      floatingActionButton: SaveButton(playlist: playlist),
+      floatingActionButton:
+          playlist.modified == 0 ? null : SaveButton(playlist: playlist),
       backgroundColor: Colors.transparent,
     );
   }
