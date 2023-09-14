@@ -50,9 +50,6 @@ class HistoryWidget extends ICardWidget {
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
 
-    final DateTime localTime = videoHistory.time.toLocal();
-    final String localString = localTime.toString().split('.')[0];
-
     final List<PopupMenuEntry<dynamic>> copyItems = [
       PopupMenuItem(
         child: const Center(child: Text("Copy title")),
@@ -137,7 +134,7 @@ class HistoryWidget extends ICardWidget {
                               ),
                               if (!Persistence.groupHistoryTime)
                                 Tooltip(
-                                  message: localString,
+                                  message: formattedTime(videoHistory.time),
                                   child: Text(
                                     " • ${timeago.format(videoHistory.time)}",
                                     style: Theme.of(context)
