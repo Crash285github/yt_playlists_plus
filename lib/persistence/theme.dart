@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants.dart' as constants;
+import 'package:yt_playlists_plus/constants.dart' as constants;
 
 ///The theme of the Application
 ///
