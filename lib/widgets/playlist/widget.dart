@@ -34,10 +34,15 @@ class PlaylistWidget extends ICardWidget {
         child: const Center(child: Text("Open link")),
         onTap: () async {
           await launchUrl(
-              Uri.parse("https://youtube.com/playlist?list=${playlist.id}"));
+                  Uri.parse("https://youtube.com/playlist?list=${playlist.id}"))
+              .onError((error, stackTrace) {
+            PopUpManager.showSnackBar(
+                context: context, message: "Couldn't open link.");
+            return false;
+          });
         },
       ),
-      const PopupMenuDivider(),
+      const PopupMenuDivider(height: 0),
       PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {

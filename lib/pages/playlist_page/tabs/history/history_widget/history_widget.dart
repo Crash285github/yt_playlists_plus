@@ -61,7 +61,7 @@ class HistoryWidget extends ICardWidget {
               Uri.parse("https://youtube.com/watch?v=${videoHistory.id}"));
         },
       ),
-      const PopupMenuDivider(),
+      const PopupMenuDivider(height: 0),
       PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {

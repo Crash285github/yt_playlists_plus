@@ -40,7 +40,7 @@ class VideoWidget extends ICardWidget {
           await launchUrl(Uri.parse("https://youtube.com/watch?v=${video.id}"));
         },
       ),
-      const PopupMenuDivider(),
+      const PopupMenuDivider(height: 0),
       PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {
@@ -61,7 +61,7 @@ class VideoWidget extends ICardWidget {
         },
       ),
       if (video.status == VideoStatus.missing) ...[
-        const PopupMenuDivider(),
+        const PopupMenuDivider(height: 0),
         PopupMenuItem(
           child: const Center(child: Text('Add to planned')),
           onTap: () => video.statusFunction!(context),
