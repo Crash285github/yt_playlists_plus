@@ -9,13 +9,42 @@ import 'package:yt_playlists_plus/pages/home_page/playlists.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final Function(Playlist) onPlaylistTap;
 
   const HomePage({
     super.key,
     required this.onPlaylistTap,
   });
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late final ScrollController _controller;
+  bool _showFab = true;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(() {
+      setState(() {
+        if (_controller.offset == 0) {
+          _showFab = true;
+        } else if (_controller.offset > 80) {
+          _showFab = false;
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +60,20 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         drawer: const HomePageDrawer(),
         body: CustomScrollView(
+          controller: _controller,
           slivers: [
             const HomePageAppBar(),
             Persistence.playlists.isEmpty
                 ? const HomePageEmpty()
                 : HomePagePlaylists(
-                    onTap: onPlaylistTap,
+                    onTap: widget.onPlaylistTap,
                   ),
             if (Persistence.playlists.isNotEmpty)
               const SliverToBoxAdapter(child: BottomPadding())
           ],
         ),
-        floatingActionButton: const HomePageFab(),
+        floatingActionButton:
+            _showFab || Persistence.canReorder ? const HomePageFab() : null,
       ),
     );
   }
