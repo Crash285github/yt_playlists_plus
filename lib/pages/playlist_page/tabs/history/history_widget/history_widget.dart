@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
@@ -54,6 +55,14 @@ class HistoryWidget extends ICardWidget {
 
     final List<PopupMenuEntry<dynamic>> copyItems = [
       PopupMenuItem(
+        child: const Center(child: Text("Open link")),
+        onTap: () async {
+          await launchUrl(
+              Uri.parse("https://youtube.com/watch?v=${videoHistory.id}"));
+        },
+      ),
+      const PopupMenuDivider(),
+      PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {
           await Clipboard.setData(ClipboardData(text: videoHistory.title));
@@ -66,7 +75,7 @@ class HistoryWidget extends ICardWidget {
         },
       ),
       PopupMenuItem(
-        child: const Center(child: Text("Copy url")),
+        child: const Center(child: Text("Copy link")),
         onTap: () async {
           await Clipboard.setData(ClipboardData(
               text: "www.youtube.com/watch?v=${videoHistory.id}"));

@@ -96,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
             snap: false,
             title: const Text("Search Playlists"),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(80),
+              preferredSize: const Size.fromHeight(85),
               child: SearchPageSearchBar(
                 progress: _progress / 20,
                 isEmpty: _searchResults.isEmpty,
