@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/constants.dart';
@@ -33,13 +34,13 @@ class VideoWidget extends ICardWidget {
     Video video = Provider.of<Video>(context);
 
     final List<PopupMenuEntry<dynamic>> contextMenuItems = [
-      if (video.status == VideoStatus.missing) ...[
-        PopupMenuItem(
-          child: const Center(child: Text('Add to planned')),
-          onTap: () => video.statusFunction!(context),
-        ),
-        const PopupMenuDivider(),
-      ],
+      PopupMenuItem(
+        child: const Center(child: Text("Open link")),
+        onTap: () async {
+          await launchUrl(Uri.parse("https://youtube.com/watch?v=${video.id}"));
+        },
+      ),
+      const PopupMenuDivider(height: 0),
       PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {
@@ -53,12 +54,19 @@ class VideoWidget extends ICardWidget {
         },
       ),
       PopupMenuItem(
-        child: const Center(child: Text("Copy url")),
+        child: const Center(child: Text("Copy link")),
         onTap: () async {
           await Clipboard.setData(
               ClipboardData(text: "www.youtube.com/watch?v=${video.id}"));
         },
       ),
+      if (video.status == VideoStatus.missing) ...[
+        const PopupMenuDivider(height: 0),
+        PopupMenuItem(
+          child: const Center(child: Text('Add to planned')),
+          onTap: () => video.statusFunction!(context),
+        ),
+      ],
     ];
 
     return AdaptiveGestureDetector(

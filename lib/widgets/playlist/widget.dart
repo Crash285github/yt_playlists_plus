@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
@@ -30,6 +31,19 @@ class PlaylistWidget extends ICardWidget {
 
     final List<PopupMenuEntry<dynamic>> copyItems = [
       PopupMenuItem(
+        child: const Center(child: Text("Open link")),
+        onTap: () async {
+          await launchUrl(
+                  Uri.parse("https://youtube.com/playlist?list=${playlist.id}"))
+              .onError((error, stackTrace) {
+            PopUpManager.showSnackBar(
+                context: context, message: "Couldn't open link.");
+            return false;
+          });
+        },
+      ),
+      const PopupMenuDivider(height: 0),
+      PopupMenuItem(
         child: const Center(child: Text("Copy title")),
         onTap: () async {
           await Clipboard.setData(ClipboardData(text: playlist.title));
@@ -42,7 +56,7 @@ class PlaylistWidget extends ICardWidget {
         },
       ),
       PopupMenuItem(
-        child: const Center(child: Text("Copy url")),
+        child: const Center(child: Text("Copy link")),
         onTap: () async {
           await Clipboard.setData(ClipboardData(
               text: "www.youtube.com/playlist?list=${playlist.id}"));
