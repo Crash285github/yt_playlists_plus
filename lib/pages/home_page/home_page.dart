@@ -29,13 +29,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(() {
-      setState(() {
-        if (_controller.offset == 0) {
+      if (_controller.offset == 0 && !_showFab) {
+        setState(() {
           _showFab = true;
-        } else if (_controller.offset > 80) {
+        });
+      } else if (_controller.offset > 80 && _showFab) {
+        setState(() {
           _showFab = false;
-        }
-      });
+        });
+      }
     });
     super.initState();
   }
