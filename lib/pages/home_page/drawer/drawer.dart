@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/pages/about_page.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/settings_list.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/responsive/wide_layout.dart';
@@ -71,7 +72,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
             //About
             InkWell(
               onTap: () {
-                Navigator.of(context).pushNamed("/about");
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const AboutPage(),
+                ));
               },
               child: Padding(
                 padding:

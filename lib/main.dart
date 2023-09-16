@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:yt_playlists_plus/pages/pages_export.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
@@ -32,6 +31,7 @@ void main() async {
     ],
     child: const YPPApp(),
   ));
+
   Persistence.load();
 }
 
@@ -42,53 +42,51 @@ class YPPApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<ApplicationTheme>(context);
     Provider.of<ApplicationColorScheme>(context);
+    final ApplicationColor appColorScheme = ApplicationColorScheme.get();
+
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
-        ColorScheme? lightDynamicColorScheme;
-        ColorScheme? darkDynamicColorScheme;
+        ColorScheme? lightColorScheme;
+        ColorScheme? darkColorScheme;
 
-        if (ApplicationColorScheme.get() != ApplicationColor.dynamic) {
-          //? static color schemes
-          if (ApplicationColorScheme.get() == ApplicationColor.mono) {
-            //? monochromatic
-            lightDynamicColorScheme = const ColorScheme.light().copyWith(
-              primary: Colors.black,
-              secondary: Colors.black,
-              surfaceTint: Colors.black,
-              primaryContainer: Colors.grey,
-            );
-            darkDynamicColorScheme = const ColorScheme.dark().copyWith(
-              primary: Colors.white,
-              secondary: Colors.white,
-              surfaceTint: Colors.white,
-              primaryContainer: Colors.grey,
-            );
-          } else {
-            //? colorful
-            lightDynamicColorScheme = ColorScheme.fromSeed(
-                seedColor: ApplicationColorScheme.get().color!);
-            darkDynamicColorScheme = ColorScheme.fromSeed(
-                seedColor: ApplicationColorScheme.get().color!,
-                brightness: Brightness.dark);
-          }
-        } else if (lightDynamic != null && darkDynamic != null) {
-          //? dynamic
-          lightDynamicColorScheme = lightDynamic.harmonized();
-          darkDynamicColorScheme = darkDynamic.harmonized();
+        //? dynamic color schemes
+        if (appColorScheme == ApplicationColor.dynamic) {
+          lightColorScheme = lightDynamic?.harmonized();
+          darkColorScheme = darkDynamic?.harmonized();
+        }
+        //? static color schemes
+        else if (appColorScheme == ApplicationColor.mono) {
+          lightColorScheme = const ColorScheme.light().copyWith(
+            primary: Colors.black,
+            secondary: Colors.black,
+            surfaceTint: Colors.black,
+            primaryContainer: Colors.grey,
+          );
+
+          darkColorScheme = const ColorScheme.dark().copyWith(
+            primary: Colors.white,
+            secondary: Colors.white,
+            surfaceTint: Colors.white,
+            primaryContainer: Colors.grey,
+          );
+        } else {
+          lightColorScheme = ColorScheme.fromSeed(
+            seedColor: ApplicationColorScheme.get().color!,
+          );
+
+          darkColorScheme = ColorScheme.fromSeed(
+            seedColor: ApplicationColorScheme.get().color!,
+            brightness: Brightness.dark,
+          );
         }
 
         return MaterialApp(
           title: "Youtube Playlists+",
-          initialRoute: '/',
+          home: const Responsive(),
           debugShowCheckedModeBanner: false,
-          routes: {
-            '/': (context) => const Responsive(),
-            '/about': (context) => const AboutPage(),
-            '/search': (context) => const SearchPage(),
-          },
           theme: ApplicationTheme.get() == ApplicationTheme.light
-              ? themeBuilder(scheme: lightDynamicColorScheme)
-              : themeBuilder(scheme: darkDynamicColorScheme),
+              ? themeBuilder(scheme: lightColorScheme)
+              : themeBuilder(scheme: darkColorScheme),
         );
       },
     );

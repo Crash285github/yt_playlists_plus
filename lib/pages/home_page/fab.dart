@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/pages/search_page/search_page.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class HomePageFab extends StatelessWidget {
@@ -25,7 +26,9 @@ class HomePageFab extends StatelessWidget {
       tooltip: Persistence.canReorder ? "Finish" : "Search",
       onPressed: Persistence.canReorder
           ? () => Persistence.disableReorder()
-          : () => Navigator.of(context).pushNamed('/search'),
+          : () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const SearchPage()),
+              ),
       icon: Persistence.canReorder ? disableReorderIcon : searchIcon,
     );
   }
