@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final ScrollController _controller;
-  bool showFab = true;
+  bool _showFab = true;
 
   @override
   void initState() {
@@ -31,9 +31,9 @@ class _HomePageState extends State<HomePage> {
     _controller.addListener(() {
       setState(() {
         if (_controller.offset == 0) {
-          showFab = true;
+          _showFab = true;
         } else if (_controller.offset > 80) {
-          showFab = false;
+          _showFab = false;
         }
       });
     });
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton:
-            showFab || Persistence.canReorder ? const HomePageFab() : null,
+            _showFab || Persistence.canReorder ? const HomePageFab() : null,
       ),
     );
   }
