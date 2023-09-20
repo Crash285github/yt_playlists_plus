@@ -77,6 +77,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
     setState(() {
       widget.planned.remove(title);
     });
+    Persistence.savePlaylists();
   }
 
   @override
