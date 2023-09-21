@@ -11,23 +11,45 @@ class ThemeSwitch extends StatefulWidget {
 }
 
 class _ThemeSwitchState extends State<ThemeSwitch> {
-  bool _isDarkModeOn = ApplicationTheme.get() == ApplicationTheme.dark;
+  bool _isDarkMode = ApplicationTheme.get() != ApplicationTheme.light;
+  bool _isAmoled = ApplicationTheme.get() == ApplicationTheme.amoled;
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
-      value: _isDarkModeOn,
-      title: const Text("Dark mode"),
-      secondary: const Icon(Icons.dark_mode_outlined),
-      onChanged: (value) {
-        _isDarkModeOn
-            ? ApplicationTheme.set(ApplicationTheme.light)
-            : ApplicationTheme.set(ApplicationTheme.dark);
+    return GestureDetector(
+      onLongPress: () {
         setState(() {
-          _isDarkModeOn = value;
+          if (_isAmoled) {
+            ApplicationTheme.set(ApplicationTheme.dark);
+            _isDarkMode = true;
+            _isAmoled = false;
+          } else {
+            ApplicationTheme.set(ApplicationTheme.amoled);
+            _isDarkMode = true;
+            _isAmoled = true;
+          }
+          Persistence.saveTheme();
         });
-        Persistence.saveTheme();
       },
+      child: SwitchListTile(
+        value: _isDarkMode,
+        title: Text(
+          ApplicationTheme.get() == ApplicationTheme.amoled
+              ? "AMOLED mode"
+              : "Dark mode",
+        ),
+        secondary: const Icon(Icons.dark_mode_outlined),
+        onChanged: (value) {
+          _isDarkMode
+              ? ApplicationTheme.set(ApplicationTheme.light)
+              : ApplicationTheme.set(ApplicationTheme.dark);
+          setState(() {
+            _isDarkMode = value;
+            _isAmoled = false;
+          });
+          Persistence.saveTheme();
+        },
+      ),
     );
   }
 }
