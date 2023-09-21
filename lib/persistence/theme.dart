@@ -12,6 +12,7 @@ class ApplicationTheme extends ChangeNotifier {
 
   static const int light = 0;
   static const int dark = 1;
+  static const int amoled = 2;
 
   static int _currentTheme = 0;
   static int get() => _currentTheme;
@@ -25,6 +26,7 @@ class ApplicationTheme extends ChangeNotifier {
 //? theme builder
 ThemeData themeBuilder({ColorScheme? scheme}) {
   bool isLight = ApplicationTheme.get() == ApplicationTheme.light;
+  bool isAmoled = ApplicationTheme.get() == ApplicationTheme.amoled;
 
   //fallback
   scheme ??= isLight ? const ColorScheme.light() : const ColorScheme.dark();
@@ -33,11 +35,21 @@ ThemeData themeBuilder({ColorScheme? scheme}) {
     useMaterial3: true,
     colorScheme: scheme,
     cardColor: scheme.surface,
-    scaffoldBackgroundColor: isLight ? scheme.surfaceVariant : null,
-    cardTheme: constants.cardTheme.copyWith(color: scheme.surface),
+    drawerTheme: DrawerThemeData(
+        backgroundColor: isAmoled ? Colors.black : scheme.surface),
+    scaffoldBackgroundColor: isLight
+        ? scheme.surfaceVariant
+        : isAmoled
+            ? Colors.black
+            : null,
+    cardTheme: constants.cardTheme
+        .copyWith(color: isAmoled ? Colors.black : scheme.surface),
     tooltipTheme: constants.tooltipTheme,
-    appBarTheme:
-        isLight ? AppBarTheme(backgroundColor: scheme.surfaceVariant) : null,
+    appBarTheme: isLight
+        ? AppBarTheme(backgroundColor: scheme.surfaceVariant)
+        : isAmoled
+            ? const AppBarTheme(backgroundColor: Colors.black)
+            : null,
     tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
     iconButtonTheme: const IconButtonThemeData(
         style: ButtonStyle(padding: constants.buttonPadding)),
