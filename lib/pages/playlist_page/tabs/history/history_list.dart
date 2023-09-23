@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_widget.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/extensions.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
 class HistoryList extends StatefulWidget {
@@ -31,8 +32,7 @@ class _HistoryListState extends State<HistoryList> {
       try {
         DateTime time1 = displayedHistory[index1].time;
         DateTime time2 = displayedHistory[index2].time;
-        return time1.millisecondsSinceEpoch ~/ 1000 ==
-            time2.millisecondsSinceEpoch ~/ 1000;
+        return time1.equalSecondsSinceEpoch(time2);
       } on RangeError {
         return false;
       }
