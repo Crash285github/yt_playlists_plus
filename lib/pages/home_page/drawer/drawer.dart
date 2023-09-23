@@ -42,7 +42,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                   TextButton.icon(
                       onPressed: Persistence.canExImport
                           ? () async {
-                              await Persistence.export().then((success) {
+                              await Persistence().export().then((success) {
                                 if (success) {
                                   PopUpManager.showSnackBar(
                                       context: context,
@@ -57,8 +57,8 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       onPressed: Persistence.canExImport
                           ? () async {
                               Navigator.pop(context);
-                              if (!await Persistence.import()) return;
-                              await Persistence.saveAll().then((_) {
+                              if (!await Persistence().import()) return;
+                              await Persistence().saveAll().then((_) {
                                 WideLayoutState.playlist = null;
                               });
                             }

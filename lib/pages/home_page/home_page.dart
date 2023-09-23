@@ -66,12 +66,12 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           slivers: [
             const HomePageAppBar(),
-            Persistence.playlists.isEmpty
+            Persistence().playlists.isEmpty
                 ? const HomePageEmpty()
                 : HomePagePlaylists(
                     onTap: widget.onPlaylistTap,
                   ),
-            if (Persistence.playlists.isNotEmpty)
+            if (Persistence().playlists.isNotEmpty)
               const SliverToBoxAdapter(child: BottomPadding())
           ],
         ),

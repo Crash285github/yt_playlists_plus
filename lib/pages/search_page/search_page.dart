@@ -52,10 +52,10 @@ class _SearchPageState extends State<SearchPage> {
         YoutubeClient();
         await for (Playlist playlist in YoutubeClient.searchByQuery(
           query: _searchQuery,
-          excludedWords: Persistence.playlists.map((e) => e.id).toList(),
+          excludedWords: Persistence().playlists.map((e) => e.id).toList(),
         )) {
           if (!_rendered) return;
-          if (Persistence.playlists.contains(playlist)) continue;
+          if (Persistence().playlists.contains(playlist)) continue;
 
           playlist.setStatus(PlaylistStatus.notDownloaded);
           setState(() {

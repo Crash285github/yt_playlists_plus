@@ -28,13 +28,13 @@ class Persistence with ChangeNotifier {
   ///The currently stored Playlists
   ///
   ///Requires Persistence.load() to get the data
-  static List<Playlist> get playlists => _playlists;
-  static List<Playlist> _playlists = []; //private representation
+   List<Playlist> get playlists => _playlists;
+  List<Playlist> _playlists = []; //private representation
 
   ///Adds a `Playlist` item to the Persistent storage, and alerts listeners
   ///
   ///Doesn't save on it's own
-  static void addPlaylist(Playlist item) {
+  void addPlaylist(Playlist item) {
     if (_playlists.contains(item)) {
       //? playlist videos can be different, == only checks ids
       _playlists.remove(item);
@@ -47,7 +47,7 @@ class Persistence with ChangeNotifier {
   ///Removes a `Playlist` item from the Persistent storage, and alerts listeners
   ///
   ///Doesn't save on its own
-  static void removePlaylist(Playlist item) {
+  void removePlaylist(Playlist item) {
     item.cancelNetworking();
     _playlists.remove(item);
     _instance.notifyListeners();
@@ -58,7 +58,7 @@ class Persistence with ChangeNotifier {
   static bool _canExImport = true;
   static bool get canExImport => _canExImport;
 
-  static void mayEnableExportImport() {
+  void mayEnableExportImport() {
     if (_playlists.any((element) =>
         element.status == PlaylistStatus.fetching ||
         element.status == PlaylistStatus.checking)) {
@@ -84,7 +84,7 @@ class Persistence with ChangeNotifier {
   }
 
   ///Loads the Persistent Storage, and alerts listeners when finished
-  static Future<void> load() async {
+  Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
@@ -111,7 +111,7 @@ class Persistence with ChangeNotifier {
   }
 
   static bool _isSavingPlaylists = false;
-  static Future<bool> savePlaylists() async {
+  Future<bool> savePlaylists() async {
     if (_isSavingPlaylists) return false;
     _isSavingPlaylists = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -121,12 +121,12 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingPlaylists = false);
   }
 
-  static Future<void> saveAll() async {
+  Future<void> saveAll() async {
     await saveHistoryLimit();
     await savePlaylists();
   }
 
-  static Future<bool> import() async {
+  Future<bool> import() async {
     final Directory dir = await getApplicationDocumentsDirectory();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       initialDirectory: dir.path,
@@ -165,7 +165,7 @@ class Persistence with ChangeNotifier {
     return false;
   }
 
-  static Future<bool> export() async {
+  Future<bool> export() async {
     String? dir = await FilePicker.platform.getDirectoryPath();
     if (dir == null) return false; //?? cancelled
 

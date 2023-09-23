@@ -224,17 +224,17 @@ class Playlist extends ChangeNotifier {
           first = false;
         }
         //? if it started, add Playlist
-        Persistence.addPlaylist(this);
+        Persistence().addPlaylist(this);
       }
     } on SocketException {
       //? if it fails anytime, remove Playlist
-      Persistence.removePlaylist(this);
+      Persistence().removePlaylist(this);
       setStatus(PlaylistStatus.notDownloaded);
       rethrow;
     }
 
     setStatus(PlaylistStatus.downloaded);
-    Persistence.mayEnableExportImport();
+    Persistence().mayEnableExportImport();
   }
 
   ///Fetches the videos of the playlist and adds them to its [_fetch] Set
@@ -324,7 +324,7 @@ class Playlist extends ChangeNotifier {
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
       _recentHistory.clear();
-      Persistence.savePlaylists();
+      Persistence().savePlaylists();
     }
   }
 

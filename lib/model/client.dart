@@ -56,7 +56,7 @@ class YoutubeClient {
     final String id = url.split("?list=")[1].split('&')[0];
 
     //if already contains
-    if (Persistence.playlists.any((final Playlist pl) => pl.id == id)) {
+    if (Persistence().playlists.any((final Playlist pl) => pl.id == id)) {
       return null;
     }
 

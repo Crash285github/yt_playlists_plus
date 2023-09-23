@@ -42,7 +42,7 @@ class SearchResults extends StatelessWidget {
                                   PlaylistStatus.notDownloaded) {
                                 try {
                                   await playlist.download();
-                                  await Persistence.savePlaylists();
+                                  await Persistence().savePlaylists();
                                 } on SocketException {
                                   //? do nothing
                                 }

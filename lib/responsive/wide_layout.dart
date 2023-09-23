@@ -52,8 +52,8 @@ class WideLayoutState extends State<WideLayout> {
                               "This will erase all of the playlist's data.",
                         ).then((value) {
                           if (value ?? false) {
-                            Persistence.removePlaylist(playlist!);
-                            Persistence.savePlaylists();
+                            Persistence().removePlaylist(playlist!);
+                            Persistence().savePlaylists();
                             setState(() {
                               playlist = null;
                             });

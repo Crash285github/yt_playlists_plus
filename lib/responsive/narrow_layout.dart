@@ -26,8 +26,8 @@ class NarrowLayout extends StatelessWidget {
                   ).then(
                     (value) {
                       if (value ?? false) {
-                        Persistence.removePlaylist(playlist);
-                        Persistence.savePlaylists();
+                        Persistence().removePlaylist(playlist);
+                        Persistence().savePlaylists();
                         Navigator.pop(context);
                       }
                     },

@@ -39,7 +39,7 @@ void main() async {
     child: const ThemeBuilder(),
   ));
 
-  Persistence.load();
+  Persistence().load();
 
   SplitLayoutService().load();
   ColorSchemeService().load();

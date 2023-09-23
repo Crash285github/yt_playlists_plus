@@ -14,7 +14,7 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        await Persistence.savePlaylists();
+        await Persistence().savePlaylists();
         playlist.clearPending();
         playlist.setStatus(PlaylistStatus.saved);
       },

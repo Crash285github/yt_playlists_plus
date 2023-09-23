@@ -30,7 +30,7 @@ class _HistoryTabState extends State<HistoryTab> {
                   ).then((value) {
                     if (value ?? false) {
                       setState(() => widget.history.clear());
-                      Persistence.savePlaylists();
+                      Persistence().savePlaylists();
                     }
                   });
                 },
