@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/playlist_page.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/persistence/split_portions.dart';
+import 'package:yt_playlists_plus/services/split_layout_service.dart';
 
 class WideLayout extends StatefulWidget {
   const WideLayout({super.key});
@@ -19,13 +19,15 @@ class WideLayoutState extends State<WideLayout> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ApplicationSplitPortions>(context);
+    SplitLayout portions = Provider.of<SplitLayoutService>(context).portions;
+
     return Scaffold(
       body: Row(
         textDirection: TextDirection.rtl,
         children: [
+          //?? right side
           Expanded(
-            flex: ApplicationSplitPortions.get().right,
+            flex: portions.right,
             child: playlist == null
                 ? Scaffold(
                     body: Center(
@@ -61,8 +63,9 @@ class WideLayoutState extends State<WideLayout> {
                     ),
                   ),
           ),
+          //?? left side
           Expanded(
-            flex: ApplicationSplitPortions.get().left,
+            flex: portions.left,
             child: HomePage(
               onPlaylistTap: (Playlist pl) {
                 setState(() {

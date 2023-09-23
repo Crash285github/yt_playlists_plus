@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/constants.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/persistence/split_portions.dart';
+import 'package:yt_playlists_plus/services/split_layout_service.dart';
+import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
 class SplitViewSetting extends StatefulWidget {
   const SplitViewSetting({super.key});
@@ -12,35 +11,30 @@ class SplitViewSetting extends StatefulWidget {
 }
 
 class _SplitViewSettingState extends State<SplitViewSetting> {
-  SplitPortions _portions = ApplicationSplitPortions.get();
+  SplitLayout _value = SplitLayoutService().portions;
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ApplicationSplitPortions>(context);
-
     return ListTile(
       leading: Transform.rotate(
           angle: (pi / 2), child: const Icon(Icons.splitscreen_outlined)),
       title: const Text("Split view"),
-      trailing: DropdownButton(
-        value: _portions,
-        alignment: Alignment.center,
-        underline: const SizedBox.shrink(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        borderRadius: BorderRadius.circular(10.0),
-        iconSize: 0,
+      trailing: StyledDropdown<SplitLayout>(
+        value: _value,
         items: [
-          ...SplitPortions.values.map((SplitPortions portions) {
+          ...SplitLayout.values.map((SplitLayout portions) {
             return DropdownMenuItem(
                 value: portions, child: Text(portions.displayName));
           })
         ],
         onChanged: (value) {
           setState(() {
-            _portions = value!;
+            _value = value;
           });
-          ApplicationSplitPortions.set(value!);
-          Persistence.saveSplitPortions();
+
+          SplitLayoutService()
+            ..set(value!)
+            ..save();
         },
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
 class ColorSetting extends StatefulWidget {
   const ColorSetting({super.key});
@@ -17,13 +18,8 @@ class _ColorSettingState extends State<ColorSetting> {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
       title: const Text("App color"),
-      trailing: DropdownButton<ApplicationColor>(
+      trailing: StyledDropdown<ApplicationColor>(
         value: _color,
-        alignment: Alignment.center,
-        underline: const SizedBox.shrink(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        borderRadius: BorderRadius.circular(10.0),
-        iconSize: 0,
         items: [
           ...ApplicationColor.values.map((ApplicationColor color) {
             return DropdownMenuItem<ApplicationColor>(

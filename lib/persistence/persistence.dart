@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/persistence/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
-import 'package:yt_playlists_plus/persistence/split_portions.dart';
+import 'package:yt_playlists_plus/services/split_layout_service.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
@@ -145,10 +145,6 @@ class Persistence with ChangeNotifier {
     try {
       groupHistoryTime = prefs.getBool('groupHistoryTime') ?? false;
     } catch (_) {}
-    try {
-      ApplicationSplitPortions.set(
-          SplitPortions.values[prefs.getInt('splitPortions') ?? 0]);
-    } catch (_) {}
 
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
@@ -217,16 +213,6 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingHistoryLimit = false);
   }
 
-  static bool _isSavingSplitPortions = false;
-  static Future<bool> saveSplitPortions() async {
-    if (_isSavingSplitPortions) return false;
-    _isSavingSplitPortions = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setInt('splitPortions', ApplicationSplitPortions.get().index)
-        .then((_) => _isSavingSplitPortions = false);
-  }
-
   static bool _isSavingPlaylists = false;
   static Future<bool> savePlaylists() async {
     if (_isSavingPlaylists) return false;
@@ -251,7 +237,6 @@ class Persistence with ChangeNotifier {
   static Future<void> saveAll() async {
     await saveTheme();
     await saveColor();
-    await saveSplitPortions();
     await saveHistoryLimit();
     await saveGroupHistoryTime();
     await saveConfirmDeletions();
@@ -272,8 +257,8 @@ class Persistence with ChangeNotifier {
       ApplicationTheme.set(json['darkMode'] ? 1 : 0);
       ApplicationColorScheme.set(ApplicationColor.values
           .byName(json['colorScheme'] ?? ApplicationColor.dynamic));
-      ApplicationSplitPortions.set(SplitPortions.values
-          .byName(json['splitView'] ?? SplitPortions.uneven));
+      SplitLayoutService().set(SplitLayout.values
+          .byName(json[SplitLayoutService.saveKey] ?? SplitLayout.uneven));
       initialPlannedSize = InitialPlannedSize.values
           .byName(json['initialPlannedSize'] ?? InitialPlannedSize.normal);
       confirmDeletions = json['confirmDeletions'] ?? true;
@@ -307,7 +292,7 @@ class Persistence with ChangeNotifier {
     final json = {
       'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
       'colorScheme': ApplicationColorScheme.get(),
-      'splitView': ApplicationSplitPortions.get(),
+      SplitLayoutService.saveKey: SplitLayoutService().portions,
       'initialPlannedSize': initialPlannedSize.name,
       'confirmDeletions': confirmDeletions,
       'hideTopics': hideTopics,

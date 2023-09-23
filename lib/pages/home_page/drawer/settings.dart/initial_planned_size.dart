@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
 class InitialPlannedSizeSetting extends StatefulWidget {
   const InitialPlannedSizeSetting({super.key});
@@ -18,13 +19,8 @@ class _InitialPlannedSizeSettingState extends State<InitialPlannedSizeSetting> {
     return ListTile(
       leading: const Icon(Icons.draw_outlined),
       title: const Text("Planned height"),
-      trailing: DropdownButton(
+      trailing: StyledDropdown<InitialPlannedSize>(
         value: _initialPlannedSize,
-        alignment: Alignment.center,
-        underline: const SizedBox.shrink(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        borderRadius: BorderRadius.circular(10.0),
-        iconSize: 0,
         items: [
           DropdownMenuItem(
             value: InitialPlannedSize.normal,
