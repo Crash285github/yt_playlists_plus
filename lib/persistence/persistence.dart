@@ -208,9 +208,9 @@ class Persistence with ChangeNotifier {
     if (result != null) {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
-      AppThemeService().set(json[AppThemeService().dataKey] ?? AppTheme.light);
-      AppColorSchemeService().set(AppColorScheme.values.byName(
-          json[AppColorSchemeService().dataKey] ?? AppColorScheme.dynamic));
+      ThemeService().set(json[ThemeService().dataKey] ?? AppTheme.light);
+      ColorSchemeService().set(AppColorScheme.values.byName(
+          json[ColorSchemeService().dataKey] ?? AppColorScheme.dynamic));
       SplitLayoutService().set(SplitLayout.values
           .byName(json[SplitLayoutService().dataKey] ?? SplitLayout.uneven));
       PlannedSizeService().set(PlannedSize.values
@@ -244,8 +244,8 @@ class Persistence with ChangeNotifier {
         File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
-      AppThemeService().dataKey: AppThemeService().theme,
-      AppColorSchemeService().dataKey: AppColorSchemeService().scheme,
+      ThemeService().dataKey: ThemeService().theme,
+      ColorSchemeService().dataKey: ColorSchemeService().scheme,
       SplitLayoutService().dataKey: SplitLayoutService().portions,
       PlannedSizeService().dataKey: PlannedSizeService().plannedSize,
       'confirmDeletions': confirmDeletions,

@@ -25,17 +25,17 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
-      ChangeNotifierProvider(create: (context) => AppThemeService()),
-      ChangeNotifierProvider(create: (context) => AppColorSchemeService()),
+      ChangeNotifierProvider(create: (context) => ThemeService()),
+      ChangeNotifierProvider(create: (context) => ColorSchemeService()),
       ChangeNotifierProvider(create: (context) => SplitLayoutService()),
     ],
-    child: const ApplicationWrapper(),
+    child: const ThemeBuilder(),
   ));
 
   Persistence.load();
 
   SplitLayoutService().load();
-  AppColorSchemeService().load();
-  AppThemeService().load();
+  ColorSchemeService().load();
+  ThemeService().load();
   if (Platform.isAndroid) PlannedSizeService().load();
 }

@@ -3,12 +3,12 @@ import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
-class AppColorSchemeService extends ChangeNotifier
+class ColorSchemeService extends ChangeNotifier
     implements SettingService<AppColorScheme> {
   //Singleton
-  static final AppColorSchemeService _instance = AppColorSchemeService._();
-  factory AppColorSchemeService() => _instance;
-  AppColorSchemeService._();
+  static final ColorSchemeService _instance = ColorSchemeService._();
+  factory ColorSchemeService() => _instance;
+  ColorSchemeService._();
 
   AppColorScheme scheme = AppColorScheme.dynamic;
 

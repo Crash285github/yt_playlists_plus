@@ -10,8 +10,8 @@ class ThemeSwitch extends StatefulWidget {
 }
 
 class _ThemeSwitchState extends State<ThemeSwitch> {
-  bool _isDarkMode = AppThemeService().theme != AppTheme.light;
-  bool _isAmoled = AppThemeService().theme == AppTheme.amoled;
+  bool _isDarkMode = ThemeService().theme != AppTheme.light;
+  bool _isAmoled = ThemeService().theme == AppTheme.amoled;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
           _isDarkMode = true;
           _isAmoled = !_isAmoled;
 
-          AppThemeService()
+          ThemeService()
             ..set(_isAmoled ? AppTheme.amoled : AppTheme.dark)
             ..save();
         });
@@ -29,9 +29,7 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
       child: SwitchListTile(
         value: _isDarkMode,
         title: Text(
-          AppThemeService().theme == AppTheme.amoled
-              ? "AMOLED mode"
-              : "Dark mode",
+          ThemeService().theme == AppTheme.amoled ? "AMOLED mode" : "Dark mode",
         ),
         secondary: const Icon(Icons.dark_mode_outlined),
         onChanged: (value) {
@@ -40,7 +38,7 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
             _isAmoled = false;
           });
 
-          AppThemeService()
+          ThemeService()
             ..set(_isDarkMode ? AppTheme.dark : AppTheme.light)
             ..save();
         },

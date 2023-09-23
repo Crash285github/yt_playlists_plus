@@ -5,26 +5,27 @@ import 'package:yt_playlists_plus/services/settings_service/color_scheme_service
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/responsive/responsive.dart';
 
-class ApplicationWrapper extends StatelessWidget {
-  const ApplicationWrapper({super.key});
+///Builds the application with a theme
+class ThemeBuilder extends StatelessWidget {
+  const ThemeBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<AppThemeService>(context);
-    Provider.of<AppColorSchemeService>(context);
-    final AppColorScheme appColorScheme = AppColorSchemeService().scheme;
+    Provider.of<ThemeService>(context);
+    Provider.of<ColorSchemeService>(context);
+    final AppColorScheme appColorScheme = ColorSchemeService().scheme;
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         ColorScheme? lightColorScheme;
         ColorScheme? darkColorScheme;
 
-        //? dynamic color schemes
+        //?? dynamic color schemes
         if (appColorScheme == AppColorScheme.dynamic) {
           lightColorScheme = lightDynamic?.harmonized();
           darkColorScheme = darkDynamic?.harmonized();
         }
-        //? static color schemes
+        //?? static color schemes
         else if (appColorScheme == AppColorScheme.mono) {
           lightColorScheme = const ColorScheme.light().copyWith(
             primary: Colors.black,
@@ -41,11 +42,11 @@ class ApplicationWrapper extends StatelessWidget {
           );
         } else {
           lightColorScheme = ColorScheme.fromSeed(
-            seedColor: AppColorSchemeService().scheme.color!,
+            seedColor: ColorSchemeService().scheme.color!,
           );
 
           darkColorScheme = ColorScheme.fromSeed(
-            seedColor: AppColorSchemeService().scheme.color!,
+            seedColor: ColorSchemeService().scheme.color!,
             brightness: Brightness.dark,
           );
         }
@@ -54,9 +55,11 @@ class ApplicationWrapper extends StatelessWidget {
           title: "Youtube Playlists+",
           home: const Responsive(),
           debugShowCheckedModeBanner: false,
-          theme: AppThemeService().theme == AppTheme.light
-              ? themeBuilder(scheme: lightColorScheme)
-              : themeBuilder(scheme: darkColorScheme),
+          theme: ThemeService().builder(
+            scheme: ThemeService().theme == AppTheme.light
+                ? lightColorScheme
+                : darkColorScheme,
+          ),
         );
       },
     );

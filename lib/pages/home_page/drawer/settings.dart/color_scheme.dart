@@ -10,7 +10,7 @@ class ColorSchemeSetting extends StatefulWidget {
 }
 
 class _ColorSchemeSettingState extends State<ColorSchemeSetting> {
-  AppColorScheme _color = AppColorSchemeService().scheme;
+  AppColorScheme _color = ColorSchemeService().scheme;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _ColorSchemeSettingState extends State<ColorSchemeSetting> {
             _color = value!;
           });
 
-          AppColorSchemeService()
+          ColorSchemeService()
             ..set(value ?? AppColorScheme.dynamic)
             ..save();
         },
