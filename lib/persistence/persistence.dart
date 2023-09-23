@@ -55,19 +55,6 @@ class Persistence with ChangeNotifier {
 
   //#endregion
 
-  static bool _canReorder = false;
-  static bool get canReorder => _canReorder;
-
-  static void enableReorder() {
-    _canReorder = true;
-    _instance.notifyListeners();
-  }
-
-  static void disableReorder() {
-    _canReorder = false;
-    _instance.notifyListeners();
-  }
-
   static bool _canExImport = true;
   static bool get canExImport => _canExImport;
 

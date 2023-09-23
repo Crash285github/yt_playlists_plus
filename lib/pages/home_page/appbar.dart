@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/home_page/refresh_button.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
 
 class HomePageAppBar extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
     Provider.of<Persistence>(context);
     return PresetSliverAppBar(
       title: const Text("Playlists"),
-      actions: Persistence.canReorder
+      actions: ReorderService().canReorder
           ? []
           : [
               HomePageRefreshButton(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 
 class ReorderPlaylistsSetting extends StatelessWidget {
   const ReorderPlaylistsSetting({super.key});
@@ -11,7 +11,7 @@ class ReorderPlaylistsSetting extends StatelessWidget {
       leading: const Icon(Icons.sort),
       onTap: () {
         Navigator.of(context).pop();
-        Persistence.enableReorder();
+        ReorderService().enable();
       },
     );
   }

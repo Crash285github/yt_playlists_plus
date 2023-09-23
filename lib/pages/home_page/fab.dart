@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/pages/search_page/search_page.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 
 class HomePageFab extends StatelessWidget {
   const HomePageFab({super.key});
@@ -11,25 +11,25 @@ class HomePageFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context);
+    Provider.of<ReorderService>(context).canReorder;
     return FloatingActionButton.extended(
       label: AnimatedSize(
         alignment: Alignment.centerRight,
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
-        child: Persistence.canReorder
+        child: ReorderService().canReorder
             ? const Text("Finish")
             : const SizedBox.shrink(),
       ),
-      extendedIconLabelSpacing: Persistence.canReorder ? 8 : 0,
+      extendedIconLabelSpacing: ReorderService().canReorder ? 8 : 0,
       extendedPadding: const EdgeInsets.all(13),
-      tooltip: Persistence.canReorder ? "Finish" : "Search",
-      onPressed: Persistence.canReorder
-          ? () => Persistence.disableReorder()
+      tooltip: ReorderService().canReorder ? "Finish" : "Search",
+      onPressed: ReorderService().canReorder
+          ? () => ReorderService().disable()
           : () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const SearchPage()),
               ),
-      icon: Persistence.canReorder ? disableReorderIcon : searchIcon,
+      icon: ReorderService().canReorder ? disableReorderIcon : searchIcon,
     );
   }
 }

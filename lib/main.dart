@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
@@ -33,6 +34,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => SplitLayoutService()),
       ChangeNotifierProvider(create: (context) => GroupHistoryService()),
       ChangeNotifierProvider(create: (context) => HideTopicsService()),
+      ChangeNotifierProvider(create: (context) => ReorderService())
     ],
     child: const ThemeBuilder(),
   ));

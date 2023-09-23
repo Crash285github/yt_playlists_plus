@@ -5,8 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/constants.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/playlist/details.dart';
@@ -84,7 +84,7 @@ class PlaylistWidget extends ICardWidget {
               ),
             Ink(
               child: InkWell(
-                onTap: Persistence.canReorder ? null : onTap,
+                onTap: ReorderService().canReorder ? null : onTap,
                 child: Row(
                   children: [
                     Flexible(

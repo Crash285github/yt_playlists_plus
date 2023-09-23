@@ -21,51 +21,44 @@ class HistoryDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     bool groupTime = Provider.of<GroupHistoryService>(context).groupHistoryTime;
     return Flexible(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Tooltip(
-            message: title,
-            child: Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Tooltip(
+          message: title,
+          child: Text(
+            title,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-          Row(
-            children: [
-              Text(
-                author,
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Colors.grey,
-                    ),
-              ),
-              IgnorePointer(
-                ignoring: groupTime,
-                child: AnimatedSlide(
-                  duration: duration,
-                  curve: Curves.decelerate,
-                  offset: groupTime ? const Offset(0.5, 0) : const Offset(0, 0),
-                  child: AnimatedOpacity(
-                    opacity: groupTime ? 0 : 1,
-                    duration: duration,
-                    curve: Curves.decelerate,
-                    child: Tooltip(
-                      message: time.formatted(),
-                      child: Text(
-                        " • ${timeago.format(time)}",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: Colors.grey,
-                            ),
-                      ),
-                    ),
-                  ),
+        ),
+        Row(children: [
+          Text(author,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(color: Colors.grey)),
+          IgnorePointer(
+            ignoring: groupTime,
+            child: AnimatedSlide(
+              duration: duration,
+              curve: Curves.decelerate,
+              offset: groupTime ? const Offset(0.5, 0) : const Offset(0, 0),
+              child: AnimatedOpacity(
+                opacity: groupTime ? 0 : 1,
+                duration: duration,
+                curve: Curves.decelerate,
+                child: Tooltip(
+                  message: time.formatted(),
+                  child: Text(" • ${timeago.format(time)}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.grey)),
                 ),
               ),
-            ],
-          )
-        ],
-      ),
+            ),
+          ),
+        ])
+      ]),
     );
   }
 }

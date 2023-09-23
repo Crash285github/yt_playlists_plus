@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 
 class PlaylistStatusWidget extends StatelessWidget {
   final PlaylistStatus status;
@@ -21,7 +21,7 @@ class PlaylistStatusWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Persistence.canReorder
+      child: ReorderService().canReorder
           ? const SizedBox.shrink()
           : Column(
               children: [

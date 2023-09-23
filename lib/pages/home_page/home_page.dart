@@ -7,6 +7,7 @@ import 'package:yt_playlists_plus/pages/home_page/empty.dart';
 import 'package:yt_playlists_plus/pages/home_page/fab.dart';
 import 'package:yt_playlists_plus/pages/home_page/playlists.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,8 +54,8 @@ class _HomePageState extends State<HomePage> {
     Provider.of<Persistence>(context);
     return WillPopScope(
       onWillPop: () async {
-        if (Persistence.canReorder) {
-          Persistence.disableReorder();
+        if (ReorderService().canReorder) {
+          ReorderService().disable();
           return false;
         }
         return true;
@@ -74,8 +75,9 @@ class _HomePageState extends State<HomePage> {
               const SliverToBoxAdapter(child: BottomPadding())
           ],
         ),
-        floatingActionButton:
-            _showFab || Persistence.canReorder ? const HomePageFab() : null,
+        floatingActionButton: _showFab || ReorderService().canReorder
+            ? const HomePageFab()
+            : null,
       ),
     );
   }

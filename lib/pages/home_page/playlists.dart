@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/playlist/widget.dart';
 
 class HomePagePlaylists extends StatefulWidget {
@@ -16,19 +17,20 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
   @override
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
+    Provider.of<ReorderService>(context).canReorder;
 
     return SliverReorderableList(
       itemBuilder: (context, index) {
         return ReorderableDragStartListener(
-          enabled: Persistence.canReorder,
+          enabled: ReorderService().canReorder,
           index: index,
           key: ValueKey(Persistence.playlists[index]),
           child: ListenableProvider.value(
             value: Persistence.playlists[index],
             child: PlaylistWidget(
-              firstOfList: index == 0 && !Persistence.canReorder,
+              firstOfList: index == 0 && !ReorderService().canReorder,
               lastOfList: index == Persistence.playlists.length - 1 &&
-                  !Persistence.canReorder,
+                  !ReorderService().canReorder,
               onTap: () => widget.onTap(Persistence.playlists[index]),
             ),
           ),
