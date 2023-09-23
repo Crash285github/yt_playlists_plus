@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/services/abstract_setting_service.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 
-class SplitLayoutService extends ChangeNotifier {
+class SplitLayoutService extends ChangeNotifier
+    implements SettingService<SplitLayout> {
   //Singleton
   static final SplitLayoutService _instance = SplitLayoutService._();
   factory SplitLayoutService() => _instance;
@@ -11,18 +13,24 @@ class SplitLayoutService extends ChangeNotifier {
   bool isEnabled = true;
   SplitLayout portions = SplitLayout.uneven;
 
+  @override
   void set(SplitLayout portion) {
     portions = portion;
     isEnabled = portion != SplitLayout.disabled;
     notifyListeners();
   }
 
-  static const String saveKey = 'splitLayout';
+  @override
+  String dataKey = 'splitLayout';
+
+  @override
   Future<bool> save() async =>
-      SavingService.saveInt(key: saveKey, value: portions.index);
+      SavingService.saveInt(key: dataKey, value: portions.index);
+
+  @override
   Future<void> load() async {
     set(SplitLayout
-        .values[await LoadingService.loadInt(key: saveKey, defaultValue: 0)]);
+        .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);
   }
 }
 

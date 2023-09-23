@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/persistence/color_scheme.dart';
+import 'package:yt_playlists_plus/services/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/services/split_layout_service.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
@@ -25,7 +25,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
       ChangeNotifierProvider(create: (context) => ApplicationTheme()),
-      ChangeNotifierProvider(create: (context) => ApplicationColorScheme()),
+      ChangeNotifierProvider(create: (context) => AppColorSchemeService()),
       ChangeNotifierProvider(create: (context) => SplitLayoutService()),
     ],
     child: const ApplicationWrapper(),

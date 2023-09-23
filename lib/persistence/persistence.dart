@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/persistence/color_scheme.dart';
+import 'package:yt_playlists_plus/services/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/services/split_layout_service.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
@@ -133,10 +133,6 @@ class Persistence with ChangeNotifier {
       hideTopics = prefs.getBool('hideTopics') ?? false;
     } catch (_) {}
     try {
-      ApplicationColorScheme.set(
-          ApplicationColor.values[prefs.getInt('colorScheme') ?? 0]);
-    } catch (_) {}
-    try {
       historyLimit = prefs.getInt('historyLimit');
       if (historyLimit == -1) {
         historyLimit = null;
@@ -193,16 +189,6 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingHideTopics = false);
   }
 
-  static bool _isSavingColor = false;
-  static Future<bool> saveColor() async {
-    if (_isSavingColor) return false;
-    _isSavingColor = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setInt('colorScheme', ApplicationColorScheme.get().index)
-        .then((_) => _isSavingColor = false);
-  }
-
   static bool _isSavingHistoryLimit = false;
   static Future<bool> saveHistoryLimit() async {
     if (_isSavingHistoryLimit) return false;
@@ -236,7 +222,6 @@ class Persistence with ChangeNotifier {
 
   static Future<void> saveAll() async {
     await saveTheme();
-    await saveColor();
     await saveHistoryLimit();
     await saveGroupHistoryTime();
     await saveConfirmDeletions();
@@ -255,10 +240,10 @@ class Persistence with ChangeNotifier {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
       ApplicationTheme.set(json['darkMode'] ? 1 : 0);
-      ApplicationColorScheme.set(ApplicationColor.values
-          .byName(json['colorScheme'] ?? ApplicationColor.dynamic));
+      AppColorSchemeService().set(AppColorScheme.values.byName(
+          json[AppColorSchemeService().dataKey] ?? AppColorScheme.dynamic));
       SplitLayoutService().set(SplitLayout.values
-          .byName(json[SplitLayoutService.saveKey] ?? SplitLayout.uneven));
+          .byName(json[SplitLayoutService().dataKey] ?? SplitLayout.uneven));
       initialPlannedSize = InitialPlannedSize.values
           .byName(json['initialPlannedSize'] ?? InitialPlannedSize.normal);
       confirmDeletions = json['confirmDeletions'] ?? true;
@@ -291,8 +276,8 @@ class Persistence with ChangeNotifier {
 
     final json = {
       'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
-      'colorScheme': ApplicationColorScheme.get(),
-      SplitLayoutService.saveKey: SplitLayoutService().portions,
+      AppColorSchemeService().dataKey: AppColorSchemeService().colorScheme,
+      SplitLayoutService().dataKey: SplitLayoutService().portions,
       'initialPlannedSize': initialPlannedSize.name,
       'confirmDeletions': confirmDeletions,
       'hideTopics': hideTopics,

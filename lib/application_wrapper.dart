@@ -1,7 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/persistence/color_scheme.dart';
+import 'package:yt_playlists_plus/services/color_scheme.dart';
 import 'package:yt_playlists_plus/persistence/theme.dart';
 import 'package:yt_playlists_plus/responsive/responsive.dart';
 
@@ -11,8 +11,8 @@ class ApplicationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<ApplicationTheme>(context);
-    Provider.of<ApplicationColorScheme>(context);
-    final ApplicationColor appColorScheme = ApplicationColorScheme.get();
+    Provider.of<AppColorSchemeService>(context);
+    final AppColorScheme appColorScheme = AppColorSchemeService().colorScheme;
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
@@ -20,12 +20,12 @@ class ApplicationWrapper extends StatelessWidget {
         ColorScheme? darkColorScheme;
 
         //? dynamic color schemes
-        if (appColorScheme == ApplicationColor.dynamic) {
+        if (appColorScheme == AppColorScheme.dynamic) {
           lightColorScheme = lightDynamic?.harmonized();
           darkColorScheme = darkDynamic?.harmonized();
         }
         //? static color schemes
-        else if (appColorScheme == ApplicationColor.mono) {
+        else if (appColorScheme == AppColorScheme.mono) {
           lightColorScheme = const ColorScheme.light().copyWith(
             primary: Colors.black,
             secondary: Colors.black,
@@ -41,11 +41,11 @@ class ApplicationWrapper extends StatelessWidget {
           );
         } else {
           lightColorScheme = ColorScheme.fromSeed(
-            seedColor: ApplicationColorScheme.get().color!,
+            seedColor: AppColorSchemeService().colorScheme.color!,
           );
 
           darkColorScheme = ColorScheme.fromSeed(
-            seedColor: ApplicationColorScheme.get().color!,
+            seedColor: AppColorSchemeService().colorScheme.color!,
             brightness: Brightness.dark,
           );
         }

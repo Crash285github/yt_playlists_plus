@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/color_scheme.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/color_scheme.dart';
 import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
 class ColorSetting extends StatefulWidget {
@@ -11,18 +10,18 @@ class ColorSetting extends StatefulWidget {
 }
 
 class _ColorSettingState extends State<ColorSetting> {
-  ApplicationColor _color = ApplicationColorScheme.get();
+  AppColorScheme _color = AppColorSchemeService().colorScheme;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
       title: const Text("App color"),
-      trailing: StyledDropdown<ApplicationColor>(
+      trailing: StyledDropdown<AppColorScheme>(
         value: _color,
         items: [
-          ...ApplicationColor.values.map((ApplicationColor color) {
-            return DropdownMenuItem<ApplicationColor>(
+          ...AppColorScheme.values.map((AppColorScheme color) {
+            return DropdownMenuItem<AppColorScheme>(
               value: color,
               child: Text(
                 color.displayName,
@@ -38,8 +37,10 @@ class _ColorSettingState extends State<ColorSetting> {
           setState(() {
             _color = value!;
           });
-          ApplicationColorScheme.set(value ?? ApplicationColor.dynamic);
-          Persistence.saveColor();
+
+          AppColorSchemeService()
+            ..set(value ?? AppColorScheme.dynamic)
+            ..save();
         },
       ),
     );
