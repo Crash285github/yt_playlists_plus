@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 
 class HideTopicsSwitch extends StatefulWidget {
   const HideTopicsSwitch({super.key});
@@ -9,7 +9,7 @@ class HideTopicsSwitch extends StatefulWidget {
 }
 
 class _HideTopicsSwitchState extends State<HideTopicsSwitch> {
-  bool _hideTopics = Persistence.hideTopics;
+  bool _hideTopics = HideTopicsService().hideTopics;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,10 @@ class _HideTopicsSwitchState extends State<HideTopicsSwitch> {
         setState(() {
           _hideTopics = value;
         });
-        Persistence.hideTopics = value;
-        Persistence.saveHideTopics();
+
+        HideTopicsService()
+          ..set(value)
+          ..save();
       },
     );
   }

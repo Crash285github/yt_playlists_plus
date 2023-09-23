@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/constants.dart';
+import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/widgets/icard.dart';
 import 'package:yt_playlists_plus/widgets/thumbnail.dart';
@@ -93,7 +94,10 @@ class VideoWidget extends ICardWidget {
                           lastOfList: lastOfList,
                         ),
                       ),
-                      VideoDetails(video: video),
+                      ChangeNotifierProvider(
+                        create: (context) => HideTopicsService(),
+                        child: VideoDetails(video: video),
+                      ),
                     ],
                   ),
                 ),

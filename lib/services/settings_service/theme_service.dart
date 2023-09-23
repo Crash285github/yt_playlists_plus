@@ -16,21 +16,21 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
   AppTheme theme = AppTheme.light;
 
   @override
-  set(AppTheme theme) {
-    this.theme = theme;
+  set(AppTheme value) {
+    theme = value;
     notifyListeners();
   }
 
   @override
-  String dataKey = 'appTheme';
+  String mapKey = 'appTheme';
 
   @override
   Future<bool> save() async =>
-      SavingService.saveInt(key: dataKey, value: theme.index);
+      await SavingService.save<int>(key: mapKey, value: theme.index);
 
   @override
   Future<void> load() async => set(AppTheme
-      .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);
+      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
 
   ///Generates the theme of the application
   ThemeData builder({ColorScheme? scheme}) {

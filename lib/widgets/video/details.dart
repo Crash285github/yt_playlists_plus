@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
+import 'package:yt_playlists_plus/services/extensions.dart';
 
 class VideoDetails extends StatelessWidget {
   final Video video;
@@ -10,22 +11,13 @@ class VideoDetails extends StatelessWidget {
     required this.video,
   });
 
-  String hideTopic(String author) {
-    if (!Persistence.hideTopics) return author;
-    return author.endsWith(" - Topic")
-        ? author.substring(0, author.length - 8)
-        : author;
-  }
-
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context);
-
+    bool hideTopics = Provider.of<HideTopicsService>(context).hideTopics;
     return Flexible(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //? title
           Tooltip(
             message: video.title,
             child: Text(
@@ -35,9 +27,8 @@ class VideoDetails extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 7),
-          //? author
           Text(
-            hideTopic(video.author),
+            hideTopics ? video.author.hideTopic() : video.author,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                   color:

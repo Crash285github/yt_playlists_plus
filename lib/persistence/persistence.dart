@@ -6,6 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
@@ -83,17 +85,6 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
-  ///Whether to show a confirmation dialog before deleting playlists
-  static bool confirmDeletions = true;
-
-  ///Hide ' - Topic' from channel names
-  static bool _hideTopics = false;
-  static bool get hideTopics => _hideTopics;
-  static set hideTopics(bool value) {
-    _hideTopics = value;
-    _instance.notifyListeners();
-  }
-
   ///Size of each playlist's history
   ///
   ///`null` means infinite
@@ -117,12 +108,6 @@ class Persistence with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
-      confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
-    } catch (_) {}
-    try {
-      hideTopics = prefs.getBool('hideTopics') ?? false;
-    } catch (_) {}
-    try {
       historyLimit = prefs.getInt('historyLimit');
       if (historyLimit == -1) {
         historyLimit = null;
@@ -137,26 +122,6 @@ class Persistence with ChangeNotifier {
     if (val.isEmpty) return;
     _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toList();
     _instance.notifyListeners();
-  }
-
-  static bool _isSavingConfirmDeletions = false;
-  static Future<bool> saveConfirmDeletions() async {
-    if (_isSavingConfirmDeletions) return false;
-    _isSavingConfirmDeletions = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setBool('confirmDeletions', confirmDeletions)
-        .then((_) => _isSavingConfirmDeletions = false);
-  }
-
-  static bool _isSavingHideTopics = false;
-  static Future<bool> saveHideTopics() async {
-    if (_isSavingHideTopics) return false;
-    _isSavingHideTopics = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setBool('hideTopics', hideTopics)
-        .then((_) => _isSavingHideTopics = false);
   }
 
   static bool _isSavingHistoryLimit = false;
@@ -193,8 +158,6 @@ class Persistence with ChangeNotifier {
   static Future<void> saveAll() async {
     await saveHistoryLimit();
     await saveGroupHistoryTime();
-    await saveConfirmDeletions();
-    await saveHideTopics();
     await savePlaylists();
   }
 
@@ -208,15 +171,16 @@ class Persistence with ChangeNotifier {
     if (result != null) {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
-      ThemeService().set(json[ThemeService().dataKey] ?? AppTheme.light);
-      ColorSchemeService().set(AppColorScheme.values.byName(
-          json[ColorSchemeService().dataKey] ?? AppColorScheme.dynamic));
+      ThemeService().set(json[ThemeService().mapKey] ?? AppTheme.light);
+      ColorSchemeService().set(AppColorScheme.values
+          .byName(json[ColorSchemeService().mapKey] ?? AppColorScheme.dynamic));
       SplitLayoutService().set(SplitLayout.values
-          .byName(json[SplitLayoutService().dataKey] ?? SplitLayout.uneven));
+          .byName(json[SplitLayoutService().mapKey] ?? SplitLayout.uneven));
       PlannedSizeService().set(PlannedSize.values
-          .byName(json[PlannedSizeService().dataKey] ?? PlannedSize.normal));
-      confirmDeletions = json['confirmDeletions'] ?? true;
-      hideTopics = json['hideTopics'] ?? false;
+          .byName(json[PlannedSizeService().mapKey] ?? PlannedSize.normal));
+      ConfirmDeletionsService()
+          .set(json[ConfirmDeletionsService().mapKey] ?? true);
+      HideTopicsService().set(json['hideTopics'] ?? false);
       historyLimit = json['historyLimit'];
       groupHistoryTime = json['groupHistoryTime'] ?? false;
 
@@ -244,12 +208,13 @@ class Persistence with ChangeNotifier {
         File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
-      ThemeService().dataKey: ThemeService().theme,
-      ColorSchemeService().dataKey: ColorSchemeService().scheme,
-      SplitLayoutService().dataKey: SplitLayoutService().portions,
-      PlannedSizeService().dataKey: PlannedSizeService().plannedSize,
-      'confirmDeletions': confirmDeletions,
-      'hideTopics': hideTopics,
+      ThemeService().mapKey: ThemeService().theme,
+      ColorSchemeService().mapKey: ColorSchemeService().scheme,
+      SplitLayoutService().mapKey: SplitLayoutService().portions,
+      PlannedSizeService().mapKey: PlannedSizeService().plannedSize,
+      ConfirmDeletionsService().mapKey:
+          ConfirmDeletionsService().confirmDeletions,
+      HideTopicsService().mapKey: HideTopicsService().hideTopics,
       'historyLimit': historyLimit,
       'groupHistoryTime': groupHistoryTime,
       'playlists': playlists,

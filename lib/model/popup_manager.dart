@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/constants.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 
 class PopUpManager {
   //Singleton
@@ -60,7 +60,7 @@ class PopUpManager {
     required String title,
     String? content,
   }) async {
-    if (!Persistence.confirmDeletions) return true;
+    if (!ConfirmDeletionsService().confirmDeletions) return true;
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(

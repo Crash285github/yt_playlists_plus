@@ -5,6 +5,8 @@ import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
@@ -38,4 +40,6 @@ void main() async {
   ColorSchemeService().load();
   ThemeService().load();
   if (Platform.isAndroid) PlannedSizeService().load();
+  ConfirmDeletionsService().load();
+  HideTopicsService().load();
 }

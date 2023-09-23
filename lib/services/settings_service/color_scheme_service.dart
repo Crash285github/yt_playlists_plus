@@ -13,21 +13,21 @@ class ColorSchemeService extends ChangeNotifier
   AppColorScheme scheme = AppColorScheme.dynamic;
 
   @override
-  void set(AppColorScheme scheme) {
-    this.scheme = scheme;
+  void set(AppColorScheme value) {
+    scheme = value;
     notifyListeners();
   }
 
   @override
-  String dataKey = 'colorScheme';
+  String mapKey = 'colorScheme';
 
   @override
   Future<bool> save() async =>
-      SavingService.saveInt(key: dataKey, value: scheme.index);
+      SavingService.save<int>(key: mapKey, value: scheme.index);
 
   @override
   Future<void> load() async => set(AppColorScheme
-      .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);
+      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
 }
 
 enum AppColorScheme {

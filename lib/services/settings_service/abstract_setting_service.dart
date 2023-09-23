@@ -3,7 +3,7 @@ interface class SettingService<T> {
     throw UnimplementedError('set() not implemented');
   }
 
-  late String dataKey;
+  late String mapKey;
   Future<bool> save() async {
     throw UnimplementedError('save() not implemented');
   }

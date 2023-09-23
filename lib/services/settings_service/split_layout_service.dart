@@ -14,23 +14,23 @@ class SplitLayoutService extends ChangeNotifier
   SplitLayout portions = SplitLayout.uneven;
 
   @override
-  void set(SplitLayout portions) {
-    this.portions = portions;
-    isEnabled = this.portions != SplitLayout.disabled;
+  void set(SplitLayout value) {
+    portions = value;
+    isEnabled = portions != SplitLayout.disabled;
     notifyListeners();
   }
 
   @override
-  String dataKey = 'splitLayout';
+  String mapKey = 'splitLayout';
 
   @override
   Future<bool> save() async =>
-      SavingService.saveInt(key: dataKey, value: portions.index);
+      await SavingService.save<int>(key: mapKey, value: portions.index);
 
   @override
   Future<void> load() async {
     set(SplitLayout
-        .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);
+        .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
   }
 }
 

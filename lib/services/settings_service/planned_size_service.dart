@@ -13,23 +13,23 @@ class PlannedSizeService extends ChangeNotifier
   PlannedSize plannedSize = PlannedSize.normal;
 
   @override
-  String dataKey = 'initialPlannedSize';
+  String mapKey = 'initialPlannedSize';
+
+  @override
+  void set(PlannedSize value) {
+    plannedSize = value;
+    notifyListeners();
+  }
 
   @override
   Future<void> load() async {
     set(PlannedSize
-        .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);
+        .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
   }
 
   @override
   Future<bool> save() async =>
-      SavingService.saveInt(key: dataKey, value: plannedSize.index);
-
-  @override
-  void set(PlannedSize plannedSize) {
-    this.plannedSize = plannedSize;
-    notifyListeners();
-  }
+      await SavingService.save<int>(key: mapKey, value: plannedSize.index);
 }
 
 enum PlannedSize {
@@ -44,4 +44,3 @@ enum PlannedSize {
 
   final String displayName;
 }
-
