@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/color_scheme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/services/split_layout_service.dart';
-import 'package:yt_playlists_plus/services/theme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/application_wrapper.dart';
 
 void main() async {
@@ -32,8 +33,9 @@ void main() async {
   ));
 
   Persistence.load();
-  
+
   SplitLayoutService().load();
   AppColorSchemeService().load();
   AppThemeService().load();
+  if (Platform.isAndroid) PlannedSizeService().load();
 }

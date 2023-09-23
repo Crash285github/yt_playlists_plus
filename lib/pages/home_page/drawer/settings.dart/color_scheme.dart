@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/color_scheme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
 class ColorSchemeSetting extends StatefulWidget {

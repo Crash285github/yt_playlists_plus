@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/color_scheme_service.dart';
-import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
-import 'package:yt_playlists_plus/services/split_layout_service.dart';
-import 'package:yt_playlists_plus/services/theme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
@@ -86,9 +86,6 @@ class Persistence with ChangeNotifier {
   ///Whether to show a confirmation dialog before deleting playlists
   static bool confirmDeletions = true;
 
-  ///The height of planned list initially
-  static InitialPlannedSize initialPlannedSize = InitialPlannedSize.normal;
-
   ///Hide ' - Topic' from channel names
   static bool _hideTopics = false;
   static bool get hideTopics => _hideTopics;
@@ -123,10 +120,6 @@ class Persistence with ChangeNotifier {
       confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
     } catch (_) {}
     try {
-      initialPlannedSize =
-          InitialPlannedSize.values[prefs.getInt('initialPlannedSize') ?? 0];
-    } catch (_) {}
-    try {
       hideTopics = prefs.getBool('hideTopics') ?? false;
     } catch (_) {}
     try {
@@ -154,16 +147,6 @@ class Persistence with ChangeNotifier {
     return prefs
         .setBool('confirmDeletions', confirmDeletions)
         .then((_) => _isSavingConfirmDeletions = false);
-  }
-
-  static bool _isSavingInitialPlannedSize = false;
-  static Future<bool> saveInitialPlannedSize() async {
-    if (_isSavingInitialPlannedSize) return false;
-    _isSavingInitialPlannedSize = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setInt('initialPlannedSize', initialPlannedSize.index)
-        .then((_) => _isSavingInitialPlannedSize = false);
   }
 
   static bool _isSavingHideTopics = false;
@@ -230,8 +213,8 @@ class Persistence with ChangeNotifier {
           json[AppColorSchemeService().dataKey] ?? AppColorScheme.dynamic));
       SplitLayoutService().set(SplitLayout.values
           .byName(json[SplitLayoutService().dataKey] ?? SplitLayout.uneven));
-      initialPlannedSize = InitialPlannedSize.values
-          .byName(json['initialPlannedSize'] ?? InitialPlannedSize.normal);
+      PlannedSizeService().set(PlannedSize.values
+          .byName(json[PlannedSizeService().dataKey] ?? PlannedSize.normal));
       confirmDeletions = json['confirmDeletions'] ?? true;
       hideTopics = json['hideTopics'] ?? false;
       historyLimit = json['historyLimit'];
@@ -264,7 +247,7 @@ class Persistence with ChangeNotifier {
       AppThemeService().dataKey: AppThemeService().theme,
       AppColorSchemeService().dataKey: AppColorSchemeService().scheme,
       SplitLayoutService().dataKey: SplitLayoutService().portions,
-      'initialPlannedSize': initialPlannedSize.name,
+      PlannedSizeService().dataKey: PlannedSizeService().plannedSize,
       'confirmDeletions': confirmDeletions,
       'hideTopics': hideTopics,
       'historyLimit': historyLimit,

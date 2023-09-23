@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/about_page.dart';
-import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/settings_list.dart';
+import 'package:yt_playlists_plus/pages/home_page/drawer/settings_list.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/responsive/wide_layout.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
 class InitialPlannedSizeSetting extends StatefulWidget {
@@ -12,30 +11,30 @@ class InitialPlannedSizeSetting extends StatefulWidget {
 }
 
 class _InitialPlannedSizeSettingState extends State<InitialPlannedSizeSetting> {
-  InitialPlannedSize _initialPlannedSize = Persistence.initialPlannedSize;
+  PlannedSize _plannedSize = PlannedSizeService().plannedSize;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.draw_outlined),
       title: const Text("Planned height"),
-      trailing: StyledDropdown<InitialPlannedSize>(
-        value: _initialPlannedSize,
+      trailing: StyledDropdown<PlannedSize>(
+        value: _plannedSize,
         items: [
           DropdownMenuItem(
-            value: InitialPlannedSize.normal,
-            child: Text(InitialPlannedSize.normal.displayName),
+            value: PlannedSize.normal,
+            child: Text(PlannedSize.normal.displayName),
           ),
           DropdownMenuItem(
-            value: InitialPlannedSize.minimal,
-            child: Text(InitialPlannedSize.minimal.displayName),
+            value: PlannedSize.minimal,
+            child: Text(PlannedSize.minimal.displayName),
           ),
         ],
         onChanged: (value) {
           setState(() {
-            _initialPlannedSize = value!;
-            Persistence.initialPlannedSize = value;
-            Persistence.saveInitialPlannedSize();
+            _plannedSize = value!;
+            PlannedSizeService().set(value);
+            PlannedSizeService().save();
           });
         },
       ),

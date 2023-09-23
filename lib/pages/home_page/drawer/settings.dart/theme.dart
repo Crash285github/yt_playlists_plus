@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/theme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 
 ///Toggles the application theme
 class ThemeSwitch extends StatefulWidget {

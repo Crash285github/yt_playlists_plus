@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/constants.dart' as constants;
-import 'package:yt_playlists_plus/services/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 
@@ -19,7 +19,7 @@ class AppThemeService extends ChangeNotifier
   @override
   set(AppTheme theme) {
     this.theme = theme;
-    _instance.notifyListeners();
+    notifyListeners();
   }
 
   @override

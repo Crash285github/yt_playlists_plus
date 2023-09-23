@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
-import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 
 class PlannedSheetMobile extends StatefulWidget {
   final Playlist playlist;
@@ -55,6 +54,7 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
     final double height = MediaQuery.of(context).size.height;
     final double minSize = 50 / height;
     final bool canSnap = height * 0.2 > 100;
+
     return Stack(
       children: [
         Visibility(
@@ -69,14 +69,13 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
         DraggableScrollableSheet(
           controller: _draggableScrollableController,
           initialChildSize:
-              Persistence.initialPlannedSize == InitialPlannedSize.normal &&
-                      canSnap
+              PlannedSizeService().plannedSize == PlannedSize.normal && canSnap
                   ? snapSize
                   : minSize,
           minChildSize: minSize,
           maxChildSize: maxSize,
           snap: true,
-          snapSizes: canSnap ? const [0.2] : null, //? minSize
+          snapSizes: canSnap ? const [0.2] : null, //?? minSize
           builder: (BuildContext context, ScrollController scrollController) {
             return PlannedPanel(
               planned: widget.playlist.planned,
