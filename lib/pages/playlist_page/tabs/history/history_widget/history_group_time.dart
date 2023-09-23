@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/extensions.dart';
+import 'package:yt_playlists_plus/extensions.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 
 class HistoryGroupTime extends StatelessWidget {
