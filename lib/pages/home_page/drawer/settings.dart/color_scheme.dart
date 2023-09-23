@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/color_scheme.dart';
+import 'package:yt_playlists_plus/services/color_scheme_service.dart';
 import 'package:yt_playlists_plus/widgets/styled_dropdown.dart';
 
-class ColorSetting extends StatefulWidget {
-  const ColorSetting({super.key});
+class ColorSchemeSetting extends StatefulWidget {
+  const ColorSchemeSetting({super.key});
 
   @override
-  State<ColorSetting> createState() => _ColorSettingState();
+  State<ColorSchemeSetting> createState() => _ColorSchemeSettingState();
 }
 
-class _ColorSettingState extends State<ColorSetting> {
-  AppColorScheme _color = AppColorSchemeService().colorScheme;
+class _ColorSchemeSettingState extends State<ColorSchemeSetting> {
+  AppColorScheme _color = AppColorSchemeService().scheme;
 
   @override
   Widget build(BuildContext context) {

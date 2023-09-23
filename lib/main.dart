@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/color_scheme.dart';
+import 'package:yt_playlists_plus/services/color_scheme_service.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/services/split_layout_service.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/services/theme_service.dart';
 import 'package:yt_playlists_plus/application_wrapper.dart';
 
 void main() async {
@@ -24,7 +24,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => Persistence()),
-      ChangeNotifierProvider(create: (context) => ApplicationTheme()),
+      ChangeNotifierProvider(create: (context) => AppThemeService()),
       ChangeNotifierProvider(create: (context) => AppColorSchemeService()),
       ChangeNotifierProvider(create: (context) => SplitLayoutService()),
     ],
@@ -32,5 +32,8 @@ void main() async {
   ));
 
   Persistence.load();
+  
   SplitLayoutService().load();
+  AppColorSchemeService().load();
+  AppThemeService().load();
 }

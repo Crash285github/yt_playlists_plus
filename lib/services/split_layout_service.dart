@@ -14,9 +14,9 @@ class SplitLayoutService extends ChangeNotifier
   SplitLayout portions = SplitLayout.uneven;
 
   @override
-  void set(SplitLayout portion) {
-    portions = portion;
-    isEnabled = portion != SplitLayout.disabled;
+  void set(SplitLayout portions) {
+    this.portions = portions;
+    isEnabled = this.portions != SplitLayout.disabled;
     notifyListeners();
   }
 

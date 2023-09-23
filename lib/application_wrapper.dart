@@ -1,8 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/color_scheme.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/services/color_scheme_service.dart';
+import 'package:yt_playlists_plus/services/theme_service.dart';
 import 'package:yt_playlists_plus/responsive/responsive.dart';
 
 class ApplicationWrapper extends StatelessWidget {
@@ -10,9 +10,9 @@ class ApplicationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ApplicationTheme>(context);
+    Provider.of<AppThemeService>(context);
     Provider.of<AppColorSchemeService>(context);
-    final AppColorScheme appColorScheme = AppColorSchemeService().colorScheme;
+    final AppColorScheme appColorScheme = AppColorSchemeService().scheme;
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
@@ -41,11 +41,11 @@ class ApplicationWrapper extends StatelessWidget {
           );
         } else {
           lightColorScheme = ColorScheme.fromSeed(
-            seedColor: AppColorSchemeService().colorScheme.color!,
+            seedColor: AppColorSchemeService().scheme.color!,
           );
 
           darkColorScheme = ColorScheme.fromSeed(
-            seedColor: AppColorSchemeService().colorScheme.color!,
+            seedColor: AppColorSchemeService().scheme.color!,
             brightness: Brightness.dark,
           );
         }
@@ -54,7 +54,7 @@ class ApplicationWrapper extends StatelessWidget {
           title: "Youtube Playlists+",
           home: const Responsive(),
           debugShowCheckedModeBanner: false,
-          theme: ApplicationTheme.get() == ApplicationTheme.light
+          theme: AppThemeService().theme == AppTheme.light
               ? themeBuilder(scheme: lightColorScheme)
               : themeBuilder(scheme: darkColorScheme),
         );

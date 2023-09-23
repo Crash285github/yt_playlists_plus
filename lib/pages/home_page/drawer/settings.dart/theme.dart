@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/services/theme_service.dart';
 
 ///Toggles the application theme
 class ThemeSwitch extends StatefulWidget {
@@ -11,43 +10,39 @@ class ThemeSwitch extends StatefulWidget {
 }
 
 class _ThemeSwitchState extends State<ThemeSwitch> {
-  bool _isDarkMode = ApplicationTheme.get() != ApplicationTheme.light;
-  bool _isAmoled = ApplicationTheme.get() == ApplicationTheme.amoled;
+  bool _isDarkMode = AppThemeService().theme != AppTheme.light;
+  bool _isAmoled = AppThemeService().theme == AppTheme.amoled;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
         setState(() {
-          if (_isAmoled) {
-            ApplicationTheme.set(ApplicationTheme.dark);
-            _isDarkMode = true;
-            _isAmoled = false;
-          } else {
-            ApplicationTheme.set(ApplicationTheme.amoled);
-            _isDarkMode = true;
-            _isAmoled = true;
-          }
-          Persistence.saveTheme();
+          _isDarkMode = true;
+          _isAmoled = !_isAmoled;
+
+          AppThemeService()
+            ..set(_isAmoled ? AppTheme.amoled : AppTheme.dark)
+            ..save();
         });
       },
       child: SwitchListTile(
         value: _isDarkMode,
         title: Text(
-          ApplicationTheme.get() == ApplicationTheme.amoled
+          AppThemeService().theme == AppTheme.amoled
               ? "AMOLED mode"
               : "Dark mode",
         ),
         secondary: const Icon(Icons.dark_mode_outlined),
         onChanged: (value) {
-          _isDarkMode
-              ? ApplicationTheme.set(ApplicationTheme.light)
-              : ApplicationTheme.set(ApplicationTheme.dark);
           setState(() {
             _isDarkMode = value;
             _isAmoled = false;
           });
-          Persistence.saveTheme();
+
+          AppThemeService()
+            ..set(_isDarkMode ? AppTheme.dark : AppTheme.light)
+            ..save();
         },
       ),
     );

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/color.dart';
+import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/color_scheme.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/confirm_delete.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/hide_topics.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings.dart/history_size.dart';
@@ -33,7 +33,7 @@ class Settings extends StatelessWidget {
           const ConfirmDeleteSwitch(),
           const HideTopicsSwitch(),
           if (Platform.isAndroid && canSnap) const InitialPlannedSizeSetting(),
-          const ColorSetting(),
+          const ColorSchemeSetting(),
           const SplitViewSetting(),
           const HistorySizeSetting(),
           const GroupHistoryTimeSwitch(),

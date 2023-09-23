@@ -10,11 +10,11 @@ class AppColorSchemeService extends ChangeNotifier
   factory AppColorSchemeService() => _instance;
   AppColorSchemeService._();
 
-  AppColorScheme colorScheme = AppColorScheme.dynamic;
+  AppColorScheme scheme = AppColorScheme.dynamic;
 
   @override
   void set(AppColorScheme scheme) {
-    colorScheme = scheme;
+    this.scheme = scheme;
     _instance.notifyListeners();
   }
 
@@ -23,8 +23,8 @@ class AppColorSchemeService extends ChangeNotifier
 
   @override
   Future<bool> save() async =>
-      SavingService.saveInt(key: dataKey, value: colorScheme.index);
-      
+      SavingService.saveInt(key: dataKey, value: scheme.index);
+
   @override
   Future<void> load() async => set(AppColorScheme
       .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);

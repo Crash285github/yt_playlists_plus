@@ -1,32 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/constants.dart' as constants;
+import 'package:yt_playlists_plus/services/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/services/loading_service.dart';
+import 'package:yt_playlists_plus/services/saving_service.dart';
 
 ///The theme of the Application
 ///
 ///It implements the Singleton Design Pattern
-class ApplicationTheme extends ChangeNotifier {
+class AppThemeService extends ChangeNotifier
+    implements SettingService<AppTheme> {
   //Singleton
-  static final ApplicationTheme _instance = ApplicationTheme._internal();
-  ApplicationTheme._internal();
-  factory ApplicationTheme() => _instance;
+  static final AppThemeService _instance = AppThemeService._internal();
+  AppThemeService._internal();
+  factory AppThemeService() => _instance;
 
-  static const int light = 0;
-  static const int dark = 1;
-  static const int amoled = 2;
+  AppTheme theme = AppTheme.light;
 
-  static int _currentTheme = 0;
-  static int get() => _currentTheme;
-
-  static set(int theme) {
-    _currentTheme = theme;
+  @override
+  set(AppTheme theme) {
+    this.theme = theme;
     _instance.notifyListeners();
   }
+
+  @override
+  String dataKey = 'appTheme';
+
+  @override
+  Future<bool> save() async =>
+      SavingService.saveInt(key: dataKey, value: theme.index);
+
+  @override
+  Future<void> load() async => set(AppTheme
+      .values[await LoadingService.loadInt(key: dataKey, defaultValue: 0)]);
+}
+
+enum AppTheme {
+  light(displayName: 'Light'),
+  dark(displayName: 'Dark'),
+  amoled(displayName: 'Amoled'),
+  ;
+
+  const AppTheme({required this.displayName});
+
+  final String displayName;
+
+  String toJson() => name;
+  static AppTheme fromJson(String json) => values.byName(json);
 }
 
 //? theme builder
 ThemeData themeBuilder({ColorScheme? scheme}) {
-  bool isLight = ApplicationTheme.get() == ApplicationTheme.light;
-  bool isAmoled = ApplicationTheme.get() == ApplicationTheme.amoled;
+  bool isLight = AppThemeService().theme == AppTheme.light;
+  bool isAmoled = AppThemeService().theme == AppTheme.amoled;
 
   //fallback
   scheme ??= isLight ? const ColorScheme.light() : const ColorScheme.dark();

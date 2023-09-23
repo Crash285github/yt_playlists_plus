@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/color_scheme.dart';
+import 'package:yt_playlists_plus/services/color_scheme_service.dart';
 import 'package:yt_playlists_plus/persistence/initial_planned_size.dart';
 import 'package:yt_playlists_plus/services/split_layout_service.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
+import 'package:yt_playlists_plus/services/theme_service.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
@@ -120,9 +120,6 @@ class Persistence with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
-      ApplicationTheme.set(prefs.getInt('theme') ?? 0);
-    } catch (_) {}
-    try {
       confirmDeletions = prefs.getBool('confirmDeletions') ?? true;
     } catch (_) {}
     try {
@@ -147,16 +144,6 @@ class Persistence with ChangeNotifier {
     if (val.isEmpty) return;
     _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toList();
     _instance.notifyListeners();
-  }
-
-  static bool _isSavingTheme = false;
-  static Future<bool> saveTheme() async {
-    if (_isSavingTheme) return false;
-    _isSavingTheme = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setInt('theme', ApplicationTheme.get())
-        .then((_) => _isSavingTheme = false);
   }
 
   static bool _isSavingConfirmDeletions = false;
@@ -221,7 +208,6 @@ class Persistence with ChangeNotifier {
   }
 
   static Future<void> saveAll() async {
-    await saveTheme();
     await saveHistoryLimit();
     await saveGroupHistoryTime();
     await saveConfirmDeletions();
@@ -239,7 +225,7 @@ class Persistence with ChangeNotifier {
     if (result != null) {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
-      ApplicationTheme.set(json['darkMode'] ? 1 : 0);
+      AppThemeService().set(json[AppThemeService().dataKey] ?? AppTheme.light);
       AppColorSchemeService().set(AppColorScheme.values.byName(
           json[AppColorSchemeService().dataKey] ?? AppColorScheme.dynamic));
       SplitLayoutService().set(SplitLayout.values
@@ -269,14 +255,14 @@ class Persistence with ChangeNotifier {
 
   static Future<bool> export() async {
     String? dir = await FilePicker.platform.getDirectoryPath();
-    if (dir == null) return false; //? cancelled
+    if (dir == null) return false; //?? cancelled
 
     final File file =
         File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
-      'darkMode': ApplicationTheme.get() == ApplicationTheme.dark,
-      AppColorSchemeService().dataKey: AppColorSchemeService().colorScheme,
+      AppThemeService().dataKey: AppThemeService().theme,
+      AppColorSchemeService().dataKey: AppColorSchemeService().scheme,
       SplitLayoutService().dataKey: SplitLayoutService().portions,
       'initialPlannedSize': initialPlannedSize.name,
       'confirmDeletions': confirmDeletions,
