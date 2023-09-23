@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
@@ -95,14 +96,6 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
-  ///Show the exact time above each history group
-  static bool _groupHistoryTime = false;
-  static bool get groupHistoryTime => _groupHistoryTime;
-  static set groupHistoryTime(bool value) {
-    _groupHistoryTime = value;
-    _instance.notifyListeners();
-  }
-
   ///Loads the Persistent Storage, and alerts listeners when finished
   static Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -113,10 +106,6 @@ class Persistence with ChangeNotifier {
         historyLimit = null;
       }
     } catch (_) {}
-    try {
-      groupHistoryTime = prefs.getBool('groupHistoryTime') ?? false;
-    } catch (_) {}
-
     //? playlists
     List<String> val = prefs.getStringList('playlists') ?? [];
     if (val.isEmpty) return;
@@ -145,19 +134,8 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingPlaylists = false);
   }
 
-  static bool _isSavingGroupHistoryTime = false;
-  static Future<bool> saveGroupHistoryTime() async {
-    if (_isSavingGroupHistoryTime) return false;
-    _isSavingGroupHistoryTime = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setBool('groupHistoryTime', groupHistoryTime)
-        .then((_) => _isSavingGroupHistoryTime = false);
-  }
-
   static Future<void> saveAll() async {
     await saveHistoryLimit();
-    await saveGroupHistoryTime();
     await savePlaylists();
   }
 
@@ -182,7 +160,7 @@ class Persistence with ChangeNotifier {
           .set(json[ConfirmDeletionsService().mapKey] ?? true);
       HideTopicsService().set(json['hideTopics'] ?? false);
       historyLimit = json['historyLimit'];
-      groupHistoryTime = json['groupHistoryTime'] ?? false;
+      GroupHistoryService().set(json['groupHistoryTime'] ?? false);
 
       playlists.clear();
       _instance.notifyListeners();
@@ -216,7 +194,7 @@ class Persistence with ChangeNotifier {
           ConfirmDeletionsService().confirmDeletions,
       HideTopicsService().mapKey: HideTopicsService().hideTopics,
       'historyLimit': historyLimit,
-      'groupHistoryTime': groupHistoryTime,
+      GroupHistoryService().mapKey: GroupHistoryService().groupHistoryTime,
       'playlists': playlists,
     };
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 
 class GroupHistoryTimeSwitch extends StatefulWidget {
   const GroupHistoryTimeSwitch({super.key});
@@ -9,7 +9,7 @@ class GroupHistoryTimeSwitch extends StatefulWidget {
 }
 
 class _GroupHistoryTimeSwitchState extends State<GroupHistoryTimeSwitch> {
-  bool _isHistoryTimeGrouped = Persistence.groupHistoryTime;
+  bool _isHistoryTimeGrouped = GroupHistoryService().groupHistoryTime;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,11 @@ class _GroupHistoryTimeSwitchState extends State<GroupHistoryTimeSwitch> {
       onChanged: (value) {
         setState(() {
           _isHistoryTimeGrouped = value;
-          Persistence.groupHistoryTime = value;
-          Persistence.saveGroupHistoryTime();
         });
+
+        GroupHistoryService()
+          ..set(value)
+          ..save();
       },
     );
   }

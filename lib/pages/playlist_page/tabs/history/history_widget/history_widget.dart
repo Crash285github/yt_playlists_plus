@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_details.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_group_time.dart';
@@ -26,28 +25,6 @@ class HistoryWidget extends ICardWidget {
     this.lastOfGroup = false,
     required this.videoHistory,
   });
-
-  String formattedTime(DateTime time) {
-    final String month = switch (time.month) {
-      1 => 'Jan.',
-      2 => 'Feb.',
-      3 => 'Mar.',
-      4 => 'Apr.',
-      5 => 'May.',
-      6 => 'Jun.',
-      7 => 'Jul.',
-      8 => 'Aug.',
-      9 => 'Sep.',
-      10 => 'Okt.',
-      11 => 'Nov.',
-      12 => 'Dec.',
-      _ => 'error'
-    };
-
-    String addZeroIfBelow10(int time) => "${time > 9 ? time : '0$time'}";
-
-    return "${time.year}. $month ${time.day}. ${addZeroIfBelow10(time.hour)}:${addZeroIfBelow10(time.minute)}:${addZeroIfBelow10(time.second)}";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +67,7 @@ class HistoryWidget extends ICardWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (firstOfGroup)
-            HistoryGroupTime(time: formattedTime(videoHistory.time)),
+            HistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
             onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
                 context: context, offset: offset, items: copyItems),
@@ -113,8 +90,7 @@ class HistoryWidget extends ICardWidget {
                     HistoryDetails(
                       title: videoHistory.title,
                       author: videoHistory.author,
-                      time: formattedTime(videoHistory.time),
-                      timeago: timeago.format(videoHistory.time),
+                      time: videoHistory.time,
                     ),
                     Tooltip(
                       message: videoHistory.status == VideoStatus.missing

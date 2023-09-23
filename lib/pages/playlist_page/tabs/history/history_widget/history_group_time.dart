@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/extensions.dart';
+import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 
 class HistoryGroupTime extends StatelessWidget {
-  final String time;
+  final DateTime time;
   const HistoryGroupTime({
     super.key,
     required this.time,
@@ -13,19 +14,19 @@ class HistoryGroupTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context);
+    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistoryTime;
 
     return AnimatedContainer(
-      height: Persistence.groupHistoryTime ? 25 : 0,
+      height: groupTime ? 25 : 0,
       duration: duration,
       child: AnimatedOpacity(
         duration: duration,
         curve: Curves.decelerate,
-        opacity: Persistence.groupHistoryTime ? 1 : 0,
+        opacity: groupTime ? 1 : 0,
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: Text(
-            time,
+            time.formatted(),
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: Theme.of(context)
                     .colorScheme
