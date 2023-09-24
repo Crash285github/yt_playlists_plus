@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
@@ -70,7 +70,7 @@ class VideoWidget extends ICardWidget {
     ];
 
     return AdaptiveGestureDetector(
-      onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+      onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
           context: context, offset: offset, items: contextMenuItems),
       child: Card(
         shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),

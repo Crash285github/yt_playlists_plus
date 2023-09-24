@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
@@ -44,40 +44,16 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
-  ///Size of each playlist's history
-  ///
-  ///`null` means infinite
-  static int? _historyLimit;
-  static int? get historyLimit => _historyLimit;
-  static set historyLimit(int? value) {
-    _historyLimit = value;
-    _instance.notifyListeners();
-  }
-
-  ///Loads the Persistent Storage, and alerts listeners when finished
-  Future<void> load() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    try {
-      historyLimit = prefs.getInt('historyLimit');
-      if (historyLimit == -1) {
-        historyLimit = null;
-      }
-    } catch (_) {}
-  }
-
-  static bool _isSavingHistoryLimit = false;
-  static Future<bool> saveHistoryLimit() async {
-    if (_isSavingHistoryLimit) return false;
-    _isSavingHistoryLimit = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setInt('historyLimit', historyLimit ?? -1)
-        .then((_) => _isSavingHistoryLimit = false);
-  }
-
-  Future<void> saveAll() async {
-    await saveHistoryLimit();
+  Future<void> save() async {
+    await ThemeService().save();
+    await PlaylistsService().save();
+    await HideTopicsService().save();
+    await ColorSchemeService().save();
+    await SplitLayoutService().save();
+    await PlannedSizeService().save();
+    await HistoryLimitService().save();
+    await GroupHistoryService().save();
+    await ConfirmDeletionsService().save();
   }
 
   Future<bool> import() async {
@@ -100,7 +76,7 @@ class Persistence with ChangeNotifier {
       ConfirmDeletionsService()
           .set(json[ConfirmDeletionsService().mapKey] ?? true);
       HideTopicsService().set(json[HideTopicsService().mapKey] ?? false);
-      historyLimit = json['historyLimit'];
+      HistoryLimitService().set(json[HistoryLimitService().mapKey]);
       GroupHistoryService().set(json[GroupHistoryService().mapKey] ?? false);
 
       PlaylistsService().playlists.clear();
@@ -136,7 +112,7 @@ class Persistence with ChangeNotifier {
       ConfirmDeletionsService().mapKey:
           ConfirmDeletionsService().confirmDeletions,
       HideTopicsService().mapKey: HideTopicsService().hideTopics,
-      'historyLimit': historyLimit,
+      HistoryLimitService().mapKey: HistoryLimitService().limit,
       GroupHistoryService().mapKey: GroupHistoryService().groupHistoryTime,
       PlaylistsService().mapKey: PlaylistsService().playlists,
     };

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/adatpive_gesture_detector.dart';
@@ -36,7 +36,7 @@ class PlaylistWidget extends ICardWidget {
           await launchUrl(
                   Uri.parse("https://youtube.com/playlist?list=${playlist.id}"))
               .onError((error, stackTrace) {
-            PopUpManager.showSnackBar(
+            PopUpService.showSnackBar(
                 context: context, message: "Couldn't open link.");
             return false;
           });
@@ -65,7 +65,7 @@ class PlaylistWidget extends ICardWidget {
     ];
 
     return AdaptiveGestureDetector(
-      onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+      onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
           context: context, offset: offset, items: copyItems),
       child: Card(
         shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),

@@ -35,7 +35,7 @@ class Settings extends StatelessWidget {
           if (Platform.isAndroid && canSnap) const InitialPlannedSizeSetting(),
           const ColorSchemeSetting(),
           const SplitViewSetting(),
-          const HistorySizeSetting(),
+          const HistoryLimitSetting(),
           const GroupHistoryTimeSwitch(),
           if (PlaylistsService().playlists.length > 1)
             const ReorderPlaylistsSetting(),

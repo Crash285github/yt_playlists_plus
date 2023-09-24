@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/client.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
 class Playlist extends ChangeNotifier {
   final String id;
@@ -144,7 +145,7 @@ class Playlist extends ChangeNotifier {
       //? statusFunction
       video.statusFunction = (BuildContext context) {
         bool added = planned.add(video.title);
-        PopUpManager.showSnackBar(
+        PopUpService.showSnackBar(
             context: context,
             message:
                 added ? "Video added to Planned" : "Video already in Planned");
@@ -367,7 +368,7 @@ class Playlist extends ChangeNotifier {
 
   ///Converts a `Playlist` Object into a `json` Object
   Map<String, dynamic> toJson() {
-    int historyLimit = Persistence.historyLimit ?? _history.length;
+    int historyLimit = HistoryLimitService().limit ?? _history.length;
     return {
       'id': id,
       'title': title,

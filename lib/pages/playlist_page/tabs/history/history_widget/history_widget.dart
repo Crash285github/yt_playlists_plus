@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/constants.dart';
@@ -66,10 +66,9 @@ class HistoryWidget extends ICardWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (firstOfGroup)
-            HistoryGroupTime(time: videoHistory.time),
+          if (firstOfGroup) HistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
-            onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+            onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
                 context: context, offset: offset, items: copyItems),
             child: Card(
               margin: EdgeInsets.only(

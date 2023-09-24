@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
-class HistorySizeSetting extends StatefulWidget {
-  const HistorySizeSetting({super.key});
+class HistoryLimitSetting extends StatefulWidget {
+  const HistoryLimitSetting({super.key});
 
   @override
-  State<HistorySizeSetting> createState() => _HistorySizeSettingState();
+  State<HistoryLimitSetting> createState() => _HistoryLimitSettingState();
 }
 
-class _HistorySizeSettingState extends State<HistorySizeSetting> {
+class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
   late TextEditingController _textEditingController;
-  int? historySize = Persistence.historyLimit;
+  int? historySize = HistoryLimitService().limit;
   int topLimit = 500; //? before infinite
   int bottomLimit = 10;
 
@@ -32,7 +32,7 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        int? result = int.tryParse(await PopUpManager.openTextFieldDialog(
+        int? result = int.tryParse(await PopUpService.openTextFieldDialog(
               context: context,
               controller: _textEditingController,
               title: "Set history limit",
@@ -55,8 +55,9 @@ class _HistorySizeSettingState extends State<HistorySizeSetting> {
           historySize = result;
         });
 
-        Persistence.historyLimit = historySize;
-        Persistence.saveHistoryLimit();
+        HistoryLimitService()
+          ..set(historySize)
+          ..save();
       },
       leading: const Icon(Icons.manage_history),
       title: const Text("History limit"),

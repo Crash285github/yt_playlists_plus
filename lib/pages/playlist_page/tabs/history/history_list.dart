@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/history/history_widget/history_widget.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/extensions.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
 class HistoryList extends StatefulWidget {
@@ -21,8 +21,8 @@ class HistoryList extends StatefulWidget {
 class _HistoryListState extends State<HistoryList> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context);
-    int historyLimit = Persistence.historyLimit ?? widget.history.length;
+    int? limit = Provider.of<HistoryLimitService>(context).limit;
+    int historyLimit = limit ?? widget.history.length;
     int index = 0;
 
     List<VideoHistory> displayedHistory =

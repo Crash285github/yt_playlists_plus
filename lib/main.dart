@@ -10,6 +10,7 @@ import 'package:yt_playlists_plus/persistence/persistence.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
@@ -37,11 +38,12 @@ void main() async {
       ChangeNotifierProvider(create: (context) => HideTopicsService()),
       ChangeNotifierProvider(create: (context) => ReorderService()),
       ChangeNotifierProvider(create: (context) => PlaylistsService()),
+      ChangeNotifierProvider(
+        create: (context) => HistoryLimitService(),
+      )
     ],
     child: const ThemeBuilder(),
   ));
-
-  Persistence().load();
 
   SplitLayoutService().load();
   ColorSchemeService().load();
@@ -50,5 +52,6 @@ void main() async {
   ConfirmDeletionsService().load();
   HideTopicsService().load();
   GroupHistoryService().load();
+  HistoryLimitService().load();
   PlaylistsService().load();
 }

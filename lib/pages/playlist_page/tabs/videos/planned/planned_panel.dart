@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/planned_list.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
@@ -37,7 +37,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
 
   bool canSubmitPlanned(String title) {
     if (title.trim().isEmpty) {
-      PopUpManager.showSnackBar(
+      PopUpService.showSnackBar(
         context: context,
         message: "Can't be empty.",
       );
@@ -45,7 +45,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
     }
 
     if (widget.planned.contains(title.trim())) {
-      PopUpManager.showSnackBar(
+      PopUpService.showSnackBar(
         context: context,
         message: "Already exists.",
       );
@@ -56,7 +56,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
   }
 
   Future<void> addTitle() async {
-    final String? title = await PopUpManager.openTextFieldDialog(
+    final String? title = await PopUpService.openTextFieldDialog(
       context: context,
       controller: _textEditingController,
       title: "Add new planned video",

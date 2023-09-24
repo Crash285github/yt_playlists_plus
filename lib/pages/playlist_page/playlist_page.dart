@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/appbar_actions.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/body.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabbar.dart';
@@ -47,7 +47,7 @@ class PlaylistPage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: AdaptiveGestureDetector(
-            onLongOrSecondaryTap: (offset) => PopUpManager.showContextMenu(
+            onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
                 context: context, offset: offset, items: copyItems),
             child: Padding(
               padding: const EdgeInsets.all(10.0),

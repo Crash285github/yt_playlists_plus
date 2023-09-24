@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 
-class PopUpManager {
+class PopUpService {
   //Singleton
-  static final PopUpManager _instance = PopUpManager._internal();
-  PopUpManager._internal();
-  factory PopUpManager() => _instance;
+  static final PopUpService _instance = PopUpService._internal();
+  PopUpService._internal();
+  factory PopUpService() => _instance;
 
   static Future<String?> openTextFieldDialog({
     required BuildContext context,

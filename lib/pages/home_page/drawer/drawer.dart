@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/pages/about_page.dart';
 import 'package:yt_playlists_plus/pages/home_page/drawer/settings_list.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
@@ -44,7 +44,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           ? () async {
                               await Persistence().export().then((success) {
                                 if (success) {
-                                  PopUpManager.showSnackBar(
+                                  PopUpService.showSnackBar(
                                       context: context,
                                       message: "Data exported.");
                                 }
@@ -58,7 +58,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           ? () async {
                               Navigator.pop(context);
                               if (!await Persistence().import()) return;
-                              await Persistence().saveAll().then((_) {
+                              await Persistence().save().then((_) {
                                 WideLayoutState.playlist = null;
                               });
                             }
