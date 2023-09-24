@@ -29,10 +29,11 @@ class Persistence with ChangeNotifier {
   static bool _canExImport = true;
   static bool get canExImport => _canExImport;
 
-  void mayEnableExportImport() {
-    if (PlaylistsService().playlists.any((element) =>
-        element.status == PlaylistStatus.fetching ||
-        element.status == PlaylistStatus.checking)) {
+  void tryEnableExportImport() {
+    if (PlaylistsService().playlists.any((playlist) =>
+        playlist.status == PlaylistStatus.fetching ||
+        playlist.status == PlaylistStatus.checking ||
+        playlist.status == PlaylistStatus.downloading)) {
       return;
     }
     _canExImport = true;

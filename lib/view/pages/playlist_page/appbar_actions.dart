@@ -26,7 +26,7 @@ class AppBarActions {
                 } on SocketException catch (_) {
                   return;
                 } finally {
-                  Persistence().mayEnableExportImport();
+                  Persistence().tryEnableExportImport();
                 }
               },
       ),

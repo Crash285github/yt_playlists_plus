@@ -236,7 +236,7 @@ class Playlist extends ChangeNotifier {
     }
 
     setStatus(PlaylistStatus.downloaded);
-    Persistence().mayEnableExportImport();
+    Persistence().tryEnableExportImport();
   }
 
   ///Fetches the videos of the playlist and adds them to its [_fetch] Set

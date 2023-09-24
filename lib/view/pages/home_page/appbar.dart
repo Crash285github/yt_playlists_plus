@@ -62,7 +62,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                             _isFetchingAll = false;
                             _fetchCount = 0;
                           });
-                          Persistence().mayEnableExportImport();
+                          Persistence().tryEnableExportImport();
                         });
                       },
               )
