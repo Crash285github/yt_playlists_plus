@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/appbar.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/drawer/drawer.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/empty.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/fab.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/playlists.dart';
-import 'package:yt_playlists_plus/persistence.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/view/widgets/bottom_padding.dart';
@@ -52,7 +50,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context);
     return WillPopScope(
       onWillPop: () async {
         if (ReorderService().canReorder) {

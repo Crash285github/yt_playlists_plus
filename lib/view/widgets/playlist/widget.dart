@@ -89,20 +89,27 @@ class PlaylistWidget extends ListWidget {
                     Flexible(
                       child: Row(
                         children: [
-                          playlist.thumbnailUrl != ""
-                              ? Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(3, 3, 10, 3),
-                                  child: ThumbnailImage(
-                                    url: playlist.thumbnailUrl,
-                                    strongCorner: 13.0,
-                                    weakCorner: 4.0,
-                                    size: 85.0,
-                                    firstOfList: firstOfList,
-                                    lastOfList: lastOfList,
-                                  ),
-                                )
-                              : const SizedBox(width: 10),
+                          AnimatedOpacity(
+                            duration: const Duration(seconds: 1),
+                            opacity: playlist.thumbnailUrl != "" ? 1 : 0,
+                            child: AnimatedSize(
+                              duration: const Duration(milliseconds: 500),
+                              child: playlist.thumbnailUrl != ""
+                                  ? Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          3, 3, 10, 3),
+                                      child: ThumbnailImage(
+                                        url: playlist.thumbnailUrl,
+                                        strongCorner: 13.0,
+                                        weakCorner: 4.0,
+                                        size: 85.0,
+                                        firstOfList: firstOfList,
+                                        lastOfList: lastOfList,
+                                      ),
+                                    )
+                                  : const SizedBox(width: 10, height: 91),
+                            ),
+                          ),
                           PlaylistDetails(playlist: playlist),
                         ],
                       ),

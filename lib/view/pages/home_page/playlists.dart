@@ -16,35 +16,34 @@ class HomePagePlaylists extends StatefulWidget {
 class _HomePagePlaylistsState extends State<HomePagePlaylists> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<PlaylistsService>(context).playlists;
-    Provider.of<ReorderService>(context).canReorder;
+    List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
+    bool canReorder = Provider.of<ReorderService>(context).canReorder;
 
     return SliverReorderableList(
       itemBuilder: (context, index) {
         return ReorderableDragStartListener(
-          enabled: ReorderService().canReorder,
+          enabled: canReorder,
           index: index,
-          key: ValueKey(PlaylistsService().playlists[index]),
+          key: ValueKey(playlists[index]),
           child: ListenableProvider.value(
-            value: PlaylistsService().playlists[index],
+            value: playlists[index],
             child: PlaylistWidget(
-              firstOfList: index == 0 && !ReorderService().canReorder,
-              lastOfList: index == PlaylistsService().playlists.length - 1 &&
-                  !ReorderService().canReorder,
-              onTap: () => widget.onTap(PlaylistsService().playlists[index]),
+              firstOfList: index == 0 && !canReorder,
+              lastOfList: index == playlists.length - 1 && !canReorder,
+              onTap: () => widget.onTap(playlists[index]),
             ),
           ),
         );
       },
-      itemCount: PlaylistsService().playlists.length,
+      itemCount: playlists.length,
       onReorder: (oldIndex, newIndex) {
         setState(() {
           if (oldIndex < newIndex) {
             newIndex -= 1;
           }
 
-          final Playlist item = PlaylistsService().playlists.removeAt(oldIndex);
-          PlaylistsService().playlists.insert(newIndex, item);
+          final Playlist item = playlists.removeAt(oldIndex);
+          playlists.insert(newIndex, item);
         });
         PlaylistsService().save();
       },

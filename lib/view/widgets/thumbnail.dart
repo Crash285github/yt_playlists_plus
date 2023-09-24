@@ -32,10 +32,14 @@ class ThumbnailImage extends ListWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: radiusBuilder().copyWith(
-          topRight: Radius.circular(weakCorner),
-          bottomRight: Radius.circular(weakCorner)),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: radiusBuilder().copyWith(
+            topRight: Radius.circular(weakCorner),
+            bottomRight: Radius.circular(weakCorner)),
+      ),
       child: SizedBox(
           height: size,
           width: size,

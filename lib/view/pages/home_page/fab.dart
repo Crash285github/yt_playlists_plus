@@ -11,25 +11,24 @@ class HomePageFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ReorderService>(context).canReorder;
+    final bool canReorder = Provider.of<ReorderService>(context).canReorder;
+
     return FloatingActionButton.extended(
       label: AnimatedSize(
         alignment: Alignment.centerRight,
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
-        child: ReorderService().canReorder
-            ? const Text("Finish")
-            : const SizedBox.shrink(),
+        child: canReorder ? const Text("Finish") : const SizedBox.shrink(),
       ),
-      extendedIconLabelSpacing: ReorderService().canReorder ? 8 : 0,
+      extendedIconLabelSpacing: canReorder ? 8 : 0,
       extendedPadding: const EdgeInsets.all(13),
-      tooltip: ReorderService().canReorder ? "Finish" : "Search",
-      onPressed: ReorderService().canReorder
+      tooltip: canReorder ? "Finish" : "Search",
+      onPressed: canReorder
           ? () => ReorderService().disable()
           : () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const SearchPage()),
               ),
-      icon: ReorderService().canReorder ? disableReorderIcon : searchIcon,
+      icon: canReorder ? disableReorderIcon : searchIcon,
     );
   }
 }
