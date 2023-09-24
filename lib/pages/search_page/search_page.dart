@@ -4,10 +4,10 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/search_page/empty.dart';
 import 'package:yt_playlists_plus/pages/search_page/results.dart';
 import 'package:yt_playlists_plus/pages/search_page/search_bar.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
 import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -52,10 +52,10 @@ class _SearchPageState extends State<SearchPage> {
         YoutubeClient();
         await for (Playlist playlist in YoutubeClient.searchByQuery(
           query: _searchQuery,
-          excludedWords: Persistence().playlists.map((e) => e.id).toList(),
+          excludedWords: PlaylistsService().playlists.map((e) => e.id).toList(),
         )) {
           if (!_rendered) return;
-          if (Persistence().playlists.contains(playlist)) continue;
+          if (PlaylistsService().playlists.contains(playlist)) continue;
 
           playlist.setStatus(PlaylistStatus.notDownloaded);
           setState(() {

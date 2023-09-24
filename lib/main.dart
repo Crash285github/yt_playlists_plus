@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
@@ -34,7 +35,8 @@ void main() async {
       ChangeNotifierProvider(create: (context) => SplitLayoutService()),
       ChangeNotifierProvider(create: (context) => GroupHistoryService()),
       ChangeNotifierProvider(create: (context) => HideTopicsService()),
-      ChangeNotifierProvider(create: (context) => ReorderService())
+      ChangeNotifierProvider(create: (context) => ReorderService()),
+      ChangeNotifierProvider(create: (context) => PlaylistsService()),
     ],
     child: const ThemeBuilder(),
   ));
@@ -48,4 +50,5 @@ void main() async {
   ConfirmDeletionsService().load();
   HideTopicsService().load();
   GroupHistoryService().load();
+  PlaylistsService().load();
 }

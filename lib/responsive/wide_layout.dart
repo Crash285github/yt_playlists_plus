@@ -4,7 +4,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/playlist_page.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 
 class WideLayout extends StatefulWidget {
@@ -52,8 +52,8 @@ class WideLayoutState extends State<WideLayout> {
                               "This will erase all of the playlist's data.",
                         ).then((value) {
                           if (value ?? false) {
-                            Persistence().removePlaylist(playlist!);
-                            Persistence().savePlaylists();
+                            PlaylistsService().remove(playlist!);
+                            PlaylistsService().save();
                             setState(() {
                               playlist = null;
                             });

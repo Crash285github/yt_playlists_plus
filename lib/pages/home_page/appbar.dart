@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/pages/home_page/refresh_button.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/preset_sliver_app_bar.dart';
 
@@ -19,7 +20,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context);
+    Provider.of<PlaylistsService>(context).playlists;
     return PresetSliverAppBar(
       title: const Text("Playlists"),
       actions: ReorderService().canReorder
@@ -32,13 +33,13 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                     : () {
                         setState(() {
                           _isFetchingAll = true;
-                          _fetchCount = Persistence().playlists.length;
+                          _fetchCount = PlaylistsService().playlists.length;
                         });
 
                         Persistence.disableExportImport();
 
                         Future.wait(
-                          Persistence().playlists.map(
+                          PlaylistsService().playlists.map(
                             (playlist) {
                               return playlist.status ==
                                           PlaylistStatus.fetching ||

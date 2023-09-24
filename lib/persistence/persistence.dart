@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
@@ -23,43 +24,13 @@ class Persistence with ChangeNotifier {
   Persistence._internal();
   factory Persistence() => _instance;
 
-  //#region Playlist data
-
-  ///The currently stored Playlists
-  ///
-  ///Requires Persistence.load() to get the data
-   List<Playlist> get playlists => _playlists;
-  List<Playlist> _playlists = []; //private representation
-
-  ///Adds a `Playlist` item to the Persistent storage, and alerts listeners
-  ///
-  ///Doesn't save on it's own
-  void addPlaylist(Playlist item) {
-    if (_playlists.contains(item)) {
-      //? playlist videos can be different, == only checks ids
-      _playlists.remove(item);
-    }
-
-    _playlists.add(item);
-    _instance.notifyListeners();
-  }
-
-  ///Removes a `Playlist` item from the Persistent storage, and alerts listeners
-  ///
-  ///Doesn't save on its own
-  void removePlaylist(Playlist item) {
-    item.cancelNetworking();
-    _playlists.remove(item);
-    _instance.notifyListeners();
-  }
-
   //#endregion
 
   static bool _canExImport = true;
   static bool get canExImport => _canExImport;
 
   void mayEnableExportImport() {
-    if (_playlists.any((element) =>
+    if (PlaylistsService().playlists.any((element) =>
         element.status == PlaylistStatus.fetching ||
         element.status == PlaylistStatus.checking)) {
       return;
@@ -93,11 +64,6 @@ class Persistence with ChangeNotifier {
         historyLimit = null;
       }
     } catch (_) {}
-    //? playlists
-    List<String> val = prefs.getStringList('playlists') ?? [];
-    if (val.isEmpty) return;
-    _playlists = val.map((e) => Playlist.fromJson(jsonDecode(e))).toList();
-    _instance.notifyListeners();
   }
 
   static bool _isSavingHistoryLimit = false;
@@ -110,20 +76,8 @@ class Persistence with ChangeNotifier {
         .then((_) => _isSavingHistoryLimit = false);
   }
 
-  static bool _isSavingPlaylists = false;
-  Future<bool> savePlaylists() async {
-    if (_isSavingPlaylists) return false;
-    _isSavingPlaylists = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .setStringList(
-            'playlists', (_playlists.map((e) => jsonEncode(e))).toList())
-        .then((_) => _isSavingPlaylists = false);
-  }
-
   Future<void> saveAll() async {
     await saveHistoryLimit();
-    await savePlaylists();
   }
 
   Future<bool> import() async {
@@ -145,20 +99,22 @@ class Persistence with ChangeNotifier {
           .byName(json[PlannedSizeService().mapKey] ?? PlannedSize.normal));
       ConfirmDeletionsService()
           .set(json[ConfirmDeletionsService().mapKey] ?? true);
-      HideTopicsService().set(json['hideTopics'] ?? false);
+      HideTopicsService().set(json[HideTopicsService().mapKey] ?? false);
       historyLimit = json['historyLimit'];
-      GroupHistoryService().set(json['groupHistoryTime'] ?? false);
+      GroupHistoryService().set(json[GroupHistoryService().mapKey] ?? false);
 
-      playlists.clear();
-      _instance.notifyListeners();
+      PlaylistsService().playlists.clear();
+      notifyListeners();
 
       //hack: refresh wont work otherwise after import
       await Future.delayed(const Duration(milliseconds: 250));
 
-      playlists.addAll((json['playlists'] as List).map((element) {
-        return Playlist.fromJson(element);
-      }));
-      _instance.notifyListeners();
+      PlaylistsService()
+          .playlists
+          .addAll((json[PlaylistsService().mapKey] as List).map((element) {
+            return Playlist.fromJson(element);
+          }));
+      notifyListeners();
       return true;
     }
 
@@ -182,7 +138,7 @@ class Persistence with ChangeNotifier {
       HideTopicsService().mapKey: HideTopicsService().hideTopics,
       'historyLimit': historyLimit,
       GroupHistoryService().mapKey: GroupHistoryService().groupHistoryTime,
-      'playlists': playlists,
+      PlaylistsService().mapKey: PlaylistsService().playlists,
     };
 
     await file.writeAsString(jsonEncode(json));

@@ -4,7 +4,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/playlist_page.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 
 class NarrowLayout extends StatelessWidget {
   const NarrowLayout({super.key});
@@ -26,8 +26,8 @@ class NarrowLayout extends StatelessWidget {
                   ).then(
                     (value) {
                       if (value ?? false) {
-                        Persistence().removePlaylist(playlist);
-                        Persistence().savePlaylists();
+                        PlaylistsService().remove(playlist);
+                        PlaylistsService().save();
                         Navigator.pop(context);
                       }
                     },

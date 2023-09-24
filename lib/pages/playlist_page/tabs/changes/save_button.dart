@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 
 class SaveButton extends StatelessWidget {
   final Playlist playlist;
@@ -14,7 +14,7 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        await Persistence().savePlaylists();
+        await PlaylistsService().save();
         playlist.clearPending();
         playlist.setStatus(PlaylistStatus.saved);
       },

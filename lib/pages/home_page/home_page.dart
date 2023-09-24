@@ -7,6 +7,7 @@ import 'package:yt_playlists_plus/pages/home_page/empty.dart';
 import 'package:yt_playlists_plus/pages/home_page/fab.dart';
 import 'package:yt_playlists_plus/pages/home_page/playlists.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/bottom_padding.dart';
 
@@ -66,12 +67,12 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           slivers: [
             const HomePageAppBar(),
-            Persistence().playlists.isEmpty
+            PlaylistsService().playlists.isEmpty
                 ? const HomePageEmpty()
                 : HomePagePlaylists(
                     onTap: widget.onPlaylistTap,
                   ),
-            if (Persistence().playlists.isNotEmpty)
+            if (PlaylistsService().playlists.isNotEmpty)
               const SliverToBoxAdapter(child: BottomPadding())
           ],
         ),

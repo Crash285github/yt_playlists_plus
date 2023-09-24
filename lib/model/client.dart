@@ -3,7 +3,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 
 class YoutubeClient {
   static late yt_explode.YoutubeExplode _client;
@@ -56,7 +56,7 @@ class YoutubeClient {
     final String id = url.split("?list=")[1].split('&')[0];
 
     //if already contains
-    if (Persistence().playlists.any((final Playlist pl) => pl.id == id)) {
+    if (PlaylistsService().playlists.any((final Playlist pl) => pl.id == id)) {
       return null;
     }
 

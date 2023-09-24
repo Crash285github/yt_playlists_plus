@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/widgets/playlist/widget.dart';
 
@@ -16,7 +16,7 @@ class HomePagePlaylists extends StatefulWidget {
 class _HomePagePlaylistsState extends State<HomePagePlaylists> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<Persistence>(context).playlists;
+    Provider.of<PlaylistsService>(context).playlists;
     Provider.of<ReorderService>(context).canReorder;
 
     return SliverReorderableList(
@@ -24,29 +24,29 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
         return ReorderableDragStartListener(
           enabled: ReorderService().canReorder,
           index: index,
-          key: ValueKey(Persistence().playlists[index]),
+          key: ValueKey(PlaylistsService().playlists[index]),
           child: ListenableProvider.value(
-            value: Persistence().playlists[index],
+            value: PlaylistsService().playlists[index],
             child: PlaylistWidget(
               firstOfList: index == 0 && !ReorderService().canReorder,
-              lastOfList: index == Persistence().playlists.length - 1 &&
+              lastOfList: index == PlaylistsService().playlists.length - 1 &&
                   !ReorderService().canReorder,
-              onTap: () => widget.onTap(Persistence().playlists[index]),
+              onTap: () => widget.onTap(PlaylistsService().playlists[index]),
             ),
           ),
         );
       },
-      itemCount: Persistence().playlists.length,
+      itemCount: PlaylistsService().playlists.length,
       onReorder: (oldIndex, newIndex) {
         setState(() {
           if (oldIndex < newIndex) {
             newIndex -= 1;
           }
 
-          final Playlist item = Persistence().playlists.removeAt(oldIndex);
-          Persistence().playlists.insert(newIndex, item);
+          final Playlist item = PlaylistsService().playlists.removeAt(oldIndex);
+          PlaylistsService().playlists.insert(newIndex, item);
         });
-        Persistence().savePlaylists();
+        PlaylistsService().save();
       },
     );
   }

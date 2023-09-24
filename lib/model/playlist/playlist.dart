@@ -9,6 +9,7 @@ import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 
 class Playlist extends ChangeNotifier {
   final String id;
@@ -224,11 +225,11 @@ class Playlist extends ChangeNotifier {
           first = false;
         }
         //? if it started, add Playlist
-        Persistence().addPlaylist(this);
+        PlaylistsService().add(this);
       }
     } on SocketException {
       //? if it fails anytime, remove Playlist
-      Persistence().removePlaylist(this);
+      PlaylistsService().remove(this);
       setStatus(PlaylistStatus.notDownloaded);
       rethrow;
     }
@@ -324,7 +325,7 @@ class Playlist extends ChangeNotifier {
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
       _recentHistory.clear();
-      Persistence().savePlaylists();
+      PlaylistsService().save();
     }
   }
 

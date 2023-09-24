@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/popup_manager.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/empty.dart';
 import 'package:yt_playlists_plus/pages/playlist_page/tabs/videos/planned/planned_list.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
 
 class PlannedPanel extends StatefulWidget {
   final Set<String> planned;
@@ -69,7 +69,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
       setState(() {
         widget.planned.add(title);
       });
-      Persistence().savePlaylists();
+      PlaylistsService().save();
     }
   }
 
@@ -77,7 +77,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
     setState(() {
       widget.planned.remove(title);
     });
-    Persistence().savePlaylists();
+    PlaylistsService().save();
   }
 
   @override
