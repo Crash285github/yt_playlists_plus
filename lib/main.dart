@@ -38,20 +38,18 @@ void main() async {
       ChangeNotifierProvider(create: (context) => HideTopicsService()),
       ChangeNotifierProvider(create: (context) => ReorderService()),
       ChangeNotifierProvider(create: (context) => PlaylistsService()),
-      ChangeNotifierProvider(
-        create: (context) => HistoryLimitService(),
-      )
+      ChangeNotifierProvider(create: (context) => HistoryLimitService()),
     ],
     child: const ThemeBuilder(),
   ));
 
+  ThemeService().load();
+  PlaylistsService().load();
+  HideTopicsService().load();
   SplitLayoutService().load();
   ColorSchemeService().load();
-  ThemeService().load();
-  if (Platform.isAndroid) PlannedSizeService().load();
-  ConfirmDeletionsService().load();
-  HideTopicsService().load();
   GroupHistoryService().load();
   HistoryLimitService().load();
-  PlaylistsService().load();
+  ConfirmDeletionsService().load();
+  if (Platform.isAndroid) PlannedSizeService().load();
 }
