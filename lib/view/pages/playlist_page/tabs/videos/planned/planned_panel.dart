@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/videos/planned/empty.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/videos/planned/planned_list.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
@@ -89,8 +90,10 @@ class _PlannedPanelState extends State<PlannedPanel> {
         topLeft: Radius.circular(15),
         topRight: Radius.circular(15),
       )),
-      elevation: 3,
-      color: Theme.of(context).colorScheme.background,
+      elevation: 5,
+      color: ThemeService().isAmoled
+          ? Colors.black
+          : Theme.of(context).colorScheme.background,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
       child: widget.planned.isEmpty
           ? EmptyPlanned(

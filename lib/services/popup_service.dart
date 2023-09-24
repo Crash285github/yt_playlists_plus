@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 
 class PopUpService {
   //Singleton
@@ -113,6 +114,10 @@ class PopUpService {
     required List<PopupMenuEntry<dynamic>> items,
   }) async {
     await showMenu(
+      color: ThemeService().isAmoled
+          ? Colors.black
+          : Theme.of(context).colorScheme.background,
+      elevation: 5,
       shape: cardBorder(weakCorner: 15),
       clipBehavior: Clip.antiAlias,
       context: context,

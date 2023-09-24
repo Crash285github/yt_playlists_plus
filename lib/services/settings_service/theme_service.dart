@@ -14,10 +14,12 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
   factory ThemeService() => _instance;
 
   AppTheme theme = AppTheme.light;
+  bool isAmoled = false;
 
   @override
   set(AppTheme value) {
     theme = value;
+    isAmoled = theme == AppTheme.amoled;
     notifyListeners();
   }
 
@@ -45,14 +47,16 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
       colorScheme: scheme,
       cardColor: scheme.surface,
       drawerTheme: DrawerThemeData(
-          backgroundColor: isAmoled ? Colors.black : scheme.surface),
+          backgroundColor: isAmoled ? Colors.black : scheme.surface,
+          elevation: isAmoled ? 3 : 1),
       scaffoldBackgroundColor: isLight
           ? scheme.surfaceVariant
           : isAmoled
               ? Colors.black
               : null,
-      cardTheme: constants.cardTheme
-          .copyWith(color: isAmoled ? Colors.black : scheme.surface),
+      cardTheme: constants.cardTheme.copyWith(
+          color: isAmoled ? Colors.black : scheme.surface,
+          elevation: isAmoled ? 3 : 1),
       tooltipTheme: constants.tooltipTheme,
       appBarTheme: isLight
           ? AppBarTheme(backgroundColor: scheme.surfaceVariant)
