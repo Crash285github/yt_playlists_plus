@@ -6,7 +6,7 @@ import 'package:yt_playlists_plus/view/pages/search_page/results.dart';
 import 'package:yt_playlists_plus/view/pages/search_page/search_bar.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/view/widgets/preset_sliver_app_bar.dart';
-import 'package:yt_playlists_plus/model/client.dart';
+import 'package:yt_playlists_plus/services/youtube_client_service.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///Page used for looking up and downloading playlists

@@ -5,6 +5,9 @@ import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 
+///Youtube fetching service
+///
+///Wraps the `YoutubeExplode` client
 class YoutubeClient {
   static late yt_explode.YoutubeExplode _client;
 

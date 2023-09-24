@@ -4,11 +4,6 @@ import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_se
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 
 class PopUpService {
-  //Singleton
-  static final PopUpService _instance = PopUpService._internal();
-  PopUpService._internal();
-  factory PopUpService() => _instance;
-
   static Future<String?> openTextFieldDialog({
     required BuildContext context,
     required TextEditingController controller,
