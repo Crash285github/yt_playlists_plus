@@ -8,7 +8,7 @@ import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/persistence.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
