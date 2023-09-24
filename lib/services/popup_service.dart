@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 
@@ -118,7 +117,8 @@ class PopUpService {
           ? Colors.black
           : Theme.of(context).colorScheme.background,
       elevation: 5,
-      shape: cardBorder(weakCorner: 15),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       clipBehavior: Clip.antiAlias,
       context: context,
       position: RelativeRect.fromLTRB(offset.dx, offset.dy,

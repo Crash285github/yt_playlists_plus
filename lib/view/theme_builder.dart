@@ -7,6 +7,35 @@ import 'package:yt_playlists_plus/view/responsive/responsive.dart';
 
 ///Builds the application with a theme
 class ThemeBuilder extends StatelessWidget {
+  static const tooltipTheme =
+      TooltipThemeData(waitDuration: Duration(seconds: 1));
+
+  static const cardTheme = CardTheme(
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10))),
+    clipBehavior: Clip.antiAlias,
+    margin: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+  );
+
+  static const dividerTheme = DividerThemeData(
+    indent: 10,
+    endIndent: 10,
+    space: 2,
+  );
+
+  static final snackBarTheme = SnackBarThemeData(
+    showCloseIcon: true,
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    insetPadding: const EdgeInsets.all(15),
+    elevation: 0,
+  );
+
+  static const buttonPadding =
+      MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.all(16));
+
   const ThemeBuilder({super.key});
 
   @override

@@ -4,16 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/view/widgets/adatpive_gesture_detector.dart';
-import 'package:yt_playlists_plus/view/widgets/icard.dart';
+import 'package:yt_playlists_plus/view/widgets/abstract_list_widget.dart';
 import 'package:yt_playlists_plus/view/widgets/thumbnail.dart';
 import 'package:yt_playlists_plus/view/widgets/video/details.dart';
 import 'package:yt_playlists_plus/view/widgets/video/status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 
 ///Shows a single video
-class VideoWidget extends ICardWidget {
+class VideoWidget extends ListWidget {
   final bool showStatus;
 
   const VideoWidget({
@@ -22,12 +21,6 @@ class VideoWidget extends ICardWidget {
     super.lastOfList = false,
     this.showStatus = true,
   });
-
-  RelativeRect positionFromOffset(
-      {required BuildContext context, required Offset offset}) {
-    return RelativeRect.fromLTRB(
-        offset.dx, offset.dy, MediaQuery.of(context).size.width - offset.dx, 0);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +63,10 @@ class VideoWidget extends ICardWidget {
     ];
 
     return AdaptiveGestureDetector(
-      onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
+      onTrigger: (offset) => PopUpService.showContextMenu(
           context: context, offset: offset, items: contextMenuItems),
       child: Card(
-        shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
+        shape: RoundedRectangleBorder(borderRadius: radiusBuilder()),
         child: Ink(
           child: InkWell(
             onTap: showStatus ? video.onTap : null,
@@ -85,9 +78,9 @@ class VideoWidget extends ICardWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
                         child: ThumbnailImage(
-                          thumbnailUrl: video.thumbnailUrl,
-                          largeRadius: 13.0,
-                          smallRadius: 4.0,
+                          url: video.thumbnailUrl,
+                          strongCorner: 13.0,
+                          weakCorner: 4.0,
                           size: 70.0,
                           firstOfList: firstOfList,
                           lastOfList: lastOfList,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
+///Displays the `Playlist`'s [title] & [author]
 class PlaylistDetails extends StatelessWidget {
   final Playlist playlist;
+
   const PlaylistDetails({
     super.key,
     required this.playlist,
@@ -10,29 +12,28 @@ class PlaylistDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Flexible(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          //? title
           Tooltip(
             message: playlist.title,
             child: Text(
               playlist.title,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: theme.textTheme.titleLarge,
             ),
           ),
           const SizedBox(height: 10),
-          //? author
           Text(
             playlist.author,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                ),
+            style: theme.textTheme.titleSmall!.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.5),
+            ),
           ),
         ],
       ),

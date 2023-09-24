@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
-import 'package:yt_playlists_plus/view/responsive/narrow_layout.dart';
-import 'package:yt_playlists_plus/view/responsive/wide_layout.dart';
+import 'package:yt_playlists_plus/view/responsive/single_view.dart';
+import 'package:yt_playlists_plus/view/responsive/split_view.dart';
 
+///Shows `WideLayout` or `NarrowLayout` depending on the size of the screen
+///and whether the option is enabled to show SplitView
 class Responsive extends StatelessWidget {
   const Responsive({super.key});
 
@@ -14,9 +16,9 @@ class Responsive extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 700 && canSplit) {
-          return const WideLayout();
+          return const SplitView();
         } else {
-          return const NarrowLayout();
+          return const SingleView();
         }
       },
     );

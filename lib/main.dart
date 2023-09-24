@@ -14,7 +14,7 @@ import 'package:yt_playlists_plus/services/settings_service/history_limit_servic
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
-import 'package:yt_playlists_plus/application_wrapper.dart';
+import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 void main() async {
   if (Platform.isWindows) {

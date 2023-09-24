@@ -5,23 +5,22 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/popup_service.dart';
-import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/view/widgets/adatpive_gesture_detector.dart';
-import 'package:yt_playlists_plus/view/widgets/icard.dart';
+import 'package:yt_playlists_plus/view/widgets/abstract_list_widget.dart';
 import 'package:yt_playlists_plus/view/widgets/playlist/details.dart';
 import 'package:yt_playlists_plus/view/widgets/playlist/progress.dart';
 import 'package:yt_playlists_plus/view/widgets/playlist/status.dart';
 import 'package:yt_playlists_plus/view/widgets/thumbnail.dart';
 
-class PlaylistWidget extends ICardWidget {
+class PlaylistWidget extends ListWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
   final void Function()? onTap;
 
   const PlaylistWidget({
     super.key,
-    super.firstOfList = false,
-    super.lastOfList = false,
+    super.firstOfList,
+    super.lastOfList,
     this.onTap,
   });
 
@@ -65,10 +64,10 @@ class PlaylistWidget extends ICardWidget {
     ];
 
     return AdaptiveGestureDetector(
-      onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
+      onTrigger: (offset) => PopUpService.showContextMenu(
           context: context, offset: offset, items: copyItems),
       child: Card(
-        shape: cardBorder(firstOfList: firstOfList, lastOfList: lastOfList),
+        shape: RoundedRectangleBorder(borderRadius: radiusBuilder()),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -95,9 +94,9 @@ class PlaylistWidget extends ICardWidget {
                                   padding:
                                       const EdgeInsets.fromLTRB(3, 3, 10, 3),
                                   child: ThumbnailImage(
-                                    thumbnailUrl: playlist.thumbnailUrl,
-                                    largeRadius: 13.0,
-                                    smallRadius: 4.0,
+                                    url: playlist.thumbnailUrl,
+                                    strongCorner: 13.0,
+                                    weakCorner: 4.0,
                                     size: 85.0,
                                     firstOfList: firstOfList,
                                     lastOfList: lastOfList,

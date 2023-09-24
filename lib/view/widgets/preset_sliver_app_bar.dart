@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-///centerTitle, floating & snap properties are set to `true` by default
-class PresetSliverAppBar extends SliverAppBar {
-  const PresetSliverAppBar({
-    super.title,
-    super.actions,
-    super.bottom,
-    super.key,
+///A `SliverAppBar` with different default properties
+///
+///[floating] = true;
+///[snap] = true;
+///[centerTitle] = true;
+class CustomSliverAppBar extends SliverAppBar {
+  const CustomSliverAppBar({
+    super.centerTitle = true,
     super.floating = true,
     super.snap = true,
-    super.centerTitle = true,
-    super.pinned = false,
+    super.actions,
+    super.bottom,
+    super.pinned,
+    super.title,
+    super.key,
   });
 }

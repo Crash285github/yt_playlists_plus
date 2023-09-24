@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/constants.dart' as constants;
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
+import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///The theme of the Application
 ///
@@ -54,10 +54,10 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
           : isAmoled
               ? Colors.black
               : null,
-      cardTheme: constants.cardTheme.copyWith(
+      cardTheme: ThemeBuilder.cardTheme.copyWith(
           color: isAmoled ? Colors.black : scheme.surface,
           elevation: isAmoled ? 3 : 1),
-      tooltipTheme: constants.tooltipTheme,
+      tooltipTheme: ThemeBuilder.tooltipTheme,
       appBarTheme: isLight
           ? AppBarTheme(backgroundColor: scheme.surfaceVariant)
           : isAmoled
@@ -65,11 +65,11 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
               : null,
       tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
       iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(padding: constants.buttonPadding)),
+          style: ButtonStyle(padding: ThemeBuilder.buttonPadding)),
       textButtonTheme: const TextButtonThemeData(
-          style: ButtonStyle(padding: constants.buttonPadding)),
-      dividerTheme: constants.dividerTheme,
-      snackBarTheme: constants.snackBarTheme.copyWith(
+          style: ButtonStyle(padding: ThemeBuilder.buttonPadding)),
+      dividerTheme: ThemeBuilder.dividerTheme,
+      snackBarTheme: ThemeBuilder.snackBarTheme.copyWith(
         backgroundColor: scheme.error,
         closeIconColor: scheme.onError,
       ),

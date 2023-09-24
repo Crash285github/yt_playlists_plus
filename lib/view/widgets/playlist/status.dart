@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 
+///Displays the `Playlist`'s [status]
 class PlaylistStatusWidget extends StatelessWidget {
   final PlaylistStatus status;
+
   const PlaylistStatusWidget({
     super.key,
     required this.status,
@@ -11,14 +13,6 @@ class PlaylistStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget icon = Tooltip(
-      message: status.displayName,
-      child: Icon(
-        status.icon,
-        color: status.color,
-      ),
-    );
-
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: ReorderService().canReorder
@@ -26,7 +20,13 @@ class PlaylistStatusWidget extends StatelessWidget {
           : Column(
               children: [
                 const SizedBox(height: 40),
-                icon,
+                Tooltip(
+                  message: status.displayName,
+                  child: Icon(
+                    status.icon,
+                    color: status.color,
+                  ),
+                ),
               ],
             ),
     );

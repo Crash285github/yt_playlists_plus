@@ -1,61 +1,46 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/view/widgets/abstract_list_widget.dart';
 
-class ThumbnailImage extends StatelessWidget {
-  final String thumbnailUrl;
+///A Rectangular Widget for showing YouTube thumbnails
+class ThumbnailImage extends ListWidget {
+  ///The address of the thumbnail
+  final String url;
 
-  final bool firstOfList;
-  final bool lastOfList;
+  ///Radius of large corners
+  ///
+  ///Active if Widget is [firstOfList] or [lastOfList]
+  final double strongCorner;
 
-  ///Radius of large corner (of first or last of list)
-  final double largeRadius;
+  ///Radius of small corners
+  ///
+  ///Active if Widget is not ([firstOfList] and [lastOfList])
+  final double weakCorner;
 
-  ///Radius of small corner
-  final double smallRadius;
-
-  ///Width and height
+  ///Width and height of the Widget
   final double size;
 
   const ThumbnailImage({
     super.key,
-    required this.thumbnailUrl,
-    required this.largeRadius,
-    required this.smallRadius,
+    super.firstOfList,
+    super.lastOfList,
+    required this.url,
+    required this.strongCorner,
+    required this.weakCorner,
     required this.size,
-    this.firstOfList = false,
-    this.lastOfList = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: firstOfList && lastOfList
-          ? BorderRadius.only(
-              topLeft: Radius.circular(largeRadius),
-              topRight: Radius.circular(smallRadius),
-              bottomLeft: Radius.circular(largeRadius),
-              bottomRight: Radius.circular(smallRadius),
-            )
-          : firstOfList
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(largeRadius),
-                  topRight: Radius.circular(smallRadius),
-                  bottomLeft: Radius.circular(smallRadius),
-                  bottomRight: Radius.circular(smallRadius),
-                )
-              : lastOfList
-                  ? BorderRadius.only(
-                      topLeft: Radius.circular(smallRadius),
-                      topRight: Radius.circular(smallRadius),
-                      bottomLeft: Radius.circular(largeRadius),
-                      bottomRight: Radius.circular(smallRadius),
-                    )
-                  : BorderRadius.all(Radius.circular(smallRadius)),
+      borderRadius: radiusBuilder().copyWith(
+          topRight: Radius.circular(weakCorner),
+          bottomRight: Radius.circular(weakCorner)),
       child: SizedBox(
           height: size,
           width: size,
           child: CachedNetworkImage(
-            imageUrl: thumbnailUrl,
+            imageUrl: url,
             fit: BoxFit.cover,
             useOldImageOnUrlChange: true,
             fadeInDuration: const Duration(milliseconds: 200),
@@ -71,7 +56,7 @@ class ThumbnailImage extends StatelessWidget {
                   const Align(
                     alignment: Alignment.bottomRight,
                     child: Tooltip(
-                      message: "Thumbnail not found",
+                      message: "Thumbnail could not be loaded",
                       child: Icon(
                         Icons.warning,
                         color: Colors.amber,

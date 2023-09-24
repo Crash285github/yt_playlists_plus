@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 
+///Displays the `Video`'s [status]
 class VideoStatusWidget extends StatelessWidget {
   final VideoStatus status;
+
   const VideoStatusWidget({
     super.key,
     required this.status,
@@ -10,16 +12,12 @@ class VideoStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget icon = Tooltip(
-        message: status.displayName,
-        child: Icon(
-          status.icon,
-          color: status.color,
-        ));
-
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: icon,
+      child: Tooltip(
+        message: status.displayName,
+        child: Icon(status.icon, color: status.color),
+      ),
     );
   }
 }

@@ -5,14 +5,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/history_widget/history_details.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/history_widget/history_group_time.dart';
 import 'package:yt_playlists_plus/persistence.dart';
 import 'package:yt_playlists_plus/view/widgets/adatpive_gesture_detector.dart';
-import 'package:yt_playlists_plus/view/widgets/icard.dart';
+import 'package:yt_playlists_plus/view/widgets/abstract_list_widget.dart';
 
-class HistoryWidget extends ICardWidget {
+class HistoryWidget extends ListWidget {
   ///The data to display
   final VideoHistory videoHistory;
 
@@ -68,7 +67,7 @@ class HistoryWidget extends ICardWidget {
         children: [
           if (firstOfGroup) HistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
-            onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
+            onTrigger: (offset) => PopUpService.showContextMenu(
                 context: context, offset: offset, items: copyItems),
             child: Card(
               margin: EdgeInsets.only(
@@ -77,10 +76,8 @@ class HistoryWidget extends ICardWidget {
                   top: firstOfGroup ? 4 : 1,
                   bottom: lastOfGroup ? 10 : 1),
               surfaceTintColor: videoHistory.status.color,
-              shape: cardBorder(
-                  firstOfList: firstOfGroup,
-                  lastOfList: lastOfGroup,
-                  weakCorner: 3),
+              shape: RoundedRectangleBorder(
+                  borderRadius: radiusBuilder(weakCorner: 3)),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(

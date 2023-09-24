@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/constants.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/view/widgets/styled_dropdown.dart';
 
@@ -12,6 +11,8 @@ class SplitViewSetting extends StatefulWidget {
 
 class _SplitViewSettingState extends State<SplitViewSetting> {
   SplitLayout _value = SplitLayoutService().portions;
+
+  static const double pi = 3.1415926535897932;
 
   @override
   Widget build(BuildContext context) {

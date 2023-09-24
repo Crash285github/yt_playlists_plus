@@ -6,8 +6,9 @@ import 'package:yt_playlists_plus/view/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/playlist_page.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 
-class NarrowLayout extends StatelessWidget {
-  const NarrowLayout({super.key});
+///Shows the `HomePage` as a single screen
+class SingleView extends StatelessWidget {
+  const SingleView({super.key});
 
   @override
   Widget build(BuildContext context) {

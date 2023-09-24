@@ -4,7 +4,7 @@ import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/view/pages/about_page.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/drawer/settings_list.dart';
 import 'package:yt_playlists_plus/persistence.dart';
-import 'package:yt_playlists_plus/view/responsive/wide_layout.dart';
+import 'package:yt_playlists_plus/view/responsive/split_view.dart';
 
 class HomePageDrawer extends StatefulWidget {
   const HomePageDrawer({super.key});
@@ -59,7 +59,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                               Navigator.pop(context);
                               if (!await Persistence().import()) return;
                               await Persistence().save().then((_) {
-                                WideLayoutState.playlist = null;
+                                SplitViewState.playlist = null;
                               });
                             }
                           : null,

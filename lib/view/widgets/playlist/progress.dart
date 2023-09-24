@@ -17,6 +17,8 @@ class PlaylistProgressIndicator extends StatefulWidget {
 class _PlaylistProgressIndicatorState extends State<PlaylistProgressIndicator> {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: 0, end: widget.progress),
       duration: const Duration(milliseconds: 200),
@@ -26,7 +28,7 @@ class _PlaylistProgressIndicatorState extends State<PlaylistProgressIndicator> {
           backgroundColor: Colors.transparent,
           value: value,
           color: widget.color?.withOpacity(0.4) ??
-              Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              theme.colorScheme.primary.withOpacity(0.1),
         );
       },
     );

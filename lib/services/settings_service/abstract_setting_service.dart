@@ -1,6 +1,6 @@
-import 'package:yt_playlists_plus/services/abstract_saveable.dart';
+import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 
-abstract class SettingService<T> implements SaveableService {
+abstract class SettingService<T> implements StoreableService {
   void set(T value) {
     throw UnimplementedError('set() not implemented');
   }

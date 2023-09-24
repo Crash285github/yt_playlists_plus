@@ -47,7 +47,7 @@ class PlaylistPage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: AdaptiveGestureDetector(
-            onLongOrSecondaryTap: (offset) => PopUpService.showContextMenu(
+            onTrigger: (offset) => PopUpService.showContextMenu(
                 context: context, offset: offset, items: copyItems),
             child: Padding(
               padding: const EdgeInsets.all(10.0),

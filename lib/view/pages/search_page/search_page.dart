@@ -9,6 +9,7 @@ import 'package:yt_playlists_plus/view/widgets/preset_sliver_app_bar.dart';
 import 'package:yt_playlists_plus/model/client.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
+///Page used for looking up and downloading playlists
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -18,7 +19,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   bool _isSearching = false;
-  bool _rendered = true; //? required to stop searching after leaving the page
+  bool _rendered = true; //?? required to stop searching after leaving the page
   String _searchQuery = "";
 
   double _progress = 0;
@@ -91,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          PresetSliverAppBar(
+          CustomSliverAppBar(
             pinned: true,
             snap: false,
             title: const Text("Search Playlists"),

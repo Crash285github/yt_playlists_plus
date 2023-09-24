@@ -7,14 +7,18 @@ import 'package:yt_playlists_plus/view/pages/playlist_page/playlist_page.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 
-class WideLayout extends StatefulWidget {
-  const WideLayout({super.key});
+///Shows the `HomePage` on the left side and a `PlaylistPage` on the right
+///
+///The currently showing `Playlist` can be modified with
+///[SplitViewState.playlist]
+class SplitView extends StatefulWidget {
+  const SplitView({super.key});
 
   @override
-  State<WideLayout> createState() => WideLayoutState();
+  State<SplitView> createState() => SplitViewState();
 }
 
-class WideLayoutState extends State<WideLayout> {
+class SplitViewState extends State<SplitView> {
   static Playlist? playlist;
 
   @override
@@ -23,6 +27,10 @@ class WideLayoutState extends State<WideLayout> {
 
     return Scaffold(
       body: Row(
+        //hack: to avoid BackdropFilter blurring the HomePage, it has to be
+        //hack: rendered after PlaylistPage
+        //hack: so to still make the HomePage appear on the left,
+        //hack: the direction has to be reversed
         textDirection: TextDirection.rtl,
         children: [
           //?? right side
@@ -67,9 +75,9 @@ class WideLayoutState extends State<WideLayout> {
           Expanded(
             flex: portions.left,
             child: HomePage(
-              onPlaylistTap: (Playlist pl) {
+              onPlaylistTap: (Playlist selected) {
                 setState(() {
-                  playlist = pl;
+                  playlist = selected;
                 });
               },
             ),
