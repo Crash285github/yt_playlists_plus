@@ -9,18 +9,18 @@ import 'package:flutter/material.dart';
 class BottomPadding extends StatelessWidget {
   ///Height of the padding on `Android` devices
   ///
-  ///Default is 80
+  ///Default is [kToolbarHeight]
   final double androidHeight;
 
   ///Height of the padding on `Windows` devices
   ///
-  ///Default is 80
+  ///Default is [kToolbarHeight]
   final double windowsHeight;
 
   const BottomPadding({
     super.key,
-    this.androidHeight = 80,
-    this.windowsHeight = 80,
+    this.androidHeight = kToolbarHeight,
+    this.windowsHeight = kToolbarHeight,
   });
 
   @override

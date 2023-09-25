@@ -18,41 +18,17 @@ class SearchResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int index = 0;
+
     return SliverList(
       delegate: SliverChildListDelegate(
         [
           ...results.map(
             (playlist) {
               index++;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width),
-                    child: SizedBox(
-                        width: 700,
-                        child: ListenableProvider.value(
-                          value: playlist,
-                          child: PlaylistWidget(
-                            firstOfList: index == 1,
-                            lastOfList: index == results.length,
-                            onTap: () async {
-                              if (playlist.status ==
-                                  PlaylistStatus.notDownloaded) {
-                                try {
-                                  await playlist.download();
-                                  await PlaylistsService().save();
-                                } on SocketException {
-                                  //? do nothing
-                                }
-                              }
-                            },
-                          ),
-                        )),
-                  )
-                ],
-              );
+              return _Result(
+                  playlist: playlist,
+                  index: index,
+                  resultsLength: results.length);
             },
           ),
           const BottomPadding(
@@ -61,6 +37,52 @@ class SearchResults extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _Result extends StatelessWidget {
+  final Playlist playlist;
+  final int index;
+  final int resultsLength;
+
+  const _Result({
+    required this.playlist,
+    required this.index,
+    required this.resultsLength,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ConstrainedBox(
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+          child: SizedBox(
+            width: 700,
+            child: ListenableProvider.value(
+              value: playlist,
+              child: PlaylistWidget(
+                firstOfList: index == 1,
+                lastOfList: index == resultsLength,
+                onTap: () async {
+                  if (playlist.status == PlaylistStatus.notDownloaded) {
+                    try {
+                      await playlist
+                          .download()
+                          .then((_) => PlaylistsService().save());
+                    } on SocketException {
+                      //?? do nothing
+                    }
+                  }
+                },
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

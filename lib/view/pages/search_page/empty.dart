@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class EmptySearchPage extends StatelessWidget {
   final String message;
+  
   const EmptySearchPage({
     super.key,
     required this.message,

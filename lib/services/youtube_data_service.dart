@@ -8,19 +8,15 @@ import 'package:yt_playlists_plus/services/playlists_service.dart';
 ///Youtube fetching service
 ///
 ///Wraps the `YoutubeExplode` client
-class YoutubeClient {
+class YoutubeDataService {
   static late yt_explode.YoutubeExplode _client;
 
   //Singleton
-  static final YoutubeClient _instance = YoutubeClient._internal();
-  YoutubeClient._internal() {
+  static final YoutubeDataService _instance = YoutubeDataService._internal();
+  factory YoutubeDataService() => _instance;
+  YoutubeDataService._internal() {
     _client = yt_explode.YoutubeExplode();
   }
-
-  ///Constructor, initializes the `YoutubeExplode()` client
-  ///
-  ///You can use it anywhere, since it uses `Singleton` design pattern
-  factory YoutubeClient() => _instance;
 
   ///Searches Youtube playlists with a given `query`
   ///

@@ -19,20 +19,13 @@ class SearchPageSearchBar extends StatefulWidget {
 }
 
 class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
-  final FocusNode _focusNode = FocusNode();
-
-  late final TextEditingController _textEditingController;
-
-  @override
-  void initState() {
-    _textEditingController = TextEditingController();
-    super.initState();
-  }
+  final FocusNode focusNode = FocusNode();
+  final TextEditingController textEditingController = TextEditingController();
 
   @override
   void dispose() {
-    _textEditingController.dispose();
-    _focusNode.dispose();
+    textEditingController.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -45,15 +38,15 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //? TextField
+              //?? TextField
               ConstrainedBox(
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width - 100),
                 child: SizedBox(
                   width: 700,
                   child: TextField(
-                    focusNode: _focusNode,
-                    controller: _textEditingController,
+                    focusNode: focusNode,
+                    controller: textEditingController,
                     enabled: !widget.isSearching,
                     decoration: InputDecoration(
                         label: const Text("Search playlists..."),
@@ -62,8 +55,8 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: IconButton(
                               onPressed: () {
-                                _textEditingController.clear();
-                                _focusNode.requestFocus();
+                                textEditingController.clear();
+                                focusNode.requestFocus();
                               },
                               icon: const Icon(Icons.clear)),
                         )),
@@ -71,7 +64,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
                   ),
                 ),
               ),
-              //? Button or Indicator
+              //?? Button or Indicator
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(
@@ -82,7 +75,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
                       : Center(
                           child: IconButton(
                             onPressed: () =>
-                                widget.onSubmitted(_textEditingController.text),
+                                widget.onSubmitted(textEditingController.text),
                             icon: const Icon(Icons.search),
                             iconSize: 30,
                             tooltip: "Search",

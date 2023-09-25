@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/services/search_service.dart';
 import 'package:yt_playlists_plus/view/pages/search_page/empty.dart';
 import 'package:yt_playlists_plus/view/pages/search_page/results.dart';
 import 'package:yt_playlists_plus/view/pages/search_page/search_bar.dart';
+import 'package:yt_playlists_plus/view/widgets/bottom_padding.dart';
 import 'package:yt_playlists_plus/view/widgets/preset_sliver_app_bar.dart';
 
 ///Page used for looking up and downloading playlists
@@ -44,9 +45,13 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          service.searchResults.isEmpty && !service.isSearching
-              ? EmptySearchPage(message: message)
-              : SearchResults(results: service.searchResults)
+          ...service.searchResults.isEmpty && !service.isSearching
+              ? [EmptySearchPage(message: message)]
+              : [
+                  SearchResults(results: service.searchResults),
+                  const SliverFillRemaining(hasScrollBody: false),
+                  const SliverToBoxAdapter(child: BottomPadding())
+                ]
         ],
       ),
     );

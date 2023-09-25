@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           _showFab = true;
         });
-      } else if (_controller.offset > 80 && _showFab) {
+      } else if (_controller.offset >= kToolbarHeight && _showFab) {
         setState(() {
           _showFab = false;
         });
@@ -69,8 +69,13 @@ class _HomePageState extends State<HomePage> {
                 : HomePagePlaylists(
                     onTap: widget.onPlaylistTap,
                   ),
+            const SliverFillRemaining(hasScrollBody: false),
             if (PlaylistsService().playlists.isNotEmpty)
-              const SliverToBoxAdapter(child: BottomPadding())
+              const SliverToBoxAdapter(
+                  child: BottomPadding(
+                windowsHeight: kToolbarHeight,
+                androidHeight: kToolbarHeight,
+              ))
           ],
         ),
         floatingActionButton: _showFab || ReorderService().canReorder
