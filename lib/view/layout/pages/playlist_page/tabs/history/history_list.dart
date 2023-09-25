@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/extensions/equal_seconds_since_epoch.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/history/history_widget/history_widget.dart';
-import 'package:yt_playlists_plus/extensions.dart';
+import 'package:yt_playlists_plus/view/template/video_history/video_history_view.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
 
@@ -44,10 +44,10 @@ class _HistoryListState extends State<HistoryList> {
           ...displayedHistory.map(
             (videoHistory) {
               index++;
-              return HistoryWidget(
+              return VideoHistoryView(
                 videoHistory: videoHistory,
-                firstOfGroup: index == 1 || !equalTime(index - 1, index - 2),
-                lastOfGroup: index == widget.history.length ||
+                firstOfList: index == 1 || !equalTime(index - 1, index - 2),
+                lastOfList: index == widget.history.length ||
                     !equalTime(index - 1, index),
               );
             },

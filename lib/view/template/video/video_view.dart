@@ -8,15 +8,15 @@ import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.da
 import 'package:yt_playlists_plus/view/template/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/abstract_list_widget.dart';
 import 'package:yt_playlists_plus/view/template/thumbnail.dart';
-import 'package:yt_playlists_plus/view/template/video/details.dart';
-import 'package:yt_playlists_plus/view/template/video/status.dart';
+import 'package:yt_playlists_plus/view/template/video/video_details.dart';
+import 'package:yt_playlists_plus/view/template/video/video_status_view.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 
 ///Shows a single video
-class VideoWidget extends ListWidget {
+class VideoView extends ListWidget {
   final bool showStatus;
 
-  const VideoWidget({
+  const VideoView({
     super.key,
     super.firstOfList = false,
     super.lastOfList = false,
@@ -92,7 +92,7 @@ class VideoWidget extends ListWidget {
                   ),
                 ),
                 showStatus || video.status != VideoStatus.normal
-                    ? VideoStatusWidget(status: video.status)
+                    ? VideoStatusView(status: video.status)
                     : const SizedBox(width: 10),
               ],
             ),

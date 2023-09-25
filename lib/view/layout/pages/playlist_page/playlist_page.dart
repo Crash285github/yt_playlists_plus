@@ -5,8 +5,8 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/appbar_actions.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/body.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabbar.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/playlist_page_body.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/playlist_tab_bar.dart';
 import 'package:yt_playlists_plus/view/template/adatpive_gesture_detector.dart';
 
 class PlaylistPage extends StatelessWidget {
@@ -59,7 +59,7 @@ class PlaylistPage extends StatelessWidget {
           actions: appBarActions(playlist: playlist),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
-            child: PlaylistPageTabBar(playlist: playlist),
+            child: PlaylistTabBar(playlist: playlist),
           ),
           backgroundColor: Colors.transparent,
         ),

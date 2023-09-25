@@ -5,8 +5,8 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/save_button.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/changes_list.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/changes_top_row.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/status.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/changes_info.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/changes_status.dart';
 
 class ChangesTab extends StatelessWidget {
   final Set<Video> added;
@@ -24,7 +24,7 @@ class ChangesTab extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          ChangesTopRow(
+          ChangesInfo(
             changes: (added.toList() + missing.toList()).toSet(),
             playlist: playlist,
           ),
@@ -32,7 +32,7 @@ class ChangesTab extends StatelessWidget {
           playlist.status == PlaylistStatus.changed
               ? ChangesList(
                   changes: (added.toList() + missing.toList()).toSet())
-              : ChangesCenterText(
+              : ChangesStatus(
                   status: playlist.status,
                   fetchProgress: playlist.fetchProgress,
                   downloadProgress: playlist.downloadProgress,

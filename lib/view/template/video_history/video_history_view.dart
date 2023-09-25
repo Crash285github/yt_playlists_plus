@@ -6,23 +6,20 @@ import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/history/history_widget/history_details.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/history/history_widget/history_group_time.dart';
+import 'package:yt_playlists_plus/view/template/video_history/video_history_details.dart';
+import 'package:yt_playlists_plus/view/template/video_history/video_history_group_time.dart';
 import 'package:yt_playlists_plus/persistence.dart';
 import 'package:yt_playlists_plus/view/template/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/abstract_list_widget.dart';
 
-class HistoryWidget extends ListWidget {
+class VideoHistoryView extends ListWidget {
   ///The data to display
   final VideoHistory videoHistory;
 
-  final bool firstOfGroup;
-  final bool lastOfGroup;
-
-  const HistoryWidget({
+  const VideoHistoryView({
     super.key,
-    this.firstOfGroup = false,
-    this.lastOfGroup = false,
+    super.firstOfList,
+    super.lastOfList,
     required this.videoHistory,
   });
 
@@ -66,7 +63,7 @@ class HistoryWidget extends ListWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (firstOfGroup) HistoryGroupTime(time: videoHistory.time),
+          if (firstOfList) VideoHistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
             onTrigger: (offset) => PopUpController().showContextMenu(
                 context: context, offset: offset, items: copyItems),
@@ -74,8 +71,8 @@ class HistoryWidget extends ListWidget {
               margin: EdgeInsets.only(
                   left: 0,
                   right: 0,
-                  top: firstOfGroup ? 4 : 1,
-                  bottom: lastOfGroup ? 10 : 1),
+                  top: firstOfList ? 4 : 1,
+                  bottom: lastOfList ? 10 : 1),
               surfaceTintColor: videoHistory.status.color,
               shape: RoundedRectangleBorder(
                   borderRadius: radiusBuilder(weakCorner: 3)),
@@ -84,7 +81,7 @@ class HistoryWidget extends ListWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    HistoryDetails(
+                    VideoHistoryDetails(
                       title: videoHistory.title,
                       author: videoHistory.author,
                       time: videoHistory.time,

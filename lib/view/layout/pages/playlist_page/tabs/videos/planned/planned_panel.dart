@@ -3,7 +3,7 @@ import 'package:yt_playlists_plus/services/popup_controller/open_textfield_dialo
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/empty.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/empty_planned.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/planned_list.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 

@@ -3,10 +3,10 @@ import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 
 ///Displays the `Playlist`'s [status]
-class PlaylistStatusWidget extends StatelessWidget {
+class PlaylistStatusView extends StatelessWidget {
   final PlaylistStatus status;
 
-  const PlaylistStatusWidget({
+  const PlaylistStatusView({
     super.key,
     required this.status,
   });

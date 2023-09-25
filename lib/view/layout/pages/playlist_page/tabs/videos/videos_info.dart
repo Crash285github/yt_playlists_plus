@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
 
-class VideosTopRow extends StatelessWidget {
+class VideosInfo extends StatelessWidget {
   final Playlist playlist;
-  const VideosTopRow({
+
+  const VideosInfo({
     super.key,
     required this.playlist,
   });

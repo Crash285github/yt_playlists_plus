@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/empty.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/videos_top_row.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/sheet_mobile.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/empty_videos.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/videos_info.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/planned_sheet_mobile.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/videos_list.dart';
 
 class VideosTab extends StatelessWidget {
@@ -23,7 +23,7 @@ class VideosTab extends StatelessWidget {
         children: [
           Column(
             children: [
-              VideosTopRow(playlist: playlist),
+              VideosInfo(playlist: playlist),
               const Divider(),
               playlist.videos.isEmpty
                   ? const EmptyVideos()

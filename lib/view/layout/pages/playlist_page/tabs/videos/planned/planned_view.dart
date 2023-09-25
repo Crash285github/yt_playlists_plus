@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class PlannedWidget extends StatefulWidget {
+class PlannedView extends StatefulWidget {
   final String title;
   final Function onDeletePressed;
-  const PlannedWidget({
+  const PlannedView({
     super.key,
     required this.title,
     required this.onDeletePressed,
   });
 
   @override
-  State<PlannedWidget> createState() => _PlannedWidgetState();
+  State<PlannedView> createState() => _PlannedViewState();
 }
 
-class _PlannedWidgetState extends State<PlannedWidget> {
+class _PlannedViewState extends State<PlannedView> {
   @override
   Widget build(BuildContext context) {
     return Container(

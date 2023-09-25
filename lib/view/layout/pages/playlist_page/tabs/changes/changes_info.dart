@@ -3,14 +3,14 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/pend_all.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/pend_all_button.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/status_card.dart';
 
-class ChangesTopRow extends StatelessWidget {
+class ChangesInfo extends StatelessWidget {
   final Set<Video> changes;
   final Playlist playlist;
 
-  const ChangesTopRow({
+  const ChangesInfo({
     super.key,
     required this.changes,
     required this.playlist,

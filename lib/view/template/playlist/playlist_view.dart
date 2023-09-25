@@ -10,16 +10,16 @@ import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/view/template/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/abstract_list_widget.dart';
-import 'package:yt_playlists_plus/view/template/playlist/details.dart';
-import 'package:yt_playlists_plus/view/template/playlist/progress.dart';
-import 'package:yt_playlists_plus/view/template/playlist/status.dart';
+import 'package:yt_playlists_plus/view/template/playlist/playlist_details.dart';
+import 'package:yt_playlists_plus/view/template/playlist/playlist_progress_indicator.dart';
+import 'package:yt_playlists_plus/view/template/playlist/playlist_status_view.dart';
 import 'package:yt_playlists_plus/view/template/thumbnail.dart';
 
-class PlaylistWidget extends ListWidget {
+class PlaylistView extends ListWidget {
   ///The function that runs when you tap on the `PlaylistWidget`
   final void Function()? onTap;
 
-  const PlaylistWidget({
+  const PlaylistView({
     super.key,
     super.firstOfList,
     super.lastOfList,
@@ -116,7 +116,7 @@ class PlaylistWidget extends ListWidget {
                         ],
                       ),
                     ),
-                    PlaylistStatusWidget(status: playlist.status),
+                    PlaylistStatusView(status: playlist.status),
                   ],
                 ),
               ),

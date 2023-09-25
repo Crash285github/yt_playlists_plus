@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
-import 'package:yt_playlists_plus/view/template/video/widget.dart';
+import 'package:yt_playlists_plus/view/template/video/video_view.dart';
 
 class VideosList extends StatefulWidget {
   final Set<Video> videos;
@@ -33,7 +33,7 @@ class _VideosListState extends State<VideosList>
               index++;
               return ListenableProvider.value(
                 value: e,
-                child: VideoWidget(
+                child: VideoView(
                   firstOfList: index == 1,
                   lastOfList: index == widget.videos.length,
                   showStatus: false,

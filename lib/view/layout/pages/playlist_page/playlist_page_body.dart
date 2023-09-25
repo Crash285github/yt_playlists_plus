@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/changes/tab_changes.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/history/tab_history.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/tab_videos.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/videos_tab.dart';
 
 class PlaylistPageBody extends StatelessWidget {
   final Playlist playlist;
+
   const PlaylistPageBody({
     super.key,
     required this.playlist,

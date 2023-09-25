@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/top_bar.dart';
-import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/entry.dart';
+import 'package:yt_playlists_plus/view/layout/pages/playlist_page/tabs/videos/planned/planned_view.dart';
 
 class PlannedList extends StatefulWidget {
   final ScrollController scrollController;
@@ -32,7 +32,7 @@ class _PlannedListState extends State<PlannedList> {
         onHandleTapped: widget.onHandleTapped,
       ),
       ...widget.planned.toList().reversed.map(
-            (title) => PlannedWidget(
+            (title) => PlannedView(
               title: title,
               onDeletePressed: () => widget.onDeletePressed(title),
             ),

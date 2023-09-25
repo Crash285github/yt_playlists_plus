@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/extensions.dart';
+import 'package:yt_playlists_plus/extensions/format_date_time.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 
-class HistoryGroupTime extends StatelessWidget {
+class VideoHistoryGroupTime extends StatelessWidget {
   final DateTime time;
-  const HistoryGroupTime({
+  const VideoHistoryGroupTime({
     super.key,
     required this.time,
   });

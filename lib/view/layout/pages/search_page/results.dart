@@ -6,7 +6,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
-import 'package:yt_playlists_plus/view/template/playlist/widget.dart';
+import 'package:yt_playlists_plus/view/template/playlist/playlist_view.dart';
 
 class SearchResults extends StatelessWidget {
   final List<Playlist> results;
@@ -64,7 +64,7 @@ class _Result extends StatelessWidget {
             width: 700,
             child: ListenableProvider.value(
               value: playlist,
-              child: PlaylistWidget(
+              child: PlaylistView(
                 firstOfList: index == 1,
                 lastOfList: index == resultsLength,
                 onTap: () async {

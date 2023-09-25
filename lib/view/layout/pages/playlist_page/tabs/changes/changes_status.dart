@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 
-class ChangesCenterText extends StatelessWidget {
+class ChangesStatus extends StatelessWidget {
   final PlaylistStatus status;
   final int fetchProgress;
   final int downloadProgress;
 
-  const ChangesCenterText({
+  const ChangesStatus({
     super.key,
     required this.status,
     required this.fetchProgress,

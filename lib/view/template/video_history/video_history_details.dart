@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/extensions.dart';
+import 'package:yt_playlists_plus/extensions/format_date_time.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class HistoryDetails extends StatelessWidget {
+class VideoHistoryDetails extends StatelessWidget {
   final String title, author;
   final DateTime time;
 
-  const HistoryDetails({
+  const VideoHistoryDetails({
     super.key,
     required this.title,
     required this.author,

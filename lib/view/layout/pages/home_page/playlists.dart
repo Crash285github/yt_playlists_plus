@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
-import 'package:yt_playlists_plus/view/template/playlist/widget.dart';
+import 'package:yt_playlists_plus/view/template/playlist/playlist_view.dart';
 
 class HomePagePlaylists extends StatefulWidget {
   final Function(Playlist) onTap;
@@ -27,7 +27,7 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
           key: ValueKey(playlists[index]),
           child: ListenableProvider.value(
             value: playlists[index],
-            child: PlaylistWidget(
+            child: PlaylistView(
               firstOfList: index == 0 && !canReorder,
               lastOfList: index == playlists.length - 1 && !canReorder,
               onTap: () => widget.onTap(playlists[index]),

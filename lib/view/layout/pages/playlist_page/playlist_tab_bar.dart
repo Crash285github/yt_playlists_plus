@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 
-class PlaylistPageTabBar extends StatelessWidget {
+class PlaylistTabBar extends StatelessWidget {
   final Playlist playlist;
-  const PlaylistPageTabBar({
+  
+  const PlaylistTabBar({
     super.key,
     required this.playlist,
   });
