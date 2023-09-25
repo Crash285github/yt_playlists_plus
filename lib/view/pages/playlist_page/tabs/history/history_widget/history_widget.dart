@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/history_widget/history_details.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/history_widget/history_group_time.dart';
 import 'package:yt_playlists_plus/persistence.dart';
@@ -67,7 +68,7 @@ class HistoryWidget extends ListWidget {
         children: [
           if (firstOfGroup) HistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
-            onTrigger: (offset) => PopUpService.showContextMenu(
+            onTrigger: (offset) => PopUpController().showContextMenu(
                 context: context, offset: offset, items: copyItems),
             child: Card(
               margin: EdgeInsets.only(

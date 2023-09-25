@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_controller/open_confirm_dialog.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/empty.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/history_list.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabs/history/history_top_row.dart';
@@ -24,10 +25,12 @@ class _HistoryTabState extends State<HistoryTab> {
           onClearPressed: widget.history.isEmpty
               ? null
               : () async {
-                  PopUpService.openConfirmDialog(
+                  PopUpController()
+                      .openConfirmDialog(
                     context: context,
                     title: "Clear history?",
-                  ).then((value) {
+                  )
+                      .then((value) {
                     if (value ?? false) {
                       setState(() => widget.history.clear());
                       PlaylistsService().save();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_controller/open_textfield_dialog.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
 class HistoryLimitSetting extends StatefulWidget {
@@ -32,7 +33,7 @@ class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        int? result = int.tryParse(await PopUpService.openTextFieldDialog(
+        int? result = int.tryParse(await PopUpController().openTextFieldDialog(
               context: context,
               controller: _textEditingController,
               title: "Set history limit",

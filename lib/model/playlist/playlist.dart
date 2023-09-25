@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/youtube_data_service.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
@@ -145,7 +146,7 @@ class Playlist extends ChangeNotifier {
       //? statusFunction
       video.statusFunction = (BuildContext context) {
         bool added = planned.add(video.title);
-        PopUpService.showSnackBar(
+        PopUpController().showSnackBar(
             context: context,
             message:
                 added ? "Video added to Planned" : "Video already in Planned");

@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/persistence.dart';
+import 'package:yt_playlists_plus/view/pages/playlist_page/playlist_page.dart';
 
-class AppBarActions {
-  static List<Widget>? build({
-    required BuildContext context,
+extension AppBarActions on PlaylistPage {
+  List<Widget>? appBarActions({
     required Playlist playlist,
-    required Function() onDelete,
   }) {
     return [
       IconButton(

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/appbar_actions.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/body.dart';
 import 'package:yt_playlists_plus/view/pages/playlist_page/tabbar.dart';
@@ -47,7 +48,7 @@ class PlaylistPage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: AdaptiveGestureDetector(
-            onTrigger: (offset) => PopUpService.showContextMenu(
+            onTrigger: (offset) => PopUpController().showContextMenu(
                 context: context, offset: offset, items: copyItems),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -55,16 +56,10 @@ class PlaylistPage extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          actions: AppBarActions.build(
-            context: context,
-            playlist: playlist,
-            onDelete: onDelete,
-          ),
+          actions: appBarActions(playlist: playlist),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(50),
-            child: PlaylistPageTabBar(
-              playlist: playlist,
-            ),
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: PlaylistPageTabBar(playlist: playlist),
           ),
           backgroundColor: Colors.transparent,
         ),

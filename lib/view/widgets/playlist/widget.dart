@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/view/widgets/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/widgets/abstract_list_widget.dart';
@@ -35,8 +37,8 @@ class PlaylistWidget extends ListWidget {
           await launchUrl(
                   Uri.parse("https://youtube.com/playlist?list=${playlist.id}"))
               .onError((error, stackTrace) {
-            PopUpService.showSnackBar(
-                context: context, message: "Couldn't open link.");
+            PopUpController()
+                .showSnackBar(context: context, message: "Couldn't open link.");
             return false;
           });
         },
@@ -64,8 +66,8 @@ class PlaylistWidget extends ListWidget {
     ];
 
     return AdaptiveGestureDetector(
-      onTrigger: (offset) => PopUpService.showContextMenu(
-          context: context, offset: offset, items: copyItems),
+      onTrigger: (offset) => PopUpController()
+          .showContextMenu(context: context, offset: offset, items: copyItems),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: radiusBuilder()),
         child: Stack(

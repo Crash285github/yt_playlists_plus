@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/view/pages/about_page.dart';
 import 'package:yt_playlists_plus/view/pages/home_page/drawer/settings_list.dart';
 import 'package:yt_playlists_plus/persistence.dart';
@@ -44,7 +45,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           ? () async {
                               await Persistence().export().then((success) {
                                 if (success) {
-                                  PopUpService.showSnackBar(
+                                  PopUpController().showSnackBar(
                                       context: context,
                                       message: "Data exported.");
                                 }
