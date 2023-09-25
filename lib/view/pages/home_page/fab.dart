@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/services/search_service.dart';
 import 'package:yt_playlists_plus/view/pages/search_page/search_page.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 
@@ -26,7 +27,11 @@ class HomePageFab extends StatelessWidget {
       onPressed: canReorder
           ? () => ReorderService().disable()
           : () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const SearchPage()),
+                MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                          create: (context) => SearchService(),
+                          child: const SearchPage(),
+                        )),
               ),
       icon: canReorder ? disableReorderIcon : searchIcon,
     );

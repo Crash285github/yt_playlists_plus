@@ -56,7 +56,7 @@ class YoutubeClient {
   ///
   ///Returns null if the url is invalid or the Playlist ID doesn't exist
   static Future<Playlist?> searchByLink({required String url}) async {
-    final String id = url.split("?list=")[1].split('&')[0];
+    final String id = url.split("list=")[1].split('&')[0];
 
     //if already contains
     if (PlaylistsService().playlists.any((final Playlist pl) => pl.id == id)) {
@@ -88,6 +88,10 @@ class YoutubeClient {
     try {
       final yt_explode.Playlist result =
           await _client.playlists.get(playlistId);
+
+      if (result.title == "") {
+        throw PlaylistException("Playlist doesn't exist with id $playlistId");
+      }
 
       String author = result.author;
       if (!result.author.startsWith("by")) author = "by ${result.author}";
