@@ -19,7 +19,7 @@ extension AppBarActions on PlaylistPage {
             ? null
             : () async {
                 try {
-                  Persistence.disableExportImport();
+                  Persistence().disableExportImport();
                   await playlist.fetchVideos();
                   await playlist.check();
                 } on SocketException catch (_) {

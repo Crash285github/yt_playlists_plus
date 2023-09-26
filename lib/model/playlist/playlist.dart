@@ -207,7 +207,7 @@ class Playlist extends ChangeNotifier {
   ///Fetches the videos of the playlist and adds them to its [videos] Set
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
-    Persistence.disableExportImport();
+    Persistence().disableExportImport();
     setStatus(PlaylistStatus.downloading);
     setDownloadProgress(0);
     _isNetworkingCancelled = false;

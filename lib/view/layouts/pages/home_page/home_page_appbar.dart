@@ -36,7 +36,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                           _fetchCount = PlaylistsService().playlists.length;
                         });
 
-                        Persistence.disableExportImport();
+                        Persistence().disableExportImport();
 
                         Future.wait(
                           PlaylistsService().playlists.map(

@@ -20,28 +20,6 @@ class PlaylistPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Playlist playlist = Provider.of<Playlist>(context);
 
-    final List<PopupMenuEntry<dynamic>> copyItems = [
-      PopupMenuItem(
-        child: const Center(child: Text("Copy title")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: playlist.title));
-        },
-      ),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy id")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: playlist.id));
-        },
-      ),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy url")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(
-              text: "www.youtube.com/playlist?list=${playlist.id}"));
-        },
-      )
-    ];
-
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -49,7 +27,7 @@ class PlaylistPage extends StatelessWidget {
         appBar: AppBar(
           title: AdaptiveGestureDetector(
             onTrigger: (offset) => PopUpController().showContextMenu(
-                context: context, offset: offset, items: copyItems),
+                context: context, offset: offset, playlist: playlist),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(playlist.title),

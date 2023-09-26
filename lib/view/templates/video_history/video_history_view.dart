@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
@@ -27,36 +25,6 @@ class VideoHistoryView extends ListWidget {
   Widget build(BuildContext context) {
     Provider.of<Persistence>(context);
 
-    final List<PopupMenuEntry<dynamic>> copyItems = [
-      PopupMenuItem(
-        child: const Center(child: Text("Open link")),
-        onTap: () async {
-          await launchUrl(
-              Uri.parse("https://youtube.com/watch?v=${videoHistory.id}"));
-        },
-      ),
-      const PopupMenuDivider(height: 0),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy title")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: videoHistory.title));
-        },
-      ),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy id")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: videoHistory.id));
-        },
-      ),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy link")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(
-              text: "www.youtube.com/watch?v=${videoHistory.id}"));
-        },
-      )
-    ];
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Column(
@@ -66,7 +34,7 @@ class VideoHistoryView extends ListWidget {
           if (firstOfList) VideoHistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
             onTrigger: (offset) => PopUpController().showContextMenu(
-                context: context, offset: offset, items: copyItems),
+                context: context, offset: offset, history: videoHistory),
             child: Card(
               margin: EdgeInsets.only(
                   left: 0,

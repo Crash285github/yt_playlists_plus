@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
-import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/view/templates/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/abstract_list_widget.dart';
@@ -30,44 +27,9 @@ class PlaylistView extends ListWidget {
   Widget build(BuildContext context) {
     Playlist playlist = Provider.of<Playlist>(context);
 
-    final List<PopupMenuEntry<dynamic>> copyItems = [
-      PopupMenuItem(
-        child: const Center(child: Text("Open link")),
-        onTap: () async {
-          await launchUrl(
-                  Uri.parse("https://youtube.com/playlist?list=${playlist.id}"))
-              .onError((error, stackTrace) {
-            PopUpController()
-                .showSnackBar(context: context, message: "Couldn't open link.");
-            return false;
-          });
-        },
-      ),
-      const PopupMenuDivider(height: 0),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy title")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: playlist.title));
-        },
-      ),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy id")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: playlist.id));
-        },
-      ),
-      PopupMenuItem(
-        child: const Center(child: Text("Copy link")),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(
-              text: "www.youtube.com/playlist?list=${playlist.id}"));
-        },
-      )
-    ];
-
     return AdaptiveGestureDetector(
-      onTrigger: (offset) => PopUpController()
-          .showContextMenu(context: context, offset: offset, items: copyItems),
+      onTrigger: (offset) => PopUpController().showContextMenu(
+          context: context, offset: offset, playlist: playlist),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: radiusBuilder()),
         child: Stack(

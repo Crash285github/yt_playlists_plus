@@ -16,18 +16,11 @@ import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///The Application's Persistent Storage
-///
-///It implements the Singleton Design Pattern
 class Persistence with ChangeNotifier {
-  //? Singleton Design Pattern
-  static final Persistence _instance = Persistence._internal();
-  Persistence._internal();
-  factory Persistence() => _instance;
-
   //#endregion
 
-  static bool _canExImport = true;
-  static bool get canExImport => _canExImport;
+  bool _canExImport = true;
+  bool get canExImport => _canExImport;
 
   void tryEnableExportImport() {
     if (PlaylistsService().playlists.any((playlist) =>
@@ -37,12 +30,12 @@ class Persistence with ChangeNotifier {
       return;
     }
     _canExImport = true;
-    _instance.notifyListeners();
+    notifyListeners();
   }
 
-  static void disableExportImport() {
+  void disableExportImport() {
     _canExImport = false;
-    _instance.notifyListeners();
+    notifyListeners();
   }
 
   Future<void> load() async {
@@ -140,4 +133,9 @@ class Persistence with ChangeNotifier {
     await file.writeAsString(jsonEncode(json));
     return true;
   }
+
+  //__ Singleton Design Pattern
+  static final Persistence _instance = Persistence._internal();
+  Persistence._internal();
+  factory Persistence() => _instance;
 }

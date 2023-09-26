@@ -41,7 +41,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton.icon(
-                      onPressed: Persistence.canExImport
+                      onPressed: Persistence().canExImport
                           ? () async {
                               await Persistence().export().then((success) {
                                 if (success) {
@@ -55,7 +55,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       icon: const Icon(Icons.arrow_downward),
                       label: const Text("Export")),
                   TextButton.icon(
-                      onPressed: Persistence.canExImport
+                      onPressed: Persistence().canExImport
                           ? () async {
                               Navigator.pop(context);
                               if (!await Persistence().import()) return;
