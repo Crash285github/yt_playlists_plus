@@ -9,7 +9,7 @@ import 'package:yt_playlists_plus/services/settings_service/abstract_setting_ser
 
 ///Manages the history limit
 class HistoryLimitService extends ChangeNotifier
-    implements SettingService<int?>, StoreableService {
+    implements SettingService<int?>, StorableService {
   int? limit;
   final TextEditingController _controller = TextEditingController();
 
@@ -25,14 +25,15 @@ class HistoryLimitService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'historyLimit';
+  String storableKey = 'historyLimit';
 
   @override
-  Future<void> load() async => set(await LoadingService.load<int>(key: mapKey, defaultValue: -1));
+  Future<void> load() async =>
+      set(await LoadingService.load<int>(key: storableKey, defaultValue: -1));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: mapKey, value: limit ?? -1);
+      await SavingService.save<int>(key: storableKey, value: limit ?? -1);
 
   @override
   void dispose() {

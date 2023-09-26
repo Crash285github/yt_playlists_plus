@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 class ConfirmDeletionsService extends ChangeNotifier
-    implements SettingService<bool>, StoreableService {
+    implements SettingService<bool>, StorableService {
   bool confirmDeletions = true;
 
   @override
@@ -15,15 +15,15 @@ class ConfirmDeletionsService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'confirmDeletions';
+  String storableKey = 'confirmDeletions';
 
   @override
-  Future<void> load() async =>
-      set(await LoadingService.load<bool>(key: mapKey, defaultValue: true));
+  Future<void> load() async => set(
+      await LoadingService.load<bool>(key: storableKey, defaultValue: true));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<bool>(key: mapKey, value: confirmDeletions);
+      await SavingService.save<bool>(key: storableKey, value: confirmDeletions);
 
   //__ Singleton
   static final ConfirmDeletionsService _instance = ConfirmDeletionsService._();

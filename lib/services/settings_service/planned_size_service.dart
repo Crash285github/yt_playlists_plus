@@ -6,7 +6,7 @@ import 'package:yt_playlists_plus/services/settings_service/abstract_setting_ser
 
 ///Manages the height of the Planned panel (mobile only)
 class PlannedSizeService extends ChangeNotifier
-    implements SettingService<PlannedSize>, StoreableService {
+    implements SettingService<PlannedSize>, StorableService {
   PlannedSize plannedSize = PlannedSize.normal;
 
   @override
@@ -16,15 +16,15 @@ class PlannedSizeService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'initialPlannedSize';
+  String storableKey = 'initialPlannedSize';
 
   @override
-  Future<void> load() async => set(PlannedSize
-      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
+  Future<void> load() async => set(PlannedSize.values[
+      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: mapKey, value: plannedSize.index);
+      await SavingService.save<int>(key: storableKey, value: plannedSize.index);
 
   //__ Singleton
   static final PlannedSizeService _instance = PlannedSizeService._();

@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 class ColorSchemeService extends ChangeNotifier
-    implements SettingService<AppColorScheme>, StoreableService {
+    implements SettingService<AppColorScheme>, StorableService {
   AppColorScheme scheme = AppColorScheme.dynamic;
 
   @override
@@ -15,15 +15,15 @@ class ColorSchemeService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'colorScheme';
+  String storableKey = 'colorScheme';
 
   @override
   Future<bool> save() async =>
-      SavingService.save<int>(key: mapKey, value: scheme.index);
+      SavingService.save<int>(key: storableKey, value: scheme.index);
 
   @override
-  Future<void> load() async => set(AppColorScheme
-      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
+  Future<void> load() async => set(AppColorScheme.values[
+      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
 
   //__ Singleton
   static final ColorSchemeService _instance = ColorSchemeService._();

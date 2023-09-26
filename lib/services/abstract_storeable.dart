@@ -1,7 +1,7 @@
 ///Indicates that the service's data should be saved/loaded
-abstract class StoreableService {
+abstract class StorableService {
   ///The key that refers to the stored data
-  late final String mapKey;
+  late final String storableKey;
 
   ///Saves the data
   ///
@@ -11,7 +11,9 @@ abstract class StoreableService {
   }
 
   ///Loads the data
-  Future<void> load() async {
+  ///
+  ///Returns with the data
+  Future<dynamic> load() async {
     throw UnimplementedError('load() not implemented');
   }
 }

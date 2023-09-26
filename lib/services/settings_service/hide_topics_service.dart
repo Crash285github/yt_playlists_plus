@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 class HideTopicsService extends ChangeNotifier
-    implements SettingService<bool>, StoreableService {
+    implements SettingService<bool>, StorableService {
   bool hideTopics = false;
 
   @override
@@ -15,15 +15,15 @@ class HideTopicsService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'hideTopics';
+  String storableKey = 'hideTopics';
 
   @override
   Future<void> load() async =>
-      set(await LoadingService.load(key: mapKey, defaultValue: false));
+      set(await LoadingService.load(key: storableKey, defaultValue: false));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<bool>(key: mapKey, value: hideTopics);
+      await SavingService.save<bool>(key: storableKey, value: hideTopics);
 
   //__ Singleton
   static final HideTopicsService _instance = HideTopicsService._();

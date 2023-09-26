@@ -6,7 +6,7 @@ import 'package:yt_playlists_plus/services/settings_service/abstract_setting_ser
 
 ///Manages the layout of the app
 class SplitLayoutService extends ChangeNotifier
-    implements SettingService<SplitLayout>, StoreableService {
+    implements SettingService<SplitLayout>, StorableService {
   SplitLayout portions = SplitLayout.uneven;
   bool isEnabled = true;
 
@@ -18,15 +18,15 @@ class SplitLayoutService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'splitLayout';
+  String storableKey = 'splitLayout';
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: mapKey, value: portions.index);
+      await SavingService.save<int>(key: storableKey, value: portions.index);
 
   @override
-  Future<void> load() async => set(SplitLayout
-      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
+  Future<void> load() async => set(SplitLayout.values[
+      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
 
   //__ Singleton
   static final SplitLayoutService _instance = SplitLayoutService._();

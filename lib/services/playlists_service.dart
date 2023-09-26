@@ -7,7 +7,7 @@ import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 
-class PlaylistsService extends ChangeNotifier implements StoreableService {
+class PlaylistsService extends ChangeNotifier implements StorableService {
   List<Playlist> playlists = [];
 
   void add(Playlist item) {
@@ -28,11 +28,11 @@ class PlaylistsService extends ChangeNotifier implements StoreableService {
   }
 
   @override
-  String mapKey = 'playlists';
+  String storableKey = 'playlists';
 
   @override
   Future<void> load() async {
-    LoadingService.load<List<String>>(key: mapKey, defaultValue: [])
+    LoadingService.load<List<String>>(key: storableKey, defaultValue: [])
         .then((value) {
       playlists = (value as List<String>)
           .map((playlistJson) => Playlist.fromJson(jsonDecode(playlistJson)))
@@ -42,7 +42,7 @@ class PlaylistsService extends ChangeNotifier implements StoreableService {
 
   @override
   Future<bool> save() async => SavingService.save<List<String>>(
-      key: mapKey,
+      key: storableKey,
       value: playlists.map((playlist) => jsonEncode(playlist)).toList());
 
   //__ Singleton

@@ -1,5 +1,4 @@
 abstract class SettingService<T> {
-  void set(T value) {
-    throw UnimplementedError('set() not implemented');
-  }
+  ///Sets the setting and notifies listeners
+  void set(T value);
 }

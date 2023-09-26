@@ -67,18 +67,19 @@ class Persistence with ChangeNotifier {
     if (result != null) {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
-      ThemeService().set(json[ThemeService().mapKey] ?? AppTheme.light);
-      ColorSchemeService().set(AppColorScheme.values
-          .byName(json[ColorSchemeService().mapKey] ?? AppColorScheme.dynamic));
-      SplitLayoutService().set(SplitLayout.values
-          .byName(json[SplitLayoutService().mapKey] ?? SplitLayout.uneven));
-      PlannedSizeService().set(PlannedSize.values
-          .byName(json[PlannedSizeService().mapKey] ?? PlannedSize.normal));
+      ThemeService().set(json[ThemeService().storableKey] ?? AppTheme.light);
+      ColorSchemeService().set(AppColorScheme.values.byName(
+          json[ColorSchemeService().storableKey] ?? AppColorScheme.dynamic));
+      SplitLayoutService().set(SplitLayout.values.byName(
+          json[SplitLayoutService().storableKey] ?? SplitLayout.uneven));
+      PlannedSizeService().set(PlannedSize.values.byName(
+          json[PlannedSizeService().storableKey] ?? PlannedSize.normal));
       ConfirmDeletionsService()
-          .set(json[ConfirmDeletionsService().mapKey] ?? true);
-      HideTopicsService().set(json[HideTopicsService().mapKey] ?? false);
-      HistoryLimitService().set(json[HistoryLimitService().mapKey]);
-      GroupHistoryService().set(json[GroupHistoryService().mapKey] ?? false);
+          .set(json[ConfirmDeletionsService().storableKey] ?? true);
+      HideTopicsService().set(json[HideTopicsService().storableKey] ?? false);
+      HistoryLimitService().set(json[HistoryLimitService().storableKey]);
+      GroupHistoryService()
+          .set(json[GroupHistoryService().storableKey] ?? false);
 
       PlaylistsService().playlists.clear();
       notifyListeners();
@@ -88,7 +89,7 @@ class Persistence with ChangeNotifier {
 
       PlaylistsService()
           .playlists
-          .addAll((json[PlaylistsService().mapKey] as List).map((element) {
+          .addAll((json[PlaylistsService().storableKey] as List).map((element) {
             return Playlist.fromJson(element);
           }));
       notifyListeners();
@@ -106,16 +107,16 @@ class Persistence with ChangeNotifier {
         File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
-      ThemeService().mapKey: ThemeService().theme,
-      ColorSchemeService().mapKey: ColorSchemeService().scheme,
-      SplitLayoutService().mapKey: SplitLayoutService().portions,
-      PlannedSizeService().mapKey: PlannedSizeService().plannedSize,
-      ConfirmDeletionsService().mapKey:
+      ThemeService().storableKey: ThemeService().theme,
+      ColorSchemeService().storableKey: ColorSchemeService().scheme,
+      SplitLayoutService().storableKey: SplitLayoutService().portions,
+      PlannedSizeService().storableKey: PlannedSizeService().plannedSize,
+      ConfirmDeletionsService().storableKey:
           ConfirmDeletionsService().confirmDeletions,
-      HideTopicsService().mapKey: HideTopicsService().hideTopics,
-      HistoryLimitService().mapKey: HistoryLimitService().limit,
-      GroupHistoryService().mapKey: GroupHistoryService().groupHistoryTime,
-      PlaylistsService().mapKey: PlaylistsService().playlists,
+      HideTopicsService().storableKey: HideTopicsService().hideTopics,
+      HistoryLimitService().storableKey: HistoryLimitService().limit,
+      GroupHistoryService().storableKey: GroupHistoryService().groupHistoryTime,
+      PlaylistsService().storableKey: PlaylistsService().playlists,
     };
 
     await file.writeAsString(jsonEncode(json));

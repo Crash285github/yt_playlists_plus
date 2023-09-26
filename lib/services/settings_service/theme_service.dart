@@ -7,7 +7,7 @@ import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///Manages the theme of the App
 class ThemeService extends ChangeNotifier
-    implements SettingService<AppTheme>, StoreableService {
+    implements SettingService<AppTheme>, StorableService {
   AppTheme theme = AppTheme.light;
   bool isAmoled = false;
 
@@ -19,15 +19,15 @@ class ThemeService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'appTheme';
+  String storableKey = 'appTheme';
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: mapKey, value: theme.index);
+      await SavingService.save<int>(key: storableKey, value: theme.index);
 
   @override
-  Future<void> load() async => set(AppTheme
-      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
+  Future<void> load() async => set(AppTheme.values[
+      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
 
   ///Generates a theme based on the given scheme
   ThemeData builder({ColorScheme? scheme}) {

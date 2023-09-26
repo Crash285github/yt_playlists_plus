@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 class GroupHistoryService extends ChangeNotifier
-    implements SettingService<bool>, StoreableService {
+    implements SettingService<bool>, StorableService {
   bool groupHistoryTime = false;
 
   @override
@@ -15,15 +15,15 @@ class GroupHistoryService extends ChangeNotifier
   }
 
   @override
-  String mapKey = 'groupHistoryTime';
+  String storableKey = 'groupHistoryTime';
 
   @override
-  Future<void> load() async =>
-      set(await LoadingService.load<bool>(key: mapKey, defaultValue: false));
+  Future<void> load() async => set(
+      await LoadingService.load<bool>(key: storableKey, defaultValue: false));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<bool>(key: mapKey, value: groupHistoryTime);
+      await SavingService.save<bool>(key: storableKey, value: groupHistoryTime);
 
   //__ Singleton
   static final GroupHistoryService _instance = GroupHistoryService._();
