@@ -4,7 +4,7 @@ import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dar
 import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/about_page.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings_list.dart';
-import 'package:yt_playlists_plus/persistence.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
 
 class HomePageDrawer extends StatefulWidget {

@@ -8,7 +8,7 @@ import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dar
 import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
 import 'package:yt_playlists_plus/view/templates/video_history/video_history_details.dart';
 import 'package:yt_playlists_plus/view/templates/video_history/video_history_group_time.dart';
-import 'package:yt_playlists_plus/persistence.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/view/templates/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/abstract_list_widget.dart';
 
