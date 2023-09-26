@@ -1,5 +1,5 @@
 extension FormatDateTime on DateTime {
-  ///Converts a DateTime to this String format:
+  ///Converts a DateTime to a String format like this:
   ///
   ///2023. Oct. 23. 12:03:23
   String formatted() {
