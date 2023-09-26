@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/appbar.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_appbar.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/drawer.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/empty.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/fab.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/playlists.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_empty.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_fab.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_playlists.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
@@ -22,20 +23,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final ScrollController _controller;
-  bool _showFab = true;
+  late final ScrollController controller;
+  bool showFab = true;
 
   @override
   void initState() {
-    _controller = ScrollController();
-    _controller.addListener(() {
-      if (_controller.offset == 0 && !_showFab) {
+    controller = ScrollController();
+    controller.addListener(() {
+      if (controller.offset == 0 && !showFab) {
         setState(() {
-          _showFab = true;
+          showFab = true;
         });
-      } else if (_controller.offset >= kToolbarHeight && _showFab) {
+      } else if (controller.offset >= kToolbarHeight && showFab) {
         setState(() {
-          _showFab = false;
+          showFab = false;
         });
       }
     });
@@ -44,15 +45,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
+    bool canReorder = Provider.of<ReorderService>(context).canReorder;
+
     return WillPopScope(
       onWillPop: () async {
-        if (ReorderService().canReorder) {
+        if (canReorder) {
           ReorderService().disable();
           return false;
         }
@@ -61,26 +65,20 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         drawer: const HomePageDrawer(),
         body: CustomScrollView(
-          controller: _controller,
+          controller: controller,
           slivers: [
             const HomePageAppBar(),
-            PlaylistsService().playlists.isEmpty
+            playlists.isEmpty
                 ? const HomePageEmpty()
-                : HomePagePlaylists(
-                    onTap: widget.onPlaylistTap,
-                  ),
-            const SliverFillRemaining(hasScrollBody: false),
-            if (PlaylistsService().playlists.isNotEmpty)
-              const SliverToBoxAdapter(
-                  child: BottomPadding(
-                windowsHeight: kToolbarHeight,
-                androidHeight: kToolbarHeight,
-              ))
+                : HomePagePlaylists(onTap: widget.onPlaylistTap),
+            if (playlists.isNotEmpty) ...[
+              const SliverFillRemaining(hasScrollBody: false),
+              const SliverToBoxAdapter(child: BottomPadding())
+            ],
           ],
         ),
-        floatingActionButton: _showFab || ReorderService().canReorder
-            ? const HomePageFab()
-            : null,
+        floatingActionButton:
+            showFab || canReorder ? const HomePageFab() : null,
       ),
     );
   }

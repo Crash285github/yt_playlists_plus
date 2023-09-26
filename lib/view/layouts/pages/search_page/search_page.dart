@@ -49,7 +49,6 @@ class _SearchPageState extends State<SearchPage> {
               ? [EmptySearchPage(message: message)]
               : [
                   SearchResults(results: service.searchResults),
-                  const SliverFillRemaining(hasScrollBody: false),
                   const SliverToBoxAdapter(child: BottomPadding())
                 ]
         ],

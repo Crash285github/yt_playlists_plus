@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HomePageRefreshButton extends StatelessWidget {
+class HomePageRefreshAllButton extends StatelessWidget {
   final Function()? onPressed;
   final int fetchCount;
 
-  const HomePageRefreshButton(
+  const HomePageRefreshAllButton(
       {super.key, required this.onPressed, required this.fetchCount});
 
   @override
