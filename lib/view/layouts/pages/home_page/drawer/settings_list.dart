@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/color_scheme.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/confirm_delete.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/hide_topics.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/history_size.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/initial_planned_size.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/color_scheme_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/confirm_deletions_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/hide_topics_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/history_limit_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/planned_size_setting.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/reorder.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/group_history_time.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/group_history_setting.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/splitview.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/theme.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
@@ -30,15 +30,14 @@ class Settings extends StatelessWidget {
                     .withOpacity(0.5)),
           ),
           const ThemeSwitch(),
-          const ConfirmDeleteSwitch(),
-          const HideTopicsSwitch(),
-          if (Platform.isAndroid && canSnap) const InitialPlannedSizeSetting(),
+          const ConfirmDeletionsSetting(),
+          const HideTopicsSetting(),
+          if (Platform.isAndroid && canSnap) const PlannedSizeSetting(),
           const ColorSchemeSetting(),
           const SplitViewSetting(),
           const HistoryLimitSetting(),
-          const GroupHistoryTimeSwitch(),
-          if (PlaylistsService().playlists.length > 1)
-            const ReorderPlaylistsSetting(),
+          const GroupHistorySetting(),
+          if (PlaylistsService().playlists.length > 1) const ReorderSetting(),
         ],
       ),
     );

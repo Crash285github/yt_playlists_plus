@@ -8,11 +8,6 @@ import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 
 class PlaylistsService extends ChangeNotifier implements StoreableService {
-  //Singleton
-  static final PlaylistsService _instance = PlaylistsService._();
-  factory PlaylistsService() => _instance;
-  PlaylistsService._();
-
   List<Playlist> playlists = [];
 
   void add(Playlist item) {
@@ -49,4 +44,9 @@ class PlaylistsService extends ChangeNotifier implements StoreableService {
   Future<bool> save() async => SavingService.save<List<String>>(
       key: mapKey,
       value: playlists.map((playlist) => jsonEncode(playlist)).toList());
+
+  //__ Singleton
+  static final PlaylistsService _instance = PlaylistsService._();
+  factory PlaylistsService() => _instance;
+  PlaylistsService._();
 }

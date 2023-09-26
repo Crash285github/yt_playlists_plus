@@ -4,6 +4,8 @@ abstract class StoreableService {
   late final String mapKey;
 
   ///Saves the data
+  ///
+  ///Returns the success of the save
   Future<bool> save() async {
     throw UnimplementedError('save() not implemented');
   }

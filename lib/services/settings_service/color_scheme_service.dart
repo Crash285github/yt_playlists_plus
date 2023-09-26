@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 class ColorSchemeService extends ChangeNotifier
-    implements SettingService<AppColorScheme> {
-  //Singleton
-  static final ColorSchemeService _instance = ColorSchemeService._();
-  factory ColorSchemeService() => _instance;
-  ColorSchemeService._();
-
+    implements SettingService<AppColorScheme>, StoreableService {
   AppColorScheme scheme = AppColorScheme.dynamic;
 
   @override
@@ -28,6 +24,11 @@ class ColorSchemeService extends ChangeNotifier
   @override
   Future<void> load() async => set(AppColorScheme
       .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
+
+  //__ Singleton
+  static final ColorSchemeService _instance = ColorSchemeService._();
+  factory ColorSchemeService() => _instance;
+  ColorSchemeService._();
 }
 
 enum AppColorScheme {

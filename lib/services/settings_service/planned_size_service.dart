@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
+///Manages the height of the Planned panel (mobile only)
 class PlannedSizeService extends ChangeNotifier
-    implements SettingService<PlannedSize> {
-  //Singleton
-  static final PlannedSizeService _instance = PlannedSizeService._();
-  factory PlannedSizeService() => _instance;
-  PlannedSizeService._();
-
+    implements SettingService<PlannedSize>, StoreableService {
   PlannedSize plannedSize = PlannedSize.normal;
-
-  @override
-  String mapKey = 'initialPlannedSize';
 
   @override
   void set(PlannedSize value) {
@@ -22,21 +16,24 @@ class PlannedSizeService extends ChangeNotifier
   }
 
   @override
-  Future<void> load() async {
-    set(PlannedSize
-        .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
-  }
+  String mapKey = 'initialPlannedSize';
+
+  @override
+  Future<void> load() async => set(PlannedSize
+      .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
 
   @override
   Future<bool> save() async =>
       await SavingService.save<int>(key: mapKey, value: plannedSize.index);
+
+  //__ Singleton
+  static final PlannedSizeService _instance = PlannedSizeService._();
+  factory PlannedSizeService() => _instance;
+  PlannedSizeService._();
 }
 
 enum PlannedSize {
-  ///Default value
   normal(displayName: "Default"),
-
-  ///Lowest setting
   minimal(displayName: "Minimal"),
   ;
 

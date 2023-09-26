@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 
-class ConfirmDeleteSwitch extends StatefulWidget {
-  const ConfirmDeleteSwitch({super.key});
+class ConfirmDeletionsSetting extends StatefulWidget {
+  const ConfirmDeletionsSetting({super.key});
 
   @override
-  State<ConfirmDeleteSwitch> createState() => _ConfirmDeleteSwitchState();
+  State<ConfirmDeletionsSetting> createState() =>
+      _ConfirmDeletionsSettingState();
 }
 
-class _ConfirmDeleteSwitchState extends State<ConfirmDeleteSwitch> {
+class _ConfirmDeletionsSettingState extends State<ConfirmDeletionsSetting> {
   bool _showConfirmDialog = ConfirmDeletionsService().confirmDeletions;
 
   @override

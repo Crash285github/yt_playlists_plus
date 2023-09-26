@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 
-class GroupHistoryTimeSwitch extends StatefulWidget {
-  const GroupHistoryTimeSwitch({super.key});
+class GroupHistorySetting extends StatefulWidget {
+  const GroupHistorySetting({super.key});
 
   @override
-  State<GroupHistoryTimeSwitch> createState() => _GroupHistoryTimeSwitchState();
+  State<GroupHistorySetting> createState() => _GroupHistorySettingState();
 }
 
-class _GroupHistoryTimeSwitchState extends State<GroupHistoryTimeSwitch> {
+class _GroupHistorySettingState extends State<GroupHistorySetting> {
   bool _isHistoryTimeGrouped = GroupHistoryService().groupHistoryTime;
 
   @override

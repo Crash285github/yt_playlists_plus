@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/view/templates/styled_dropdown.dart';
 
-class InitialPlannedSizeSetting extends StatefulWidget {
-  const InitialPlannedSizeSetting({super.key});
+class PlannedSizeSetting extends StatefulWidget {
+  const PlannedSizeSetting({super.key});
 
   @override
-  State<InitialPlannedSizeSetting> createState() =>
-      _InitialPlannedSizeSettingState();
+  State<PlannedSizeSetting> createState() => _PlannedSizeSettingState();
 }
 
-class _InitialPlannedSizeSettingState extends State<InitialPlannedSizeSetting> {
+class _PlannedSizeSettingState extends State<PlannedSizeSetting> {
   PlannedSize _plannedSize = PlannedSizeService().plannedSize;
 
   @override
@@ -21,21 +20,21 @@ class _InitialPlannedSizeSettingState extends State<InitialPlannedSizeSetting> {
       trailing: StyledDropdown<PlannedSize>(
         value: _plannedSize,
         items: [
-          DropdownMenuItem(
-            value: PlannedSize.normal,
-            child: Text(PlannedSize.normal.displayName),
-          ),
-          DropdownMenuItem(
-            value: PlannedSize.minimal,
-            child: Text(PlannedSize.minimal.displayName),
-          ),
+          ...PlannedSize.values.map((PlannedSize size) {
+            return DropdownMenuItem(
+              value: size,
+              child: Text(size.displayName),
+            );
+          })
         ],
         onChanged: (value) {
           setState(() {
             _plannedSize = value!;
-            PlannedSizeService().set(value);
-            PlannedSizeService().save();
           });
+
+          PlannedSizeService()
+            ..set(value)
+            ..save();
         },
       ),
     );

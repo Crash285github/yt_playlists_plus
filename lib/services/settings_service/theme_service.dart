@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/view/theme_builder.dart';
 
-///The theme of the Application
-///
-///It implements the Singleton Design Pattern
-class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
-  //Singleton
-  static final ThemeService _instance = ThemeService._internal();
-  ThemeService._internal();
-  factory ThemeService() => _instance;
-
+///Manages the theme of the App
+class ThemeService extends ChangeNotifier
+    implements SettingService<AppTheme>, StoreableService {
   AppTheme theme = AppTheme.light;
   bool isAmoled = false;
 
   @override
-  set(AppTheme value) {
+  void set(AppTheme value) {
     theme = value;
     isAmoled = theme == AppTheme.amoled;
     notifyListeners();
@@ -34,7 +29,7 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
   Future<void> load() async => set(AppTheme
       .values[await LoadingService.load<int>(key: mapKey, defaultValue: 0)]);
 
-  ///Generates the theme of the application
+  ///Generates a theme based on the given scheme
   ThemeData builder({ColorScheme? scheme}) {
     bool isLight = theme == AppTheme.light;
     bool isAmoled = theme == AppTheme.amoled;
@@ -75,6 +70,11 @@ class ThemeService extends ChangeNotifier implements SettingService<AppTheme> {
       ),
     );
   }
+
+  //__ Singleton
+  static final ThemeService _instance = ThemeService._internal();
+  ThemeService._internal();
+  factory ThemeService() => _instance;
 }
 
 enum AppTheme {

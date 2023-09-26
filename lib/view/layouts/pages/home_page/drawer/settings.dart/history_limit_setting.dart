@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:yt_playlists_plus/services/popup_controller/open_textfield_dialog.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
 class HistoryLimitSetting extends StatefulWidget {
@@ -12,37 +9,25 @@ class HistoryLimitSetting extends StatefulWidget {
 }
 
 class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
-  late TextEditingController _textEditingController;
+  TextEditingController textEditingController = TextEditingController();
   int? historySize = HistoryLimitService().limit;
-  int topLimit = 500; //? before infinite
+  int topLimit = 500; //?? infinite if bigger
   int bottomLimit = 10;
 
   @override
-  void initState() {
-    _textEditingController = TextEditingController();
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    _textEditingController.dispose();
+    textEditingController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium!.copyWith(
+        color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5));
+
     return ListTile(
       onTap: () async {
-        int? result = int.tryParse(await PopUpController().openTextFieldDialog(
-              context: context,
-              controller: _textEditingController,
-              title: "Set history limit",
-              submitLabel: "Set",
-              label: "Enter a number",
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-            ) ??
-            "");
+        int? result = await HistoryLimitService().openDialog(context);
 
         if (result == null) return;
 
@@ -64,13 +49,11 @@ class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
       title: const Text("History limit"),
       subtitle: Text(
         "Between $bottomLimit and $topLimit, \nor infinite if above.",
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
+        style: textStyle,
       ),
       trailing: Text(
         "${historySize ?? "Infinite"}",
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5)),
+        style: textStyle,
       ),
     );
   }

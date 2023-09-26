@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 
-class HideTopicsSwitch extends StatefulWidget {
-  const HideTopicsSwitch({super.key});
+class HideTopicsSetting extends StatefulWidget {
+  const HideTopicsSetting({super.key});
 
   @override
-  State<HideTopicsSwitch> createState() => _HideTopicsSwitchState();
+  State<HideTopicsSetting> createState() => _HideTopicsSettingState();
 }
 
-class _HideTopicsSwitchState extends State<HideTopicsSwitch> {
+class _HideTopicsSettingState extends State<HideTopicsSetting> {
   bool _hideTopics = HideTopicsService().hideTopics;
 
   @override

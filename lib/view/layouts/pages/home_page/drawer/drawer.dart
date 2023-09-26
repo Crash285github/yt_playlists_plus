@@ -25,7 +25,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //title
+            //Title
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Text(
@@ -59,7 +59,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           ? () async {
                               Navigator.pop(context);
                               if (!await Persistence().import()) return;
-                              await Persistence().save().then((_) {
+                              await Persistence().save().whenComplete(() {
                                 SplitViewState.playlist = null;
                               });
                             }
