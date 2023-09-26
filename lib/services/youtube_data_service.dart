@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
@@ -5,9 +6,9 @@ import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 
-///Youtube fetching service
+///Youtube playlist fetching service
 ///
-///Wraps the `YoutubeExplode` client
+///Wrapper for the `YoutubeExplode` client
 class YoutubeDataService {
   static late yt_explode.YoutubeExplode _client;
 
@@ -52,7 +53,12 @@ class YoutubeDataService {
   ///
   ///Returns null if the url is invalid or the Playlist ID doesn't exist
   static Future<Playlist?> searchByLink({required String url}) async {
-    final String id = url.split("list=")[1].split('&')[0];
+    final String? id = yt_explode.PlaylistId.parsePlaylistId(url);
+
+    //if id couldn't be parsed
+    if (id == null) {
+      return null;
+    }
 
     //if already contains
     if (PlaylistsService().playlists.any((final Playlist pl) => pl.id == id)) {
@@ -60,8 +66,7 @@ class YoutubeDataService {
     }
 
     try {
-      final Playlist playlist = await _getPlaylist(id);
-      return playlist;
+      return await _getPlaylist(id);
     } on SocketException {
       rethrow;
     } on PlaylistException {
@@ -97,7 +102,7 @@ class YoutubeDataService {
         title: result.title,
         author: author,
         length: result.videoCount,
-        thumbnailUrl: "", //? at download
+        thumbnailUrl: "", //?? at download
       );
     } on SocketException {
       rethrow;

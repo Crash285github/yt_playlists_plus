@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
-import 'package:yt_playlists_plus/view/layout/responsive/responsive.dart';
+import 'package:yt_playlists_plus/view/layouts/responsive/responsive.dart';
 
 ///Builds the application with a theme
 class ThemeBuilder extends StatelessWidget {
