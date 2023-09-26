@@ -11,7 +11,6 @@ import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_se
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/view/theme_builder.dart';
@@ -39,17 +38,10 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ReorderService()),
       ChangeNotifierProvider(create: (context) => PlaylistsService()),
       ChangeNotifierProvider(create: (context) => HistoryLimitService()),
+      ChangeNotifierProvider(create: (context) => ConfirmDeletionsService())
     ],
     child: const ThemeBuilder(),
   ));
 
-  ThemeService().load();
-  PlaylistsService().load();
-  HideTopicsService().load();
-  SplitLayoutService().load();
-  ColorSchemeService().load();
-  GroupHistoryService().load();
-  HistoryLimitService().load();
-  ConfirmDeletionsService().load();
-  if (Platform.isAndroid) PlannedSizeService().load();
+  Persistence().load();
 }

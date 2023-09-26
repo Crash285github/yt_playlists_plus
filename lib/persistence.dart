@@ -45,25 +45,43 @@ class Persistence with ChangeNotifier {
     _instance.notifyListeners();
   }
 
+  Future<void> load() async {
+    await ThemeService().load();
+    await PlaylistsService().load();
+    await HideTopicsService().load();
+    await ColorSchemeService().load();
+    await SplitLayoutService().load();
+    await HistoryLimitService().load();
+    await GroupHistoryService().load();
+    await ConfirmDeletionsService().load();
+    if (Platform.isAndroid) await PlannedSizeService().load();
+  }
+
   Future<void> save() async {
     await ThemeService().save();
     await PlaylistsService().save();
     await HideTopicsService().save();
     await ColorSchemeService().save();
     await SplitLayoutService().save();
-    await PlannedSizeService().save();
     await HistoryLimitService().save();
     await GroupHistoryService().save();
     await ConfirmDeletionsService().save();
+    if (Platform.isAndroid) await PlannedSizeService().save();
   }
 
+  bool _importing = false;
   Future<bool> import() async {
+    if (_importing) return false;
+    _importing = true;
+
     final Directory dir = await getApplicationDocumentsDirectory();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       initialDirectory: dir.path,
       allowedExtensions: ['json'],
       type: FileType.custom,
     );
+
+    _importing = false;
     if (result != null) {
       File file = File(result.files.single.path!);
       Map json = jsonDecode(await file.readAsString());
