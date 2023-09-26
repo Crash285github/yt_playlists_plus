@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
+///Manages the setting 'Hide Topics'
 class HideTopicsService extends ChangeNotifier
     implements SettingService<bool>, StorableService {
   bool hideTopics = false;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///Manages enabling/disabling the reordering of playlists
 class ReorderService extends ChangeNotifier {
   bool canReorder = false;
 

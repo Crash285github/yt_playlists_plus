@@ -41,8 +41,7 @@ class ThemeBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<ThemeService>(context);
-    Provider.of<ColorSchemeService>(context);
-    final AppColorScheme appColorScheme = ColorSchemeService().scheme;
+    AppColorScheme scheme = Provider.of<ColorSchemeService>(context).scheme;
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
@@ -50,12 +49,12 @@ class ThemeBuilder extends StatelessWidget {
         ColorScheme? darkColorScheme;
 
         //?? dynamic color schemes
-        if (appColorScheme == AppColorScheme.dynamic) {
+        if (scheme == AppColorScheme.dynamic) {
           lightColorScheme = lightDynamic?.harmonized();
           darkColorScheme = darkDynamic?.harmonized();
         }
         //?? static color schemes
-        else if (appColorScheme == AppColorScheme.mono) {
+        else if (scheme == AppColorScheme.mono) {
           lightColorScheme = const ColorScheme.light().copyWith(
             primary: Colors.black,
             secondary: Colors.black,
@@ -71,11 +70,11 @@ class ThemeBuilder extends StatelessWidget {
           );
         } else {
           lightColorScheme = ColorScheme.fromSeed(
-            seedColor: ColorSchemeService().scheme.color!,
+            seedColor: scheme.color!,
           );
 
           darkColorScheme = ColorScheme.fromSeed(
-            seedColor: ColorSchemeService().scheme.color!,
+            seedColor: scheme.color!,
             brightness: Brightness.dark,
           );
         }

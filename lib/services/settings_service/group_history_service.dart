@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
+///Manages setting the history grouping
 class GroupHistoryService extends ChangeNotifier
     implements SettingService<bool>, StorableService {
   bool groupHistoryTime = false;

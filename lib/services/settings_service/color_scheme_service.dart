@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
+///Manages the application's color scheme
 class ColorSchemeService extends ChangeNotifier
     implements SettingService<AppColorScheme>, StorableService {
   AppColorScheme scheme = AppColorScheme.dynamic;
