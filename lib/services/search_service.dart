@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/extensions/is_youtube_link.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/youtube_data_service.dart';
+import 'package:yt_playlists_plus/services/fetching_service.dart';
 
 ///Provides the searching logic for `SearchPage`
 class SearchService extends ChangeNotifier {
@@ -27,8 +27,7 @@ class SearchService extends ChangeNotifier {
 
     if (query.isYoutubePlaylistLink()) {
       try {
-        YoutubeDataService();
-        Playlist? playlist = await YoutubeDataService.searchByLink(url: query);
+        Playlist? playlist = await FetchingService.searchByLink(url: query);
         if (playlist != null) {
           playlist.setStatus(PlaylistStatus.notDownloaded);
           searchResults.add(playlist);
@@ -40,8 +39,7 @@ class SearchService extends ChangeNotifier {
       state = SearchState.noResults;
     } else {
       try {
-        YoutubeDataService();
-        await for (Playlist playlist in YoutubeDataService.searchByQuery(
+        await for (Playlist playlist in FetchingService.searchByQuery(
             query: query,
             excludedWords:
                 PlaylistsService().playlists.map((pl) => pl.id).toList())) {

@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
-import 'package:yt_playlists_plus/services/youtube_data_service.dart';
+import 'package:yt_playlists_plus/services/fetching_service.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
@@ -214,9 +214,8 @@ class Playlist extends ChangeNotifier {
 
     bool first = true;
     try {
-      YoutubeDataService();
       await for (final Video video
-          in YoutubeDataService.getVideosFromPlaylist(id)) {
+          in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
           return;
         }
@@ -254,9 +253,8 @@ class Playlist extends ChangeNotifier {
     _isNetworkingCancelled = false;
 
     try {
-      YoutubeDataService();
       await for (final Video video
-          in YoutubeDataService.getVideosFromPlaylist(id)) {
+          in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
           return;
         }
@@ -291,7 +289,7 @@ class Playlist extends ChangeNotifier {
       thumbnailUrl = newthumbnailUrl;
     }
 
-    if (_fetch.isEmpty && !(await YoutubeDataService.existsPlaylist(id))) {
+    if (_fetch.isEmpty && !(await FetchingService.existsPlaylist(id))) {
       setStatus(PlaylistStatus.notFound);
       return;
     }

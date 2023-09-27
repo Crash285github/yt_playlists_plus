@@ -9,14 +9,15 @@ import 'package:yt_playlists_plus/services/playlists_service.dart';
 ///Youtube playlist fetching service
 ///
 ///Wrapper for the `YoutubeExplode` client
-class YoutubeDataService {
-  static late yt_explode.YoutubeExplode _client;
+class FetchingService {
+  static yt_explode.YoutubeExplode? _client;
+  static int _fetchCount = 0;
 
-  //Singleton
-  static final YoutubeDataService _instance = YoutubeDataService._internal();
-  factory YoutubeDataService() => _instance;
-  YoutubeDataService._internal() {
-    _client = yt_explode.YoutubeExplode();
+  static void _tryCloseCient() {
+    if (_fetchCount == 0) {
+      _client!.close();
+      _client = null;
+    }
   }
 
   ///Searches Youtube playlists with a given `query`
@@ -34,9 +35,12 @@ class YoutubeDataService {
       }
     }
 
+    _client ??= yt_explode.YoutubeExplode();
+    _fetchCount++;
+
     try {
       final yt_explode.SearchList<yt_explode.BaseSearchContent> result =
-          await _client.search
+          await _client!.search
               .searchContent(query, filter: yt_explode.TypeFilters.playlist);
       for (final yt_explode.BaseSearchContent list in result) {
         yield await _getPlaylist(
@@ -46,6 +50,9 @@ class YoutubeDataService {
       rethrow;
     } on PlaylistException {
       return;
+    } finally {
+      _fetchCount--;
+      _tryCloseCient();
     }
   }
 
@@ -64,6 +71,8 @@ class YoutubeDataService {
     if (PlaylistsService().playlists.any((final Playlist pl) => pl.id == id)) {
       return null;
     }
+    _client ??= yt_explode.YoutubeExplode();
+    _fetchCount++;
 
     try {
       return await _getPlaylist(id);
@@ -71,24 +80,36 @@ class YoutubeDataService {
       rethrow;
     } on PlaylistException {
       return null;
+    } finally {
+      _fetchCount--;
+      _tryCloseCient();
     }
   }
 
   static Future<bool> existsPlaylist(String playlistId) async {
+    _client ??= yt_explode.YoutubeExplode();
+    _fetchCount++;
+
     try {
       final yt_explode.Playlist result =
-          await _client.playlists.get(playlistId);
+          await _client!.playlists.get(playlistId);
       return result.title != "";
     } on Exception {
       return false;
+    } finally {
+      _fetchCount--;
+      _tryCloseCient();
     }
   }
 
-  //? gets playlist information
+  //?? gets playlist information
   static Future<Playlist> _getPlaylist(String playlistId) async {
+    _client ??= yt_explode.YoutubeExplode();
+    _fetchCount++;
+
     try {
       final yt_explode.Playlist result =
-          await _client.playlists.get(playlistId);
+          await _client!.playlists.get(playlistId);
 
       if (result.title == "") {
         throw PlaylistException("Playlist doesn't exist with id $playlistId");
@@ -106,14 +127,20 @@ class YoutubeDataService {
       );
     } on SocketException {
       rethrow;
+    } finally {
+      _fetchCount--;
+      _tryCloseCient();
     }
   }
 
   ///Yields all `videos` from a given playlist
   static Stream<Video> getVideosFromPlaylist(String playlistId) async* {
+    _client ??= yt_explode.YoutubeExplode();
+    _fetchCount++;
+
     try {
       await for (final yt_explode.Video vid
-          in _client.playlists.getVideos(playlistId)) {
+          in _client!.playlists.getVideos(playlistId)) {
         Video video = Video(
           id: vid.id.toString(),
           title: vid.title,
@@ -124,6 +151,14 @@ class YoutubeDataService {
       }
     } on SocketException {
       rethrow;
+    } finally {
+      _fetchCount--;
+      _tryCloseCient();
     }
   }
+
+  //__ Singleton
+  static final FetchingService _instance = FetchingService._();
+  factory FetchingService() => _instance;
+  FetchingService._();
 }
