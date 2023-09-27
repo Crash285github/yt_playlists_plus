@@ -38,7 +38,7 @@ class PlaylistView extends ListWidget {
             if (playlist.status == PlaylistStatus.fetching ||
                 playlist.status == PlaylistStatus.downloading)
               PlaylistProgressIndicator(
-                progress: playlist.fetchProgress / 100,
+                progress: playlist.progress / 100,
                 color: playlist.status.color,
               ),
             Ink(
