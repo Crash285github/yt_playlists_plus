@@ -34,8 +34,7 @@ class ChangesTab extends StatelessWidget {
                   changes: (added.toList() + missing.toList()).toSet())
               : ChangesStatus(
                   status: playlist.status,
-                  fetchProgress: playlist.fetchProgress,
-                  downloadProgress: playlist.downloadProgress,
+                  progress: playlist.progress,
                 )
         ],
       ),
