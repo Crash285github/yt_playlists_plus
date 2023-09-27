@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/services/popup_controller/open_confirm_dialog.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';

@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
-import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
-import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
+import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
+import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';

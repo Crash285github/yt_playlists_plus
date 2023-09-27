@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/extensions/equal_seconds_since_epoch.dart';
+import 'package:yt_playlists_plus/model/extensions/equal_seconds_since_epoch.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/view/templates/video_history/video_history_view.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';

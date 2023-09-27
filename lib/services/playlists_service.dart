@@ -37,17 +37,16 @@ class PlaylistsService extends ChangeNotifier implements StorableService {
   String storageKey = Persistence.playlistsKey;
 
   @override
-  Future<void> load() async {
-    Persistence.load<List<String>>(key: storageKey, defaultValue: [])
-        .then((value) {
-      playlists = (value as List<String>)
-          .map((playlistJson) => Playlist.fromJson(jsonDecode(playlistJson)))
-          .toList();
-    }).whenComplete(() {
-      notifyListeners();
-      Persistence.playlists = playlists;
-    });
-  }
+  Future<void> load() async =>
+      Persistence.load<List<String>>(key: storageKey, defaultValue: [])
+          .then((value) {
+        playlists = (value as List<String>)
+            .map((playlistJson) => Playlist.fromJson(jsonDecode(playlistJson)))
+            .toList();
+      }).whenComplete(() {
+        notifyListeners();
+        Persistence.playlists = playlists;
+      });
 
   @override
   Future<bool> save() async => Persistence.save<List<String>>(

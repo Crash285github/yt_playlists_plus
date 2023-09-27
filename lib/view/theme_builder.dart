@@ -1,8 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
-import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
+import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/responsive.dart';

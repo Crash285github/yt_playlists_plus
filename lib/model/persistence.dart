@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
-import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
-import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
+import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
+import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
 ///Data management

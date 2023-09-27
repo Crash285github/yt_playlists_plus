@@ -35,15 +35,11 @@ class PlaylistView extends ListWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            if (playlist.status == PlaylistStatus.fetching)
+            if (playlist.status == PlaylistStatus.fetching ||
+                playlist.status == PlaylistStatus.downloading)
               PlaylistProgressIndicator(
                 progress: playlist.fetchProgress / 100,
-                color: PlaylistStatus.fetching.color,
-              ),
-            if (playlist.status == PlaylistStatus.downloading)
-              PlaylistProgressIndicator(
-                progress: playlist.downloadProgress / 100,
-                color: PlaylistStatus.downloading.color,
+                color: playlist.status.color,
               ),
             Ink(
               child: InkWell(
