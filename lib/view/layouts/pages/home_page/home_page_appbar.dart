@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/export_import_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_refresh_all_button.dart';
@@ -20,26 +21,28 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<PlaylistsService>(context).playlists;
+    List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
+    bool canReorder = Provider.of<ReorderService>(context).canReorder;
+
     return StyledSliverAppBar(
       title: const Text("Playlists"),
-      actions: ReorderService().canReorder
-          ? []
+      actions: canReorder
+          ? null
           : [
               HomePageRefreshAllButton(
                 fetchCount: _fetchCount,
-                onPressed: _isFetchingAll
+                onPressed: _isFetchingAll || playlists.isEmpty
                     ? null
                     : () {
                         setState(() {
                           _isFetchingAll = true;
-                          _fetchCount = PlaylistsService().playlists.length;
+                          _fetchCount = playlists.length;
                         });
 
                         ExportImportService().disable();
 
                         Future.wait(
-                          PlaylistsService().playlists.map(
+                          playlists.map(
                             (playlist) {
                               return playlist.status ==
                                           PlaylistStatus.fetching ||
@@ -48,8 +51,9 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                                   ? Future(() => null)
                                   : playlist
                                       .fetchVideos()
-                                      .then((_) async => await playlist.check())
-                                      .then((_) => setState(() {
+                                      .whenComplete(
+                                          () async => await playlist.check())
+                                      .whenComplete(() => setState(() {
                                             _fetchCount--;
                                           }))
                                       .onError((error, stackTrace) {
@@ -57,7 +61,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                                     });
                             },
                           ).toList(),
-                        ).then((_) {
+                        ).whenComplete(() {
                           setState(() {
                             _isFetchingAll = false;
                             _fetchCount = 0;

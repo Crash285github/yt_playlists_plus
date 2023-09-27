@@ -62,20 +62,11 @@ class Playlist extends ChangeNotifier {
   ///Shows the fetching progress
   ///
   ///Not exact, but the bigger the list the more accurate it is
-  int fetchProgress = 0;
+  int progress = 0;
 
   ///Sets new progress and notifies listeners
-  void setFetchProgress(double newProgress) {
-    fetchProgress = _setProgress(fetchProgress, newProgress);
-    notifyListeners();
-  }
-
-  ///Shows the download progress
-  int downloadProgress = 0;
-
-  ///Sets the download progress
-  void setDownloadProgress(double newProgress) {
-    downloadProgress = _setProgress(downloadProgress, newProgress);
+  void setProgress(double newProgress) {
+    progress = _setProgress(progress, newProgress);
     notifyListeners();
   }
 
@@ -209,7 +200,7 @@ class Playlist extends ChangeNotifier {
     if (status != PlaylistStatus.notDownloaded) return;
     ExportImportService().disable();
     setStatus(PlaylistStatus.downloading);
-    setDownloadProgress(0);
+    setProgress(0);
     _isNetworkingCancelled = false;
 
     bool first = true;
@@ -220,7 +211,7 @@ class Playlist extends ChangeNotifier {
           return;
         }
         _videos.add(video);
-        setDownloadProgress(_videos.length / (length ?? 1));
+        setProgress(_videos.length / (length ?? 1));
         if (first) {
           thumbnailUrl = video.thumbnailUrl;
           notifyListeners();
@@ -245,11 +236,11 @@ class Playlist extends ChangeNotifier {
     if (_status == PlaylistStatus.fetching ||
         _status == PlaylistStatus.downloading) return;
 
-    //? cleanup
+    //?? cleanup
     _fetching = true;
     _fetch.clear();
     setStatus(PlaylistStatus.fetching);
-    setFetchProgress(0);
+    setProgress(0);
     _isNetworkingCancelled = false;
 
     try {
@@ -259,7 +250,7 @@ class Playlist extends ChangeNotifier {
           return;
         }
         _fetch.add(video);
-        setFetchProgress(_fetch.length / _videos.length);
+        setProgress(_fetch.length / _videos.length);
       }
     } on SocketException {
       setStatus(PlaylistStatus.unChecked);

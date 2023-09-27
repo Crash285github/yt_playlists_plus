@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/view/templates/playlist/playlist_progress_indicator.dart';
 
 class ChangesStatus extends StatelessWidget {
   final PlaylistStatus status;
-  final int fetchProgress;
-  final int downloadProgress;
+  final int progress;
 
   const ChangesStatus({
     super.key,
     required this.status,
-    required this.fetchProgress,
-    required this.downloadProgress,
+    required this.progress,
   });
 
   @override
@@ -18,7 +17,7 @@ class ChangesStatus extends StatelessWidget {
     String message = "";
     switch (status) {
       case PlaylistStatus.downloading:
-        message = "Downloading... $downloadProgress%";
+        message = "Downloading... $progress%";
         break;
       case PlaylistStatus.downloaded:
         message = "Just downloaded.";
@@ -33,7 +32,7 @@ class ChangesStatus extends StatelessWidget {
         message = "Press the refresh button to check.";
         break;
       case PlaylistStatus.fetching:
-        message = "Fetching... $fetchProgress%";
+        message = "Fetching... $progress%";
         break;
       case PlaylistStatus.saved:
         message = "Playlist saved.";
@@ -42,12 +41,28 @@ class ChangesStatus extends StatelessWidget {
         message = "";
     }
     return Expanded(
-      child: Center(
-        child: Text(message,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                )),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(message,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5),
+                  )),
+          if (status == PlaylistStatus.fetching ||
+              status == PlaylistStatus.downloading) ...[
+            const SizedBox(height: 10),
+            FractionallySizedBox(
+              widthFactor: 0.4,
+              child: PlaylistProgressIndicator(
+                progress: progress / 100,
+                color: status.color,
+              ),
+            )
+          ]
+        ],
       ),
     );
   }
