@@ -22,10 +22,12 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
   @override
   Widget build(BuildContext context) {
     List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
+    bool canReorder = Provider.of<ReorderService>(context).canReorder;
+
     return StyledSliverAppBar(
       title: const Text("Playlists"),
-      actions: ReorderService().canReorder
-          ? []
+      actions: canReorder
+          ? null
           : [
               HomePageRefreshAllButton(
                 fetchCount: _fetchCount,
@@ -34,13 +36,13 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                     : () {
                         setState(() {
                           _isFetchingAll = true;
-                          _fetchCount = PlaylistsService().playlists.length;
+                          _fetchCount = playlists.length;
                         });
 
                         ExportImportService().disable();
 
                         Future.wait(
-                          PlaylistsService().playlists.map(
+                          playlists.map(
                             (playlist) {
                               return playlist.status ==
                                           PlaylistStatus.fetching ||
@@ -49,8 +51,9 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                                   ? Future(() => null)
                                   : playlist
                                       .fetchVideos()
-                                      .then((_) async => await playlist.check())
-                                      .then((_) => setState(() {
+                                      .whenComplete(
+                                          () async => await playlist.check())
+                                      .whenComplete(() => setState(() {
                                             _fetchCount--;
                                           }))
                                       .onError((error, stackTrace) {
@@ -58,7 +61,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                                     });
                             },
                           ).toList(),
-                        ).then((_) {
+                        ).whenComplete(() {
                           setState(() {
                             _isFetchingAll = false;
                             _fetchCount = 0;
