@@ -1,42 +1,40 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
+import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
+import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 
-///The Application's Persistent Storage
+///Data management
 class Persistence {
-  static Future<void> loadAll() async {
-    await ThemeService().load();
-    await PlaylistsService().load();
-    await HideTopicsService().load();
-    await ColorSchemeService().load();
-    await SplitLayoutService().load();
-    await HistoryLimitService().load();
-    await GroupHistoryService().load();
-    await ConfirmDeletionsService().load();
-    if (Platform.isAndroid) await PlannedSizeService().load();
-  }
+  //__ data keys
+  static const String appThemeKey = 'appTheme',
+      colorSchemeKey = 'appColorScheme',
+      splitLayoutKey = 'splitLayout',
+      plannedSizeKey = 'plannedSize',
+      confirmDeletionsKey = 'confirmDeletions',
+      hideTopicsKey = 'hideTopics',
+      groupHistoryKey = 'groupHistory',
+      historyLimitKey = 'historyLimit',
+      playlistsKey = 'playlists';
 
-  static Future<void> saveAll() async {
-    await ThemeService().save();
-    await PlaylistsService().save();
-    await HideTopicsService().save();
-    await ColorSchemeService().save();
-    await SplitLayoutService().save();
-    await HistoryLimitService().save();
-    await GroupHistoryService().save();
-    await ConfirmDeletionsService().save();
-    if (Platform.isAndroid) await PlannedSizeService().save();
-  }
+  //__ data default values
+  static AppTheme appTheme = AppTheme.light;
+  static AppColorScheme colorScheme = AppColorScheme.blue;
+  static SplitLayout splitLayout = SplitLayout.uneven;
+  static PlannedSize plannedSize = PlannedSize.normal;
+  static bool confirmDeletions = true;
+  static bool hideTopics = true;
+  static bool groupHistory = false;
+  static int? historyLimit;
+  static List<Playlist> playlists = [];
 
+  //?? lock saving
   static FutureOr<void> _saving;
 
   ///Saves data to a Map with [key] and [value]
@@ -98,5 +96,49 @@ class Persistence {
     } else {
       throw UnsupportedError("Can't load type: ${defaultValue.runtimeType}");
     }
+  }
+
+  static bool _importing = false;
+  static Future<Map?> import() async {
+    if (_importing) return null;
+    _importing = true;
+
+    final Directory dir = await getApplicationDocumentsDirectory();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      initialDirectory: dir.path,
+      allowedExtensions: ['json'],
+      type: FileType.custom,
+    );
+
+    _importing = false;
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      return jsonDecode(await file.readAsString());
+    }
+
+    return null;
+  }
+
+  static Future<bool> export() async {
+    String? dir = await FilePicker.platform.getDirectoryPath();
+    if (dir == null) return false; //?? cancelled
+
+    final File file =
+        File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
+
+    final json = {
+      appThemeKey: appTheme,
+      colorSchemeKey: colorScheme,
+      splitLayoutKey: splitLayout,
+      plannedSizeKey: plannedSize,
+      confirmDeletionsKey: confirmDeletions,
+      hideTopicsKey: hideTopics,
+      historyLimitKey: historyLimit,
+      groupHistoryKey: groupHistory,
+      playlistsKey: playlists,
+    };
+
+    await file.writeAsString(jsonEncode(json));
+    return true;
   }
 }

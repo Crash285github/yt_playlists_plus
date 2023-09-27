@@ -6,24 +6,24 @@ import 'package:yt_playlists_plus/services/settings_service/abstract_setting_ser
 ///Manages the setting 'Hide Topics'
 class HideTopicsService extends ChangeNotifier
     implements SettingService<bool>, StorableService {
-  bool hideTopics = false;
+  bool hideTopics = Persistence.hideTopics;
 
   @override
   void set(bool value) {
-    hideTopics = value;
+    Persistence.hideTopics = hideTopics = value;
     notifyListeners();
   }
 
   @override
-  String storableKey = 'hideTopics';
+  String storageKey = Persistence.hideTopicsKey;
 
   @override
   Future<void> load() async =>
-      set(await Persistence.load(key: storableKey, defaultValue: false));
+      set(await Persistence.load(key: storageKey, defaultValue: false));
 
   @override
   Future<bool> save() async =>
-      await Persistence.save<bool>(key: storableKey, value: hideTopics);
+      await Persistence.save<bool>(key: storageKey, value: hideTopics);
 
   //__ Singleton
   static final HideTopicsService _instance = HideTopicsService._();

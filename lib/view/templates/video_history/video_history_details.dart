@@ -19,7 +19,7 @@ class VideoHistoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistoryTime;
+    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistory;
     return Flexible(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Tooltip(

@@ -9,30 +9,30 @@ import 'package:yt_playlists_plus/services/settings_service/abstract_setting_ser
 ///Manages the history limit
 class HistoryLimitService extends ChangeNotifier
     implements SettingService<int?>, StorableService {
-  int? limit;
+  int? limit = Persistence.historyLimit;
   final TextEditingController _controller = TextEditingController();
 
   @override
   void set(int? value) {
     if (value == null || value < 0) {
-      limit = null;
+      Persistence.historyLimit = limit = null;
     } else {
-      limit = value;
+      Persistence.historyLimit = limit = value;
     }
 
     notifyListeners();
   }
 
   @override
-  String storableKey = 'historyLimit';
+  String storageKey = Persistence.historyLimitKey;
 
   @override
   Future<void> load() async =>
-      set(await Persistence.load<int>(key: storableKey, defaultValue: -1));
+      set(await Persistence.load<int>(key: storageKey, defaultValue: -1));
 
   @override
   Future<bool> save() async =>
-      await Persistence.save<int>(key: storableKey, value: limit ?? -1);
+      await Persistence.save<int>(key: storageKey, value: limit ?? -1);
 
   @override
   void dispose() {

@@ -9,7 +9,7 @@ class GroupHistorySetting extends StatefulWidget {
 }
 
 class _GroupHistorySettingState extends State<GroupHistorySetting> {
-  bool _isHistoryTimeGrouped = GroupHistoryService().groupHistoryTime;
+  bool _isHistoryTimeGrouped = GroupHistoryService().groupHistory;
 
   @override
   Widget build(BuildContext context) {

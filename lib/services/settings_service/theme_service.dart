@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
@@ -7,26 +8,26 @@ import 'package:yt_playlists_plus/view/theme_builder.dart';
 ///Manages the theme of the App
 class ThemeService extends ChangeNotifier
     implements SettingService<AppTheme>, StorableService {
-  AppTheme theme = AppTheme.light;
+  AppTheme theme = Persistence.appTheme;
   bool isAmoled = false;
 
   @override
   void set(AppTheme value) {
-    theme = value;
+    Persistence.appTheme = theme = value;
     isAmoled = theme == AppTheme.amoled;
     notifyListeners();
   }
 
   @override
-  String storableKey = 'appTheme';
+  String storageKey = Persistence.appThemeKey;
 
   @override
   Future<bool> save() async =>
-      await Persistence.save<int>(key: storableKey, value: theme.index);
+      await Persistence.save<int>(key: storageKey, value: theme.index);
 
   @override
   Future<void> load() async => set(AppTheme
-      .values[await Persistence.load<int>(key: storableKey, defaultValue: 0)]);
+      .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
 
   ///Generates a theme based on the given scheme
   ThemeData builder({ColorScheme? scheme}) {
@@ -74,18 +75,4 @@ class ThemeService extends ChangeNotifier
   static final ThemeService _instance = ThemeService._internal();
   ThemeService._internal();
   factory ThemeService() => _instance;
-}
-
-enum AppTheme {
-  light(displayName: 'Light'),
-  dark(displayName: 'Dark'),
-  amoled(displayName: 'Amoled'),
-  ;
-
-  const AppTheme({required this.displayName});
-
-  final String displayName;
-
-  String toJson() => name;
-  static AppTheme fromJson(String json) => values.byName(json);
 }

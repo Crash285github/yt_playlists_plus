@@ -14,7 +14,7 @@ class VideoHistoryGroupTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistoryTime;
+    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistory;
 
     return AnimatedContainer(
       height: groupTime ? 25 : 0,

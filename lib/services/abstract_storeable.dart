@@ -1,7 +1,7 @@
 ///Indicates that the service's data should be saved/loaded
 abstract class StorableService {
   ///The key that refers to the stored data
-  late final String storableKey;
+  late final String storageKey;
 
   ///Saves the data
   ///

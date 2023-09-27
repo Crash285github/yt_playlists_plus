@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/services/export_import_service.dart';
+import 'package:yt_playlists_plus/services/app_data_service.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
-import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
@@ -44,5 +44,5 @@ void main() async {
     child: const ThemeBuilder(),
   ));
 
-  Persistence.loadAll();
+  AppDataService.load();
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/persistence.dart';
+import 'package:yt_playlists_plus/services/app_data_service.dart';
 import 'package:yt_playlists_plus/services/export_import_service.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
@@ -61,7 +61,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           ? () async {
                               Navigator.pop(context);
                               if (!await ExportImportService().import()) return;
-                              await Persistence.saveAll().whenComplete(() {
+                              await AppDataService.save().whenComplete(() {
                                 SplitViewState.playlist = null;
                               });
                             }

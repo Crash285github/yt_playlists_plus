@@ -6,24 +6,24 @@ import 'package:yt_playlists_plus/services/settings_service/abstract_setting_ser
 ///Manages setting the history grouping
 class GroupHistoryService extends ChangeNotifier
     implements SettingService<bool>, StorableService {
-  bool groupHistoryTime = false;
+  bool groupHistory = Persistence.groupHistory;
 
   @override
   void set(bool value) {
-    groupHistoryTime = value;
+    Persistence.groupHistory = groupHistory = value;
     notifyListeners();
   }
 
   @override
-  String storableKey = 'groupHistoryTime';
+  String storageKey = Persistence.groupHistoryKey;
 
   @override
   Future<void> load() async =>
-      set(await Persistence.load<bool>(key: storableKey, defaultValue: false));
+      set(await Persistence.load<bool>(key: storageKey, defaultValue: false));
 
   @override
   Future<bool> save() async =>
-      await Persistence.save<bool>(key: storableKey, value: groupHistoryTime);
+      await Persistence.save<bool>(key: storageKey, value: groupHistory);
 
   //__ Singleton
   static final GroupHistoryService _instance = GroupHistoryService._();
