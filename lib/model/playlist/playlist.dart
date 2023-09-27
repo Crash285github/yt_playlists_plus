@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/services/export_import_service.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
 import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/fetching_service.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
@@ -207,7 +207,7 @@ class Playlist extends ChangeNotifier {
   ///Fetches the videos of the playlist and adds them to its [videos] Set
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
-    Persistence().disableExportImport();
+    ExportImportService().disable();
     setStatus(PlaylistStatus.downloading);
     setDownloadProgress(0);
     _isNetworkingCancelled = false;
@@ -237,7 +237,7 @@ class Playlist extends ChangeNotifier {
     }
 
     setStatus(PlaylistStatus.downloaded);
-    Persistence().tryEnableExportImport();
+    ExportImportService().tryEnable();
   }
 
   ///Fetches the videos of the playlist and adds them to its [_fetch] Set

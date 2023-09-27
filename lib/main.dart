@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/services/export_import_service.dart';
 import 'package:yt_playlists_plus/services/playlists_service.dart';
 import 'package:yt_playlists_plus/services/reorder_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
@@ -29,7 +30,6 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => Persistence()),
       ChangeNotifierProvider(create: (context) => ThemeService()),
       ChangeNotifierProvider(create: (context) => ColorSchemeService()),
       ChangeNotifierProvider(create: (context) => SplitLayoutService()),
@@ -38,7 +38,8 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ReorderService()),
       ChangeNotifierProvider(create: (context) => PlaylistsService()),
       ChangeNotifierProvider(create: (context) => HistoryLimitService()),
-      ChangeNotifierProvider(create: (context) => ConfirmDeletionsService())
+      ChangeNotifierProvider(create: (context) => ConfirmDeletionsService()),
+      ChangeNotifierProvider(create: (context) => ExportImportService()),
     ],
     child: const ThemeBuilder(),
   ));
