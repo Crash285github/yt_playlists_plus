@@ -61,7 +61,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           ? () async {
                               Navigator.pop(context);
                               if (!await ExportImportService().import()) return;
-                              await Persistence().save().whenComplete(() {
+                              await Persistence.save().whenComplete(() {
                                 SplitViewState.playlist = null;
                               });
                             }

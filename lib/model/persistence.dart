@@ -11,7 +11,7 @@ import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
 
 ///The Application's Persistent Storage
 class Persistence {
-  Future<void> load() async {
+  static Future<void> load() async {
     await ThemeService().load();
     await PlaylistsService().load();
     await HideTopicsService().load();
@@ -23,7 +23,7 @@ class Persistence {
     if (Platform.isAndroid) await PlannedSizeService().load();
   }
 
-  Future<void> save() async {
+  static Future<void> save() async {
     await ThemeService().save();
     await PlaylistsService().save();
     await HideTopicsService().save();
@@ -34,9 +34,4 @@ class Persistence {
     await ConfirmDeletionsService().save();
     if (Platform.isAndroid) await PlannedSizeService().save();
   }
-
-  //__ Singleton
-  static final Persistence _instance = Persistence._internal();
-  Persistence._internal();
-  factory Persistence() => _instance;
 }
