@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/model/client.dart';
-import 'package:yt_playlists_plus/model/popup_manager.dart';
+import 'package:yt_playlists_plus/services/export_import_service.dart';
+import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
+import 'package:yt_playlists_plus/services/fetching_service.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
 
 class Playlist extends ChangeNotifier {
   final String id;
@@ -143,7 +146,7 @@ class Playlist extends ChangeNotifier {
       //? statusFunction
       video.statusFunction = (BuildContext context) {
         bool added = planned.add(video.title);
-        PopUpManager.showSnackBar(
+        PopUpController().showSnackBar(
             context: context,
             message:
                 added ? "Video added to Planned" : "Video already in Planned");
@@ -204,15 +207,15 @@ class Playlist extends ChangeNotifier {
   ///Fetches the videos of the playlist and adds them to its [videos] Set
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
-    Persistence.disableExportImport();
+    ExportImportService().disable();
     setStatus(PlaylistStatus.downloading);
     setDownloadProgress(0);
     _isNetworkingCancelled = false;
 
     bool first = true;
     try {
-      YoutubeClient();
-      await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
+      await for (final Video video
+          in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
           return;
         }
@@ -224,17 +227,17 @@ class Playlist extends ChangeNotifier {
           first = false;
         }
         //? if it started, add Playlist
-        Persistence.addPlaylist(this);
+        PlaylistsService().add(this);
       }
     } on SocketException {
       //? if it fails anytime, remove Playlist
-      Persistence.removePlaylist(this);
+      PlaylistsService().remove(this);
       setStatus(PlaylistStatus.notDownloaded);
       rethrow;
     }
 
     setStatus(PlaylistStatus.downloaded);
-    Persistence.mayEnableExportImport();
+    ExportImportService().tryEnable();
   }
 
   ///Fetches the videos of the playlist and adds them to its [_fetch] Set
@@ -250,8 +253,8 @@ class Playlist extends ChangeNotifier {
     _isNetworkingCancelled = false;
 
     try {
-      YoutubeClient();
-      await for (final Video video in YoutubeClient.getVideosFromPlaylist(id)) {
+      await for (final Video video
+          in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
           return;
         }
@@ -286,7 +289,7 @@ class Playlist extends ChangeNotifier {
       thumbnailUrl = newthumbnailUrl;
     }
 
-    if (_fetch.isEmpty && !(await YoutubeClient.existsPlaylist(id))) {
+    if (_fetch.isEmpty && !(await FetchingService.existsPlaylist(id))) {
       setStatus(PlaylistStatus.notFound);
       return;
     }
@@ -324,7 +327,7 @@ class Playlist extends ChangeNotifier {
     } else if (status == PlaylistStatus.unChanged) {
       _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
       _recentHistory.clear();
-      Persistence.savePlaylists();
+      PlaylistsService().save();
     }
   }
 
@@ -366,7 +369,7 @@ class Playlist extends ChangeNotifier {
 
   ///Converts a `Playlist` Object into a `json` Object
   Map<String, dynamic> toJson() {
-    int historyLimit = Persistence.historyLimit ?? _history.length;
+    int historyLimit = HistoryLimitService().limit ?? _history.length;
     return {
       'id': id,
       'title': title,

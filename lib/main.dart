@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/persistence/color_scheme.dart';
-import 'package:yt_playlists_plus/persistence/persistence.dart';
-import 'package:yt_playlists_plus/persistence/split_portions.dart';
-import 'package:yt_playlists_plus/persistence/theme.dart';
-import 'package:yt_playlists_plus/application_wrapper.dart';
+import 'package:yt_playlists_plus/services/export_import_service.dart';
+import 'package:yt_playlists_plus/services/app_data_service.dart';
+import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 void main() async {
   if (Platform.isWindows) {
@@ -23,13 +30,19 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => Persistence()),
-      ChangeNotifierProvider(create: (context) => ApplicationTheme()),
-      ChangeNotifierProvider(create: (context) => ApplicationColorScheme()),
-      ChangeNotifierProvider(create: (context) => ApplicationSplitPortions()),
+      ChangeNotifierProvider(create: (context) => ThemeService()),
+      ChangeNotifierProvider(create: (context) => ColorSchemeService()),
+      ChangeNotifierProvider(create: (context) => SplitLayoutService()),
+      ChangeNotifierProvider(create: (context) => GroupHistoryService()),
+      ChangeNotifierProvider(create: (context) => HideTopicsService()),
+      ChangeNotifierProvider(create: (context) => ReorderService()),
+      ChangeNotifierProvider(create: (context) => PlaylistsService()),
+      ChangeNotifierProvider(create: (context) => HistoryLimitService()),
+      ChangeNotifierProvider(create: (context) => ConfirmDeletionsService()),
+      ChangeNotifierProvider(create: (context) => ExportImportService()),
     ],
-    child: const ApplicationWrapper(),
+    child: const ThemeBuilder(),
   ));
 
-  Persistence.load();
+  AppDataService.load();
 }
