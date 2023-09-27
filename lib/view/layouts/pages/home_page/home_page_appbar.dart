@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
 import 'package:yt_playlists_plus/services/export_import_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_refresh_all_button.dart';
@@ -20,7 +21,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<PlaylistsService>(context).playlists;
+    List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
     return StyledSliverAppBar(
       title: const Text("Playlists"),
       actions: ReorderService().canReorder
@@ -28,7 +29,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
           : [
               HomePageRefreshAllButton(
                 fetchCount: _fetchCount,
-                onPressed: _isFetchingAll
+                onPressed: _isFetchingAll || playlists.isEmpty
                     ? null
                     : () {
                         setState(() {
