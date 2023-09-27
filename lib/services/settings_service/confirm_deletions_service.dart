@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 ///Manages the delete confirmations setting
@@ -19,12 +18,12 @@ class ConfirmDeletionsService extends ChangeNotifier
   String storableKey = 'confirmDeletions';
 
   @override
-  Future<void> load() async => set(
-      await LoadingService.load<bool>(key: storableKey, defaultValue: true));
+  Future<void> load() async =>
+      set(await Persistence.load<bool>(key: storableKey, defaultValue: true));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<bool>(key: storableKey, value: confirmDeletions);
+      await Persistence.save<bool>(key: storableKey, value: confirmDeletions);
 
   //__ Singleton
   static final ConfirmDeletionsService _instance = ConfirmDeletionsService._();

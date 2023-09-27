@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 ///Manages the height of the Planned panel (mobile only)
@@ -19,12 +18,12 @@ class PlannedSizeService extends ChangeNotifier
   String storableKey = 'initialPlannedSize';
 
   @override
-  Future<void> load() async => set(PlannedSize.values[
-      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
+  Future<void> load() async => set(PlannedSize
+      .values[await Persistence.load<int>(key: storableKey, defaultValue: 0)]);
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: storableKey, value: plannedSize.index);
+      await Persistence.save<int>(key: storableKey, value: plannedSize.index);
 
   //__ Singleton
   static final PlannedSizeService _instance = PlannedSizeService._();

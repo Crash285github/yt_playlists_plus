@@ -44,5 +44,5 @@ void main() async {
     child: const ThemeBuilder(),
   ));
 
-  Persistence.load();
+  Persistence.loadAll();
 }

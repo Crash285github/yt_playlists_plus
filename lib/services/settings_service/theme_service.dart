@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///Manages the theme of the App
@@ -23,11 +22,11 @@ class ThemeService extends ChangeNotifier
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: storableKey, value: theme.index);
+      await Persistence.save<int>(key: storableKey, value: theme.index);
 
   @override
-  Future<void> load() async => set(AppTheme.values[
-      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
+  Future<void> load() async => set(AppTheme
+      .values[await Persistence.load<int>(key: storableKey, defaultValue: 0)]);
 
   ///Generates a theme based on the given scheme
   ThemeData builder({ColorScheme? scheme}) {

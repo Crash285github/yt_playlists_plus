@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 ///Manages the application's color scheme
@@ -20,11 +19,11 @@ class ColorSchemeService extends ChangeNotifier
 
   @override
   Future<bool> save() async =>
-      SavingService.save<int>(key: storableKey, value: scheme.index);
+      Persistence.save<int>(key: storableKey, value: scheme.index);
 
   @override
-  Future<void> load() async => set(AppColorScheme.values[
-      await LoadingService.load<int>(key: storableKey, defaultValue: 0)]);
+  Future<void> load() async => set(AppColorScheme
+      .values[await Persistence.load<int>(key: storableKey, defaultValue: 0)]);
 
   //__ Singleton
   static final ColorSchemeService _instance = ColorSchemeService._();

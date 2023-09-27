@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
 import 'package:yt_playlists_plus/services/popup_controller/open_textfield_dialog.dart';
 import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 ///Manages the history limit
@@ -29,11 +28,11 @@ class HistoryLimitService extends ChangeNotifier
 
   @override
   Future<void> load() async =>
-      set(await LoadingService.load<int>(key: storableKey, defaultValue: -1));
+      set(await Persistence.load<int>(key: storableKey, defaultValue: -1));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<int>(key: storableKey, value: limit ?? -1);
+      await Persistence.save<int>(key: storableKey, value: limit ?? -1);
 
   @override
   void dispose() {

@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/export_import_service.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 
 class PlaylistsService extends ChangeNotifier implements StorableService {
   List<Playlist> playlists = [];
@@ -32,7 +31,7 @@ class PlaylistsService extends ChangeNotifier implements StorableService {
 
   @override
   Future<void> load() async {
-    LoadingService.load<List<String>>(key: storableKey, defaultValue: [])
+    Persistence.load<List<String>>(key: storableKey, defaultValue: [])
         .then((value) {
       playlists = (value as List<String>)
           .map((playlistJson) => Playlist.fromJson(jsonDecode(playlistJson)))
@@ -41,7 +40,7 @@ class PlaylistsService extends ChangeNotifier implements StorableService {
   }
 
   @override
-  Future<bool> save() async => SavingService.save<List<String>>(
+  Future<bool> save() async => Persistence.save<List<String>>(
       key: storableKey,
       value: playlists.map((playlist) => jsonEncode(playlist)).toList());
 

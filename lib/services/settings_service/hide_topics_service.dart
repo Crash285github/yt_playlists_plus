@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/loading_service.dart';
-import 'package:yt_playlists_plus/services/saving_service.dart';
 import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
 
 ///Manages the setting 'Hide Topics'
@@ -20,11 +19,11 @@ class HideTopicsService extends ChangeNotifier
 
   @override
   Future<void> load() async =>
-      set(await LoadingService.load(key: storableKey, defaultValue: false));
+      set(await Persistence.load(key: storableKey, defaultValue: false));
 
   @override
   Future<bool> save() async =>
-      await SavingService.save<bool>(key: storableKey, value: hideTopics);
+      await Persistence.save<bool>(key: storableKey, value: hideTopics);
 
   //__ Singleton
   static final HideTopicsService _instance = HideTopicsService._();
