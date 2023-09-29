@@ -15,7 +15,7 @@ For this reason the app saves and compares a Playlist's older and recent states,
 - store a Planned list for each Playlist ✔️
 - keep a history of a Playlist's states ✔️
 - lock video places in Playlists ❌
+- download videos ❌
 
-...so long way to go, but I'll make it slowly but surely C:
 
 This App is made possible by the [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) flutter package, which is a port from the C# [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode/) library.
