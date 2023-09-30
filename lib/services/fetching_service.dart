@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
-import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/model/video.dart';
 
 ///Youtube playlist fetching service
 ///
@@ -138,18 +139,21 @@ class FetchingService {
   }
 
   ///Yields all `videos` from a given playlist
-  static Stream<Video> getVideosFromPlaylist(String playlistId) async* {
+  static Stream<VideoController> getVideosFromPlaylist(
+      String playlistId) async* {
     _client ??= yt_explode.YoutubeExplode();
     _fetchCount++;
 
     try {
       await for (final yt_explode.Video vid
           in _client!.playlists.getVideos(playlistId)) {
-        Video video = Video(
-          id: vid.id.toString(),
-          title: vid.title,
-          author: vid.author,
-          thumbnailUrl: vid.thumbnails.mediumResUrl,
+        VideoController video = VideoController(
+          video: Video(
+            id: vid.id.toString(),
+            title: vid.title,
+            author: vid.author,
+            thumbnailUrl: vid.thumbnails.mediumResUrl,
+          ),
         );
         yield video;
       }

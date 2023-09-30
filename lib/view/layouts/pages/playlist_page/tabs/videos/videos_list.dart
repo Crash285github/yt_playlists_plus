@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/video/video.dart';
+import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
 import 'package:yt_playlists_plus/view/templates/video/video_view.dart';
 
 class VideosList extends StatefulWidget {
-  final Set<Video> videos;
+  final Set<VideoController> videos;
   const VideosList({
     super.key,
     required this.videos,

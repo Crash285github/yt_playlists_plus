@@ -6,9 +6,9 @@ import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/fetching_service.dart';
-import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/model/video/video_history.dart';
-import 'package:yt_playlists_plus/model/video/video_status.dart';
+import 'package:yt_playlists_plus/controller/video_controller.dart';
+import 'package:yt_playlists_plus/model/video_history.dart';
+import 'package:yt_playlists_plus/model/enums/video_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class PlaylistController extends ChangeNotifier {
@@ -35,14 +35,14 @@ class PlaylistController extends ChangeNotifier {
   }
 
   ///Local data
-  Set<Video> get videos => playlist.videos;
-  set videos(Set<Video> value) {
+  Set<VideoController> get videos => playlist.videos;
+  set videos(Set<VideoController> value) {
     playlist.videos = value;
     notifyListeners();
   }
 
   ///Data from youtube
-  final Set<Video> _fetch = {};
+  final Set<VideoController> _fetch = {};
   bool _fetching = false;
 
   ///Set of planned titles
@@ -67,8 +67,8 @@ class PlaylistController extends ChangeNotifier {
   final Set<VideoHistory> _recentHistory = {};
 
   //? used to keep changes until they're finalized
-  final Set<Video> _added = {};
-  final Set<Video> _missing = {};
+  final Set<VideoController> _added = {};
+  final Set<VideoController> _missing = {};
 
   ///Whether the playlist has been changed
   ///
@@ -113,25 +113,25 @@ class PlaylistController extends ChangeNotifier {
   ///Adds a video to the Set of [videos]
   ///
   ///returns `true` if successful
-  bool addToVideos(Video video) => videos.add(video);
+  bool addToVideos(VideoController video) => videos.add(video);
 
   ///Removes a video from the Set of [videos]
   ///
   ///returns `true` if successful
-  bool removeFromVideos(Video video) => videos.remove(video);
+  bool removeFromVideos(VideoController video) => videos.remove(video);
 
   ///Returns the difference of the `local` videos and the `fetched` videos
   ///
   ///Video's function is set to `remove`
-  Set<Video> getMissing() {
+  Set<VideoController> getMissing() {
     //? do nothing, if empty or fetching (otherwise false data)
     if (_fetching || _fetch.isEmpty) return {};
 
-    final Set<Video> clonedVideos =
-        videos.map((e) => Video.deepCopy(e)).toSet();
-    final Set<Video> clonedMissing = clonedVideos.difference(_fetch);
+    final Set<VideoController> clonedVideos =
+        videos.map((e) => VideoController.deepCopy(e)).toSet();
+    final Set<VideoController> clonedMissing = clonedVideos.difference(_fetch);
 
-    for (final Video video in clonedMissing) {
+    for (final VideoController video in clonedMissing) {
       video.setStatus(VideoStatus.missing);
 
       //? onTap
@@ -165,16 +165,17 @@ class PlaylistController extends ChangeNotifier {
   ///Returns the difference of the `fetched` videos and the `local` videos
   ///
   ///Video's function is set to `add`
-  Set<Video> getAdded() {
+  Set<VideoController> getAdded() {
     if (_fetching || _fetch.isEmpty) return {};
 
-    final Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
-    final Set<Video> clonedAdded = clonedFetch.difference(videos);
+    final Set<VideoController> clonedFetch =
+        _fetch.map((e) => VideoController.deepCopy(e)).toSet();
+    final Set<VideoController> clonedAdded = clonedFetch.difference(videos);
 
     //? cleanup previus fetch
     _added.removeWhere((video) => !_fetch.contains(video));
 
-    for (final Video video in clonedAdded) {
+    for (final VideoController video in clonedAdded) {
       video.setStatus(VideoStatus.added);
 
       //? onTap
@@ -219,7 +220,7 @@ class PlaylistController extends ChangeNotifier {
 
     bool first = true;
     try {
-      await for (final Video video
+      await for (final VideoController video
           in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
           return;
@@ -258,7 +259,7 @@ class PlaylistController extends ChangeNotifier {
     _isNetworkingCancelled = false;
 
     try {
-      await for (final Video video
+      await for (final VideoController video
           in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
           return;
@@ -304,7 +305,7 @@ class PlaylistController extends ChangeNotifier {
         : setStatus(PlaylistStatus.changed);
 
     if (status == PlaylistStatus.changed) {
-      for (final Video video in getAdded()) {
+      for (final VideoController video in getAdded()) {
         final VideoHistory addedHistory = VideoHistory.fromVideo(
           video: video,
           status: VideoStatus.added,
@@ -317,7 +318,7 @@ class PlaylistController extends ChangeNotifier {
         }
       }
 
-      for (final Video video in getMissing()) {
+      for (final VideoController video in getMissing()) {
         final VideoHistory missingHistory = VideoHistory.fromVideo(
           video: video,
           status: VideoStatus.missing,
@@ -330,7 +331,7 @@ class PlaylistController extends ChangeNotifier {
         }
       }
     } else if (status == PlaylistStatus.unChanged) {
-      videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
+      videos = _fetch.map((e) => VideoController.deepCopy(e)).toSet();
       _recentHistory.clear();
       PlaylistsService().save();
     }

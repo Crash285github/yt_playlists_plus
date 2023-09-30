@@ -4,7 +4,7 @@ import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/history/empty_history.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/history/history_list.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/history/history_top_row.dart';
-import 'package:yt_playlists_plus/model/video/video_history.dart';
+import 'package:yt_playlists_plus/model/video_history.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class HistoryTab extends StatefulWidget {

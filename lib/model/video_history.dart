@@ -1,5 +1,5 @@
-import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/model/video/video_status.dart';
+import 'package:yt_playlists_plus/controller/video_controller.dart';
+import 'package:yt_playlists_plus/model/enums/video_status.dart';
 
 class VideoHistory {
   final String id, title, author;
@@ -16,7 +16,8 @@ class VideoHistory {
   }
 
   ///Convert a Video to a VideoHistory object
-  static VideoHistory fromVideo({required Video video, VideoStatus? status}) {
+  static VideoHistory fromVideo(
+      {required VideoController video, VideoStatus? status}) {
     return VideoHistory(
         id: video.id,
         title: video.title,
