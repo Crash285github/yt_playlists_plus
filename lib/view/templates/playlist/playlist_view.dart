@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/show_context_menu.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 import 'package:yt_playlists_plus/view/templates/adatpive_gesture_detector.dart';
 import 'package:yt_playlists_plus/view/abstract_list_widget.dart';
 import 'package:yt_playlists_plus/view/templates/playlist/playlist_details.dart';
@@ -25,10 +25,10 @@ class PlaylistView extends ListWidget {
 
   @override
   Widget build(BuildContext context) {
-    Playlist playlist = Provider.of<Playlist>(context);
+    PlaylistController playlist = Provider.of<PlaylistController>(context);
 
     return AdaptiveGestureDetector(
-      onTrigger: (offset) => PopUpController().showContextMenu(
+      onTrigger: (offset) => PopUpService().showContextMenu(
           context: context, offset: offset, playlist: playlist),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: radiusBuilder()),
@@ -43,7 +43,7 @@ class PlaylistView extends ListWidget {
               ),
             Ink(
               child: InkWell(
-                onTap: ReorderService().canReorder ? null : onTap,
+                onTap: ReorderController().canReorder ? null : onTap,
                 child: Row(
                   children: [
                     Flexible(

@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
-import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/controller/video_controller.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/model/video.dart';
 
 ///Youtube playlist fetching service
 ///
@@ -23,7 +24,7 @@ class FetchingService {
   ///Searches Youtube playlists with a given `query`
   ///
   ///Yields results
-  static Stream<Playlist> searchByQuery({
+  static Stream<PlaylistController> searchByQuery({
     required String query,
     List<String>? excludedWords,
   }) async* {
@@ -59,7 +60,7 @@ class FetchingService {
   ///Returns a single Playlist from the given `url`
   ///
   ///Returns null if the url is invalid or the Playlist ID doesn't exist
-  static Future<Playlist?> searchByLink({required String url}) async {
+  static Future<PlaylistController?> searchByLink({required String url}) async {
     final String? id = yt_explode.PlaylistId.parsePlaylistId(url);
 
     //if id couldn't be parsed
@@ -68,7 +69,9 @@ class FetchingService {
     }
 
     //if already contains
-    if (PlaylistsService().playlists.any((final Playlist pl) => pl.id == id)) {
+    if (PlaylistsController()
+        .playlists
+        .any((final PlaylistController pl) => pl.id == id)) {
       return null;
     }
     _client ??= yt_explode.YoutubeExplode();
@@ -103,7 +106,7 @@ class FetchingService {
   }
 
   //?? gets playlist information
-  static Future<Playlist> _getPlaylist(String playlistId) async {
+  static Future<PlaylistController> _getPlaylist(String playlistId) async {
     _client ??= yt_explode.YoutubeExplode();
     _fetchCount++;
 
@@ -118,12 +121,14 @@ class FetchingService {
       String author = result.author;
       if (!result.author.startsWith("by")) author = "by ${result.author}";
 
-      return Playlist(
-        id: result.id.toString(),
-        title: result.title,
-        author: author,
+      return PlaylistController(
+        playlist: Playlist(
+          id: result.id.toString(),
+          title: result.title,
+          author: author,
+          thumbnailUrl: "", //?? at download
+        ),
         length: result.videoCount,
-        thumbnailUrl: "", //?? at download
       );
     } on SocketException {
       rethrow;
@@ -134,18 +139,21 @@ class FetchingService {
   }
 
   ///Yields all `videos` from a given playlist
-  static Stream<Video> getVideosFromPlaylist(String playlistId) async* {
+  static Stream<VideoController> getVideosFromPlaylist(
+      String playlistId) async* {
     _client ??= yt_explode.YoutubeExplode();
     _fetchCount++;
 
     try {
       await for (final yt_explode.Video vid
           in _client!.playlists.getVideos(playlistId)) {
-        Video video = Video(
-          id: vid.id.toString(),
-          title: vid.title,
-          author: vid.author,
-          thumbnailUrl: vid.thumbnails.mediumResUrl,
+        VideoController video = VideoController(
+          video: Video(
+            id: vid.id.toString(),
+            title: vid.title,
+            author: vid.author,
+            thumbnailUrl: vid.thumbnails.mediumResUrl,
+          ),
         );
         yield video;
       }

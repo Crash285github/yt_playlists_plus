@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/view/templates/playlist/playlist_progress_indicator.dart';
 
 class ChangesStatus extends StatelessWidget {
   final PlaylistStatus status;
-  final int progress;
+  final double progress;
 
   const ChangesStatus({
     super.key,
@@ -17,7 +17,7 @@ class ChangesStatus extends StatelessWidget {
     String message = "";
     switch (status) {
       case PlaylistStatus.downloading:
-        message = "Downloading... $progress%";
+        message = "Downloading... ${progress.round()}%";
         break;
       case PlaylistStatus.downloaded:
         message = "Just downloaded.";
@@ -32,7 +32,7 @@ class ChangesStatus extends StatelessWidget {
         message = "Press the refresh button to check.";
         break;
       case PlaylistStatus.fetching:
-        message = "Fetching... $progress%";
+        message = "Fetching... ${progress.round()}%";
         break;
       case PlaylistStatus.saved:
         message = "Playlist saved.";

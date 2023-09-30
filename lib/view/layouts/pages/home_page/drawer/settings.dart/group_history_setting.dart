@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/group_history_controller.dart';
 
 class GroupHistorySetting extends StatefulWidget {
   const GroupHistorySetting({super.key});
@@ -9,7 +9,7 @@ class GroupHistorySetting extends StatefulWidget {
 }
 
 class _GroupHistorySettingState extends State<GroupHistorySetting> {
-  bool _isHistoryTimeGrouped = GroupHistoryService().groupHistory;
+  bool _isHistoryTimeGrouped = GroupHistoryController().groupHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _GroupHistorySettingState extends State<GroupHistorySetting> {
           _isHistoryTimeGrouped = value;
         });
 
-        GroupHistoryService()
+        GroupHistoryController()
           ..set(value)
           ..save();
       },

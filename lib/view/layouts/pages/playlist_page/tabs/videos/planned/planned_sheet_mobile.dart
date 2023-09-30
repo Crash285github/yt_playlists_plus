@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
-import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_controller.dart';
 
 class PlannedSheetMobile extends StatefulWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
   const PlannedSheetMobile({
     super.key,
     required this.playlist,
@@ -70,7 +70,8 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
         DraggableScrollableSheet(
           controller: _draggableScrollableController,
           initialChildSize:
-              PlannedSizeService().plannedSize == PlannedSize.normal && canSnap
+              PlannedSizeController().plannedSize == PlannedSize.normal &&
+                      canSnap
                   ? snapSize
                   : minSize,
           minChildSize: minSize,

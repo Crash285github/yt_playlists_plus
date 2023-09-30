@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
 import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///Manages the theme of the App
-class ThemeService extends ChangeNotifier
-    implements SettingService<AppTheme>, StorableService {
-  AppTheme theme = Persistence.appTheme;
+class ThemeController extends SettingController<AppTheme>
+    implements StorableController {
+  AppTheme theme = Persistence.appTheme.value;
   bool isAmoled = false;
 
   @override
   void set(AppTheme value) {
-    Persistence.appTheme = theme = value;
+    theme = value;
     isAmoled = theme == AppTheme.amoled;
     notifyListeners();
   }
 
   @override
-  String storageKey = Persistence.appThemeKey;
+  String storageKey = Persistence.appTheme.key;
 
   @override
-  Future<bool> save() async =>
-      await Persistence.save<int>(key: storageKey, value: theme.index);
+  Future<bool> save() async {
+    Persistence.appTheme.value = theme;
+    return await Persistence.save<int>(key: storageKey, value: theme.index);
+  }
 
   @override
   Future<void> load() async => set(AppTheme
@@ -72,7 +74,7 @@ class ThemeService extends ChangeNotifier
   }
 
   //__ Singleton
-  static final ThemeService _instance = ThemeService._internal();
-  ThemeService._internal();
-  factory ThemeService() => _instance;
+  static final ThemeController _instance = ThemeController._internal();
+  ThemeController._internal();
+  factory ThemeController() => _instance;
 }

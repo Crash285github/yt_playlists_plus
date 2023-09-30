@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/model/video/video_history.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/controller/video_controller.dart';
+import 'package:yt_playlists_plus/model/video_history.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 
-extension ShowContextMenu on PopUpController {
+extension ShowContextMenu on PopUpService {
   Future<void> showContextMenu({
     required BuildContext context,
     required Offset offset,
-    Video? video,
-    Playlist? playlist,
+    VideoController? video,
+    PlaylistController? playlist,
     VideoHistory? history,
   }) async {
     if (video == null && playlist == null && history == null) {
@@ -55,7 +55,7 @@ extension ShowContextMenu on PopUpController {
       )
     ];
     await showMenu(
-      color: ThemeService().isAmoled
+      color: ThemeController().isAmoled
           ? Colors.black
           : Theme.of(context).colorScheme.background,
       elevation: 5,

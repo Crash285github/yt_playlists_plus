@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/view/templates/styled_dropdown.dart';
 
 class SplitViewSetting extends StatefulWidget {
@@ -11,7 +11,7 @@ class SplitViewSetting extends StatefulWidget {
 }
 
 class _SplitViewSettingState extends State<SplitViewSetting> {
-  SplitLayout _value = SplitLayoutService().portions;
+  SplitLayout _value = SplitLayoutController().portions;
 
   static const double pi = 3.1415926535897932;
 
@@ -34,7 +34,7 @@ class _SplitViewSettingState extends State<SplitViewSetting> {
             _value = value;
           });
 
-          SplitLayoutService()
+          SplitLayoutController()
             ..set(value!)
             ..save();
         },

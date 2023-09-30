@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 
 class StatusCard extends StatelessWidget {
   final PlaylistStatus status;

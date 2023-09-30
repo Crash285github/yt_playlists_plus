@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/services/popup_controller/open_confirm_dialog.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/services/popup_service/open_confirm_dialog.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/playlist_page.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 
 ///Shows the `HomePage` on the left side and a `PlaylistPage` on the right
 ///
@@ -21,11 +21,11 @@ class SplitView extends StatefulWidget {
 }
 
 class SplitViewState extends State<SplitView> {
-  static Playlist? playlist;
+  static PlaylistController? playlist;
 
   @override
   Widget build(BuildContext context) {
-    SplitLayout portions = Provider.of<SplitLayoutService>(context).portions;
+    SplitLayout portions = Provider.of<SplitLayoutController>(context).portions;
 
     return Scaffold(
       body: Row(
@@ -55,7 +55,7 @@ class SplitViewState extends State<SplitView> {
                     value: playlist,
                     child: PlaylistPage(
                       onDelete: () async {
-                        PopUpController()
+                        PopUpService()
                             .openConfirmDialog(
                           context: context,
                           title: "Delete \"${playlist!.title}\"?",
@@ -64,7 +64,7 @@ class SplitViewState extends State<SplitView> {
                         )
                             .then((value) {
                           if (value ?? false) {
-                            PlaylistsService()
+                            PlaylistsController()
                               ..remove(playlist!)
                               ..save();
 
@@ -81,7 +81,7 @@ class SplitViewState extends State<SplitView> {
           Expanded(
             flex: portions.left,
             child: HomePage(
-              onPlaylistTap: (Playlist selected) {
+              onPlaylistTap: (PlaylistController selected) {
                 setState(() {
                   playlist = selected;
                 });

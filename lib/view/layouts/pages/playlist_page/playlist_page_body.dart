@@ -1,13 +1,13 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/tab_changes.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/history/tab_history.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/videos_tab.dart';
 
 class PlaylistPageBody extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
 
   const PlaylistPageBody({
     super.key,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class SaveButton extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
   const SaveButton({
     super.key,
     required this.playlist,
@@ -14,9 +14,9 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        await PlaylistsService().save();
+        await PlaylistsController().save();
         playlist.clearPending();
-        playlist.setStatus(PlaylistStatus.saved);
+        playlist.status = PlaylistStatus.saved;
       },
       tooltip: "Save",
       child: const Icon(

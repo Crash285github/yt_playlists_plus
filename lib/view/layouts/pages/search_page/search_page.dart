@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/search_service.dart';
+import 'package:yt_playlists_plus/controller/searching_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/search_page/empty.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/search_page/results.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/search_page/search_bar.dart';
@@ -20,7 +20,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    SearchService service = Provider.of<SearchService>(context);
+    SearchingController service = Provider.of<SearchingController>(context);
 
     return Scaffold(
       body: CustomScrollView(

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_controller.dart';
 
 class HistoryTopRow extends StatelessWidget {
   final Function()? onClearPressed;
@@ -16,7 +16,7 @@ class HistoryTopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int? limit = Provider.of<HistoryLimitService>(context).limit;
+    int? limit = Provider.of<HistoryLimitController>(context).limit;
 
     int displaySize = min(size, limit ?? 0);
     if (displaySize == 0) displaySize = size;

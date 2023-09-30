@@ -4,35 +4,42 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
-import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
-import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
+import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
+import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/model/storable_data.dart';
 
 ///Data management
 class Persistence {
-  //__ data keys
-  static const String appThemeKey = 'appTheme',
-      colorSchemeKey = 'appColorScheme',
-      splitLayoutKey = 'splitLayout',
-      plannedSizeKey = 'plannedSize',
-      confirmDeletionsKey = 'confirmDeletions',
-      hideTopicsKey = 'hideTopics',
-      groupHistoryKey = 'groupHistory',
-      historyLimitKey = 'historyLimit',
-      playlistsKey = 'playlists';
+  //__ data keys & default values
+  static StorableData<AppTheme> appTheme =
+      StorableData(key: 'appTheme', value: AppTheme.light);
 
-  //__ data default values
-  static AppTheme appTheme = AppTheme.light;
-  static AppColorScheme colorScheme = AppColorScheme.blue;
-  static SplitLayout splitLayout = SplitLayout.uneven;
-  static PlannedSize plannedSize = PlannedSize.normal;
-  static bool confirmDeletions = true;
-  static bool hideTopics = true;
-  static bool groupHistory = false;
-  static int? historyLimit;
-  static List<Playlist> playlists = [];
+  static StorableData<AppColorScheme> colorScheme =
+      StorableData(key: 'appColorScheme', value: AppColorScheme.blue);
+
+  static StorableData<SplitLayout> splitLayout =
+      StorableData(key: 'splitLayout', value: SplitLayout.uneven);
+
+  static StorableData<PlannedSize> plannedSize =
+      StorableData(key: 'plannedSize', value: PlannedSize.normal);
+
+  static StorableData<bool> confirmDeletions =
+      StorableData(key: 'confirmDeletions', value: true);
+
+  static StorableData<bool> hideTopics =
+      StorableData(key: 'hideTopics', value: true);
+
+  static StorableData<bool> groupHistory =
+      StorableData(key: 'groupHistory', value: true);
+
+  static StorableData<int?> historyLimit =
+      StorableData(key: 'historyLimit', value: null);
+
+  static StorableData<List<Playlist>> playlists =
+      StorableData(key: 'playlists', value: []);
 
   //?? lock saving
   static FutureOr<void> _saving;
@@ -127,15 +134,15 @@ class Persistence {
         File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
-      appThemeKey: appTheme,
-      colorSchemeKey: colorScheme,
-      splitLayoutKey: splitLayout,
-      plannedSizeKey: plannedSize,
-      confirmDeletionsKey: confirmDeletions,
-      hideTopicsKey: hideTopics,
-      historyLimitKey: historyLimit,
-      groupHistoryKey: groupHistory,
-      playlistsKey: playlists,
+      appTheme.key: appTheme.value,
+      colorScheme.key: colorScheme.value,
+      splitLayout.key: splitLayout.value,
+      plannedSize.key: plannedSize.value,
+      confirmDeletions.key: confirmDeletions.value,
+      hideTopics.key: hideTopics.value,
+      historyLimit.key: historyLimit.value,
+      groupHistory.key: groupHistory.value,
+      playlists.key: playlists.value,
     };
 
     await file.writeAsString(jsonEncode(json));

@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
 import 'package:yt_playlists_plus/view/templates/playlist/playlist_view.dart';
 
 class SearchResults extends StatelessWidget {
-  final List<Playlist> results;
+  final List<PlaylistController> results;
   const SearchResults({
     super.key,
     required this.results,
@@ -42,7 +42,7 @@ class SearchResults extends StatelessWidget {
 }
 
 class _Result extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
   final int index;
   final int resultsLength;
 
@@ -72,7 +72,7 @@ class _Result extends StatelessWidget {
                     try {
                       await playlist
                           .download()
-                          .then((_) => PlaylistsService().save());
+                          .then((_) => PlaylistsController().save());
                     } on SocketException {
                       //?? do nothing
                     }

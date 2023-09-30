@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/extensions/format_date_time.dart';
-import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/group_history_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:yt_playlists_plus/extensions/format_date_time.dart';
 
 class VideoHistoryDetails extends StatelessWidget {
   final String title, author;
@@ -19,7 +19,7 @@ class VideoHistoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistory;
+    bool groupTime = Provider.of<GroupHistoryController>(context).groupHistory;
     return Flexible(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Tooltip(

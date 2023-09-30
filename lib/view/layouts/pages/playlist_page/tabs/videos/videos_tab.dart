@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/empty_videos.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/videos_info.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_sheet_mobile.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/videos_list.dart';
 
 class VideosTab extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
 
   const VideosTab({
     super.key,

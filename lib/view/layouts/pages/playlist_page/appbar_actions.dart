@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/export_import_service.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/playlist_page.dart';
 
 extension AppBarActions on PlaylistPage {
   List<Widget>? appBarActions({
-    required Playlist playlist,
+    required PlaylistController playlist,
   }) {
     return [
       IconButton(
@@ -19,13 +19,13 @@ extension AppBarActions on PlaylistPage {
             ? null
             : () async {
                 try {
-                  ExportImportService().disable();
+                  ExportImportController().disable();
                   await playlist.fetchVideos();
                   await playlist.check();
                 } on SocketException catch (_) {
                   return;
                 } finally {
-                  ExportImportService().tryEnable();
+                  ExportImportController().tryEnable();
                 }
               },
       ),
