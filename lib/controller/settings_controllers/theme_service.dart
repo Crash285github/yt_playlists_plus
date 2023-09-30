@@ -8,22 +8,24 @@ import 'package:yt_playlists_plus/view/theme_builder.dart';
 ///Manages the theme of the App
 class ThemeService extends ChangeNotifier
     implements SettingService<AppTheme>, StorableController {
-  AppTheme theme = Persistence.appTheme;
+  AppTheme theme = Persistence.appTheme.value;
   bool isAmoled = false;
 
   @override
   void set(AppTheme value) {
-    Persistence.appTheme = theme = value;
+    theme = value;
     isAmoled = theme == AppTheme.amoled;
     notifyListeners();
   }
 
   @override
-  String storageKey = Persistence.appThemeKey;
+  String storageKey = Persistence.appTheme.key;
 
   @override
-  Future<bool> save() async =>
-      await Persistence.save<int>(key: storageKey, value: theme.index);
+  Future<bool> save() async {
+    Persistence.appTheme.value = theme;
+    return await Persistence.save<int>(key: storageKey, value: theme.index);
+  }
 
   @override
   Future<void> load() async => set(AppTheme

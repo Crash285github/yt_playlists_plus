@@ -7,7 +7,7 @@ import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 
 class PlaylistsService extends ChangeNotifier implements StorableController {
-  List<PlaylistController> playlists = Persistence.playlists
+  List<PlaylistController> playlists = Persistence.playlists.value
       .map((e) => PlaylistController(playlist: e))
       .toList();
 
@@ -33,7 +33,7 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
   }
 
   @override
-  String storageKey = Persistence.playlistsKey;
+  String storageKey = Persistence.playlists.key;
 
   @override
   Future<void> load() async =>
@@ -49,7 +49,7 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
 
   @override
   Future<bool> save() async {
-    Persistence.playlists = playlists.map((e) => e.playlist).toList();
+    Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
     return Persistence.save<List<String>>(
         key: storageKey,
         value: playlists.map((playlist) => jsonEncode(playlist)).toList());

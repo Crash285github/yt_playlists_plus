@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
@@ -9,30 +11,28 @@ import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setti
 ///Manages the history limit
 class HistoryLimitService extends ChangeNotifier
     implements SettingService<int?>, StorableController {
-  int? limit = Persistence.historyLimit;
+  int? limit = Persistence.historyLimit.value;
   final TextEditingController _controller = TextEditingController();
 
   @override
   void set(int? value) {
-    if (value == null || value < 0) {
-      Persistence.historyLimit = limit = null;
-    } else {
-      Persistence.historyLimit = limit = value;
-    }
+    limit = value == null ? null : max(value, 0);
 
     notifyListeners();
   }
 
   @override
-  String storageKey = Persistence.historyLimitKey;
+  String storageKey = Persistence.historyLimit.key;
 
   @override
   Future<void> load() async =>
       set(await Persistence.load<int>(key: storageKey, defaultValue: -1));
 
   @override
-  Future<bool> save() async =>
-      await Persistence.save<int>(key: storageKey, value: limit ?? -1);
+  Future<bool> save() async {
+    Persistence.historyLimit.value = limit;
+    return await Persistence.save<int>(key: storageKey, value: limit ?? -1);
+  }
 
   @override
   void dispose() {

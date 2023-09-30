@@ -59,7 +59,7 @@ class Playlist {
 
   ///Converts a `Playlist` Object into a `json` Object
   Map<String, dynamic> toJson() {
-    int historyLimit = Persistence.historyLimit ?? history.length;
+    int historyLimit = Persistence.historyLimit.value ?? history.length;
     return {
       'id': id,
       'title': title,

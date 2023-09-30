@@ -7,24 +7,27 @@ import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setti
 ///Manages the application's color scheme
 class ColorSchemeService extends ChangeNotifier
     implements SettingService<AppColorScheme>, StorableController {
-  AppColorScheme scheme = Persistence.colorScheme;
+  AppColorScheme scheme = Persistence.colorScheme.value;
 
   @override
   void set(AppColorScheme value) {
-    Persistence.colorScheme = scheme = value;
+    scheme = value;
     notifyListeners();
   }
 
   @override
-  String storageKey = Persistence.colorSchemeKey;
+  String storageKey = Persistence.colorScheme.key;
 
   @override
   Future<bool> save() async =>
       Persistence.save<int>(key: storageKey, value: scheme.index);
 
   @override
-  Future<void> load() async => set(AppColorScheme
-      .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
+  Future<void> load() async {
+    Persistence.colorScheme.value = scheme;
+    set(AppColorScheme
+        .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
+  }
 
   //__ Singleton
   static final ColorSchemeService _instance = ColorSchemeService._();

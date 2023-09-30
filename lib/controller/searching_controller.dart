@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/extensions/is_youtube_link.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/extensions/is_youtube_link.dart';
 import 'package:yt_playlists_plus/services/fetching_service.dart';
 
 ///Provides the searching logic for `SearchPage`

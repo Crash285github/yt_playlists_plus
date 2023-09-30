@@ -7,22 +7,24 @@ import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setti
 ///Manages the layout of the app
 class SplitLayoutService extends ChangeNotifier
     implements SettingService<SplitLayout>, StorableController {
-  SplitLayout portions = Persistence.splitLayout;
+  SplitLayout portions = Persistence.splitLayout.value;
   bool isEnabled = true;
 
   @override
   void set(SplitLayout value) {
-    Persistence.splitLayout = portions = value;
+    portions = value;
     isEnabled = portions != SplitLayout.disabled;
     notifyListeners();
   }
 
   @override
-  String storageKey = Persistence.splitLayoutKey;
+  String storageKey = Persistence.splitLayout.key;
 
   @override
-  Future<bool> save() async =>
-      await Persistence.save<int>(key: storageKey, value: portions.index);
+  Future<bool> save() async {
+    Persistence.splitLayout.value = portions;
+    return await Persistence.save<int>(key: storageKey, value: portions.index);
+  }
 
   @override
   Future<void> load() async => set(SplitLayout

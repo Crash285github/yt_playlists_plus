@@ -7,24 +7,27 @@ import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setti
 ///Manages the height of the Planned panel (mobile only)
 class PlannedSizeService extends ChangeNotifier
     implements SettingService<PlannedSize>, StorableController {
-  PlannedSize plannedSize = Persistence.plannedSize;
+  PlannedSize plannedSize = Persistence.plannedSize.value;
 
   @override
   void set(PlannedSize value) {
-    Persistence.plannedSize = plannedSize = value;
+    plannedSize = value;
     notifyListeners();
   }
 
   @override
-  String storageKey = Persistence.plannedSizeKey;
+  String storageKey = Persistence.plannedSize.key;
 
   @override
   Future<void> load() async => set(PlannedSize
       .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
 
   @override
-  Future<bool> save() async =>
-      await Persistence.save<int>(key: storageKey, value: plannedSize.index);
+  Future<bool> save() async {
+    Persistence.plannedSize.value = plannedSize;
+    return await Persistence.save<int>(
+        key: storageKey, value: plannedSize.index);
+  }
 
   //__ Singleton
   static final PlannedSizeService _instance = PlannedSizeService._();

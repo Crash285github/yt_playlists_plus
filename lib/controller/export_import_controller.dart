@@ -45,39 +45,38 @@ class ExportImportController extends ChangeNotifier {
     if (json == null) return false;
 
     final AppTheme appTheme =
-        AppTheme.values[json[ThemeService().storageKey] ?? AppTheme.light];
+        AppTheme.values[json[Persistence.appTheme.key] ?? AppTheme.light];
     ThemeService().set(appTheme);
 
-    final AppColorScheme appColorScheme = AppColorScheme.values[
-        json[ColorSchemeService().storageKey] ?? AppColorScheme.dynamic];
+    final AppColorScheme appColorScheme = AppColorScheme
+        .values[json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic];
     ColorSchemeService().set(appColorScheme);
 
     final SplitLayout splitLayout = SplitLayout
-        .values[json[SplitLayoutService().storageKey] ?? SplitLayout.uneven];
+        .values[json[Persistence.splitLayout.key] ?? SplitLayout.uneven];
     SplitLayoutService().set(splitLayout);
 
     if (Platform.isAndroid) {
       final PlannedSize plannedSize = PlannedSize
-          .values[json[PlannedSizeService().storageKey] ?? PlannedSize.normal];
+          .values[json[Persistence.plannedSize.key] ?? PlannedSize.normal];
       PlannedSizeService().set(plannedSize);
     }
 
     final bool confirmDeletions =
-        json[ConfirmDeletionsService().storageKey] ?? true;
+        json[Persistence.confirmDeletions.key] ?? true;
     ConfirmDeletionsService().set(confirmDeletions);
 
-    final bool hideTopics = json[HideTopicsService().storageKey] ?? false;
+    final bool hideTopics = json[Persistence.hideTopics.key] ?? false;
     HideTopicsService().set(hideTopics);
 
-    final bool groupHistory = json[GroupHistoryService().storageKey] ?? false;
+    final bool groupHistory = json[Persistence.groupHistory.key] ?? false;
     GroupHistoryService().set(groupHistory);
 
-    final int? historyLimit = json[HistoryLimitService().storageKey];
+    final int? historyLimit = json[Persistence.historyLimit.key];
     HistoryLimitService().set(historyLimit);
 
     SplitViewState.playlist = null;
-    List<PlaylistController> list = (json[PlaylistsService().storageKey]
-            as List)
+    List<PlaylistController> list = (json[Persistence.playlists.key] as List)
         .map((final playlistJson) => PlaylistController.fromJson(playlistJson))
         .toList();
     PlaylistsService().replace(list);
