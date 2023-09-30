@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/extensions/is_youtube_link.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/services/fetching_service.dart';
 
@@ -11,7 +11,7 @@ import 'package:yt_playlists_plus/services/fetching_service.dart';
 class SearchingController extends ChangeNotifier {
   bool isSearching = false;
   bool _isCanceled = false;
-  final List<Playlist> searchResults = [];
+  final List<PlaylistController> searchResults = [];
   double progress = 0;
 
   void cancel() => _isCanceled = true;
@@ -27,7 +27,8 @@ class SearchingController extends ChangeNotifier {
 
     if (query.isYoutubePlaylistLink()) {
       try {
-        Playlist? playlist = await FetchingService.searchByLink(url: query);
+        PlaylistController? playlist =
+            await FetchingService.searchByLink(url: query);
         if (playlist != null) {
           playlist.setStatus(PlaylistStatus.notDownloaded);
           searchResults.add(playlist);
@@ -39,7 +40,7 @@ class SearchingController extends ChangeNotifier {
       state = SearchState.noResults;
     } else {
       try {
-        await for (Playlist playlist in FetchingService.searchByQuery(
+        await for (PlaylistController playlist in FetchingService.searchByQuery(
             query: query,
             excludedWords:
                 PlaylistsService().playlists.map((pl) => pl.id).toList())) {

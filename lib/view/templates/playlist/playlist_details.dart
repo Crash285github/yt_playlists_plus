@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 
 ///Displays the `Playlist`'s [title] & [author]
 class PlaylistDetails extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
 
   const PlaylistDetails({
     super.key,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/pend_all_button.dart';
@@ -8,7 +8,7 @@ import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/
 
 class ChangesInfo extends StatelessWidget {
   final Set<Video> changes;
-  final Playlist playlist;
+  final PlaylistController playlist;
 
   const ChangesInfo({
     super.key,

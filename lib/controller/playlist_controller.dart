@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
+import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
@@ -11,24 +10,43 @@ import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
 
-class Playlist extends ChangeNotifier {
-  final String id;
-  String title, author, thumbnailUrl;
+class PlaylistController extends ChangeNotifier {
+  final Playlist playlist;
   int? length; //? only used during download
 
+  String get id => playlist.id;
+  String get title => playlist.title;
+  set title(String value) {
+    playlist.title = value;
+    notifyListeners();
+  }
+
+  String get author => playlist.author;
+  set author(String value) {
+    playlist.author = value;
+    notifyListeners();
+  }
+
+  String get thumbnailUrl => playlist.thumbnailUrl;
+  set thumbnailUrl(String value) {
+    playlist.thumbnailUrl = value;
+    notifyListeners();
+  }
+
   ///Local data
-  Set<Video> get videos => _videos;
-  Set<Video> _videos = {};
+  Set<Video> get videos => playlist.videos;
+  set videos(Set<Video> value) {
+    playlist.videos = value;
+    notifyListeners();
+  }
 
   ///Data from youtube
   final Set<Video> _fetch = {};
   bool _fetching = false;
 
   ///Set of planned titles
-  Set<String> get planned => _planned;
-  Set<String> _planned = {};
+  Set<String> get planned => playlist.planned;
 
   ///The playlist's `current` status
   PlaylistStatus get status => _status;
@@ -41,8 +59,7 @@ class Playlist extends ChangeNotifier {
   }
 
   ///Previously deleted and added videos
-  List<VideoHistory> get history => _history;
-  List<VideoHistory> _history = [];
+  List<VideoHistory> get history => playlist.history;
 
   //? history since the last Unchanged State of the playlist
   //? used for comparing recent histories, to not flood the
@@ -86,11 +103,8 @@ class Playlist extends ChangeNotifier {
   ///Cancels download or fetching, if it is in progress
   void cancelNetworking() => _isNetworkingCancelled = true;
 
-  Playlist({
-    required this.id,
-    required this.title,
-    required this.author,
-    required this.thumbnailUrl,
+  PlaylistController({
+    required this.playlist,
     this.length,
   });
 
@@ -99,12 +113,12 @@ class Playlist extends ChangeNotifier {
   ///Adds a video to the Set of [videos]
   ///
   ///returns `true` if successful
-  bool addToVideos(Video video) => _videos.add(video);
+  bool addToVideos(Video video) => videos.add(video);
 
   ///Removes a video from the Set of [videos]
   ///
   ///returns `true` if successful
-  bool removeFromVideos(Video video) => _videos.remove(video);
+  bool removeFromVideos(Video video) => videos.remove(video);
 
   ///Returns the difference of the `local` videos and the `fetched` videos
   ///
@@ -114,7 +128,7 @@ class Playlist extends ChangeNotifier {
     if (_fetching || _fetch.isEmpty) return {};
 
     final Set<Video> clonedVideos =
-        _videos.map((e) => Video.deepCopy(e)).toSet();
+        videos.map((e) => Video.deepCopy(e)).toSet();
     final Set<Video> clonedMissing = clonedVideos.difference(_fetch);
 
     for (final Video video in clonedMissing) {
@@ -124,11 +138,11 @@ class Playlist extends ChangeNotifier {
       video.onTap = () {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
-          _videos.remove(video);
+          videos.remove(video);
           _modified++;
         } else if (video.status == VideoStatus.pending) {
           video.setStatus(VideoStatus.missing);
-          _videos.add(video);
+          videos.add(video);
           _modified--;
         }
         notifyListeners();
@@ -155,7 +169,7 @@ class Playlist extends ChangeNotifier {
     if (_fetching || _fetch.isEmpty) return {};
 
     final Set<Video> clonedFetch = _fetch.map((e) => Video.deepCopy(e)).toSet();
-    final Set<Video> clonedAdded = clonedFetch.difference(_videos);
+    final Set<Video> clonedAdded = clonedFetch.difference(videos);
 
     //? cleanup previus fetch
     _added.removeWhere((video) => !_fetch.contains(video));
@@ -167,11 +181,11 @@ class Playlist extends ChangeNotifier {
       video.onTap = () {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
-          _videos.add(video);
+          videos.add(video);
           _modified++;
         } else if (video.status == VideoStatus.pending) {
           video.setStatus(VideoStatus.added);
-          _videos.remove(video);
+          videos.remove(video);
           _modified--;
         }
         notifyListeners();
@@ -210,8 +224,8 @@ class Playlist extends ChangeNotifier {
         if (_isNetworkingCancelled) {
           return;
         }
-        _videos.add(video);
-        setProgress(_videos.length / (length ?? 1));
+        videos.add(video);
+        setProgress(videos.length / (length ?? 1));
         if (first) {
           thumbnailUrl = video.thumbnailUrl;
           notifyListeners();
@@ -250,7 +264,7 @@ class Playlist extends ChangeNotifier {
           return;
         }
         _fetch.add(video);
-        setProgress(_fetch.length / _videos.length);
+        setProgress(_fetch.length / videos.length);
       }
     } on SocketException {
       setStatus(PlaylistStatus.unChecked);
@@ -296,9 +310,9 @@ class Playlist extends ChangeNotifier {
           status: VideoStatus.added,
         );
 
-        if (_history.lastOrNull != addedHistory &&
+        if (history.lastOrNull != addedHistory &&
             !_recentHistory.contains(addedHistory)) {
-          _history.add(addedHistory);
+          history.add(addedHistory);
           _recentHistory.add(addedHistory);
         }
       }
@@ -309,14 +323,14 @@ class Playlist extends ChangeNotifier {
           status: VideoStatus.missing,
         );
 
-        if (_history.lastOrNull != missingHistory &&
+        if (history.lastOrNull != missingHistory &&
             !_recentHistory.contains(missingHistory)) {
-          _history.add(missingHistory);
+          history.add(missingHistory);
           _recentHistory.add(missingHistory);
         }
       }
     } else if (status == PlaylistStatus.unChanged) {
-      _videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
+      videos = _fetch.map((e) => Video.deepCopy(e)).toSet();
       _recentHistory.clear();
       PlaylistsService().save();
     }
@@ -329,12 +343,12 @@ class Playlist extends ChangeNotifier {
   @override
   String toString() => "\nPlaylist(title: $title, author: $author)";
 
-  ///returns the `Set` of [_videos] with the playlist
+  ///returns the `Set` of [videos] with the playlist
   String toExtendedString() =>
-      "\nPlaylist(title: $title, author: $author, videos: [${_videos.toString()}])";
+      "\nPlaylist(title: $title, author: $author, videos: [${videos.toString()}])";
 
   @override
-  bool operator ==(other) => other is Playlist && id == other.id;
+  bool operator ==(other) => other is PlaylistController && id == other.id;
 
   @override
   int get hashCode => Object.hash(id, null);
@@ -344,38 +358,11 @@ class Playlist extends ChangeNotifier {
   //#region json
 
   ///Converts a `json` Object into a `Playlist` Object
-  Playlist.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        author = json['author'],
-        thumbnailUrl = json['thumbnailUrl'],
-        _videos = (json['videos'] as List)
-            .map((video) => Video.fromJson(video))
-            .toSet(),
-        _planned = Set.from(
-            (jsonDecode(json['planned']) as List<dynamic>).cast<String>()),
-        _history = (json['history'] as List)
-            .map((videoHistory) => VideoHistory.fromJson(videoHistory))
-            .toList();
+  PlaylistController.fromJson(Map<String, dynamic> json)
+      : playlist = Playlist.fromJson(json);
 
   ///Converts a `Playlist` Object into a `json` Object
-  Map<String, dynamic> toJson() {
-    int historyLimit = HistoryLimitService().limit ?? _history.length;
-    return {
-      'id': id,
-      'title': title,
-      'author': author,
-      'thumbnailUrl': thumbnailUrl,
-      'videos': _videos.map((video) => video.toJson()).toList(),
-      'planned': jsonEncode(_planned.toList()),
-      'history': _history.reversed
-          .take(historyLimit)
-          .toList()
-          .reversed
-          .map((videoHistory) => videoHistory.toJson())
-          .toList()
-    };
-  }
+  Map<String, dynamic> toJson() => playlist.toJson();
 
   //#endregion
 }

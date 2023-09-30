@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class SaveButton extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
   const SaveButton({
     super.key,
     required this.playlist,

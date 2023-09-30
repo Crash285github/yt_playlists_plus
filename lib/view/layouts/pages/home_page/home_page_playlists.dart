@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 import 'package:yt_playlists_plus/view/templates/playlist/playlist_view.dart';
 
 class HomePagePlaylists extends StatefulWidget {
-  final Function(Playlist) onTap;
+  final Function(PlaylistController) onTap;
   const HomePagePlaylists({super.key, required this.onTap});
 
   @override
@@ -16,7 +16,8 @@ class HomePagePlaylists extends StatefulWidget {
 class _HomePagePlaylistsState extends State<HomePagePlaylists> {
   @override
   Widget build(BuildContext context) {
-    List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
+    List<PlaylistController> playlists =
+        Provider.of<PlaylistsService>(context).playlists;
     bool canReorder = Provider.of<ReorderService>(context).canReorder;
 
     return SliverReorderableList(
@@ -42,7 +43,7 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
             newIndex -= 1;
           }
 
-          final Playlist item = playlists.removeAt(oldIndex);
+          final PlaylistController item = playlists.removeAt(oldIndex);
           playlists.insert(newIndex, item);
         });
         PlaylistsService().save();

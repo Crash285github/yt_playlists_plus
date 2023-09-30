@@ -6,8 +6,8 @@ import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
 import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
@@ -76,8 +76,9 @@ class ExportImportController extends ChangeNotifier {
     HistoryLimitService().set(historyLimit);
 
     SplitViewState.playlist = null;
-    List<Playlist> list = (json[PlaylistsService().storageKey] as List)
-        .map((final playlistJson) => Playlist.fromJson(playlistJson))
+    List<PlaylistController> list = (json[PlaylistsService().storageKey]
+            as List)
+        .map((final playlistJson) => PlaylistController.fromJson(playlistJson))
         .toList();
     PlaylistsService().replace(list);
 

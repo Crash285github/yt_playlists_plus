@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_appbar.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/drawer.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_empty.dart';
@@ -11,7 +11,7 @@ import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
 
 class HomePage extends StatefulWidget {
-  final Function(Playlist) onPlaylistTap;
+  final Function(PlaylistController) onPlaylistTap;
 
   const HomePage({
     super.key,
@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Playlist> playlists = Provider.of<PlaylistsService>(context).playlists;
+    List<PlaylistController> playlists =
+        Provider.of<PlaylistsService>(context).playlists;
     bool canReorder = Provider.of<ReorderService>(context).canReorder;
 
     return WillPopScope(

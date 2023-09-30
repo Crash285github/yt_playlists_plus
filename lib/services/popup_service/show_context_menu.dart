@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
@@ -12,7 +12,7 @@ extension ShowContextMenu on PopUpService {
     required BuildContext context,
     required Offset offset,
     Video? video,
-    Playlist? playlist,
+    PlaylistController? playlist,
     VideoHistory? history,
   }) async {
     if (video == null && playlist == null && history == null) {

@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 
 class PlaylistsService extends ChangeNotifier implements StorableController {
-  List<Playlist> playlists = Persistence.playlists;
+  List<PlaylistController> playlists = Persistence.playlists;
 
-  void replace(List<Playlist> playlists) {
+  void replace(List<PlaylistController> playlists) {
     Persistence.playlists = this.playlists = playlists;
     notifyListeners();
   }
 
-  void add(Playlist item) {
+  void add(PlaylistController item) {
     //?? this removes a playlist only if it has the same id
     playlists.remove(item);
     playlists.add(item);
@@ -23,7 +23,7 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
     Persistence.playlists = playlists;
   }
 
-  void remove(Playlist item) {
+  void remove(PlaylistController item) {
     item.cancelNetworking();
 
     playlists.remove(item);
@@ -41,7 +41,8 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
       Persistence.load<List<String>>(key: storageKey, defaultValue: [])
           .then((value) {
         playlists = (value as List<String>)
-            .map((playlistJson) => Playlist.fromJson(jsonDecode(playlistJson)))
+            .map((playlistJson) =>
+                PlaylistController.fromJson(jsonDecode(playlistJson)))
             .toList();
       }).whenComplete(() {
         notifyListeners();

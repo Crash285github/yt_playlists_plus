@@ -8,7 +8,7 @@ import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
 import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
 import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 
 ///Data management
 class Persistence {
@@ -32,7 +32,7 @@ class Persistence {
   static bool hideTopics = true;
   static bool groupHistory = false;
   static int? historyLimit;
-  static List<Playlist> playlists = [];
+  static List<PlaylistController> playlists = [];
 
   //?? lock saving
   static FutureOr<void> _saving;

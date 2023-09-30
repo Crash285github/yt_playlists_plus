@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/model/playlist/playlist.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_service.dart';
 
 class PlannedSheetMobile extends StatefulWidget {
-  final Playlist playlist;
+  final PlaylistController playlist;
   const PlannedSheetMobile({
     super.key,
     required this.playlist,
