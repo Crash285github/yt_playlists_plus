@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/controller/video_controller.dart';
+import 'package:yt_playlists_plus/model/video.dart';
 import 'package:yt_playlists_plus/model/video_history.dart';
 
 class Playlist {
@@ -17,7 +17,7 @@ class Playlist {
     required this.thumbnailUrl,
   });
 
-  Set<VideoController> videos = {};
+  Set<Video> videos = {};
   Set<String> planned = {};
   List<VideoHistory> history = [];
 
@@ -28,7 +28,7 @@ class Playlist {
         author = json['author'],
         thumbnailUrl = json['thumbnailUrl'],
         videos = (json['videos'] as List)
-            .map((video) => VideoController.fromJson(video))
+            .map((video) => Video.fromJson(video))
             .toSet(),
         planned = Set.from(
             (jsonDecode(json['planned']) as List<dynamic>).cast<String>()),

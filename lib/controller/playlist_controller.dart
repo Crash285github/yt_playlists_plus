@@ -35,9 +35,10 @@ class PlaylistController extends ChangeNotifier {
   }
 
   ///Local data
-  Set<VideoController> get videos => playlist.videos;
+  Set<VideoController> get videos =>
+      playlist.videos.map((e) => VideoController(video: e)).toSet();
   set videos(Set<VideoController> value) {
-    playlist.videos = value;
+    playlist.videos = value.map((e) => e.video).toSet();
     notifyListeners();
   }
 
