@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
 import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
@@ -13,8 +14,15 @@ import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class PlaylistController extends ChangeNotifier {
   final Playlist playlist;
-  int? length; //? only used during download
+  int? _length; //?? only used during download
+  PlaylistController({
+    required this.playlist,
+    int? length,
+  }) {
+    _length = length;
+  }
 
+  //__ Model data
   String get id => playlist.id;
   String get title => playlist.title;
   set title(String value) {
@@ -34,7 +42,6 @@ class PlaylistController extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///Local data
   Set<VideoController> get videos =>
       playlist.videos.map((e) => VideoController(video: e)).toSet();
   set videos(Set<VideoController> value) {
@@ -42,32 +49,29 @@ class PlaylistController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Set<String> get planned => playlist.planned;
+
+  List<VideoHistory> get history => playlist.history;
+
+  //__ Controller data
   ///Data from youtube
   final Set<VideoController> _fetch = {};
   bool _fetching = false;
 
-  ///Set of planned titles
-  Set<String> get planned => playlist.planned;
-
   ///The playlist's `current` status
   PlaylistStatus get status => _status;
   PlaylistStatus _status = PlaylistStatus.unChecked;
-
-  ///Changes status & alerts listeners
-  setStatus(PlaylistStatus newStatus) {
-    _status = newStatus;
+  set status(PlaylistStatus value) {
+    _status = value;
     notifyListeners();
   }
 
-  ///Previously deleted and added videos
-  List<VideoHistory> get history => playlist.history;
-
-  //? history since the last Unchanged State of the playlist
-  //? used for comparing recent histories, to not flood the
-  //? main history List with the same data
+  //?? history since the last Unchanged State of the playlist
+  //?? used for comparing recent histories, to not flood the
+  //?? main history List with the same data
   final Set<VideoHistory> _recentHistory = {};
 
-  //? used to keep changes until they're finalized
+  //?? used to keep changes until they're finalized
   final Set<VideoController> _added = {};
   final Set<VideoController> _missing = {};
 
@@ -80,36 +84,21 @@ class PlaylistController extends ChangeNotifier {
   ///Shows the fetching progress
   ///
   ///Not exact, but the bigger the list the more accurate it is
-  int progress = 0;
-
-  ///Sets new progress and notifies listeners
-  void setProgress(double newProgress) {
-    progress = _setProgress(progress, newProgress);
-    notifyListeners();
-  }
-
-  int _setProgress(int toSet, double newProgress) {
+  double get progress => _progress;
+  double _progress = 0;
+  set progress(double value) {
     const int steps = 40;
 
-    final int returnProgress =
-        (newProgress * steps).round() * (100 / steps).round();
-    if (toSet != returnProgress) {
-      return returnProgress <= 100 ? returnProgress : 100;
-    }
-    return toSet;
+    final double newProgress = (value * steps).round() * (100 / steps);
+
+    _progress = min(newProgress, 100);
+    notifyListeners();
   }
 
   bool _isNetworkingCancelled = false;
 
   ///Cancels download or fetching, if it is in progress
   void cancelNetworking() => _isNetworkingCancelled = true;
-
-  PlaylistController({
-    required this.playlist,
-    this.length,
-  });
-
-  //#region [videos], [fetch], [history]
 
   ///Adds a video to the Set of [videos]
   ///
@@ -125,7 +114,7 @@ class PlaylistController extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<VideoController> getMissing() {
-    //? do nothing, if empty or fetching (otherwise false data)
+    //?? do nothing, if empty or fetching (otherwise false data)
     if (_fetching || _fetch.isEmpty) return {};
 
     final Set<VideoController> clonedVideos =
@@ -135,7 +124,7 @@ class PlaylistController extends ChangeNotifier {
     for (final VideoController video in clonedMissing) {
       video.setStatus(VideoStatus.missing);
 
-      //? onTap
+      //?? onTap
       video.onTap = () {
         if (video.status == VideoStatus.missing) {
           video.setStatus(VideoStatus.pending);
@@ -149,7 +138,7 @@ class PlaylistController extends ChangeNotifier {
         notifyListeners();
       };
 
-      //? statusFunction
+      //?? statusFunction
       video.statusFunction = (BuildContext context) {
         bool added = planned.add(video.title);
         PopUpService().showSnackBar(
@@ -173,13 +162,13 @@ class PlaylistController extends ChangeNotifier {
         _fetch.map((e) => VideoController.deepCopy(e)).toSet();
     final Set<VideoController> clonedAdded = clonedFetch.difference(videos);
 
-    //? cleanup previus fetch
+    //?? cleanup previus fetch
     _added.removeWhere((video) => !_fetch.contains(video));
 
     for (final VideoController video in clonedAdded) {
       video.setStatus(VideoStatus.added);
 
-      //? onTap
+      //?? onTap
       video.onTap = () {
         if (video.status == VideoStatus.added) {
           video.setStatus(VideoStatus.pending);
@@ -193,7 +182,7 @@ class PlaylistController extends ChangeNotifier {
         notifyListeners();
       };
 
-      //? statusFunction
+      //?? statusFunction
       video.statusFunction = (BuildContext context) => null;
     }
 
@@ -215,8 +204,8 @@ class PlaylistController extends ChangeNotifier {
   Future<void> download() async {
     if (status != PlaylistStatus.notDownloaded) return;
     ExportImportController().disable();
-    setStatus(PlaylistStatus.downloading);
-    setProgress(0);
+    status = PlaylistStatus.downloading;
+    progress = 0;
     _isNetworkingCancelled = false;
 
     bool first = true;
@@ -227,23 +216,23 @@ class PlaylistController extends ChangeNotifier {
           return;
         }
         videos.add(video);
-        setProgress(videos.length / (length ?? 1));
+        progress = videos.length / (_length ?? 1);
         if (first) {
           thumbnailUrl = video.thumbnailUrl;
           notifyListeners();
           first = false;
         }
-        //? if it started, add Playlist
+        //?? if it started, add Playlist
         PlaylistsService().add(this);
       }
     } on SocketException {
-      //? if it fails anytime, remove Playlist
+      //?? if it fails anytime, remove Playlist
       PlaylistsService().remove(this);
-      setStatus(PlaylistStatus.notDownloaded);
+      status = PlaylistStatus.notDownloaded;
       rethrow;
     }
 
-    setStatus(PlaylistStatus.downloaded);
+    status = PlaylistStatus.downloaded;
     ExportImportController().tryEnable();
   }
 
@@ -255,8 +244,8 @@ class PlaylistController extends ChangeNotifier {
     //?? cleanup
     _fetching = true;
     _fetch.clear();
-    setStatus(PlaylistStatus.fetching);
-    setProgress(0);
+    status = PlaylistStatus.fetching;
+    progress = 0;
     _isNetworkingCancelled = false;
 
     try {
@@ -266,10 +255,10 @@ class PlaylistController extends ChangeNotifier {
           return;
         }
         _fetch.add(video);
-        setProgress(_fetch.length / videos.length);
+        progress = _fetch.length / videos.length;
       }
     } on SocketException {
-      setStatus(PlaylistStatus.unChecked);
+      status = PlaylistStatus.unChecked;
       rethrow;
     } finally {
       _fetching = false;
@@ -287,9 +276,9 @@ class PlaylistController extends ChangeNotifier {
       throw PlaylistException("PlaylistState != fetching when starting check.");
     }
 
-    setStatus(PlaylistStatus.checking);
+    status = PlaylistStatus.checking;
 
-    //? update thumbnail if different
+    //?? update thumbnail if different
     final String newthumbnailUrl =
         _fetch.firstOrNull?.thumbnailUrl ?? thumbnailUrl;
     if (newthumbnailUrl != thumbnailUrl) {
@@ -297,13 +286,13 @@ class PlaylistController extends ChangeNotifier {
     }
 
     if (_fetch.isEmpty && !(await FetchingService.existsPlaylist(id))) {
-      setStatus(PlaylistStatus.notFound);
+      status = PlaylistStatus.notFound;
       return;
     }
 
     getAdded().isEmpty && getMissing().isEmpty
-        ? setStatus(PlaylistStatus.unChanged)
-        : setStatus(PlaylistStatus.changed);
+        ? status = PlaylistStatus.unChanged
+        : status = PlaylistStatus.changed;
 
     if (status == PlaylistStatus.changed) {
       for (final VideoController video in getAdded()) {
@@ -338,16 +327,8 @@ class PlaylistController extends ChangeNotifier {
     }
   }
 
-  //#endregion
-
-  //#region @overrides
-
   @override
-  String toString() => "\nPlaylist(title: $title, author: $author)";
-
-  ///returns the `Set` of [videos] with the playlist
-  String toExtendedString() =>
-      "\nPlaylist(title: $title, author: $author, videos: [${videos.toString()}])";
+  String toString() => playlist.toString();
 
   @override
   bool operator ==(other) => other is PlaylistController && id == other.id;
@@ -355,16 +336,10 @@ class PlaylistController extends ChangeNotifier {
   @override
   int get hashCode => Object.hash(id, null);
 
-  //#endregion
-
-  //#region json
-
-  ///Converts a `json` Object into a `Playlist` Object
+  ///Converts a `json` Object into a `PlaylistController` Object
   PlaylistController.fromJson(Map<String, dynamic> json)
       : playlist = Playlist.fromJson(json);
 
-  ///Converts a `Playlist` Object into a `json` Object
+  ///Converts a `PlaylistController` Object into a `json` Object
   Map<String, dynamic> toJson() => playlist.toJson();
-
-  //#endregion
 }

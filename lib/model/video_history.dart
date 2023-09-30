@@ -2,8 +2,21 @@ import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/model/enums/video_status.dart';
 
 class VideoHistory {
-  final String id, title, author;
+  ///The unique identifier of the Video
+  final String id;
+
+  ///The title of the Video
+  final String title;
+
+  ///The author of the Video
+  final String author;
+
+  ///The status of the Video
+  ///
+  ///[VideoStatus.added] or [VideoStatus.missing]
   final VideoStatus status;
+
+  ///The time the Video was added to history
   late final DateTime time;
 
   VideoHistory({

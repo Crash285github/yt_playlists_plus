@@ -30,7 +30,7 @@ class SearchingController extends ChangeNotifier {
         PlaylistController? playlist =
             await FetchingService.searchByLink(url: query);
         if (playlist != null) {
-          playlist.setStatus(PlaylistStatus.notDownloaded);
+          playlist.status = PlaylistStatus.notDownloaded;
           searchResults.add(playlist);
           notifyListeners();
         }
@@ -47,7 +47,7 @@ class SearchingController extends ChangeNotifier {
           if (_isCanceled) return SearchState.canceled;
           if (PlaylistsService().playlists.contains(playlist)) continue;
 
-          playlist.setStatus(PlaylistStatus.notDownloaded);
+          playlist.status = PlaylistStatus.notDownloaded;
           searchResults.add(playlist);
           progress++;
           notifyListeners();

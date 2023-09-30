@@ -5,9 +5,16 @@ import 'package:yt_playlists_plus/model/video.dart';
 import 'package:yt_playlists_plus/model/video_history.dart';
 
 class Playlist {
+  ///The unique identifier of the Playlist
   final String id;
+
+  ///The title of the Playlist
   String title;
+
+  ///The author of the Playlist
   String author;
+
+  ///The url of the thumbnail of the Playlist
   String thumbnailUrl;
 
   Playlist({
@@ -17,9 +24,23 @@ class Playlist {
     required this.thumbnailUrl,
   });
 
+  ///The `set` of Videos of the Playlist
   Set<Video> videos = {};
+
+  ///The user-managed `set` of titles planned to be added to the Playlist
   Set<String> planned = {};
+
+  ///The `list` of video history of the Playlist
   List<VideoHistory> history = [];
+
+  @override
+  String toString() => "\nPlaylist(title: $title, author: $author)";
+
+  @override
+  bool operator ==(other) => other is Playlist && id == other.id;
+
+  @override
+  int get hashCode => Object.hash(id, null);
 
   ///Converts a `json` Object into a `Playlist` Object
   Playlist.fromJson(Map<String, dynamic> json)

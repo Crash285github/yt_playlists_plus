@@ -1,7 +1,14 @@
 class Video {
+  ///The unique identifier of the Video
   final String id;
+
+  ///The title of the Video
   String title;
+
+  ///The author of the Video
   String author;
+
+  ///The url of the thumbnail of the Video
   String thumbnailUrl;
 
   Video({
@@ -11,6 +18,7 @@ class Video {
     required this.thumbnailUrl,
   });
 
+  ///Creates a deep copy of the source object
   factory Video.deepCopy(Video source) => Video(
         id: source.id,
         title: source.title,

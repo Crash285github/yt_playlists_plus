@@ -16,7 +16,7 @@ class SaveButton extends StatelessWidget {
       onPressed: () async {
         await PlaylistsService().save();
         playlist.clearPending();
-        playlist.setStatus(PlaylistStatus.saved);
+        playlist.status = PlaylistStatus.saved;
       },
       tooltip: "Save",
       child: const Icon(
