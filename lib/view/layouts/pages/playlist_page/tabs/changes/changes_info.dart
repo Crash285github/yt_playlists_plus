@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
-import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/video_controller.dart';
-import 'package:yt_playlists_plus/model/enums/video_status.dart';
+import 'package:yt_playlists_plus/enums/video_status.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/pend_all_button.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/status_card.dart';
 

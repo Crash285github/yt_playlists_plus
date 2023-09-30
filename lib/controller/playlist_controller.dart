@@ -2,14 +2,14 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
-import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
 import 'package:yt_playlists_plus/services/fetching_service.dart';
 import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/model/video_history.dart';
-import 'package:yt_playlists_plus/model/enums/video_status.dart';
+import 'package:yt_playlists_plus/enums/video_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class PlaylistController extends ChangeNotifier {

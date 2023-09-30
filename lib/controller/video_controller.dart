@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/enums/video_status.dart';
+import 'package:yt_playlists_plus/enums/video_status.dart';
 import 'package:yt_playlists_plus/model/video.dart';
 
 class VideoController extends ChangeNotifier {

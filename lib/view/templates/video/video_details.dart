@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/extensions/hide_topic.dart';
+import 'package:yt_playlists_plus/extensions/hide_topic.dart';
 import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_service.dart';
 

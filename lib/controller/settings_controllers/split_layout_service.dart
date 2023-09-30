@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';

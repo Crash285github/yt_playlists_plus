@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/enums/video_status.dart';
+import 'package:yt_playlists_plus/enums/video_status.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_context_menu.dart';
 import 'package:yt_playlists_plus/view/templates/adatpive_gesture_detector.dart';

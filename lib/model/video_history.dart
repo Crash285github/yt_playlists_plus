@@ -1,5 +1,5 @@
 import 'package:yt_playlists_plus/controller/video_controller.dart';
-import 'package:yt_playlists_plus/model/enums/video_status.dart';
+import 'package:yt_playlists_plus/enums/video_status.dart';
 
 class VideoHistory {
   ///The unique identifier of the Video

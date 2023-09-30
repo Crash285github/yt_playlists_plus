@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/model/extensions/format_date_time.dart';
+import 'package:yt_playlists_plus/extensions/format_date_time.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/group_history_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
-import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/save_button.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/changes_list.dart';

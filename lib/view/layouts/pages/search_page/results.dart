@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
-import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
 import 'package:yt_playlists_plus/view/templates/playlist/playlist_view.dart';

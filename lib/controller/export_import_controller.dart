@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
-import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
-import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
+import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
+import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
+import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
+import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
-import 'package:yt_playlists_plus/model/enums/playlist_status.dart';
+import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
