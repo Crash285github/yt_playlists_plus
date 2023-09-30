@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
 
 ///Manages the layout of the app
-class SplitLayoutService extends ChangeNotifier
-    implements SettingService<SplitLayout>, StorableController {
+class SplitLayoutController extends SettingController<SplitLayout>
+    implements StorableController {
   SplitLayout portions = Persistence.splitLayout.value;
   bool isEnabled = true;
 
@@ -31,7 +30,7 @@ class SplitLayoutService extends ChangeNotifier
       .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
 
   //__ Singleton
-  static final SplitLayoutService _instance = SplitLayoutService._();
-  factory SplitLayoutService() => _instance;
-  SplitLayoutService._();
+  static final SplitLayoutController _instance = SplitLayoutController._();
+  factory SplitLayoutController() => _instance;
+  SplitLayoutController._();
 }

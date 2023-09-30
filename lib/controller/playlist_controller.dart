@@ -223,11 +223,11 @@ class PlaylistController extends ChangeNotifier {
           first = false;
         }
         //?? if it started, add Playlist
-        PlaylistsService().add(this);
+        PlaylistsController().add(this);
       }
     } on SocketException {
       //?? if it fails anytime, remove Playlist
-      PlaylistsService().remove(this);
+      PlaylistsController().remove(this);
       status = PlaylistStatus.notDownloaded;
       rethrow;
     }
@@ -323,7 +323,7 @@ class PlaylistController extends ChangeNotifier {
     } else if (status == PlaylistStatus.unChanged) {
       videos = _fetch.map((e) => VideoController.deepCopy(e)).toSet();
       _recentHistory.clear();
-      PlaylistsService().save();
+      PlaylistsController().save();
     }
   }
 

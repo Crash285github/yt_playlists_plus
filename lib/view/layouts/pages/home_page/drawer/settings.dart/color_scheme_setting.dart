@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_controller.dart';
 import 'package:yt_playlists_plus/view/templates/styled_dropdown.dart';
 
 class ColorSchemeSetting extends StatefulWidget {
@@ -11,7 +11,7 @@ class ColorSchemeSetting extends StatefulWidget {
 }
 
 class _ColorSchemeSettingState extends State<ColorSchemeSetting> {
-  AppColorScheme _color = ColorSchemeService().scheme;
+  AppColorScheme _color = ColorSchemeController().scheme;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _ColorSchemeSettingState extends State<ColorSchemeSetting> {
             _color = value!;
           });
 
-          ColorSchemeService()
+          ColorSchemeController()
             ..set(value ?? AppColorScheme.dynamic)
             ..save();
         },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/group_history_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/group_history_controller.dart';
 import 'package:yt_playlists_plus/extensions/format_date_time.dart';
 
 class VideoHistoryGroupTime extends StatelessWidget {
@@ -14,7 +14,7 @@ class VideoHistoryGroupTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool groupTime = Provider.of<GroupHistoryService>(context).groupHistory;
+    bool groupTime = Provider.of<GroupHistoryController>(context).groupHistory;
 
     return AnimatedContainer(
       height: groupTime ? 25 : 0,

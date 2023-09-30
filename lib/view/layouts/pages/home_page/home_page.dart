@@ -52,13 +52,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<PlaylistController> playlists =
-        Provider.of<PlaylistsService>(context).playlists;
-    bool canReorder = Provider.of<ReorderService>(context).canReorder;
+        Provider.of<PlaylistsController>(context).playlists;
+    bool canReorder = Provider.of<ReorderController>(context).canReorder;
 
     return WillPopScope(
       onWillPop: () async {
         if (canReorder) {
-          ReorderService().disable();
+          ReorderController().disable();
           return false;
         }
         return true;

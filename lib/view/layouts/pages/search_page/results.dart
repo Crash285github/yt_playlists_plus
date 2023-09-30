@@ -72,7 +72,7 @@ class _Result extends StatelessWidget {
                     try {
                       await playlist
                           .download()
-                          .then((_) => PlaylistsService().save());
+                          .then((_) => PlaylistsController().save());
                     } on SocketException {
                       //?? do nothing
                     }

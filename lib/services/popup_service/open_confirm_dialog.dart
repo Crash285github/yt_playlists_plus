@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_controller.dart';
 
 extension OpenConfirmDialog on PopUpService {
   Future<bool?> openConfirmDialog({
@@ -8,7 +8,7 @@ extension OpenConfirmDialog on PopUpService {
     required String title,
     String? content,
   }) async {
-    if (!ConfirmDeletionsService().confirmDeletions) return true;
+    if (!ConfirmDeletionsController().confirmDeletions) return true;
 
     return showDialog<bool>(
       context: context,

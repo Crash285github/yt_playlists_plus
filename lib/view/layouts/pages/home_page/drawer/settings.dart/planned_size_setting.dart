@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_controller.dart';
 import 'package:yt_playlists_plus/view/templates/styled_dropdown.dart';
 
 class PlannedSizeSetting extends StatefulWidget {
@@ -11,7 +11,7 @@ class PlannedSizeSetting extends StatefulWidget {
 }
 
 class _PlannedSizeSettingState extends State<PlannedSizeSetting> {
-  PlannedSize _plannedSize = PlannedSizeService().plannedSize;
+  PlannedSize _plannedSize = PlannedSizeController().plannedSize;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _PlannedSizeSettingState extends State<PlannedSizeSetting> {
             _plannedSize = value!;
           });
 
-          PlannedSizeService()
+          PlannedSizeController()
             ..set(value)
             ..save();
         },

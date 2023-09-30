@@ -7,7 +7,7 @@ import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/playlist_page.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 
 ///Shows the `HomePage` on the left side and a `PlaylistPage` on the right
 ///
@@ -25,7 +25,7 @@ class SplitViewState extends State<SplitView> {
 
   @override
   Widget build(BuildContext context) {
-    SplitLayout portions = Provider.of<SplitLayoutService>(context).portions;
+    SplitLayout portions = Provider.of<SplitLayoutController>(context).portions;
 
     return Scaffold(
       body: Row(
@@ -64,7 +64,7 @@ class SplitViewState extends State<SplitView> {
                         )
                             .then((value) {
                           if (value ?? false) {
-                            PlaylistsService()
+                            PlaylistsController()
                               ..remove(playlist!)
                               ..save();
 

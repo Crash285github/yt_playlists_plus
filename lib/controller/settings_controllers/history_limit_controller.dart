@@ -1,23 +1,24 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/services/popup_service/open_textfield_dialog.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
 
 ///Manages the history limit
-class HistoryLimitService extends ChangeNotifier
-    implements SettingService<int?>, StorableController {
+class HistoryLimitController extends SettingController<int?>
+    implements StorableController {
   int? limit = Persistence.historyLimit.value;
   final TextEditingController _controller = TextEditingController();
 
   @override
   void set(int? value) {
-    limit = value == null ? null : max(value, 0);
-
+    if (value == null || value < 0) {
+      limit = null;
+    } else {
+      limit = value;
+    }
     notifyListeners();
   }
 
@@ -56,7 +57,7 @@ class HistoryLimitService extends ChangeNotifier
   }
 
   //__ Singleton
-  static final HistoryLimitService _instance = HistoryLimitService._();
-  factory HistoryLimitService() => _instance;
-  HistoryLimitService._();
+  static final HistoryLimitController _instance = HistoryLimitController._();
+  factory HistoryLimitController() => _instance;
+  HistoryLimitController._();
 }

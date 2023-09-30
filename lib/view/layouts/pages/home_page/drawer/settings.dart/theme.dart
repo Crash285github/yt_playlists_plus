@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 
 ///Toggles the application theme
 class ThemeSwitch extends StatefulWidget {
@@ -11,8 +11,8 @@ class ThemeSwitch extends StatefulWidget {
 }
 
 class _ThemeSwitchState extends State<ThemeSwitch> {
-  bool _isDarkMode = ThemeService().theme != AppTheme.light;
-  bool _isAmoled = ThemeService().theme == AppTheme.amoled;
+  bool _isDarkMode = ThemeController().theme != AppTheme.light;
+  bool _isAmoled = ThemeController().theme == AppTheme.amoled;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
           _isDarkMode = true;
           _isAmoled = !_isAmoled;
 
-          ThemeService()
+          ThemeController()
             ..set(_isAmoled ? AppTheme.amoled : AppTheme.dark)
             ..save();
         });
@@ -30,7 +30,9 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
       child: SwitchListTile(
         value: _isDarkMode,
         title: Text(
-          ThemeService().theme == AppTheme.amoled ? "AMOLED mode" : "Dark mode",
+          ThemeController().theme == AppTheme.amoled
+              ? "AMOLED mode"
+              : "Dark mode",
         ),
         secondary: const Icon(Icons.dark_mode_outlined),
         onChanged: (value) {
@@ -39,7 +41,7 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
             _isAmoled = false;
           });
 
-          ThemeService()
+          ThemeController()
             ..set(_isDarkMode ? AppTheme.dark : AppTheme.light)
             ..save();
         },

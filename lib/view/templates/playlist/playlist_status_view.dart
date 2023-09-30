@@ -15,7 +15,7 @@ class PlaylistStatusView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: ReorderService().canReorder
+      child: ReorderController().canReorder
           ? const SizedBox.shrink()
           : Column(
               children: [

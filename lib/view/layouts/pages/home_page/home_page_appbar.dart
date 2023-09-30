@@ -22,8 +22,8 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
   @override
   Widget build(BuildContext context) {
     List<PlaylistController> playlists =
-        Provider.of<PlaylistsService>(context).playlists;
-    bool canReorder = Provider.of<ReorderService>(context).canReorder;
+        Provider.of<PlaylistsController>(context).playlists;
+    bool canReorder = Provider.of<ReorderController>(context).canReorder;
 
     return StyledSliverAppBar(
       title: const Text("Playlists"),

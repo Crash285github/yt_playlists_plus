@@ -69,7 +69,7 @@ class FetchingService {
     }
 
     //if already contains
-    if (PlaylistsService()
+    if (PlaylistsController()
         .playlists
         .any((final PlaylistController pl) => pl.id == id)) {
       return null;

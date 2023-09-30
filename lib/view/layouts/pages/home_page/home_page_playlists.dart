@@ -17,8 +17,8 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
   @override
   Widget build(BuildContext context) {
     List<PlaylistController> playlists =
-        Provider.of<PlaylistsService>(context).playlists;
-    bool canReorder = Provider.of<ReorderService>(context).canReorder;
+        Provider.of<PlaylistsController>(context).playlists;
+    bool canReorder = Provider.of<ReorderController>(context).canReorder;
 
     return SliverReorderableList(
       itemBuilder: (context, index) {
@@ -46,7 +46,7 @@ class _HomePagePlaylistsState extends State<HomePagePlaylists> {
           final PlaylistController item = playlists.removeAt(oldIndex);
           playlists.insert(newIndex, item);
         });
-        PlaylistsService().save();
+        PlaylistsController().save();
       },
     );
   }

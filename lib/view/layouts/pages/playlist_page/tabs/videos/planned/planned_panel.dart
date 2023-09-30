@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/services/popup_service/open_textfield_dialog.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/empty_planned.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_list.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
@@ -72,7 +72,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
       setState(() {
         widget.planned.add(title);
       });
-      PlaylistsService().save();
+      PlaylistsController().save();
     }
   }
 
@@ -80,7 +80,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
     setState(() {
       widget.planned.remove(title);
     });
-    PlaylistsService().save();
+    PlaylistsController().save();
   }
 
   @override
@@ -93,7 +93,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
         topRight: Radius.circular(15),
       )),
       elevation: 5,
-      color: ThemeService().isAmoled
+      color: ThemeController().isAmoled
           ? Colors.black
           : Theme.of(context).colorScheme.background,
       surfaceTintColor: Theme.of(context).colorScheme.primary,

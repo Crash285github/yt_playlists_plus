@@ -30,7 +30,7 @@ class SingleView extends StatelessWidget {
                       .then(
                     (value) {
                       if (value ?? false) {
-                        PlaylistsService()
+                        PlaylistsController()
                           ..remove(playlist)
                           ..save();
 

@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
 
 ///Manages the delete confirmations setting
-class ConfirmDeletionsService extends ChangeNotifier
-    implements SettingService<bool>, StorableController {
+class ConfirmDeletionsController extends SettingController<bool>
+    implements StorableController {
   bool confirmDeletions = Persistence.confirmDeletions.value;
 
   @override
@@ -29,7 +28,8 @@ class ConfirmDeletionsService extends ChangeNotifier
   }
 
   //__ Singleton
-  static final ConfirmDeletionsService _instance = ConfirmDeletionsService._();
-  factory ConfirmDeletionsService() => _instance;
-  ConfirmDeletionsService._();
+  static final ConfirmDeletionsController _instance =
+      ConfirmDeletionsController._();
+  factory ConfirmDeletionsController() => _instance;
+  ConfirmDeletionsController._();
 }

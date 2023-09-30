@@ -43,9 +43,9 @@ class SearchingController extends ChangeNotifier {
         await for (PlaylistController playlist in FetchingService.searchByQuery(
             query: query,
             excludedWords:
-                PlaylistsService().playlists.map((pl) => pl.id).toList())) {
+                PlaylistsController().playlists.map((pl) => pl.id).toList())) {
           if (_isCanceled) return SearchState.canceled;
-          if (PlaylistsService().playlists.contains(playlist)) continue;
+          if (PlaylistsController().playlists.contains(playlist)) continue;
 
           playlist.status = PlaylistStatus.notDownloaded;
           searchResults.add(playlist);

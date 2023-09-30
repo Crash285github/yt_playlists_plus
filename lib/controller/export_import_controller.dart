@@ -9,14 +9,14 @@ import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/group_history_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/group_history_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
 
 ///Manages importing & exporting
@@ -25,7 +25,7 @@ class ExportImportController extends ChangeNotifier {
   bool get enabled => _enabled;
 
   void tryEnable() {
-    if (PlaylistsService().playlists.any((playlist) =>
+    if (PlaylistsController().playlists.any((playlist) =>
         playlist.status == PlaylistStatus.fetching ||
         playlist.status == PlaylistStatus.checking ||
         playlist.status == PlaylistStatus.downloading)) {
@@ -46,40 +46,40 @@ class ExportImportController extends ChangeNotifier {
 
     final AppTheme appTheme =
         AppTheme.values[json[Persistence.appTheme.key] ?? AppTheme.light];
-    ThemeService().set(appTheme);
+    ThemeController().set(appTheme);
 
     final AppColorScheme appColorScheme = AppColorScheme
         .values[json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic];
-    ColorSchemeService().set(appColorScheme);
+    ColorSchemeController().set(appColorScheme);
 
     final SplitLayout splitLayout = SplitLayout
         .values[json[Persistence.splitLayout.key] ?? SplitLayout.uneven];
-    SplitLayoutService().set(splitLayout);
+    SplitLayoutController().set(splitLayout);
 
     if (Platform.isAndroid) {
       final PlannedSize plannedSize = PlannedSize
           .values[json[Persistence.plannedSize.key] ?? PlannedSize.normal];
-      PlannedSizeService().set(plannedSize);
+      PlannedSizeController().set(plannedSize);
     }
 
     final bool confirmDeletions =
         json[Persistence.confirmDeletions.key] ?? true;
-    ConfirmDeletionsService().set(confirmDeletions);
+    ConfirmDeletionsController().set(confirmDeletions);
 
     final bool hideTopics = json[Persistence.hideTopics.key] ?? false;
-    HideTopicsService().set(hideTopics);
+    HideTopicsController().set(hideTopics);
 
     final bool groupHistory = json[Persistence.groupHistory.key] ?? false;
-    GroupHistoryService().set(groupHistory);
+    GroupHistoryController().set(groupHistory);
 
     final int? historyLimit = json[Persistence.historyLimit.key];
-    HistoryLimitService().set(historyLimit);
+    HistoryLimitController().set(historyLimit);
 
     SplitViewState.playlist = null;
     List<PlaylistController> list = (json[Persistence.playlists.key] as List)
         .map((final playlistJson) => PlaylistController.fromJson(playlistJson))
         .toList();
-    PlaylistsService().replace(list);
+    PlaylistsController().replace(list);
 
     return true;
   }

@@ -11,7 +11,7 @@ class ReorderSetting extends StatelessWidget {
       leading: const Icon(Icons.sort),
       onTap: () {
         Navigator.of(context).pop(); //?? closes drawer
-        ReorderService().enable();
+        ReorderController().enable();
       },
     );
   }

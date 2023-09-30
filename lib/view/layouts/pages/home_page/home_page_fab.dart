@@ -12,7 +12,7 @@ class HomePageFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool canReorder = Provider.of<ReorderService>(context).canReorder;
+    final bool canReorder = Provider.of<ReorderController>(context).canReorder;
 
     return FloatingActionButton.extended(
       label: AnimatedSize(
@@ -25,7 +25,7 @@ class HomePageFab extends StatelessWidget {
       extendedPadding: const EdgeInsets.all(13),
       tooltip: canReorder ? "Finish" : "Search",
       onPressed: canReorder
-          ? () => ReorderService().disable()
+          ? () => ReorderController().disable()
           : () => Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => ChangeNotifierProvider(

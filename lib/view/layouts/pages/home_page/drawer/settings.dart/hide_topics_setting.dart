@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_controller.dart';
 
 class HideTopicsSetting extends StatefulWidget {
   const HideTopicsSetting({super.key});
@@ -9,7 +9,7 @@ class HideTopicsSetting extends StatefulWidget {
 }
 
 class _HideTopicsSettingState extends State<HideTopicsSetting> {
-  bool _hideTopics = HideTopicsService().hideTopics;
+  bool _hideTopics = HideTopicsController().hideTopics;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _HideTopicsSettingState extends State<HideTopicsSetting> {
           _hideTopics = value;
         });
 
-        HideTopicsService()
+        HideTopicsController()
           ..set(value)
           ..save();
       },

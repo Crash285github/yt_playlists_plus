@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
 import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///Manages the theme of the App
-class ThemeService extends ChangeNotifier
-    implements SettingService<AppTheme>, StorableController {
+class ThemeController extends SettingController<AppTheme>
+    implements StorableController {
   AppTheme theme = Persistence.appTheme.value;
   bool isAmoled = false;
 
@@ -74,7 +74,7 @@ class ThemeService extends ChangeNotifier
   }
 
   //__ Singleton
-  static final ThemeService _instance = ThemeService._internal();
-  ThemeService._internal();
-  factory ThemeService() => _instance;
+  static final ThemeController _instance = ThemeController._internal();
+  ThemeController._internal();
+  factory ThemeController() => _instance;
 }

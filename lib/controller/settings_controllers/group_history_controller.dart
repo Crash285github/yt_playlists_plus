@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
 
 ///Manages setting the history grouping
-class GroupHistoryService extends ChangeNotifier
-    implements SettingService<bool>, StorableController {
+class GroupHistoryController extends SettingController<bool>
+    implements StorableController {
   bool groupHistory = Persistence.groupHistory.value;
 
   @override
@@ -28,7 +27,7 @@ class GroupHistoryService extends ChangeNotifier
   }
 
   //__ Singleton
-  static final GroupHistoryService _instance = GroupHistoryService._();
-  factory GroupHistoryService() => _instance;
-  GroupHistoryService._();
+  static final GroupHistoryController _instance = GroupHistoryController._();
+  factory GroupHistoryController() => _instance;
+  GroupHistoryController._();
 }

@@ -6,7 +6,7 @@ import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 
-class PlaylistsService extends ChangeNotifier implements StorableController {
+class PlaylistsController extends ChangeNotifier implements StorableController {
   List<PlaylistController> playlists = Persistence.playlists.value
       .map((e) => PlaylistController(playlist: e))
       .toList();
@@ -56,7 +56,7 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
   }
 
   //__ Singleton
-  static final PlaylistsService _instance = PlaylistsService._();
-  factory PlaylistsService() => _instance;
-  PlaylistsService._();
+  static final PlaylistsController _instance = PlaylistsController._();
+  factory PlaylistsController() => _instance;
+  PlaylistsController._();
 }

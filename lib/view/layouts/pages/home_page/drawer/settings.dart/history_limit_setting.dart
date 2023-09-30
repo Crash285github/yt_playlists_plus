@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_controller.dart';
 
 class HistoryLimitSetting extends StatefulWidget {
   const HistoryLimitSetting({super.key});
@@ -10,7 +10,7 @@ class HistoryLimitSetting extends StatefulWidget {
 
 class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
   TextEditingController textEditingController = TextEditingController();
-  int? historySize = HistoryLimitService().limit;
+  int? historySize = HistoryLimitController().limit;
   int topLimit = 500; //?? infinite if bigger
   int bottomLimit = 10;
 
@@ -27,7 +27,7 @@ class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
 
     return ListTile(
       onTap: () async {
-        int? result = await HistoryLimitService().openDialog(context);
+        int? result = await HistoryLimitController().openDialog(context);
 
         if (result == null) return;
 
@@ -41,7 +41,7 @@ class _HistoryLimitSettingState extends State<HistoryLimitSetting> {
           historySize = result;
         });
 
-        HistoryLimitService()
+        HistoryLimitController()
           ..set(historySize)
           ..save();
       },

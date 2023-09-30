@@ -37,7 +37,8 @@ class Settings extends StatelessWidget {
           const SplitViewSetting(),
           const HistoryLimitSetting(),
           const GroupHistorySetting(),
-          if (PlaylistsService().playlists.length > 1) const ReorderSetting(),
+          if (PlaylistsController().playlists.length > 1)
+            const ReorderSetting(),
         ],
       ),
     );

@@ -43,7 +43,7 @@ class PlaylistView extends ListWidget {
               ),
             Ink(
               child: InkWell(
-                onTap: ReorderService().canReorder ? null : onTap,
+                onTap: ReorderController().canReorder ? null : onTap,
                 child: Row(
                   children: [
                     Flexible(

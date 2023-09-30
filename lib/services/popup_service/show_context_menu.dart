@@ -5,7 +5,7 @@ import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/model/video_history.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 
 extension ShowContextMenu on PopUpService {
   Future<void> showContextMenu({
@@ -55,7 +55,7 @@ extension ShowContextMenu on PopUpService {
       )
     ];
     await showMenu(
-      color: ThemeService().isAmoled
+      color: ThemeController().isAmoled
           ? Colors.black
           : Theme.of(context).colorScheme.background,
       elevation: 5,
