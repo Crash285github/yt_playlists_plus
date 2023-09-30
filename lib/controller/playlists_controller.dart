@@ -7,10 +7,12 @@ import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 
 class PlaylistsService extends ChangeNotifier implements StorableController {
-  List<PlaylistController> playlists = Persistence.playlists;
+  List<PlaylistController> playlists = Persistence.playlists
+      .map((e) => PlaylistController(playlist: e))
+      .toList();
 
   void replace(List<PlaylistController> playlists) {
-    Persistence.playlists = this.playlists = playlists;
+    this.playlists = playlists;
     notifyListeners();
   }
 
@@ -19,8 +21,6 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
     playlists.remove(item);
     playlists.add(item);
     notifyListeners();
-
-    Persistence.playlists = playlists;
   }
 
   void remove(PlaylistController item) {
@@ -29,7 +29,6 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
     playlists.remove(item);
     notifyListeners();
 
-    Persistence.playlists = playlists;
     ExportImportController().tryEnable();
   }
 
@@ -46,13 +45,15 @@ class PlaylistsService extends ChangeNotifier implements StorableController {
             .toList();
       }).whenComplete(() {
         notifyListeners();
-        Persistence.playlists = playlists;
       });
 
   @override
-  Future<bool> save() async => Persistence.save<List<String>>(
-      key: storageKey,
-      value: playlists.map((playlist) => jsonEncode(playlist)).toList());
+  Future<bool> save() async {
+    Persistence.playlists = playlists.map((e) => e.playlist).toList();
+    return Persistence.save<List<String>>(
+        key: storageKey,
+        value: playlists.map((playlist) => jsonEncode(playlist)).toList());
+  }
 
   //__ Singleton
   static final PlaylistsService _instance = PlaylistsService._();
