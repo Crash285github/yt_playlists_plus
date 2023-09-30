@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_service.dart';
 
 class HideTopicsSetting extends StatefulWidget {
   const HideTopicsSetting({super.key});

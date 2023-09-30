@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/export_import_service.dart';
+import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_refresh_all_button.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 import 'package:yt_playlists_plus/view/templates/styled_sliver_app_bar.dart';
 
 class HomePageAppBar extends StatefulWidget {
@@ -39,7 +39,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                           _fetchCount = playlists.length;
                         });
 
-                        ExportImportService().disable();
+                        ExportImportController().disable();
 
                         Future.wait(
                           playlists.map(
@@ -66,7 +66,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                             _isFetchingAll = false;
                             _fetchCount = 0;
                           });
-                          ExportImportService().tryEnable();
+                          ExportImportController().tryEnable();
                         });
                       },
               )

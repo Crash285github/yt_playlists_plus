@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 import 'package:yt_playlists_plus/view/templates/playlist/playlist_view.dart';
 
 class HomePagePlaylists extends StatefulWidget {

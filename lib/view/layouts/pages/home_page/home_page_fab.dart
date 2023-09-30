@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/search_service.dart';
+import 'package:yt_playlists_plus/controller/searching_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/search_page/search_page.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 
 class HomePageFab extends StatelessWidget {
   const HomePageFab({super.key});
@@ -29,7 +29,7 @@ class HomePageFab extends StatelessWidget {
           : () => Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => ChangeNotifierProvider(
-                          create: (context) => SearchService(),
+                          create: (context) => SearchingController(),
                           child: const SearchPage(),
                         )),
               ),

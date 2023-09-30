@@ -8,19 +8,19 @@ import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/group_history_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
 
 ///Manages importing & exporting
-class ExportImportService extends ChangeNotifier {
+class ExportImportController extends ChangeNotifier {
   bool _enabled = true;
   bool get enabled => _enabled;
 
@@ -87,7 +87,7 @@ class ExportImportService extends ChangeNotifier {
   Future<bool> export() async => Persistence.export();
 
   //__ Singleton
-  static final ExportImportService _instance = ExportImportService._();
-  factory ExportImportService() => _instance;
-  ExportImportService._();
+  static final ExportImportController _instance = ExportImportController._();
+  factory ExportImportController() => _instance;
+  ExportImportController._();
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
 import 'package:yt_playlists_plus/view/templates/styled_dropdown.dart';
 
 class SplitViewSetting extends StatefulWidget {

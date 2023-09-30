@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
 import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
-import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/responsive.dart';
 
 ///Builds the application with a theme

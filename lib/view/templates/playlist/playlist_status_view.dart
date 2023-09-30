@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 
 ///Displays the `Playlist`'s [status]
 class PlaylistStatusView extends StatelessWidget {

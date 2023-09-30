@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/services/app_data_service.dart';
-import 'package:yt_playlists_plus/services/export_import_service.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
+import 'package:yt_playlists_plus/controller/export_import_controller.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/about_page.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings_list.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
@@ -18,7 +18,7 @@ class HomePageDrawer extends StatefulWidget {
 class _HomePageDrawerState extends State<HomePageDrawer> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<ExportImportService>(context);
+    Provider.of<ExportImportController>(context);
     return SafeArea(
       child: Drawer(
         child: Column(
@@ -41,13 +41,13 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton.icon(
-                      onPressed: ExportImportService().enabled
+                      onPressed: ExportImportController().enabled
                           ? () async {
-                              await ExportImportService()
+                              await ExportImportController()
                                   .export()
                                   .then((success) {
                                 if (success) {
-                                  PopUpController().showSnackBar(
+                                  PopUpService().showSnackBar(
                                       context: context,
                                       message: "Data exported.");
                                 }
@@ -57,10 +57,11 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       icon: const Icon(Icons.arrow_downward),
                       label: const Text("Export")),
                   TextButton.icon(
-                      onPressed: ExportImportService().enabled
+                      onPressed: ExportImportController().enabled
                           ? () async {
                               Navigator.pop(context);
-                              if (!await ExportImportService().import()) return;
+                              if (!await ExportImportController().import())
+                                return;
                               await AppDataService.save().whenComplete(() {
                                 SplitViewState.playlist = null;
                               });

@@ -4,10 +4,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
 
-extension ShowContextMenu on PopUpController {
+extension ShowContextMenu on PopUpService {
   Future<void> showContextMenu({
     required BuildContext context,
     required Offset offset,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/single_view.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
 

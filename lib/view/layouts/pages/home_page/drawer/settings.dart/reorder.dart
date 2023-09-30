@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 
 class ReorderSetting extends StatelessWidget {
   const ReorderSetting({super.key});

@@ -10,7 +10,7 @@ import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.d
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/group_history_setting.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/splitview.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/theme.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});

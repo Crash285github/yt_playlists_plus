@@ -1,12 +1,12 @@
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/color_scheme_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/group_history_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/hide_topics_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/group_history_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
 
 ///Loads everything from Persistence with services so the UI updates
 class AppDataService {

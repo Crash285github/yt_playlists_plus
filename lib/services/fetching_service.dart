@@ -4,7 +4,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_exception.dart';
 import 'package:yt_playlists_plus/model/video/video.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 ///Youtube playlist fetching service
 ///

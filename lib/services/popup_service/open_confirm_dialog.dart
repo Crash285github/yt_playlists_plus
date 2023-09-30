@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
 
-extension OpenConfirmDialog on PopUpController {
+extension OpenConfirmDialog on PopUpService {
   Future<bool?> openConfirmDialog({
     required BuildContext context,
     required String title,

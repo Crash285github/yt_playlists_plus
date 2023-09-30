@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
 
 class HistoryTopRow extends StatelessWidget {
   final Function()? onClearPressed;

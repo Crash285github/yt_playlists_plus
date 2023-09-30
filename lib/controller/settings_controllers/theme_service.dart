@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
 import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///Manages the theme of the App
 class ThemeService extends ChangeNotifier
-    implements SettingService<AppTheme>, StorableService {
+    implements SettingService<AppTheme>, StorableController {
   AppTheme theme = Persistence.appTheme;
   bool isAmoled = false;
 

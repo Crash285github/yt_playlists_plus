@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/enums/app_color_scheme_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
 
 ///Manages the application's color scheme
 class ColorSchemeService extends ChangeNotifier
-    implements SettingService<AppColorScheme>, StorableService {
+    implements SettingService<AppColorScheme>, StorableController {
   AppColorScheme scheme = Persistence.colorScheme;
 
   @override

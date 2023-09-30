@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/settings_service/history_limit_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_service.dart';
 
 class HistoryLimitSetting extends StatefulWidget {
   const HistoryLimitSetting({super.key});

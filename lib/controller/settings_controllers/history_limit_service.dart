@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/popup_controller/open_textfield_dialog.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/services/popup_service/open_textfield_dialog.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
 
 ///Manages the history limit
 class HistoryLimitService extends ChangeNotifier
-    implements SettingService<int?>, StorableService {
+    implements SettingService<int?>, StorableController {
   int? limit = Persistence.historyLimit;
   final TextEditingController _controller = TextEditingController();
 
@@ -42,7 +42,7 @@ class HistoryLimitService extends ChangeNotifier
 
   ///Opens a `TextField` to input an int value
   Future<int?> openDialog(BuildContext context) async {
-    String? result = await PopUpController().openTextFieldDialog(
+    String? result = await PopUpService().openTextFieldDialog(
       context: context,
       controller: _controller,
       title: "Set history limit",

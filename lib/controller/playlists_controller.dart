@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/export_import_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 
-class PlaylistsService extends ChangeNotifier implements StorableService {
+class PlaylistsService extends ChangeNotifier implements StorableController {
   List<Playlist> playlists = Persistence.playlists;
 
   void replace(List<Playlist> playlists) {
@@ -30,7 +30,7 @@ class PlaylistsService extends ChangeNotifier implements StorableService {
     notifyListeners();
 
     Persistence.playlists = playlists;
-    ExportImportService().tryEnable();
+    ExportImportController().tryEnable();
   }
 
   @override

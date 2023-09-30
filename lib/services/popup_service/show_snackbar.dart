@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 
-extension ShowSnackBar on PopUpController {
+extension ShowSnackBar on PopUpService {
   void showSnackBar({
     required BuildContext context,
     required final String message,

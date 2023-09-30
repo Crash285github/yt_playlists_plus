@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 
-extension OpenTextFieldDialog on PopUpController {
+extension OpenTextFieldDialog on PopUpService {
   Future<String?> openTextFieldDialog({
     required BuildContext context,
     required TextEditingController controller,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/popup_controller/open_textfield_dialog.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/popup_controller/show_snackbar.dart';
-import 'package:yt_playlists_plus/services/settings_service/theme_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/open_textfield_dialog.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/empty_planned.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_list.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class PlannedPanel extends StatefulWidget {
   final Set<String> planned;
@@ -40,7 +40,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
 
   bool canSubmitPlanned(String title) {
     if (title.trim().isEmpty) {
-      PopUpController().showSnackBar(
+      PopUpService().showSnackBar(
         context: context,
         message: "Can't be empty.",
       );
@@ -48,7 +48,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
     }
 
     if (widget.planned.contains(title.trim())) {
-      PopUpController().showSnackBar(
+      PopUpService().showSnackBar(
         context: context,
         message: "Already exists.",
       );
@@ -59,7 +59,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
   }
 
   Future<void> addTitle() async {
-    final String? title = await PopUpController().openTextFieldDialog(
+    final String? title = await PopUpService().openTextFieldDialog(
       context: context,
       controller: _textEditingController,
       title: "Add new planned video",

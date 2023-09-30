@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
 
 ///Manages the height of the Planned panel (mobile only)
 class PlannedSizeService extends ChangeNotifier
-    implements SettingService<PlannedSize>, StorableService {
+    implements SettingService<PlannedSize>, StorableController {
   PlannedSize plannedSize = Persistence.plannedSize;
 
   @override

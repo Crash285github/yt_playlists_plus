@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/services/settings_service/confirm_deletions_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/confirm_deletions_service.dart';
 
 class ConfirmDeletionsSetting extends StatefulWidget {
   const ConfirmDeletionsSetting({super.key});

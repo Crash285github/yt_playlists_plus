@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
-import 'package:yt_playlists_plus/services/abstract_storeable.dart';
-import 'package:yt_playlists_plus/services/settings_service/abstract_setting_service.dart';
+import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_service.dart';
 
 ///Manages the setting 'Hide Topics'
 class HideTopicsService extends ChangeNotifier
-    implements SettingService<bool>, StorableService {
+    implements SettingService<bool>, StorableController {
   bool hideTopics = Persistence.hideTopics;
 
   @override

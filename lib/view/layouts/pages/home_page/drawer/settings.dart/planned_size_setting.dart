@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/enums/planned_size_enum.dart';
-import 'package:yt_playlists_plus/services/settings_service/planned_size_service.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/planned_size_service.dart';
 import 'package:yt_playlists_plus/view/templates/styled_dropdown.dart';
 
 class PlannedSizeSetting extends StatefulWidget {

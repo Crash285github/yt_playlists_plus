@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/video/video_history.dart';
 import 'package:yt_playlists_plus/model/video/video_status.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
-import 'package:yt_playlists_plus/services/popup_controller/show_context_menu.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
+import 'package:yt_playlists_plus/services/popup_service/show_context_menu.dart';
 import 'package:yt_playlists_plus/view/templates/video_history/video_history_details.dart';
 import 'package:yt_playlists_plus/view/templates/video_history/video_history_group_time.dart';
 import 'package:yt_playlists_plus/view/templates/adatpive_gesture_detector.dart';
@@ -21,7 +21,6 @@ class VideoHistoryView extends ListWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Column(
@@ -30,7 +29,7 @@ class VideoHistoryView extends ListWidget {
         children: [
           if (firstOfList) VideoHistoryGroupTime(time: videoHistory.time),
           AdaptiveGestureDetector(
-            onTrigger: (offset) => PopUpController().showContextMenu(
+            onTrigger: (offset) => PopUpService().showContextMenu(
                 context: context, offset: offset, history: videoHistory),
             child: Card(
               margin: EdgeInsets.only(

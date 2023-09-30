@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/model/extensions/is_youtube_link.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist_status.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/services/fetching_service.dart';
 
 ///Provides the searching logic for `SearchPage`
-class SearchService extends ChangeNotifier {
+class SearchingController extends ChangeNotifier {
   bool isSearching = false;
   bool _isCanceled = false;
   final List<Playlist> searchResults = [];

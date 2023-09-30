@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/model/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/playlist/playlist.dart';
-import 'package:yt_playlists_plus/services/popup_controller/open_confirm_dialog.dart';
-import 'package:yt_playlists_plus/services/popup_controller/popup_controller.dart';
+import 'package:yt_playlists_plus/services/popup_service/open_confirm_dialog.dart';
+import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/playlist_page.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/settings_service/split_layout_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_service.dart';
 
 ///Shows the `HomePage` on the left side and a `PlaylistPage` on the right
 ///
@@ -55,7 +55,7 @@ class SplitViewState extends State<SplitView> {
                     value: playlist,
                     child: PlaylistPage(
                       onDelete: () async {
-                        PopUpController()
+                        PopUpService()
                             .openConfirmDialog(
                           context: context,
                           title: "Delete \"${playlist!.title}\"?",

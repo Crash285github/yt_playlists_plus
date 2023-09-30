@@ -6,8 +6,8 @@ import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/drawer.dar
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_empty.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_fab.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_playlists.dart';
-import 'package:yt_playlists_plus/services/playlists_service.dart';
-import 'package:yt_playlists_plus/services/reorder_service.dart';
+import 'package:yt_playlists_plus/controller/playlists_controller.dart';
+import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 import 'package:yt_playlists_plus/view/bottom_padding.dart';
 
 class HomePage extends StatefulWidget {
