@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/controller/video_controller.dart';
 import 'package:yt_playlists_plus/model/video_history.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
@@ -62,7 +63,7 @@ extension ShowContextMenu on PopUpService {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),
       clipBehavior: Clip.antiAlias,
-      context: context,
+      context: SplitLayoutController.centralKey.currentContext ?? context,
       position: RelativeRect.fromLTRB(offset.dx, offset.dy,
           MediaQuery.of(context).size.width - offset.dx, 0),
       items: copyItems,

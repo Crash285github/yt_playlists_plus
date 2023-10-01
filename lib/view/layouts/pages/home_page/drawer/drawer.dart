@@ -78,11 +78,11 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
             //About
             InkWell(
               onTap: () {
-                Navigator.of(SplitLayoutController().rightKey.currentContext ??
-                        context)
-                    .push(MaterialPageRoute(
-                  builder: (context) => const AboutPage(),
-                ));
+                final NavigatorState nav = Navigator.of(
+                    SplitLayoutController.rightKey.currentContext ?? context);
+                if (nav.canPop()) return;
+                nav.push(
+                    MaterialPageRoute(builder: (context) => const AboutPage()));
               },
               child: Padding(
                 padding:

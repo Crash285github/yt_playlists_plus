@@ -83,7 +83,7 @@ class ThemeBuilder extends StatelessWidget {
         }
 
         return MaterialApp(
-          navigatorKey: SplitLayoutController().centralKey,
+          navigatorKey: SplitLayoutController.centralKey,
           title: "Youtube Playlists+",
           home: const Responsive(),
           debugShowCheckedModeBanner: false,

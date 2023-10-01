@@ -10,9 +10,9 @@ class SplitLayoutController extends SettingController<SplitLayout>
   SplitLayout portions = Persistence.splitLayout.value;
   bool isEnabled = true;
 
-  final GlobalKey<NavigatorState> leftKey = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> rightKey = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> centralKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> leftKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> rightKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> centralKey = GlobalKey<NavigatorState>();
 
   @override
   void set(SplitLayout value) {

@@ -39,7 +39,7 @@ class SplitViewState extends State<SplitView> {
           Expanded(
             flex: portions.right,
             child: Navigator(
-              key: SplitLayoutController().rightKey,
+              key: SplitLayoutController.rightKey,
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) => playlist == null
                     ? Scaffold(
@@ -89,7 +89,7 @@ class SplitViewState extends State<SplitView> {
           Expanded(
             flex: portions.left,
             child: Navigator(
-              key: SplitLayoutController().leftKey,
+              key: SplitLayoutController.leftKey,
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) => HomePage(
                   onPlaylistTap: (PlaylistController selected) {

@@ -28,7 +28,7 @@ class HomePageFab extends StatelessWidget {
       onPressed: canReorder
           ? () => ReorderController().disable()
           : () => Navigator.of(
-                      SplitLayoutController().centralKey.currentContext ??
+                      SplitLayoutController.centralKey.currentContext ??
                           context)
                   .push(
                 MaterialPageRoute(
