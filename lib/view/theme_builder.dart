@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
 import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/color_scheme_controller.dart';
@@ -82,6 +83,7 @@ class ThemeBuilder extends StatelessWidget {
         }
 
         return MaterialApp(
+          navigatorKey: SplitLayoutController().centralKey,
           title: "Youtube Playlists+",
           home: const Responsive(),
           debugShowCheckedModeBanner: false,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/services/app_data_service.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
@@ -77,7 +78,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
             //About
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(SplitLayoutController().rightKey.currentContext ??
+                        context)
+                    .push(MaterialPageRoute(
                   builder: (context) => const AboutPage(),
                 ));
               },

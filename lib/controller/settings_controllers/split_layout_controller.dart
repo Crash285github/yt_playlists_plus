@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
@@ -8,6 +9,10 @@ class SplitLayoutController extends SettingController<SplitLayout>
     implements StorableController {
   SplitLayout portions = Persistence.splitLayout.value;
   bool isEnabled = true;
+
+  final GlobalKey<NavigatorState> leftKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> rightKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> centralKey = GlobalKey<NavigatorState>();
 
   @override
   void set(SplitLayout value) {
