@@ -38,54 +38,67 @@ class SplitViewState extends State<SplitView> {
           //?? right side
           Expanded(
             flex: portions.right,
-            child: playlist == null
-                ? Scaffold(
-                    body: Center(
-                      child: Text(
-                        "Tap on a playlist to show data.",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.5)),
-                      ),
-                    ),
-                  )
-                : ListenableProvider.value(
-                    value: playlist,
-                    child: PlaylistPage(
-                      onDelete: () async {
-                        PopUpService()
-                            .openConfirmDialog(
-                          context: context,
-                          title: "Delete \"${playlist!.title}\"?",
-                          content:
-                              "This will erase all of the playlist's data.",
-                        )
-                            .then((value) {
-                          if (value ?? false) {
-                            PlaylistsController()
-                              ..remove(playlist!)
-                              ..save();
+            child: Navigator(
+              key: SplitLayoutController.rightKey,
+              onGenerateRoute: (settings) => MaterialPageRoute(
+                builder: (context) => playlist == null
+                    ? Scaffold(
+                        body: Center(
+                          child: Text(
+                            "Tap on a playlist to show data.",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.5)),
+                          ),
+                        ),
+                      )
+                    : ListenableProvider.value(
+                        value: playlist,
+                        child: PlaylistPage(
+                          onDelete: () async {
+                            PopUpService()
+                                .openConfirmDialog(
+                              context: context,
+                              title: "Delete \"${playlist!.title}\"?",
+                              content:
+                                  "This will erase all of the playlist's data.",
+                            )
+                                .then((value) {
+                              if (value ?? false) {
+                                PlaylistsController()
+                                  ..remove(playlist!)
+                                  ..save();
 
-                            setState(() {
-                              playlist = null;
+                                setState(() {
+                                  playlist = null;
+                                });
+                              }
                             });
-                          }
-                        });
-                      },
-                    ),
-                  ),
+                          },
+                        ),
+                      ),
+              ),
+            ),
           ),
           //?? left side
           Expanded(
             flex: portions.left,
-            child: HomePage(
-              onPlaylistTap: (PlaylistController selected) {
-                setState(() {
-                  playlist = selected;
-                });
-              },
+            child: Navigator(
+              key: SplitLayoutController.leftKey,
+              onGenerateRoute: (settings) => MaterialPageRoute(
+                builder: (context) => HomePage(
+                  onPlaylistTap: (PlaylistController selected) {
+                    setState(() {
+                      playlist = selected;
+                    });
+                  },
+                ),
+              ),
             ),
           ),
         ],
