@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:synchronized/synchronized.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
@@ -42,12 +43,35 @@ class PlaylistController extends ChangeNotifier {
     notifyListeners();
   }
 
+  //?? sync videos
+  final Lock _videosLock = Lock();
+
   Set<VideoController> get videos =>
       playlist.videos.map((e) => VideoController(video: e)).toSet();
   set videos(Set<VideoController> value) {
     playlist.videos = value.map((e) => e.video).toSet();
     notifyListeners();
   }
+
+  ///Adds a video to the Set of [videos]
+  ///
+  ///returns `true` if successful
+  Future<bool> addVideo(VideoController controller) async =>
+      await _videosLock.synchronized(() {
+        bool success = playlist.videos.add(controller.video);
+        notifyListeners();
+        return success;
+      });
+
+  ///Removes a video from the Set of [videos]
+  ///
+  ///returns `true` if successful
+  Future<bool> removeVideo(VideoController controller) async =>
+      await _videosLock.synchronized(() {
+        bool success = playlist.videos.remove(controller.video);
+        notifyListeners();
+        return success;
+      });
 
   Set<String> get planned => playlist.planned;
 
@@ -75,11 +99,22 @@ class PlaylistController extends ChangeNotifier {
   final Set<VideoController> _added = {};
   final Set<VideoController> _missing = {};
 
+  //?? sync modified
+  final Lock _modifiedLock = Lock();
+
   ///Whether the playlist has been changed
   ///
   ///0 if not changed, otherwise shows the number of changes
   int get modified => _modified;
   int _modified = 0;
+  set modified(int value) {
+    _modifiedLock
+        .synchronized(() => _modified = value)
+        .whenComplete(() => notifyListeners());
+  }
+
+  //?? sync progress
+  final Lock _progressLock = Lock();
 
   ///Shows the fetching progress
   ///
@@ -89,26 +124,16 @@ class PlaylistController extends ChangeNotifier {
   set progress(double value) {
     const int steps = 40;
 
-    final double newProgress = (value * steps).round() * (100 / steps);
-
-    _progress = min(newProgress, 100);
-    notifyListeners();
+    _progressLock.synchronized(() {
+      final double newProgress = (value * steps).round() * (100 / steps);
+      _progress = min(newProgress, 100);
+    }).whenComplete(() => notifyListeners());
   }
 
   bool _isNetworkingCancelled = false;
 
   ///Cancels download or fetching, if it is in progress
   void cancelNetworking() => _isNetworkingCancelled = true;
-
-  ///Adds a video to the Set of [videos]
-  ///
-  ///returns `true` if successful
-  bool addToVideos(VideoController video) => videos.add(video);
-
-  ///Removes a video from the Set of [videos]
-  ///
-  ///returns `true` if successful
-  bool removeFromVideos(VideoController video) => videos.remove(video);
 
   ///Returns the difference of the `local` videos and the `fetched` videos
   ///
@@ -122,20 +147,19 @@ class PlaylistController extends ChangeNotifier {
     final Set<VideoController> clonedMissing = clonedVideos.difference(_fetch);
 
     for (final VideoController video in clonedMissing) {
-      video.setStatus(VideoStatus.missing);
+      video.status = VideoStatus.missing;
 
       //?? onTap
       video.onTap = () {
         if (video.status == VideoStatus.missing) {
-          video.setStatus(VideoStatus.pending);
-          videos.remove(video);
-          _modified++;
+          video.status = VideoStatus.pending;
+          removeVideo(video);
+          modified++;
         } else if (video.status == VideoStatus.pending) {
-          video.setStatus(VideoStatus.missing);
-          videos.add(video);
-          _modified--;
+          video.status = VideoStatus.missing;
+          addVideo(video);
+          modified--;
         }
-        notifyListeners();
       };
 
       //?? statusFunction
@@ -166,20 +190,19 @@ class PlaylistController extends ChangeNotifier {
     _added.removeWhere((video) => !_fetch.contains(video));
 
     for (final VideoController video in clonedAdded) {
-      video.setStatus(VideoStatus.added);
+      video.status = VideoStatus.added;
 
       //?? onTap
       video.onTap = () {
         if (video.status == VideoStatus.added) {
-          video.setStatus(VideoStatus.pending);
-          videos.add(video);
-          _modified++;
+          video.status = VideoStatus.pending;
+          addVideo(video);
+          modified++;
         } else if (video.status == VideoStatus.pending) {
-          video.setStatus(VideoStatus.added);
-          videos.remove(video);
-          _modified--;
+          video.status = VideoStatus.added;
+          removeVideo(video);
+          modified--;
         }
-        notifyListeners();
       };
 
       //?? statusFunction
@@ -196,7 +219,7 @@ class PlaylistController extends ChangeNotifier {
   void clearPending() {
     _added.removeWhere((video) => video.status == VideoStatus.pending);
     _missing.removeWhere((video) => video.status == VideoStatus.pending);
-    _modified = 0;
+    modified = 0;
     notifyListeners();
   }
 
@@ -215,11 +238,10 @@ class PlaylistController extends ChangeNotifier {
         if (_isNetworkingCancelled) {
           return;
         }
-        videos.add(video);
+        addVideo(video);
         progress = videos.length / (_length ?? 1);
         if (first) {
           thumbnailUrl = video.thumbnailUrl;
-          notifyListeners();
           first = false;
         }
         //?? if it started, add Playlist

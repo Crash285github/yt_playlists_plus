@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:synchronized/synchronized.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt_explode;
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/model/playlist.dart';
@@ -12,7 +13,13 @@ import 'package:yt_playlists_plus/model/video.dart';
 ///Wrapper for the `YoutubeExplode` client
 class FetchingService {
   static yt_explode.YoutubeExplode? _client;
+
+  //?? sync lock
+  static final Lock _lock = Lock();
+  
   static int _fetchCount = 0;
+  static void _addFetch() => _lock.synchronized(() => _fetchCount++);
+  static void _removeFetch() => _lock.synchronized(() => _fetchCount--);
 
   static void _tryCloseCient() {
     if (_fetchCount == 0) {
@@ -37,7 +44,7 @@ class FetchingService {
     }
 
     _client ??= yt_explode.YoutubeExplode();
-    _fetchCount++;
+    _addFetch();
 
     try {
       final yt_explode.SearchList<yt_explode.BaseSearchContent> result =
@@ -52,7 +59,7 @@ class FetchingService {
     } on PlaylistException {
       return;
     } finally {
-      _fetchCount--;
+      _removeFetch();
       _tryCloseCient();
     }
   }
@@ -75,7 +82,7 @@ class FetchingService {
       return null;
     }
     _client ??= yt_explode.YoutubeExplode();
-    _fetchCount++;
+    _addFetch();
 
     try {
       return await _getPlaylist(id);
@@ -84,14 +91,14 @@ class FetchingService {
     } on PlaylistException {
       return null;
     } finally {
-      _fetchCount--;
+      _removeFetch();
       _tryCloseCient();
     }
   }
 
   static Future<bool> existsPlaylist(String playlistId) async {
     _client ??= yt_explode.YoutubeExplode();
-    _fetchCount++;
+    _addFetch();
 
     try {
       final yt_explode.Playlist result =
@@ -100,7 +107,7 @@ class FetchingService {
     } on Exception {
       return false;
     } finally {
-      _fetchCount--;
+      _removeFetch();
       _tryCloseCient();
     }
   }
@@ -108,7 +115,7 @@ class FetchingService {
   //?? gets playlist information
   static Future<PlaylistController> _getPlaylist(String playlistId) async {
     _client ??= yt_explode.YoutubeExplode();
-    _fetchCount++;
+    _addFetch();
 
     try {
       final yt_explode.Playlist result =
@@ -133,7 +140,7 @@ class FetchingService {
     } on SocketException {
       rethrow;
     } finally {
-      _fetchCount--;
+      _removeFetch();
       _tryCloseCient();
     }
   }
@@ -142,7 +149,7 @@ class FetchingService {
   static Stream<VideoController> getVideosFromPlaylist(
       String playlistId) async* {
     _client ??= yt_explode.YoutubeExplode();
-    _fetchCount++;
+    _addFetch();
 
     try {
       await for (final yt_explode.Video vid
@@ -160,7 +167,7 @@ class FetchingService {
     } on SocketException {
       rethrow;
     } finally {
-      _fetchCount--;
+      _removeFetch();
       _tryCloseCient();
     }
   }
