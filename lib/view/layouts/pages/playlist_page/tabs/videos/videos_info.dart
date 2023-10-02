@@ -55,10 +55,7 @@ class VideosInfo extends StatelessWidget {
             ),
           ],
         ),
-        const BottomPadding(
-          windowsHeight: 80,
-          androidHeight: 80,
-        )
+        SizedBox(height: MediaQuery.of(context).size.height * 0.3)
       ],
     ));
   }
