@@ -56,10 +56,10 @@ class VideoController extends ChangeNotifier {
   @override
   int get hashCode => Object.hash(id, null);
 
-  ///Converts a `json` Object into a `Video` Object
+  ///Converts a `json` Object into a `VideoController` Object
   VideoController.fromJson(Map<String, dynamic> json)
       : video = Video.fromJson(json);
 
-  ///Converts a `Video` Object into a `json` Object
+  ///Converts a `VideoController` Object into a `json` Object
   Map<String, dynamic> toJson() => video.toJson();
 }
