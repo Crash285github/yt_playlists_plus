@@ -26,9 +26,7 @@ class VideoController extends ChangeNotifier {
   ///The video's current status
   VideoStatus get status => _status;
   VideoStatus _status = VideoStatus.normal;
-
-  ///Changes status & alerts listeners
-  setStatus(VideoStatus newStatus) {
+  set status(VideoStatus newStatus) {
     _status = newStatus;
     notifyListeners();
   }

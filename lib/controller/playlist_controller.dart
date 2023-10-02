@@ -122,16 +122,16 @@ class PlaylistController extends ChangeNotifier {
     final Set<VideoController> clonedMissing = clonedVideos.difference(_fetch);
 
     for (final VideoController video in clonedMissing) {
-      video.setStatus(VideoStatus.missing);
+      video.status = VideoStatus.missing;
 
       //?? onTap
       video.onTap = () {
         if (video.status == VideoStatus.missing) {
-          video.setStatus(VideoStatus.pending);
+          video.status = VideoStatus.pending;
           videos.remove(video);
           _modified++;
         } else if (video.status == VideoStatus.pending) {
-          video.setStatus(VideoStatus.missing);
+          video.status = VideoStatus.missing;
           videos.add(video);
           _modified--;
         }
@@ -166,16 +166,16 @@ class PlaylistController extends ChangeNotifier {
     _added.removeWhere((video) => !_fetch.contains(video));
 
     for (final VideoController video in clonedAdded) {
-      video.setStatus(VideoStatus.added);
+      video.status = VideoStatus.added;
 
       //?? onTap
       video.onTap = () {
         if (video.status == VideoStatus.added) {
-          video.setStatus(VideoStatus.pending);
+          video.status = VideoStatus.pending;
           videos.add(video);
           _modified++;
         } else if (video.status == VideoStatus.pending) {
-          video.setStatus(VideoStatus.added);
+          video.status = VideoStatus.added;
           videos.remove(video);
           _modified--;
         }
