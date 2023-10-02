@@ -103,12 +103,20 @@ class PlaylistController extends ChangeNotifier {
   ///Adds a video to the Set of [videos]
   ///
   ///returns `true` if successful
-  bool addToVideos(VideoController video) => videos.add(video);
+  bool addToVideos(VideoController controller) {
+    bool success = playlist.videos.add(controller.video);
+    notifyListeners();
+    return success;
+  }
 
   ///Removes a video from the Set of [videos]
   ///
   ///returns `true` if successful
-  bool removeFromVideos(VideoController video) => videos.remove(video);
+  bool removeFromVideos(VideoController controller) {
+    bool success = playlist.videos.remove(controller.video);
+    notifyListeners();
+    return success;
+  }
 
   ///Returns the difference of the `local` videos and the `fetched` videos
   ///
@@ -128,11 +136,11 @@ class PlaylistController extends ChangeNotifier {
       video.onTap = () {
         if (video.status == VideoStatus.missing) {
           video.status = VideoStatus.pending;
-          videos.remove(video);
+          removeFromVideos(video);
           _modified++;
         } else if (video.status == VideoStatus.pending) {
           video.status = VideoStatus.missing;
-          videos.add(video);
+          addToVideos(video);
           _modified--;
         }
         notifyListeners();
@@ -172,11 +180,11 @@ class PlaylistController extends ChangeNotifier {
       video.onTap = () {
         if (video.status == VideoStatus.added) {
           video.status = VideoStatus.pending;
-          videos.add(video);
+          addToVideos(video);
           _modified++;
         } else if (video.status == VideoStatus.pending) {
           video.status = VideoStatus.added;
-          videos.remove(video);
+          removeFromVideos(video);
           _modified--;
         }
         notifyListeners();
@@ -215,11 +223,10 @@ class PlaylistController extends ChangeNotifier {
         if (_isNetworkingCancelled) {
           return;
         }
-        videos.add(video);
+        addToVideos(video);
         progress = videos.length / (_length ?? 1);
         if (first) {
           thumbnailUrl = video.thumbnailUrl;
-          notifyListeners();
           first = false;
         }
         //?? if it started, add Playlist
