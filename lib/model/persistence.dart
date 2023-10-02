@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:synchronized/synchronized.dart';
 import 'package:yt_playlists_plus/enums/app_color_scheme_enum.dart';
 import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
@@ -41,8 +42,8 @@ class Persistence {
   static StorableData<List<Playlist>> playlists =
       StorableData(key: 'playlists', value: []);
 
-  //?? lock saving
-  static FutureOr<void> _saving;
+  //?? synchronized lock
+  static final Lock _lock = Lock();
 
   ///Saves data to a Map with [key] and [value]
   ///
@@ -50,37 +51,18 @@ class Persistence {
   ///
   ///Unsupported types will throw `UnsupportedError`
   static Future<bool> save<T>({required String key, required T value}) async {
-    if (_saving != null) {
-      await _saving;
-      return save(key: key, value: value);
-    }
-
-    //?? lock
-    Completer completer = Completer<void>();
-    _saving = completer.future;
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (value is int) {
-      return prefs.setInt(key, value).whenComplete(() {
-        //?? unlock
-        completer.complete();
-        _saving = null;
-      });
-    } else if (value is bool) {
-      return prefs.setBool(key, value).whenComplete(() {
-        //?? unlock
-        completer.complete();
-        _saving = null;
-      });
-    } else if (value is List<String>) {
-      return prefs.setStringList(key, value).whenComplete(() {
-        //?? unlock
-        completer.complete();
-        _saving = null;
-      });
-    } else {
-      throw UnsupportedError("Can't save type: ${value.runtimeType}.");
-    }
+    return _lock.synchronized(() {
+      if (value is int) {
+        return prefs.setInt(key, value);
+      } else if (value is bool) {
+        return prefs.setBool(key, value);
+      } else if (value is List<String>) {
+        return prefs.setStringList(key, value);
+      } else {
+        throw UnsupportedError("Can't save type: ${value.runtimeType}.");
+      }
+    });
   }
 
   ///Loads data from a Map with [key]
