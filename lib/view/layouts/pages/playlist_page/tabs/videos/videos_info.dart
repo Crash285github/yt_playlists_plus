@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
-import 'package:yt_playlists_plus/view/bottom_padding.dart';
 
 class VideosInfo extends StatelessWidget {
   final PlaylistController playlist;
