@@ -14,6 +14,9 @@ import 'package:yt_playlists_plus/model/storable_data.dart';
 
 ///Data management
 class Persistence {
+  //?? sync lock
+  static final Lock _lock = Lock();
+
   //__ data keys & default values
   static StorableData<AppTheme> appTheme =
       StorableData(key: 'appTheme', value: AppTheme.light);
@@ -41,9 +44,6 @@ class Persistence {
 
   static StorableData<List<Playlist>> playlists =
       StorableData(key: 'playlists', value: []);
-
-  //?? synchronized lock
-  static final Lock _lock = Lock();
 
   ///Saves data to a Map with [key] and [value]
   ///
