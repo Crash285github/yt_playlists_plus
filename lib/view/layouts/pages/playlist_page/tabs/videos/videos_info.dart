@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
+import 'package:yt_playlists_plus/view/bottom_padding.dart';
 
 class VideosInfo extends StatelessWidget {
   final PlaylistController playlist;
@@ -14,36 +12,54 @@ class VideosInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Videos: (${playlist.videos.length})",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          if (Platform.isWindows)
-            TextButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => PlannedPanel(
-                    planned: playlist.planned,
-                    scrollController: ScrollController(),
-                    onHandleTapped: null,
-                  ),
-                );
-              },
-              child: const Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text("Planned"), Icon(Icons.draw_outlined)],
-              ),
-            )
-        ],
-      ),
-    );
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final Color textColor =
+        Theme.of(context).colorScheme.onBackground.withOpacity(0.5);
+    return Center(
+        child: Column(
+      children: [
+        Text(
+          "Playlist information",
+          style: textTheme.titleLarge!.copyWith(color: textColor),
+        ),
+        const Divider(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Author: ${playlist.author.substring(3)}",
+                  style: textTheme.bodyLarge!.copyWith(color: textColor),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  "Videos: ${playlist.videos.length}",
+                  style: textTheme.bodyLarge!.copyWith(color: textColor),
+                ),
+                Text(
+                  "History: ${playlist.history.length}",
+                  style: textTheme.bodyLarge!.copyWith(color: textColor),
+                ),
+                Text(
+                  "Planned: ${playlist.history.length}",
+                  style: textTheme.bodyLarge!.copyWith(color: textColor),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const BottomPadding(
+          windowsHeight: 80,
+          androidHeight: 80,
+        )
+      ],
+    ));
   }
 }
