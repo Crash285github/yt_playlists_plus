@@ -36,11 +36,12 @@ class _SearchPageState extends State<SearchPage> {
                 isEmpty: service.searchResults.isEmpty,
                 isSearching: service.isSearching,
                 onSubmitted: (value) async {
-                  await service
-                      .search(query: value)
-                      .then((SearchState state) => setState(() {
-                            message = state.message ?? "";
-                          }));
+                  await service.search(query: value).then((SearchState state) {
+                    if (state == SearchState.canceled) return;
+                    setState(() {
+                      message = state.message ?? "";
+                    });
+                  });
                 },
               ),
             ),
