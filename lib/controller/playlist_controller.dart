@@ -160,7 +160,6 @@ class PlaylistController extends ChangeNotifier {
           addVideo(video);
           modified--;
         }
-        notifyListeners();
       };
 
       //?? statusFunction
@@ -204,7 +203,6 @@ class PlaylistController extends ChangeNotifier {
           removeVideo(video);
           modified--;
         }
-        notifyListeners();
       };
 
       //?? statusFunction
