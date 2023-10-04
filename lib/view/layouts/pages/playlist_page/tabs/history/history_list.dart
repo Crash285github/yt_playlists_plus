@@ -18,9 +18,11 @@ class HistoryList extends StatefulWidget {
   State<HistoryList> createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> {
+class _HistoryListState extends State<HistoryList>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     int? limit = Provider.of<HistoryLimitController>(context).limit;
     int historyLimit = limit ?? widget.history.length;
     int index = 0;
@@ -57,4 +59,7 @@ class _HistoryListState extends State<HistoryList> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

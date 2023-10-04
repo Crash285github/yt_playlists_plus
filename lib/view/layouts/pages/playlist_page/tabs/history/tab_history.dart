@@ -21,7 +21,6 @@ class _HistoryTabState extends State<HistoryTab> {
       backgroundColor: Colors.transparent,
       body: Column(
         children: [
-          const SizedBox(height: 8),
           widget.history.isEmpty
               ? const EmptyHistory()
               : HistoryList(history: widget.history),

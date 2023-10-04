@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/view/bottom_padding.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/empty_videos.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_button.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/videos_info.dart';
@@ -50,6 +51,7 @@ class _VideosTabState extends State<VideosTab>
                         ),
                       );
                     }),
+              const BottomPadding(),
             ],
           ),
           if (Platform.isAndroid) PlannedSheetMobile(playlist: widget.playlist)
