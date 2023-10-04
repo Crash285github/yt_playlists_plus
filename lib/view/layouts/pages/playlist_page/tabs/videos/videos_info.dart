@@ -23,12 +23,13 @@ class _VideosInfoState extends State<VideosInfo> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: Theme.of(context).cardColor.withOpacity(0.5),
+        color: Theme.of(context).cardColor.withOpacity(0.4),
         shadowColor: Colors.transparent,
         child: ExpansionTile(
+            expandedAlignment: Alignment.center,
             shape: const Border(),
             collapsedShape: const Border(),
-            title: const Text("Details"),
+            title: const Text("More"),
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
