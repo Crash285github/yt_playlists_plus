@@ -70,6 +70,7 @@ class Playlist {
       'title': title,
       'author': author,
       'thumbnailUrl': thumbnailUrl,
+      'description': description,
       'videos': videos.map((video) => video.toJson()).toList(),
       'planned': jsonEncode(planned.toList()),
       'history': history.reversed
