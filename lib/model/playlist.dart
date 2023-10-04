@@ -17,11 +17,15 @@ class Playlist {
   ///The url of the thumbnail of the Playlist
   String thumbnailUrl;
 
+  ///The description of the Playlist
+  String description;
+
   Playlist({
     required this.id,
     required this.title,
     required this.author,
     required this.thumbnailUrl,
+    required this.description,
   });
 
   ///The `set` of Videos of the Playlist
@@ -45,9 +49,10 @@ class Playlist {
   ///Converts a `json` Object into a `Playlist` Object
   Playlist.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        title = json['title'],
-        author = json['author'],
-        thumbnailUrl = json['thumbnailUrl'],
+        title = json['title'] ?? "<err>",
+        author = json['author'] ?? "<err>",
+        thumbnailUrl = json['thumbnailUrl'] ?? "<err>",
+        description = json['description'] ?? "<err>",
         videos = (json['videos'] as List)
             .map((video) => Video.fromJson(video))
             .toSet(),
@@ -65,6 +70,7 @@ class Playlist {
       'title': title,
       'author': author,
       'thumbnailUrl': thumbnailUrl,
+      'description': description,
       'videos': videos.map((video) => video.toJson()).toList(),
       'planned': jsonEncode(planned.toList()),
       'history': history.reversed

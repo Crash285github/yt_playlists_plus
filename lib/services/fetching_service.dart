@@ -16,7 +16,7 @@ class FetchingService {
 
   //?? sync lock
   static final Lock _lock = Lock();
-  
+
   static int _fetchCount = 0;
   static void _addFetch() => _lock.synchronized(() => _fetchCount++);
   static void _removeFetch() => _lock.synchronized(() => _fetchCount--);
@@ -112,6 +112,9 @@ class FetchingService {
     }
   }
 
+  static Future<Playlist> fetchPlaylist(String playlistId) async =>
+      (await _getPlaylist(playlistId)).playlist;
+
   //?? gets playlist information
   static Future<PlaylistController> _getPlaylist(String playlistId) async {
     _client ??= yt_explode.YoutubeExplode();
@@ -133,6 +136,7 @@ class FetchingService {
           id: result.id.toString(),
           title: result.title,
           author: author,
+          description: result.description,
           thumbnailUrl: "", //?? at download
         ),
         length: result.videoCount,

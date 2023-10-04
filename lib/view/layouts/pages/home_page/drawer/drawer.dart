@@ -80,7 +80,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
               onTap: () {
                 final NavigatorState nav = Navigator.of(
                     SplitLayoutController.rightKey.currentContext ?? context);
-                if (SplitLayoutController().isEnabled && nav.canPop()) return;
+                if (nav.canPop()) nav.pop();
                 nav.push(
                     MaterialPageRoute(builder: (context) => const AboutPage()));
               },

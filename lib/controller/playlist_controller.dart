@@ -43,6 +43,12 @@ class PlaylistController extends ChangeNotifier {
     notifyListeners();
   }
 
+  String get description => playlist.description;
+  set description(String value) {
+    playlist.description = value;
+    notifyListeners();
+  }
+
   //?? sync videos
   final Lock _videosLock = Lock();
 
@@ -74,6 +80,26 @@ class PlaylistController extends ChangeNotifier {
       });
 
   Set<String> get planned => playlist.planned;
+
+  ///Adds a video to the Set of [videos]
+  ///
+  ///returns `true` if successful
+  Future<bool> addPlanned(String title) async =>
+      await _videosLock.synchronized(() {
+        bool success = playlist.planned.add(title);
+        notifyListeners();
+        return success;
+      });
+
+  ///Removes a video from the Set of [videos]
+  ///
+  ///returns `true` if successful
+  Future<bool> removePlanned(String title) async =>
+      await _videosLock.synchronized(() {
+        bool success = playlist.planned.remove(title);
+        notifyListeners();
+        return success;
+      });
 
   List<VideoHistory> get history => playlist.history;
 
@@ -163,12 +189,14 @@ class PlaylistController extends ChangeNotifier {
       };
 
       //?? statusFunction
-      video.statusFunction = (BuildContext context) {
-        bool added = planned.add(video.title);
-        PopUpService().showSnackBar(
-            context: context,
-            message:
-                added ? "Video added to Planned" : "Video already in Planned");
+      video.statusFunction = (BuildContext context) async {
+        await addPlanned(video.title).then(
+          (success) => PopUpService().showSnackBar(
+              context: context,
+              message: success
+                  ? "Video added to Planned"
+                  : "Video already in Planned"),
+        );
       };
     }
 
@@ -271,6 +299,11 @@ class PlaylistController extends ChangeNotifier {
     _isNetworkingCancelled = false;
 
     try {
+      Playlist fetchPlaylist = await FetchingService.fetchPlaylist(id);
+
+      description = fetchPlaylist.description;
+      title = fetchPlaylist.title;
+
       await for (final VideoController video
           in FetchingService.getVideosFromPlaylist(id)) {
         if (_isNetworkingCancelled) {
@@ -278,6 +311,13 @@ class PlaylistController extends ChangeNotifier {
         }
         _fetch.add(video);
         progress = _fetch.length / videos.length;
+      }
+      
+      //?? update thumbnail if different
+      final String newthumbnailUrl =
+          _fetch.firstOrNull?.thumbnailUrl ?? thumbnailUrl;
+      if (newthumbnailUrl != thumbnailUrl) {
+        thumbnailUrl = newthumbnailUrl;
       }
     } on SocketException {
       status = PlaylistStatus.unChecked;
@@ -299,13 +339,6 @@ class PlaylistController extends ChangeNotifier {
     }
 
     status = PlaylistStatus.checking;
-
-    //?? update thumbnail if different
-    final String newthumbnailUrl =
-        _fetch.firstOrNull?.thumbnailUrl ?? thumbnailUrl;
-    if (newthumbnailUrl != thumbnailUrl) {
-      thumbnailUrl = newthumbnailUrl;
-    }
 
     if (_fetch.isEmpty && !(await FetchingService.existsPlaylist(id))) {
       status = PlaylistStatus.notFound;

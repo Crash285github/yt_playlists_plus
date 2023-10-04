@@ -68,6 +68,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                             _fetchCount = 0;
                           });
                           ExportImportController().tryEnable();
+                          PlaylistsController().save();
                         });
                       },
               )

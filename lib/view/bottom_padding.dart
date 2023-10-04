@@ -14,13 +14,13 @@ class BottomPadding extends StatelessWidget {
 
   ///Height of the padding on `Windows` devices
   ///
-  ///Default is [kToolbarHeight]
+  ///Default is [kToolbarHeight] + 20
   final double windowsHeight;
 
   const BottomPadding({
     super.key,
-    this.androidHeight = kToolbarHeight,
-    this.windowsHeight = kToolbarHeight,
+    this.androidHeight = kToolbarHeight + 20,
+    this.windowsHeight = kToolbarHeight + 20,
   });
 
   @override

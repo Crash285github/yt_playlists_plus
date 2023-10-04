@@ -11,8 +11,11 @@ class PlaylistsController extends ChangeNotifier implements StorableController {
       .map((e) => PlaylistController(playlist: e))
       .toList();
 
-  void replace(List<PlaylistController> playlists) {
-    this.playlists = playlists;
+  void replace(List<PlaylistController> playlists) async {
+    this.playlists.clear();
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 200));
+    this.playlists.addAll(playlists);
     notifyListeners();
   }
 

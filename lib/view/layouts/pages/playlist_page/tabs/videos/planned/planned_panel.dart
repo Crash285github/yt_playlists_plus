@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/open_textfield_dialog.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
@@ -8,13 +9,13 @@ import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/p
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class PlannedPanel extends StatefulWidget {
-  final Set<String> planned;
+  final PlaylistController playlistController;
   final ScrollController scrollController;
   final Function()? onHandleTapped;
 
   const PlannedPanel({
     super.key,
-    required this.planned,
+    required this.playlistController,
     required this.scrollController,
     required this.onHandleTapped,
   });
@@ -47,7 +48,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
       return false;
     }
 
-    if (widget.planned.contains(title.trim())) {
+    if (widget.playlistController.planned.contains(title.trim())) {
       PopUpService().showSnackBar(
         context: context,
         message: "Already exists.",
@@ -70,7 +71,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
     if (title == null) return;
     if (canSubmitPlanned(title)) {
       setState(() {
-        widget.planned.add(title);
+        widget.playlistController.addPlanned(title);
       });
       PlaylistsController().save();
     }
@@ -78,7 +79,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
 
   void deleteTitle(String title) {
     setState(() {
-      widget.planned.remove(title);
+      widget.playlistController.removePlanned(title);
     });
     PlaylistsController().save();
   }
@@ -97,7 +98,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
           ? Colors.black
           : Theme.of(context).colorScheme.background,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
-      child: widget.planned.isEmpty
+      child: widget.playlistController.planned.isEmpty
           ? EmptyPlanned(
               onAddPressed: addTitle,
               scrollController: widget.scrollController,
@@ -105,7 +106,7 @@ class _PlannedPanelState extends State<PlannedPanel> {
             )
           : PlannedList(
               scrollController: widget.scrollController,
-              planned: widget.planned,
+              playlistController: widget.playlistController,
               onAddPressed: addTitle,
               onDeletePressed: deleteTitle,
               onHandleTapped: widget.onHandleTapped,

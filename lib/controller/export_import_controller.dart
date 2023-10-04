@@ -45,20 +45,20 @@ class ExportImportController extends ChangeNotifier {
     if (json == null) return false;
 
     final AppTheme appTheme =
-        AppTheme.values[json[Persistence.appTheme.key] ?? AppTheme.light];
+        AppTheme.values[json[Persistence.appTheme.key] ?? AppTheme.light.index];
     ThemeController().set(appTheme);
 
-    final AppColorScheme appColorScheme = AppColorScheme
-        .values[json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic];
+    final AppColorScheme appColorScheme = AppColorScheme.values[
+        json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic.index];
     ColorSchemeController().set(appColorScheme);
 
     final SplitLayout splitLayout = SplitLayout
-        .values[json[Persistence.splitLayout.key] ?? SplitLayout.uneven];
+        .values[json[Persistence.splitLayout.key] ?? SplitLayout.uneven.index];
     SplitLayoutController().set(splitLayout);
 
     if (Platform.isAndroid) {
-      final PlannedSize plannedSize = PlannedSize
-          .values[json[Persistence.plannedSize.key] ?? PlannedSize.normal];
+      final PlannedSize plannedSize = PlannedSize.values[
+          json[Persistence.plannedSize.key] ?? PlannedSize.normal.index];
       PlannedSizeController().set(plannedSize);
     }
 

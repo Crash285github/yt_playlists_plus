@@ -21,17 +21,19 @@ class ChangesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PlaylistController playlist = Provider.of<PlaylistController>(context);
+
+    added.addAll(missing);
+    final Set<VideoController> changes = added;
+
     return Scaffold(
       body: Column(
         children: [
           ChangesInfo(
-            changes: (added.toList() + missing.toList()).toSet(),
+            changes: changes,
             playlist: playlist,
           ),
-          const Divider(),
           playlist.status == PlaylistStatus.changed
-              ? ChangesList(
-                  changes: (added.toList() + missing.toList()).toSet())
+              ? ChangesList(changes: changes)
               : ChangesStatus(
                   status: playlist.status,
                   progress: playlist.progress,
