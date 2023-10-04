@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/view/bottom_padding.dart';
 import 'package:yt_playlists_plus/view/templates/styled_sliver_app_bar.dart';
 
 ///Tells the user about the Application
@@ -37,8 +36,6 @@ class AboutPage extends StatelessWidget {
                   "Pro tip: Bringing up the context menu of missing videos (${Platform.isAndroid ? "long-press" : "right-click"}) shows the option to save them to planned."),
             ]),
           ),
-          const SliverFillRemaining(hasScrollBody: false),
-          const SliverToBoxAdapter(child: BottomPadding()),
         ],
       ),
     );

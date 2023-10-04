@@ -52,7 +52,7 @@ class _HistoryListState extends State<HistoryList> {
               );
             },
           ),
-          const BottomPadding(androidHeight: 20, windowsHeight: 10)
+          const BottomPadding()
         ],
       ),
     );

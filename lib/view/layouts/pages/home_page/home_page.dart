@@ -72,10 +72,8 @@ class _HomePageState extends State<HomePage> {
             playlists.isEmpty
                 ? const HomePageEmpty()
                 : HomePagePlaylists(onTap: widget.onPlaylistTap),
-            if (playlists.isNotEmpty) ...[
-              const SliverFillRemaining(hasScrollBody: false),
+            if (playlists.isNotEmpty)
               const SliverToBoxAdapter(child: BottomPadding())
-            ],
           ],
         ),
         floatingActionButton:
