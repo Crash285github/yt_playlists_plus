@@ -75,6 +75,26 @@ class PlaylistController extends ChangeNotifier {
 
   Set<String> get planned => playlist.planned;
 
+  ///Adds a video to the Set of [videos]
+  ///
+  ///returns `true` if successful
+  Future<bool> addPlanned(String title) async =>
+      await _videosLock.synchronized(() {
+        bool success = playlist.planned.add(title);
+        notifyListeners();
+        return success;
+      });
+
+  ///Removes a video from the Set of [videos]
+  ///
+  ///returns `true` if successful
+  Future<bool> removePlanned(String title) async =>
+      await _videosLock.synchronized(() {
+        bool success = playlist.planned.remove(title);
+        notifyListeners();
+        return success;
+      });
+
   List<VideoHistory> get history => playlist.history;
 
   //__ Controller data
@@ -163,12 +183,14 @@ class PlaylistController extends ChangeNotifier {
       };
 
       //?? statusFunction
-      video.statusFunction = (BuildContext context) {
-        bool added = planned.add(video.title);
-        PopUpService().showSnackBar(
-            context: context,
-            message:
-                added ? "Video added to Planned" : "Video already in Planned");
+      video.statusFunction = (BuildContext context) async {
+        await addPlanned(video.title).then(
+          (success) => PopUpService().showSnackBar(
+              context: context,
+              message: success
+                  ? "Video added to Planned"
+                  : "Video already in Planned"),
+        );
       };
     }
 

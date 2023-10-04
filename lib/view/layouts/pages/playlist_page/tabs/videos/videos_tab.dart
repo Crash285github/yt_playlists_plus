@@ -36,7 +36,7 @@ class _VideosTabState extends State<VideosTab>
         children: [
           ListView(
             children: [
-              const SizedBox(height: 50),
+              VideosInfo(playlist: widget.playlist),
               ...widget.playlist.videos.isEmpty
                   ? [const EmptyVideos()]
                   : widget.playlist.videos.map((e) {
@@ -50,7 +50,6 @@ class _VideosTabState extends State<VideosTab>
                         ),
                       );
                     }),
-              VideosInfo(playlist: widget.playlist)
             ],
           ),
           if (Platform.isAndroid) PlannedSheetMobile(playlist: widget.playlist)

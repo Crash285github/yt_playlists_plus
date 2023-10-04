@@ -96,6 +96,11 @@ class SplitViewState extends State<SplitView> {
                     setState(() {
                       playlist = selected;
                     });
+                    if (SplitLayoutController.rightKey.currentContext != null) {
+                      Navigator.of(
+                              SplitLayoutController.rightKey.currentContext!)
+                          .maybePop();
+                    }
                   },
                 ),
               ),

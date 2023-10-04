@@ -15,7 +15,7 @@ class PlannedButton extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           builder: (context) => PlannedPanel(
-            planned: controller.planned,
+            playlistController: controller,
             scrollController: ScrollController(),
             onHandleTapped: null,
           ),

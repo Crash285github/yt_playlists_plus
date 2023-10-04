@@ -80,7 +80,7 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
           snapSizes: canSnap ? const [0.2] : null, //?? minSize
           builder: (BuildContext context, ScrollController scrollController) {
             return PlannedPanel(
-              planned: widget.playlist.planned,
+              playlistController: widget.playlist,
               scrollController: scrollController,
               onHandleTapped: () {
                 if (_draggableScrollableController.size < snapSize) {
