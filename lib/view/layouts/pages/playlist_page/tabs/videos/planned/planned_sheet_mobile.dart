@@ -22,8 +22,8 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
   double _opacity = 0.0;
   bool _visible = false;
 
-  double snapSize = 0.2;
-  double maxSize = 0.7;
+  final double snapSize = 0.2;
+  final double maxSize = 0.7;
 
   @override
   void initState() {
