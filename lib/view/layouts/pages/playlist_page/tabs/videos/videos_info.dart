@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_controller.dart';
 
 class VideosInfo extends StatefulWidget {
   final PlaylistController playlist;
@@ -14,11 +18,18 @@ class VideosInfo extends StatefulWidget {
 }
 
 class _VideosInfoState extends State<VideosInfo> {
+  int minWithNull(int first, int? second) {
+    if (second == null) return first;
+    return min(first, second);
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Color textColor =
         Theme.of(context).colorScheme.onBackground.withOpacity(0.5);
+
+    Provider.of<HistoryLimitController>(context).limit;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -61,7 +72,7 @@ class _VideosInfoState extends State<VideosInfo> {
                                   .copyWith(color: textColor),
                             ),
                             Text(
-                              "History: ${widget.playlist.history.length}",
+                              "History: ${minWithNull(widget.playlist.history.length, HistoryLimitController().limit)}",
                               style: textTheme.bodyLarge!
                                   .copyWith(color: textColor),
                             ),
