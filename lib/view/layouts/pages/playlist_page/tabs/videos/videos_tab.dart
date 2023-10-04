@@ -55,7 +55,9 @@ class _VideosTabState extends State<VideosTab>
           if (Platform.isAndroid) PlannedSheetMobile(playlist: widget.playlist)
         ],
       ),
-      floatingActionButton: PlannedButton(controller: widget.playlist),
+      floatingActionButton: Platform.isWindows
+          ? PlannedButton(controller: widget.playlist)
+          : null,
     );
   }
 }
