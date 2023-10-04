@@ -33,20 +33,23 @@ class _VideosInfoState extends State<VideosInfo> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Author: ${widget.playlist.author.substring(3)}",
-                              style: textTheme.bodyLarge!
-                                  .copyWith(color: textColor),
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Author: ${widget.playlist.author.substring(3)}",
+                                style: textTheme.bodyLarge!
+                                    .copyWith(color: textColor),
+                              ),
+                            ],
+                          ),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -70,6 +73,15 @@ class _VideosInfoState extends State<VideosInfo> {
                         ),
                       ],
                     ),
+                    const Divider(height: 10),
+                    Text(
+                      "Description:",
+                      style: textTheme.bodyLarge!.copyWith(color: textColor),
+                    ),
+                    Text(
+                      widget.playlist.description,
+                      style: textTheme.bodyLarge!.copyWith(color: textColor),
+                    )
                   ],
                 ),
               )
