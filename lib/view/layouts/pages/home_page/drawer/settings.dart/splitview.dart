@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
@@ -12,8 +14,6 @@ class SplitViewSetting extends StatefulWidget {
 
 class _SplitViewSettingState extends State<SplitViewSetting> {
   SplitLayout _value = SplitLayoutController().portions;
-
-  static const double pi = 3.1415926535897932;
 
   @override
   Widget build(BuildContext context) {

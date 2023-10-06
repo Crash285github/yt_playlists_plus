@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/changes/tab_changes.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/history/tab_history.dart';
@@ -40,8 +41,8 @@ class PlaylistPageBody extends StatelessWidget {
                     imageUrl: playlist.thumbnailUrl,
                     fit: BoxFit.cover,
                     useOldImageOnUrlChange: true,
-                    fadeInDuration: const Duration(milliseconds: 200),
-                    fadeOutDuration: const Duration(milliseconds: 200),
+                    fadeInDuration: AppConfig.animationDuration,
+                    fadeOutDuration: AppConfig.animationDuration,
                     errorWidget: (context, url, error) => Image.asset(
                       "assets/no-thumbnail.png",
                       fit: BoxFit.cover,

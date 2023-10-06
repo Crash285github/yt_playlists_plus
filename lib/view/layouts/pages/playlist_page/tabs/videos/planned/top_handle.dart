@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 
 class TopHandle extends StatelessWidget {
   final Function()? onTap;
@@ -14,15 +15,16 @@ class TopHandle extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 30,
-        color: Colors.transparent, //? required for tap-detection
+        color: Colors.transparent, //?? required for tap-detection
         child: Center(
           child: Container(
-            margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: AppConfig.spacing),
             height: 5,
             width: 20,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onBackground,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius:
+                  BorderRadius.circular(AppConfig.defaultCornerRadius),
             ),
           ),
         ),

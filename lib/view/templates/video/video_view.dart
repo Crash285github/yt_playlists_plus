@@ -42,11 +42,9 @@ class VideoView extends ListWidget {
                         padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
                         child: ThumbnailImage(
                           url: video.thumbnailUrl,
-                          strongCorner: 13.0,
-                          weakCorner: 4.0,
-                          size: 70.0,
                           firstOfList: firstOfList,
                           lastOfList: lastOfList,
+                          size: 70.0,
                         ),
                       ),
                       VideoDetails(video: video),

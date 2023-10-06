@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 
 ///A type of Widget that has optional
 ///`firstOfList` & `lastOfList` booleans, which
@@ -18,28 +19,28 @@ abstract class ListWidget extends StatelessWidget {
 
   ///Returns a `BorderRadius` based on [firstOfList] & [lastOfList]
   BorderRadius radiusBuilder({
-    double strongCorner = 15.0,
-    double weakCorner = 4.0,
+    double largeCorner = AppConfig.largeCornerRadius,
+    double smallCorner = AppConfig.smallCornerRadius,
   }) {
     BorderRadius borders;
     if (firstOfList && lastOfList) {
-      borders = BorderRadius.all(Radius.circular(strongCorner));
+      borders = BorderRadius.all(Radius.circular(largeCorner));
     } else if (firstOfList) {
       borders = BorderRadius.only(
-        topLeft: Radius.circular(strongCorner),
-        topRight: Radius.circular(strongCorner),
-        bottomLeft: Radius.circular(weakCorner),
-        bottomRight: Radius.circular(weakCorner),
+        topLeft: Radius.circular(largeCorner),
+        topRight: Radius.circular(largeCorner),
+        bottomLeft: Radius.circular(smallCorner),
+        bottomRight: Radius.circular(smallCorner),
       );
     } else if (lastOfList) {
       borders = BorderRadius.only(
-        topLeft: Radius.circular(weakCorner),
-        topRight: Radius.circular(weakCorner),
-        bottomLeft: Radius.circular(strongCorner),
-        bottomRight: Radius.circular(strongCorner),
+        topLeft: Radius.circular(smallCorner),
+        topRight: Radius.circular(smallCorner),
+        bottomLeft: Radius.circular(largeCorner),
+        bottomRight: Radius.circular(largeCorner),
       );
     } else {
-      borders = BorderRadius.all(Radius.circular(weakCorner));
+      borders = BorderRadius.all(Radius.circular(smallCorner));
     }
 
     return borders;

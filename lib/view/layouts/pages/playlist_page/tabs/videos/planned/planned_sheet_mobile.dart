@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/enums/planned_size_enum.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_panel.dart';
@@ -86,7 +87,7 @@ class _PlannedSheetMobileState extends State<PlannedSheetMobile> {
                 if (_draggableScrollableController.size < snapSize) {
                   _draggableScrollableController.animateTo(
                     0.7,
-                    duration: const Duration(milliseconds: 400),
+                    duration: AppConfig.animationDuration * 2,
                     curve: Curves.easeOutExpo,
                   );
                 }

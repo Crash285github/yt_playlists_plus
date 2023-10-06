@@ -36,7 +36,7 @@ class PlaylistPage extends StatelessWidget {
           actions: appBarActions(playlist: playlist),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
-            child: PlaylistTabBar(playlist: playlist),
+            child: PlaylistTabBar(status: playlist.status),
           ),
           backgroundColor: Colors.transparent,
         ),

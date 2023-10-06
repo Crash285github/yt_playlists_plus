@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/services/app_data_service.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
@@ -26,9 +27,10 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //Title
+            //__Title
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppConfig.spacing, vertical: 5),
               child: Text(
                 "Settings",
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -37,7 +39,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
             const Divider(),
             const Expanded(child: Settings()),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              padding: const EdgeInsets.only(bottom: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -75,7 +77,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
               ),
             ),
             const Divider(),
-            //About
+            //__About
             InkWell(
               onTap: () {
                 final NavigatorState nav = Navigator.of(
@@ -85,8 +87,8 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                     MaterialPageRoute(builder: (context) => const AboutPage()));
               },
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppConfig.spacing, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

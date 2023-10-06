@@ -16,7 +16,7 @@ class StatusCard extends StatelessWidget {
       color: Theme.of(context).cardColor,
       surfaceTintColor: status.color,
       child: Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5),
         child: Text(
           'Status: ${status.displayName}',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(

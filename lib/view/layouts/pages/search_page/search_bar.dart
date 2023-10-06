@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 
 class SearchPageSearchBar extends StatefulWidget {
   final double progress;
@@ -32,7 +33,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: AppConfig.spacing),
       child: Column(
         children: [
           Row(
@@ -43,7 +44,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width - 100),
                 child: SizedBox(
-                  width: 700,
+                  width: AppConfig.mobileMaxWidth,
                   child: TextField(
                     focusNode: focusNode,
                     controller: textEditingController,
@@ -52,7 +53,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
                         label: const Text("Search playlists..."),
                         border: const OutlineInputBorder(),
                         suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8),
                           child: IconButton(
                               onPressed: () {
                                 textEditingController.clear();
@@ -66,7 +67,7 @@ class _SearchPageSearchBarState extends State<SearchPageSearchBar> {
               ),
               //?? Button or Indicator
               Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: AppConfig.spacing),
                 child: SizedBox(
                   width: 60,
                   height: 60,

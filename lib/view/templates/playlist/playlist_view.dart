@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
@@ -50,24 +51,23 @@ class PlaylistView extends ListWidget {
                       child: Row(
                         children: [
                           AnimatedOpacity(
-                            duration: const Duration(seconds: 1),
+                            duration: AppConfig.animationDuration * 5,
+                            curve: Curves.decelerate,
                             opacity: playlist.thumbnailUrl != "" ? 1 : 0,
-                            child: AnimatedSize(
-                              duration: const Duration(milliseconds: 500),
-                              child: playlist.thumbnailUrl != ""
-                                  ? Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          3, 3, 10, 3),
-                                      child: ThumbnailImage(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: AnimatedSize(
+                                duration: AppConfig.animationDuration * 2,
+                                curve: Curves.decelerate,
+                                child: playlist.thumbnailUrl != ""
+                                    ? ThumbnailImage(
                                         url: playlist.thumbnailUrl,
-                                        strongCorner: 13.0,
-                                        weakCorner: 4.0,
                                         size: 85.0,
                                         firstOfList: firstOfList,
                                         lastOfList: lastOfList,
-                                      ),
-                                    )
-                                  : const SizedBox(width: 10, height: 91),
+                                      )
+                                    : const SizedBox(width: 0, height: 91),
+                              ),
                             ),
                           ),
                           PlaylistDetails(playlist: playlist),

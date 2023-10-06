@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/single_view.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
@@ -15,7 +16,7 @@ class Responsive extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 700 && canSplit) {
+        if (constraints.maxWidth > AppConfig.mobileMaxWidth && canSplit) {
           return const SplitView();
         } else {
           return const SingleView();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/top_bar.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_view.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/planned_title.dart';
 
-class PlannedList extends StatefulWidget {
+class PlannedList extends StatelessWidget {
   final ScrollController scrollController;
   final PlaylistController playlistController;
   final Function()? onAddPressed;
@@ -20,22 +20,17 @@ class PlannedList extends StatefulWidget {
   });
 
   @override
-  State<PlannedList> createState() => _PlannedListState();
-}
-
-class _PlannedListState extends State<PlannedList> {
-  @override
   Widget build(BuildContext context) {
-    return ListView(controller: widget.scrollController, children: [
+    return ListView(controller: scrollController, children: [
       ...TopBar.build(
-        plannedSize: widget.playlistController.planned.length,
-        onAddPressed: widget.onAddPressed,
-        onHandleTapped: widget.onHandleTapped,
+        plannedSize: playlistController.planned.length,
+        onAddPressed: onAddPressed,
+        onHandleTapped: onHandleTapped,
       ),
-      ...widget.playlistController.planned.toList().reversed.map(
-            (title) => PlannedView(
+      ...playlistController.planned.toList().reversed.map(
+            (title) => PlannedTitle(
               title: title,
-              onDeletePressed: () => widget.onDeletePressed(title),
+              onDeletePressed: () => onDeletePressed(title),
             ),
           ),
     ]);

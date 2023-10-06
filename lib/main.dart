@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/services/app_data_service.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
@@ -21,25 +22,25 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
     await windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setSize(const Size(1100, 900));
-      await windowManager.setMinimumSize(const Size(600, 400));
-      await windowManager.setAlignment(Alignment.center);
+      await windowManager.setSize(AppConfig.desktopSizeDef);
+      await windowManager.setMinimumSize(AppConfig.desktopSizeMin);
+      await windowManager.setAlignment(AppConfig.desktopAlignment);
       await windowManager.show();
     });
   }
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => ThemeController()),
-      ChangeNotifierProvider(create: (context) => ColorSchemeController()),
-      ChangeNotifierProvider(create: (context) => SplitLayoutController()),
-      ChangeNotifierProvider(create: (context) => GroupHistoryController()),
-      ChangeNotifierProvider(create: (context) => HideTopicsController()),
-      ChangeNotifierProvider(create: (context) => ReorderController()),
-      ChangeNotifierProvider(create: (context) => PlaylistsController()),
-      ChangeNotifierProvider(create: (context) => HistoryLimitController()),
-      ChangeNotifierProvider(create: (context) => ConfirmDeletionsController()),
-      ChangeNotifierProvider(create: (context) => ExportImportController()),
+      ChangeNotifierProvider(create: (_) => ThemeController()),
+      ChangeNotifierProvider(create: (_) => ColorSchemeController()),
+      ChangeNotifierProvider(create: (_) => SplitLayoutController()),
+      ChangeNotifierProvider(create: (_) => GroupHistoryController()),
+      ChangeNotifierProvider(create: (_) => HideTopicsController()),
+      ChangeNotifierProvider(create: (_) => ReorderController()),
+      ChangeNotifierProvider(create: (_) => PlaylistsController()),
+      ChangeNotifierProvider(create: (_) => HistoryLimitController()),
+      ChangeNotifierProvider(create: (_) => ConfirmDeletionsController()),
+      ChangeNotifierProvider(create: (_) => ExportImportController()),
     ],
     child: const ThemeBuilder(),
   ));

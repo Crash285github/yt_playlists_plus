@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/tabs/videos/planned/top_bar.dart';
 
-class EmptyPlanned extends StatefulWidget {
+class EmptyPlanned extends StatelessWidget {
   final ScrollController scrollController;
   final Function()? onAddPressed;
   final Function()? onHandleTapped;
@@ -14,19 +14,14 @@ class EmptyPlanned extends StatefulWidget {
   });
 
   @override
-  State<EmptyPlanned> createState() => _EmptyPlannedState();
-}
-
-class _EmptyPlannedState extends State<EmptyPlanned> {
-  @override
   Widget build(BuildContext context) {
     return ListView(
-      controller: widget.scrollController,
+      controller: scrollController,
       children: [
         ...TopBar.build(
           plannedSize: 0,
-          onAddPressed: widget.onAddPressed,
-          onHandleTapped: widget.onHandleTapped,
+          onAddPressed: onAddPressed,
+          onHandleTapped: onHandleTapped,
         ),
         SizedBox(
           height: 300,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/enums/app_theme_enum.dart';
 import 'package:yt_playlists_plus/model/persistence.dart';
 import 'package:yt_playlists_plus/controller/abstract_storeable.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/abstract_setting_controller.dart';
-import 'package:yt_playlists_plus/view/theme_builder.dart';
 
 ///Manages the theme of the App
 class ThemeController extends SettingController<AppTheme>
@@ -51,10 +51,10 @@ class ThemeController extends SettingController<AppTheme>
           : isAmoled
               ? Colors.black
               : null,
-      cardTheme: ThemeBuilder.cardTheme.copyWith(
+      cardTheme: AppConfig.cardTheme.copyWith(
           color: isAmoled ? Colors.black : scheme.surface,
           elevation: isAmoled ? 3 : 1),
-      tooltipTheme: ThemeBuilder.tooltipTheme,
+      tooltipTheme: AppConfig.tooltipTheme,
       appBarTheme: isLight
           ? AppBarTheme(backgroundColor: scheme.surfaceVariant)
           : isAmoled
@@ -62,11 +62,11 @@ class ThemeController extends SettingController<AppTheme>
               : null,
       tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
       iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(padding: ThemeBuilder.buttonPadding)),
+          style: ButtonStyle(padding: AppConfig.buttonPadding)),
       textButtonTheme: const TextButtonThemeData(
-          style: ButtonStyle(padding: ThemeBuilder.buttonPadding)),
-      dividerTheme: ThemeBuilder.dividerTheme,
-      snackBarTheme: ThemeBuilder.snackBarTheme.copyWith(
+          style: ButtonStyle(padding: AppConfig.buttonPadding)),
+      dividerTheme: AppConfig.dividerTheme,
+      snackBarTheme: AppConfig.snackBarTheme.copyWith(
         backgroundColor: scheme.error,
         closeIconColor: scheme.onError,
       ),

@@ -18,6 +18,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool canSnap = MediaQuery.of(context).size.height * 0.2 > 100;
+
     return SingleChildScrollView(
       child: Column(
         children: [

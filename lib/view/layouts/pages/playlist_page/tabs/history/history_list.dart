@@ -25,7 +25,6 @@ class _HistoryListState extends State<HistoryList>
     super.build(context);
     int? limit = Provider.of<HistoryLimitController>(context).limit;
     int historyLimit = limit ?? widget.history.length;
-    int index = 0;
 
     List<VideoHistory> displayedHistory =
         widget.history.reversed.take(historyLimit).toList();
@@ -40,21 +39,24 @@ class _HistoryListState extends State<HistoryList>
       }
     }
 
+    int index = 0;
     return Expanded(
       child: ListView(
         children: [
           ...displayedHistory.map(
             (videoHistory) {
+              final bool isFirst = index == 0 || !equalTime(index, index - 1);
+              final bool isLast =
+                  index == historyLimit - 1 || !equalTime(index + 1, index);
               index++;
               return VideoHistoryView(
                 videoHistory: videoHistory,
-                firstOfList: index == 1 || !equalTime(index - 1, index - 2),
-                lastOfList: index == widget.history.length ||
-                    !equalTime(index - 1, index),
+                firstOfList: isFirst,
+                lastOfList: isLast,
               );
             },
           ),
-          const BottomPadding()
+          const AdaptiveHeightBox()
         ],
       ),
     );

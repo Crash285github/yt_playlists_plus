@@ -17,17 +17,16 @@ class HomePageRefreshAllButton extends StatelessWidget {
           onPressed: onPressed,
           tooltip: "Refresh all",
         ),
-        fetchCount == 0
-            ? const SizedBox.shrink()
-            : Positioned(
-                left: 15,
-                bottom: 10,
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: Text("$fetchCount",
-                      style: Theme.of(context).textTheme.titleSmall),
-                ),
-              ),
+        if (fetchCount > 0)
+          Positioned(
+            left: 15,
+            bottom: 10,
+            child: IgnorePointer(
+              ignoring: true,
+              child: Text("$fetchCount",
+                  style: Theme.of(context).textTheme.titleSmall),
+            ),
+          ),
       ],
     );
   }

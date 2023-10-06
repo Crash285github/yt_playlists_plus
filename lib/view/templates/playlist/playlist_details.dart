@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 
 ///Displays the `Playlist`'s [title] & [author]
@@ -27,7 +28,7 @@ class PlaylistDetails extends StatelessWidget {
               style: theme.textTheme.titleLarge,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppConfig.spacing),
           Text(
             playlist.author,
             overflow: TextOverflow.ellipsis,

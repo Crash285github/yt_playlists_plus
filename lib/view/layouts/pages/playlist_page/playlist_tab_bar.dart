@@ -1,64 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/controller/playlist_controller.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 
 class PlaylistTabBar extends StatelessWidget {
-  final PlaylistController playlist;
+  final PlaylistStatus status;
 
   const PlaylistTabBar({
     super.key,
-    required this.playlist,
+    required this.status,
   });
+
+  final double _tabGap = 10.0;
 
   @override
   Widget build(BuildContext context) {
     return TabBar(
       isScrollable: true,
-      splashBorderRadius: BorderRadius.circular(10.0),
+      splashBorderRadius: BorderRadius.circular(AppConfig.defaultCornerRadius),
       tabs: [
         Tab(
           child: Stack(clipBehavior: Clip.none, children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.change_circle_outlined),
-                SizedBox(width: 10),
-                Text("Changes"),
+                const Icon(Icons.change_circle_outlined),
+                SizedBox(width: _tabGap),
+                const Text("Changes"),
               ],
             ),
-            playlist.status != PlaylistStatus.unChanged &&
-                    playlist.status != PlaylistStatus.unChecked &&
-                    playlist.status != PlaylistStatus.downloaded &&
-                    playlist.status != PlaylistStatus.saved
-                ? Positioned(
-                    left: 20,
-                    top: -5,
-                    child: Icon(
-                      playlist.status.icon,
-                      size: 15,
-                      color: playlist.status.color,
-                    ),
-                  )
-                : const SizedBox.shrink()
+            if (status != PlaylistStatus.unChanged &&
+                status != PlaylistStatus.unChecked &&
+                status != PlaylistStatus.downloaded &&
+                status != PlaylistStatus.saved)
+              Positioned(
+                left: 20,
+                top: -5,
+                child: Icon(
+                  status.icon,
+                  size: 15,
+                  color: status.color,
+                ),
+              )
           ]),
         ),
-        const Tab(
+        Tab(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.list),
-              SizedBox(width: 10),
-              Text("Videos"),
+              const Icon(Icons.list),
+              SizedBox(width: _tabGap),
+              const Text("Videos"),
             ],
           ),
         ),
-        const Tab(
+        Tab(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.history),
-              SizedBox(width: 10),
-              Text("History"),
+              const Icon(Icons.history),
+              SizedBox(width: _tabGap),
+              const Text("History"),
             ],
           ),
         ),

@@ -13,7 +13,7 @@ class VideoStatusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(right: 10.0),
       child: Tooltip(
         message: status.displayName,
         child: Icon(status.icon, color: status.color),

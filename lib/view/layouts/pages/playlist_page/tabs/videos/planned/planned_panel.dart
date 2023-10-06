@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/open_textfield_dialog.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
@@ -87,11 +88,11 @@ class _PlannedPanelState extends State<PlannedPanel> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: AppConfig.spacing),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
+        topLeft: Radius.circular(AppConfig.largeCornerRadius),
+        topRight: Radius.circular(AppConfig.largeCornerRadius),
       )),
       elevation: 5,
       color: ThemeController().isAmoled

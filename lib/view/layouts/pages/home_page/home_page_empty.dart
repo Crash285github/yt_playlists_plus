@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 
 class HomePageEmpty extends StatelessWidget {
   const HomePageEmpty({super.key});
@@ -8,7 +9,7 @@ class HomePageEmpty extends StatelessWidget {
     return SliverFillRemaining(
       child: Center(
           child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(AppConfig.spacing),
         child: Text(
           "No Playlists... let's find one!",
           textAlign: TextAlign.center,

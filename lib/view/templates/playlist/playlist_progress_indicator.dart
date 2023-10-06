@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_playlists_plus/config.dart';
 
 class PlaylistProgressIndicator extends StatefulWidget {
   final double progress;
@@ -21,7 +22,7 @@ class _PlaylistProgressIndicatorState extends State<PlaylistProgressIndicator> {
 
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: 0, end: widget.progress),
-      duration: const Duration(milliseconds: 200),
+      duration: AppConfig.animationDuration,
       curve: Curves.easeInOut,
       builder: (context, value, _) {
         return LinearProgressIndicator(

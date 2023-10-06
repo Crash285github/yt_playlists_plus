@@ -40,10 +40,10 @@ class _VideosTabState extends State<VideosTab>
               VideosInfo(playlist: widget.playlist),
               ...widget.playlist.videos.isEmpty
                   ? [const EmptyVideos()]
-                  : widget.playlist.videos.map((e) {
+                  : widget.playlist.videos.map((controller) {
                       index++;
                       return ListenableProvider.value(
-                        value: e,
+                        value: controller,
                         child: VideoView(
                           firstOfList: index == 1,
                           lastOfList: index == widget.playlist.videos.length,
@@ -51,7 +51,7 @@ class _VideosTabState extends State<VideosTab>
                         ),
                       );
                     }),
-              const BottomPadding(),
+              const AdaptiveHeightBox(),
             ],
           ),
           if (Platform.isAndroid) PlannedSheetMobile(playlist: widget.playlist)

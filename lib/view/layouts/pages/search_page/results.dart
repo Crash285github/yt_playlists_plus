@@ -31,7 +31,7 @@ class SearchResults extends StatelessWidget {
                   resultsLength: results.length);
             },
           ),
-          const BottomPadding(
+          const AdaptiveHeightBox(
             androidHeight: 20,
             windowsHeight: 10,
           ),

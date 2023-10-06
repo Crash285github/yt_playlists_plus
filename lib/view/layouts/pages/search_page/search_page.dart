@@ -30,7 +30,7 @@ class _SearchPageState extends State<SearchPage> {
             snap: false,
             title: const Text("Search Playlists"),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(85),
+              preferredSize: const Size.fromHeight(kToolbarHeight + 40),
               child: SearchPageSearchBar(
                 progress: service.progress / 20,
                 isEmpty: service.searchResults.isEmpty,
@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
               ? [EmptySearchPage(message: message)]
               : [
                   SearchResults(results: service.searchResults),
-                  const SliverToBoxAdapter(child: BottomPadding())
+                  const SliverToBoxAdapter(child: AdaptiveHeightBox())
                 ]
         ],
       ),

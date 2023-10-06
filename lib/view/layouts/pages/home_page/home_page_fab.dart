@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/searching_controller.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/search_page/search_page.dart';
@@ -8,9 +9,6 @@ import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 class HomePageFab extends StatelessWidget {
   const HomePageFab({super.key});
 
-  final searchIcon = const Icon(Icons.search, size: 30);
-  final disableReorderIcon = const Icon(Icons.done, size: 30);
-
   @override
   Widget build(BuildContext context) {
     final bool canReorder = Provider.of<ReorderController>(context).canReorder;
@@ -18,7 +16,7 @@ class HomePageFab extends StatelessWidget {
     return FloatingActionButton.extended(
       label: AnimatedSize(
         alignment: Alignment.centerRight,
-        duration: const Duration(milliseconds: 300),
+        duration: AppConfig.animationDuration,
         curve: Curves.decelerate,
         child: canReorder ? const Text("Finish") : const SizedBox.shrink(),
       ),
@@ -37,7 +35,7 @@ class HomePageFab extends StatelessWidget {
                           child: const SearchPage(),
                         )),
               ),
-      icon: canReorder ? disableReorderIcon : searchIcon,
+      icon: Icon(canReorder ? Icons.done : Icons.search, size: 30),
     );
   }
 }

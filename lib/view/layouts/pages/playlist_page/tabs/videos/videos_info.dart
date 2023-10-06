@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/history_limit_controller.dart';
 
@@ -25,14 +26,14 @@ class _VideosInfoState extends State<VideosInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextStyle textStyle = Theme.of(context).textTheme.bodyLarge!;
     final Color textColor =
         Theme.of(context).colorScheme.onBackground.withOpacity(0.5);
 
     Provider.of<HistoryLimitController>(context).limit;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(AppConfig.spacing),
       child: Card(
         color: Theme.of(context).cardColor.withOpacity(0.4),
         shadowColor: Colors.transparent,
@@ -43,7 +44,7 @@ class _VideosInfoState extends State<VideosInfo> {
             title: const Text("More"),
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(AppConfig.spacing),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -57,8 +58,7 @@ class _VideosInfoState extends State<VideosInfo> {
                             children: [
                               Text(
                                 "Author: ${widget.playlist.author.substring(3)}",
-                                style: textTheme.bodyLarge!
-                                    .copyWith(color: textColor),
+                                style: textStyle.copyWith(color: textColor),
                               ),
                             ],
                           ),
@@ -68,31 +68,28 @@ class _VideosInfoState extends State<VideosInfo> {
                           children: [
                             Text(
                               "Videos: ${widget.playlist.videos.length}",
-                              style: textTheme.bodyLarge!
-                                  .copyWith(color: textColor),
+                              style: textStyle.copyWith(color: textColor),
                             ),
                             Text(
                               "History: ${minWithNull(widget.playlist.history.length, HistoryLimitController().limit)}",
-                              style: textTheme.bodyLarge!
-                                  .copyWith(color: textColor),
+                              style: textStyle.copyWith(color: textColor),
                             ),
                             Text(
                               "Planned: ${widget.playlist.planned.length}",
-                              style: textTheme.bodyLarge!
-                                  .copyWith(color: textColor),
+                              style: textStyle.copyWith(color: textColor),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    const Divider(height: 10),
+                    const Divider(height: 20),
                     Text(
                       "Description:",
-                      style: textTheme.bodyLarge!.copyWith(color: textColor),
+                      style: textStyle.copyWith(color: textColor),
                     ),
                     Text(
                       widget.playlist.description,
-                      style: textTheme.bodyLarge!.copyWith(color: textColor),
+                      style: textStyle.copyWith(color: textColor),
                     )
                   ],
                 ),

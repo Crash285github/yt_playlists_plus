@@ -37,7 +37,7 @@ class _ChangesListState extends State<ChangesList>
             );
           },
         ),
-        const BottomPadding(),
+        const AdaptiveHeightBox(),
       ],
     ));
   }

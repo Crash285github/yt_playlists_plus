@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class EmptySearchPage extends StatelessWidget {
   final String message;
-  
+
   const EmptySearchPage({
     super.key,
     required this.message,
@@ -12,15 +12,12 @@ class EmptySearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverFillRemaining(
       child: Center(
-          child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-              ),
-        ),
+          child: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            ),
       )),
     );
   }
