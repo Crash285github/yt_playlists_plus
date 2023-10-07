@@ -41,7 +41,7 @@ enum VideoStatus {
     required this.color,
   });
 
-  final String? displayName;
-  final Color? color;
-  final IconData? icon;
+  final String displayName;
+  final Color color;
+  final IconData icon;
 }

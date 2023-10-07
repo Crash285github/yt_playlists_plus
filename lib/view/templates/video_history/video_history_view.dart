@@ -47,6 +47,7 @@ class VideoHistoryView extends ListWidget {
                     title: videoHistory.title,
                     author: videoHistory.author,
                     time: videoHistory.time,
+                    amoledColor: videoHistory.status.color,
                   ),
                   Tooltip(
                     message: videoHistory.status == VideoStatus.missing
