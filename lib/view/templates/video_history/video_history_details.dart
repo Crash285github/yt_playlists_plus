@@ -3,17 +3,20 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/group_history_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 import 'package:yt_playlists_plus/extensions/format_date_time.dart';
 
 class VideoHistoryDetails extends StatelessWidget {
   final String title, author;
   final DateTime time;
+  final Color amoledColor;
 
   const VideoHistoryDetails({
     super.key,
     required this.title,
     required this.author,
     required this.time,
+    required this.amoledColor,
   });
 
   final _duration = AppConfig.animationDuration;
@@ -28,7 +31,10 @@ class VideoHistoryDetails extends StatelessWidget {
           child: Text(
             title,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: ThemeController().isAmoled
+                    ? amoledColor
+                    : Theme.of(context).colorScheme.onBackground),
           ),
         ),
         Row(children: [

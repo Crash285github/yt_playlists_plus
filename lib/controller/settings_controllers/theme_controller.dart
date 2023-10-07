@@ -42,7 +42,7 @@ class ThemeController extends SettingController<AppTheme>
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      cardColor: scheme.surface,
+      cardColor: isAmoled ? Colors.black : scheme.surface,
       drawerTheme: DrawerThemeData(
           backgroundColor: isAmoled ? Colors.black : scheme.surface,
           elevation: isAmoled ? 3 : 1),
