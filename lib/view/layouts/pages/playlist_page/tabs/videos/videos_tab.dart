@@ -48,6 +48,7 @@ class _VideosTabState extends State<VideosTab>
                           firstOfList: index == 1,
                           lastOfList: index == widget.playlist.videos.length,
                           showStatus: false,
+                          index: index,
                         ),
                       );
                     }),
