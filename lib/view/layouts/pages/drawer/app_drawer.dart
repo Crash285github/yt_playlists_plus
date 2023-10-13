@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/config.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/services/app_data_service.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/popup_service.dart';
 import 'package:yt_playlists_plus/services/popup_service/show_snackbar.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/about_page.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings_list.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings_list.dart';
 import 'package:yt_playlists_plus/view/layouts/responsive/split_view.dart';
 
-class HomePageDrawer extends StatefulWidget {
-  const HomePageDrawer({super.key});
+class AppDrawer extends StatefulWidget {
+  const AppDrawer({super.key});
 
   @override
-  State<HomePageDrawer> createState() => _HomePageDrawerState();
+  State<AppDrawer> createState() => _AppDrawerState();
 }
 
-class _HomePageDrawerState extends State<HomePageDrawer> {
+class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     Provider.of<ExportImportController>(context);
@@ -80,8 +79,8 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
             //__About
             InkWell(
               onTap: () {
-                final NavigatorState nav = Navigator.of(
-                    SplitLayoutController.rightKey.currentContext ?? context);
+                final NavigatorState nav =
+                    Navigator.of(AppConfig.rightKey.currentContext ?? context);
                 if (nav.canPop()) nav.pop();
                 nav.push(
                     MaterialPageRoute(builder: (context) => const AboutPage()));

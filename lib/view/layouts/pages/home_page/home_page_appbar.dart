@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
@@ -27,6 +28,9 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
 
     return StyledSliverAppBar(
       title: const Text("Playlists"),
+      leading: IconButton(
+          onPressed: () => AppConfig.drawerKey.currentState?.openDrawer(),
+          icon: const Icon(Icons.menu)),
       actions: canReorder
           ? null
           : [

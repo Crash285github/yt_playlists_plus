@@ -143,6 +143,8 @@ class FetchingService {
       );
     } on SocketException {
       rethrow;
+    } on PlaylistException {
+      rethrow;
     } finally {
       _removeFetch();
       _tryCloseCient();

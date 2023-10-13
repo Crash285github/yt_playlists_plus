@@ -165,7 +165,12 @@ class PlaylistController extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<VideoController> getMissing() {
-    if (_fetching || videos.isEmpty) return {};
+    if (_fetching ||
+        videos.isEmpty ||
+        status == PlaylistStatus.unChecked ||
+        status == PlaylistStatus.downloaded) {
+      return {};
+    }
 
     final Set<VideoController> clonedVideos =
         videos.map((e) => VideoController.deepCopy(e)).toSet();
@@ -320,6 +325,8 @@ class PlaylistController extends ChangeNotifier {
       }
     } on SocketException {
       status = PlaylistStatus.unChecked;
+      rethrow;
+    } on PlaylistException {
       rethrow;
     } finally {
       _fetching = false;

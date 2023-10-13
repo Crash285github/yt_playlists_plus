@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/enums/split_layout_enum.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/services/popup_service/open_confirm_dialog.dart';
@@ -39,7 +40,7 @@ class SplitViewState extends State<SplitView> {
           Expanded(
             flex: portions.right,
             child: Navigator(
-              key: SplitLayoutController.rightKey,
+              key: AppConfig.rightKey,
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) => playlist == null
                     ? Scaffold(
@@ -89,16 +90,15 @@ class SplitViewState extends State<SplitView> {
           Expanded(
             flex: portions.left,
             child: Navigator(
-              key: SplitLayoutController.leftKey,
+              key: AppConfig.leftKey,
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) => HomePage(
                   onPlaylistTap: (PlaylistController selected) {
                     setState(() {
                       playlist = selected;
                     });
-                    if (SplitLayoutController.rightKey.currentContext != null) {
-                      Navigator.of(
-                              SplitLayoutController.rightKey.currentContext!)
+                    if (AppConfig.rightKey.currentContext != null) {
+                      Navigator.of(AppConfig.rightKey.currentContext!)
                           .maybePop();
                     }
                   },

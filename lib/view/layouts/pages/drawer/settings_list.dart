@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/color_scheme_setting.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/confirm_deletions_setting.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/hide_topics_setting.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/history_limit_setting.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/planned_size_setting.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/reorder.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/group_history_setting.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/splitview.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/settings.dart/theme.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/color_scheme_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/confirm_deletions_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/hide_topics_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/history_limit_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/planned_size_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/reorder.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/group_history_setting.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/splitview.dart';
+import 'package:yt_playlists_plus/view/layouts/pages/drawer/settings.dart/theme.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 
 class Settings extends StatelessWidget {
