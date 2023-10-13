@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/group_history_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:yt_playlists_plus/controller/settings_controllers/hide_topics_controller.dart';
 import 'package:yt_playlists_plus/controller/settings_controllers/theme_controller.dart';
 import 'package:yt_playlists_plus/extensions/format_date_time.dart';
+import 'package:yt_playlists_plus/extensions/hide_topic.dart';
 
 class VideoHistoryDetails extends StatelessWidget {
   final String title, author;
@@ -24,6 +26,8 @@ class VideoHistoryDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool groupTime = Provider.of<GroupHistoryController>(context).groupHistory;
+    bool hideTopic = Provider.of<HideTopicsController>(context).hideTopics;
+
     return Flexible(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Tooltip(
@@ -38,7 +42,7 @@ class VideoHistoryDetails extends StatelessWidget {
           ),
         ),
         Row(children: [
-          Text(author,
+          Text(hideTopic ? author.hideTopic() : author,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall!
