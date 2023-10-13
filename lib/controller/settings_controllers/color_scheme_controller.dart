@@ -23,9 +23,9 @@ class ColorSchemeController extends SettingController<AppColorScheme>
 
   @override
   Future<void> load() async {
-    Persistence.colorScheme.value = scheme;
     set(AppColorScheme
         .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
+    Persistence.colorScheme.value = scheme;
   }
 
   //__ Singleton

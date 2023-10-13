@@ -17,6 +17,8 @@ class PlaylistsController extends ChangeNotifier implements StorableController {
     await Future.delayed(const Duration(milliseconds: 200));
     this.playlists.addAll(playlists);
     notifyListeners();
+
+    Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
   }
 
   void add(PlaylistController item) {
@@ -24,6 +26,8 @@ class PlaylistsController extends ChangeNotifier implements StorableController {
     playlists.remove(item);
     playlists.add(item);
     notifyListeners();
+
+    Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
   }
 
   void remove(PlaylistController item) {
@@ -33,10 +37,19 @@ class PlaylistsController extends ChangeNotifier implements StorableController {
     notifyListeners();
 
     ExportImportController().tryEnable();
+    Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
   }
 
   @override
   String storageKey = Persistence.playlists.key;
+
+  @override
+  Future<bool> save() async {
+    Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
+    return Persistence.save<List<String>>(
+        key: storageKey,
+        value: playlists.map((playlist) => jsonEncode(playlist)).toList());
+  }
 
   @override
   Future<void> load() async =>
@@ -48,15 +61,8 @@ class PlaylistsController extends ChangeNotifier implements StorableController {
             .toList();
       }).whenComplete(() {
         notifyListeners();
+        Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
       });
-
-  @override
-  Future<bool> save() async {
-    Persistence.playlists.value = playlists.map((e) => e.playlist).toList();
-    return Persistence.save<List<String>>(
-        key: storageKey,
-        value: playlists.map((playlist) => jsonEncode(playlist)).toList());
-  }
 
   //__ Singleton
   static final PlaylistsController _instance = PlaylistsController._();

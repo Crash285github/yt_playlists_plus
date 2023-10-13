@@ -44,21 +44,22 @@ class ExportImportController extends ChangeNotifier {
     Map? json = await Persistence.import();
     if (json == null) return false;
 
-    final AppTheme appTheme = AppTheme.fromJson(
-        json[Persistence.appTheme.key] ?? AppTheme.light.toJson());
+    final AppTheme appTheme =
+        AppTheme.values[json[Persistence.appTheme.key] ?? AppTheme.light.index];
     ThemeController().set(appTheme);
 
-    final AppColorScheme appColorScheme = AppColorScheme.fromJson(
-        json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic.toJson());
+    final AppColorScheme appColorScheme = AppColorScheme.values[
+        json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic.index];
+
     ColorSchemeController().set(appColorScheme);
 
-    final SplitLayout splitLayout = SplitLayout.fromJson(
-        json[Persistence.splitLayout.key] ?? SplitLayout.uneven.toJson());
+    final SplitLayout splitLayout = SplitLayout
+        .values[json[Persistence.splitLayout.key] ?? SplitLayout.uneven.index];
     SplitLayoutController().set(splitLayout);
 
     if (Platform.isAndroid) {
-      final PlannedSize plannedSize = PlannedSize.fromJson(
-          json[Persistence.plannedSize.key] ?? PlannedSize.normal.toJson());
+      final PlannedSize plannedSize = PlannedSize.values[
+          json[Persistence.plannedSize.key] ?? PlannedSize.normal.index];
       PlannedSizeController().set(plannedSize);
     }
 
@@ -79,6 +80,7 @@ class ExportImportController extends ChangeNotifier {
     List<PlaylistController> list = (json[Persistence.playlists.key] as List)
         .map((final playlistJson) => PlaylistController.fromJson(playlistJson))
         .toList();
+
     PlaylistsController().replace(list);
 
     return true;

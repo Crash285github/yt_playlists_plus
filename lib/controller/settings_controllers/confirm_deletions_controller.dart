@@ -17,14 +17,16 @@ class ConfirmDeletionsController extends SettingController<bool>
   String storageKey = Persistence.confirmDeletions.key;
 
   @override
-  Future<void> load() async =>
-      set(await Persistence.load<bool>(key: storageKey, defaultValue: true));
-
-  @override
   Future<bool> save() async {
     Persistence.confirmDeletions.value = confirmDeletions;
     return await Persistence.save<bool>(
         key: storageKey, value: confirmDeletions);
+  }
+
+  @override
+  Future<void> load() async {
+    set(await Persistence.load<bool>(key: storageKey, defaultValue: true));
+    Persistence.confirmDeletions.value = confirmDeletions;
   }
 
   //__ Singleton

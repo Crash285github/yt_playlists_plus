@@ -31,8 +31,11 @@ class SplitLayoutController extends SettingController<SplitLayout>
   }
 
   @override
-  Future<void> load() async => set(SplitLayout
-      .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
+  Future<void> load() async {
+    set(SplitLayout
+        .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
+    Persistence.splitLayout.value = portions;
+  }
 
   //__ Singleton
   static final SplitLayoutController _instance = SplitLayoutController._();
