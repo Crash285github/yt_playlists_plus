@@ -116,10 +116,10 @@ class Persistence {
         File('$dir/export${DateTime.now().millisecondsSinceEpoch}.json');
 
     final json = {
-      appTheme.key: appTheme.value.index,
-      colorScheme.key: colorScheme.value.index,
-      splitLayout.key: splitLayout.value.index,
-      plannedSize.key: plannedSize.value.index,
+      appTheme.key: appTheme.value.toJson(),
+      colorScheme.key: colorScheme.value.toJson(),
+      splitLayout.key: splitLayout.value.toJson(),
+      plannedSize.key: plannedSize.value.toJson(),
       confirmDeletions.key: confirmDeletions.value,
       hideTopics.key: hideTopics.value,
       historyLimit.key: historyLimit.value,

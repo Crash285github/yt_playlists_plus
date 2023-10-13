@@ -44,21 +44,21 @@ class ExportImportController extends ChangeNotifier {
     Map? json = await Persistence.import();
     if (json == null) return false;
 
-    final AppTheme appTheme =
-        AppTheme.values[json[Persistence.appTheme.key] ?? AppTheme.light.index];
+    final AppTheme appTheme = AppTheme.fromJson(
+        json[Persistence.appTheme.key] ?? AppTheme.light.toJson());
     ThemeController().set(appTheme);
 
-    final AppColorScheme appColorScheme = AppColorScheme.values[
-        json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic.index];
+    final AppColorScheme appColorScheme = AppColorScheme.fromJson(
+        json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic.toJson());
     ColorSchemeController().set(appColorScheme);
 
-    final SplitLayout splitLayout = SplitLayout
-        .values[json[Persistence.splitLayout.key] ?? SplitLayout.uneven.index];
+    final SplitLayout splitLayout = SplitLayout.fromJson(
+        json[Persistence.splitLayout.key] ?? SplitLayout.uneven.toJson());
     SplitLayoutController().set(splitLayout);
 
     if (Platform.isAndroid) {
-      final PlannedSize plannedSize = PlannedSize.values[
-          json[Persistence.plannedSize.key] ?? PlannedSize.normal.index];
+      final PlannedSize plannedSize = PlannedSize.fromJson(
+          json[Persistence.plannedSize.key] ?? PlannedSize.normal.toJson());
       PlannedSizeController().set(plannedSize);
     }
 
