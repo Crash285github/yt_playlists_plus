@@ -165,6 +165,11 @@ class PlaylistController extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<VideoController> getMissing() {
+    if (status == PlaylistStatus.notFound) {
+      _missing.clear();
+      return {};
+    }
+
     if (_fetching ||
         videos.isEmpty ||
         status == PlaylistStatus.unChecked ||
@@ -212,7 +217,9 @@ class PlaylistController extends ChangeNotifier {
   ///
   ///Video's function is set to `add`
   Set<VideoController> getAdded() {
-    if (_fetching || _fetch.isEmpty) return {};
+    if (_fetching || _fetch.isEmpty) {
+      return {};
+    }
 
     final Set<VideoController> clonedFetch =
         _fetch.map((e) => VideoController.deepCopy(e)).toSet();
@@ -351,12 +358,15 @@ class PlaylistController extends ChangeNotifier {
       return;
     }
 
-    getAdded().isEmpty && getMissing().isEmpty
+    final Set<VideoController> added = getAdded();
+    final Set<VideoController> missing = getMissing();
+
+    added.isEmpty && missing.isEmpty
         ? status = PlaylistStatus.unChanged
         : status = PlaylistStatus.changed;
 
     if (status == PlaylistStatus.changed) {
-      for (final VideoController video in getAdded()) {
+      for (final VideoController video in added) {
         final VideoHistory addedHistory = VideoHistory.fromVideo(
           video: video,
           status: VideoStatus.added,
@@ -369,7 +379,7 @@ class PlaylistController extends ChangeNotifier {
         }
       }
 
-      for (final VideoController video in getMissing()) {
+      for (final VideoController video in missing) {
         final VideoHistory missingHistory = VideoHistory.fromVideo(
           video: video,
           status: VideoStatus.missing,
