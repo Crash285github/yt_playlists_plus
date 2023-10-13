@@ -18,8 +18,10 @@ class ColorSchemeController extends SettingController<AppColorScheme>
   String storageKey = Persistence.colorScheme.key;
 
   @override
-  Future<bool> save() async =>
-      Persistence.save<int>(key: storageKey, value: scheme.index);
+  Future<bool> save() async {
+    Persistence.colorScheme.value = scheme;
+    return Persistence.save<int>(key: storageKey, value: scheme.index);
+  }
 
   @override
   Future<void> load() async {
