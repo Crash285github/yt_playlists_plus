@@ -15,5 +15,6 @@ class StyledSliverAppBar extends SliverAppBar {
     super.pinned,
     super.title,
     super.key,
+    super.leading,
   });
 }

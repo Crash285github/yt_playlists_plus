@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/config.dart';
 import 'package:yt_playlists_plus/controller/searching_controller.dart';
-import 'package:yt_playlists_plus/controller/settings_controllers/split_layout_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/search_page/search_page.dart';
 import 'package:yt_playlists_plus/controller/reorder_controller.dart';
 
@@ -25,10 +24,8 @@ class HomePageFab extends StatelessWidget {
       tooltip: canReorder ? "Finish" : "Search",
       onPressed: canReorder
           ? () => ReorderController().disable()
-          : () => Navigator.of(
-                      SplitLayoutController.centralKey.currentContext ??
-                          context)
-                  .push(
+          : () =>
+              Navigator.of(AppConfig.centralKey.currentContext ?? context).push(
                 MaterialPageRoute(
                     builder: (context) => ChangeNotifierProvider(
                           create: (context) => SearchingController(),

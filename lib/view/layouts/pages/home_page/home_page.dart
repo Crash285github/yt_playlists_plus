@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_appbar.dart';
-import 'package:yt_playlists_plus/view/layouts/pages/home_page/drawer/drawer.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_empty.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_fab.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/home_page/home_page_playlists.dart';
@@ -55,30 +54,19 @@ class _HomePageState extends State<HomePage> {
         Provider.of<PlaylistsController>(context).playlists;
     bool canReorder = Provider.of<ReorderController>(context).canReorder;
 
-    return WillPopScope(
-      onWillPop: () async {
-        if (canReorder) {
-          ReorderController().disable();
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        drawer: const HomePageDrawer(),
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            const HomePageAppBar(),
-            playlists.isEmpty
-                ? const HomePageEmpty()
-                : HomePagePlaylists(onTap: widget.onPlaylistTap),
-            if (playlists.isNotEmpty)
-              const SliverToBoxAdapter(child: AdaptiveHeightBox())
-          ],
-        ),
-        floatingActionButton:
-            showFab || canReorder ? const HomePageFab() : null,
+    return Scaffold(
+      body: CustomScrollView(
+        controller: controller,
+        slivers: [
+          const HomePageAppBar(),
+          playlists.isEmpty
+              ? const HomePageEmpty()
+              : HomePagePlaylists(onTap: widget.onPlaylistTap),
+          if (playlists.isNotEmpty)
+            const SliverToBoxAdapter(child: AdaptiveHeightBox())
+        ],
       ),
+      floatingActionButton: showFab || canReorder ? const HomePageFab() : null,
     );
   }
 }

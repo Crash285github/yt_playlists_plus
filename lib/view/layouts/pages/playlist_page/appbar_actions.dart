@@ -4,6 +4,7 @@ import 'package:yt_playlists_plus/controller/playlist_controller.dart';
 import 'package:yt_playlists_plus/controller/playlists_controller.dart';
 import 'package:yt_playlists_plus/enums/playlist_status.dart';
 import 'package:yt_playlists_plus/controller/export_import_controller.dart';
+import 'package:yt_playlists_plus/model/playlist.dart';
 import 'package:yt_playlists_plus/view/layouts/pages/playlist_page/playlist_page.dart';
 
 extension AppBarActions on PlaylistPage {
@@ -21,10 +22,14 @@ extension AppBarActions on PlaylistPage {
             : () async {
                 try {
                   ExportImportController().disable();
-                  await playlist.fetchVideos();
+                  try {
+                    await playlist.fetchVideos();
+                  } on PlaylistException {
+                    //* continue
+                  }
                   await playlist.check();
-                } on SocketException catch (_) {
-                  return;
+                } on SocketException {
+                  //* continue
                 } finally {
                   ExportImportController().tryEnable();
                   PlaylistsController().save();
