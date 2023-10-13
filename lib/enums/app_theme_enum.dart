@@ -9,5 +9,5 @@ enum AppTheme {
   final String displayName;
 
   int toJson() => index;
-  static AppTheme fromJson(String json) => values[int.parse(json)];
+  static AppTheme fromJson(dynamic json) => values[json];
 }

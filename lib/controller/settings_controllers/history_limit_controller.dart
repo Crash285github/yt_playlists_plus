@@ -26,13 +26,15 @@ class HistoryLimitController extends SettingController<int?>
   String storageKey = Persistence.historyLimit.key;
 
   @override
-  Future<void> load() async =>
-      set(await Persistence.load<int>(key: storageKey, defaultValue: -1));
-
-  @override
   Future<bool> save() async {
     Persistence.historyLimit.value = limit;
     return await Persistence.save<int>(key: storageKey, value: limit ?? -1);
+  }
+
+  @override
+  Future<void> load() async {
+    set(await Persistence.load<int>(key: storageKey, defaultValue: -1));
+    Persistence.historyLimit.value = limit;
   }
 
   @override

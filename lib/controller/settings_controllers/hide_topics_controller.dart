@@ -17,13 +17,15 @@ class HideTopicsController extends SettingController<bool>
   String storageKey = Persistence.hideTopics.key;
 
   @override
-  Future<void> load() async =>
-      set(await Persistence.load(key: storageKey, defaultValue: false));
-
-  @override
   Future<bool> save() async {
     Persistence.hideTopics.value = hideTopics;
     return await Persistence.save<bool>(key: storageKey, value: hideTopics);
+  }
+
+  @override
+  Future<void> load() async {
+    set(await Persistence.load(key: storageKey, defaultValue: false));
+    Persistence.hideTopics.value = hideTopics;
   }
 
   //__ Singleton

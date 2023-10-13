@@ -18,14 +18,17 @@ class PlannedSizeController extends SettingController<PlannedSize>
   String storageKey = Persistence.plannedSize.key;
 
   @override
-  Future<void> load() async => set(PlannedSize
-      .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
-
-  @override
   Future<bool> save() async {
     Persistence.plannedSize.value = plannedSize;
     return await Persistence.save<int>(
         key: storageKey, value: plannedSize.index);
+  }
+
+  @override
+  Future<void> load() async {
+    set(PlannedSize
+        .values[await Persistence.load<int>(key: storageKey, defaultValue: 0)]);
+    Persistence.plannedSize.value = plannedSize;
   }
 
   //__ Singleton

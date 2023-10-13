@@ -50,6 +50,7 @@ class ExportImportController extends ChangeNotifier {
 
     final AppColorScheme appColorScheme = AppColorScheme.values[
         json[Persistence.colorScheme.key] ?? AppColorScheme.dynamic.index];
+
     ColorSchemeController().set(appColorScheme);
 
     final SplitLayout splitLayout = SplitLayout
@@ -79,6 +80,7 @@ class ExportImportController extends ChangeNotifier {
     List<PlaylistController> list = (json[Persistence.playlists.key] as List)
         .map((final playlistJson) => PlaylistController.fromJson(playlistJson))
         .toList();
+
     PlaylistsController().replace(list);
 
     return true;

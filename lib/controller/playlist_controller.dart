@@ -165,8 +165,7 @@ class PlaylistController extends ChangeNotifier {
   ///
   ///Video's function is set to `remove`
   Set<VideoController> getMissing() {
-    //?? do nothing, if empty or fetching (otherwise false data)
-    if (_fetching || _fetch.isEmpty) return {};
+    if (_fetching || videos.isEmpty) return {};
 
     final Set<VideoController> clonedVideos =
         videos.map((e) => VideoController.deepCopy(e)).toSet();
@@ -312,7 +311,7 @@ class PlaylistController extends ChangeNotifier {
         _fetch.add(video);
         progress = _fetch.length / videos.length;
       }
-      
+
       //?? update thumbnail if different
       final String newthumbnailUrl =
           _fetch.firstOrNull?.thumbnailUrl ?? thumbnailUrl;

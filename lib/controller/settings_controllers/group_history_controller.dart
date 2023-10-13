@@ -17,13 +17,15 @@ class GroupHistoryController extends SettingController<bool>
   String storageKey = Persistence.groupHistory.key;
 
   @override
-  Future<void> load() async =>
-      set(await Persistence.load<bool>(key: storageKey, defaultValue: false));
-
-  @override
   Future<bool> save() async {
     Persistence.groupHistory.value = groupHistory;
     return await Persistence.save<bool>(key: storageKey, value: groupHistory);
+  }
+
+  @override
+  Future<void> load() async {
+    set(await Persistence.load<bool>(key: storageKey, defaultValue: false));
+    Persistence.groupHistory.value = groupHistory;
   }
 
   //__ Singleton
